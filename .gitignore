@@ -1,3 +1,6 @@
-
 # JetBrains
 .idea/
+
+bin/
+obj/
+.DS_Store
