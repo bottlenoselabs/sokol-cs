@@ -6,6 +6,8 @@
         <PackageVersion>0.1.0</PackageVersion>
         <Title>Sokol.Graphics</Title>
         <Authors>Lucas Girouard-Stranks</Authors>
+        <RootNamespace>Sokol</RootNamespace>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
 </Project>
