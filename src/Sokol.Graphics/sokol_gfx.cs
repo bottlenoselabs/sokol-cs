@@ -85,7 +85,7 @@ namespace Sokol
 
         public enum sg_pixel_format
         {
-            _SG_PIXELFORMAT_DEFAULT, /* value 0 reserved for default-init */
+            _SG_PIXELFORMAT_DEFAULT,
             SG_PIXELFORMAT_NONE,
 
             SG_PIXELFORMAT_R8,
@@ -273,7 +273,7 @@ namespace Sokol
 
         public enum sg_filter
         {
-            _SG_FILTER_DEFAULT, /* value 0 reserved for default-init */
+            _SG_FILTER_DEFAULT,
             SG_FILTER_NEAREST,
             SG_FILTER_LINEAR,
             SG_FILTER_NEAREST_MIPMAP_NEAREST,
@@ -297,7 +297,7 @@ namespace Sokol
 
         public enum sg_border_color
         {
-            _SG_BORDERCOLOR_DEFAULT, /* value 0 reserved for default-init */
+            _SG_BORDERCOLOR_DEFAULT,
             SG_BORDERCOLOR_TRANSPARENT_BLACK,
             SG_BORDERCOLOR_OPAQUE_BLACK,
             SG_BORDERCOLOR_OPAQUE_WHITE,
