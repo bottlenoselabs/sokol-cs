@@ -822,6 +822,206 @@ namespace Sokol
             public uint _end_canary;
         }
 
+        private const string SokolGfxLibraryName = "sokol_gfx";
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_setup(sg_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_shutdown();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern bool sg_isvalid();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_reset_state_cache();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_push_debug_group(char* name);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_pop_debug_group();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_buffer sg_make_buffer(sg_buffer_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_image sg_make_image(sg_image_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_shader sg_make_shader(sg_shader_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_pass sg_make_pass(sg_pass_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_destroy_buffer(sg_buffer buf);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_destroy_image(sg_image img);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_destroy_shader(sg_shader shd);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_destroy_pass(sg_pass pass);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_update_buffer(sg_buffer buf, void* data_ptr, int data_size);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_update_image(sg_image img, sg_image_content* data);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern int sg_append_buffer(sg_buffer buf, void* data_ptr, int data_size);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern bool sg_query_buffer_overflow(sg_buffer buf);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_begin_default_pass(sg_pass_action* pass_action, int width, int height);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_begin_pass(sg_pass pass, sg_pass_action* pass_action);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_apply_viewport(int x, int y, int width, int height, bool origin_top_left);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, bool origin_top_left);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_apply_pipeline(sg_pipeline pip);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_apply_bindings(sg_bindings* bindings);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, void* data, int num_bytes);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_draw(int base_element, int num_elements, int num_instances);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_end_pass();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_commit();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_desc sg_query_desc();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_backend sg_query_backend();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_features sg_query_features();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_limits sg_query_limits();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_resource_state sg_query_buffer_state(sg_buffer buf);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_resource_state sg_query_image_state(sg_image img);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_resource_state sg_query_shader_state(sg_shader shd);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_resource_state sg_query_pass_state(sg_pass pass);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_buffer_info sg_query_buffer_info(sg_buffer buf);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_image_info sg_query_image_info(sg_image img);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_shader_info sg_query_shader_info(sg_shader shd);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_buffer_desc sg_query_buffer_defaults(sg_buffer_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_image_desc sg_query_image_defaults(sg_image_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_shader_desc sg_query_shader_defaults(sg_shader_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_pipeline_desc sg_query_pipeline_defaults(sg_pipeline_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_pass_desc sg_query_pass_defaults(sg_pass_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_buffer sg_alloc_buffer();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_image sg_alloc_image();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_shader sg_alloc_shader();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_pipeline sg_alloc_pipeline();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_pass sg_alloc_pass();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_init_buffer(sg_buffer buf_id, sg_buffer_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_init_image(sg_image img_id, sg_image_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_init_shader(sg_shader shd_id, sg_shader_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_init_pipeline(sg_pipeline pip_id, sg_pipeline_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_fail_image(sg_image img_id);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_fail_shader(sg_shader shd_id);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_fail_pipeline(sg_pipeline pip_id);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_fail_pass(sg_pass pass_id);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_context sg_setup_context();
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_activate_context(sg_context ctx_id);
+
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_discard_context(sg_context ctx_id);
+
         public const float SG_DEFAULT_CLEAR_RED = 0.5f;
         public const float SG_DEFAULT_CLEAR_GREEN = 0.5f;
         public const float SG_DEFAULT_CLEAR_BLUE = 0.5f;
