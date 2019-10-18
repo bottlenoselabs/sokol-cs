@@ -1,6 +1,9 @@
 # JetBrains
 .idea/
 
+# C# build artifacts
 bin/
 obj/
+
+# macOS
 .DS_Store
