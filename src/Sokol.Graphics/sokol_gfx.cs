@@ -8,8 +8,6 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // ReSharper disable InconsistentNaming
@@ -24,11 +22,15 @@ namespace Sokol
 {
     public static unsafe class sokol_gfx
     {
+        public const int SG_BUFFER_SIZE = INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_buffer
         {
             public uint id;
         }
+
+        public const int SG_IMAGE_SIZE = INT_SIZE;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_image
@@ -36,11 +38,15 @@ namespace Sokol
             public uint id;
         }
 
+        public const int SG_SHADER_SIZE = INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader
         {
             public uint id;
         }
+
+        public const int SG_PIPELINE_SIZE = INT_SIZE;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_pipeline
@@ -48,11 +54,15 @@ namespace Sokol
             public uint id;
         }
 
+        public const int SG_PASS_SIZE = INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_pass
         {
             public uint id;
         }
+
+        public const int SG_CONTENT_SIZE = INT_SIZE;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_context
@@ -157,6 +167,8 @@ namespace Sokol
             _SG_PIXELFORMAT_FORCE_U32 = 0x7FFFFFFF
         }
 
+        public const int SG_PIXELFORMAT_INFO_SIZE = BOOL_SIZE * 6;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_pixelformat_info
         {
@@ -167,6 +179,8 @@ namespace Sokol
             public BlittableBoolean msaa;
             public BlittableBoolean depth;
         }
+
+        public const int SG_FEATURES_SIZE = BOOL_SIZE * 7;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_features
@@ -179,6 +193,8 @@ namespace Sokol
             public BlittableBoolean imagetype_array;
             public BlittableBoolean image_clamp_to_border;
         }
+
+        public const int SG_LIMITS_SIZE = INT_SIZE * 6;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_limits
@@ -453,12 +469,16 @@ namespace Sokol
             _SG_ACTION_FORCE_U32 = 0x7FFFFFFF
         }
 
+        public const int SG_COLOR_ATTACHMENT_ACTION_SIZE = 20;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_color_attachment_action
         {
             public sg_action action;
             public fixed float val[4];
         }
+
+        public const int SG_DEPTH_ATTACHMENT_ACTION_SIZE = INT_SIZE + FLOAT_SIZE;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_depth_attachment_action
@@ -467,22 +487,29 @@ namespace Sokol
             public float val;
         }
 
+        public const int SG_STENCIL_ATTACHMENT_ACTION_SIZE = INT_SIZE + BYTE_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_stencil_attachment_action
         {
             public sg_action action;
             public byte val;
         }
-        
+
+
+        public const int SG_PASS_ACTION = INT_SIZE + SG_COLOR_ATTACHMENT_ACTION_SIZE * SG_MAX_COLOR_ATTACHMENTS +
+                                          SG_DEPTH_ATTACHMENT_ACTION_SIZE + SG_STENCIL_ATTACHMENT_ACTION_SIZE +
+                                          INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_pass_action
         {
             public uint _start_canary;
-            public fixed byte _colors[Unsafe.SizeOf<sg_color_attachment_action>() * SG_MAX_COLOR_ATTACHMENTS];
+            public fixed byte _colors[SG_COLOR_ATTACHMENT_ACTION_SIZE * SG_MAX_COLOR_ATTACHMENTS];
             public sg_depth_attachment_action depth;
             public sg_stencil_attachment_action stencil;
             public uint _end_canary;
-            
+
             public sg_color_attachment_action* GetColors()
             {
                 fixed (sg_pass_action* pass_action = &this)
@@ -491,7 +518,12 @@ namespace Sokol
                 }
             }
         }
-        
+
+        public const int SG_BINDINGS_SIZE = INT_SIZE + INT_SIZE * SG_MAX_SHADERSTAGE_BUFFERS +
+                                            INT_SIZE * SG_MAX_SHADERSTAGE_BUFFERS + SG_BUFFER_SIZE + INT_SIZE +
+                                            INT_SIZE * SG_MAX_SHADERSTAGE_IMAGES +
+                                            INT_SIZE * SG_MAX_SHADERSTAGE_IMAGES + INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_bindings
         {
@@ -504,7 +536,10 @@ namespace Sokol
             public fixed uint fs_images[SG_MAX_SHADERSTAGE_IMAGES];
             public uint _end_canary;
         }
-        
+
+        public const int SG_BUFFER_DESC_SIZE = INT_SIZE * 4 + PTR_SIZE * 2 + INT_SIZE * SG_NUM_INFLIGHT_FRAMES +
+                                               PTR_SIZE * SG_NUM_INFLIGHT_FRAMES + PTR_SIZE + INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_buffer_desc
         {
@@ -515,10 +550,10 @@ namespace Sokol
             public static void* content;
             public static char* label;
             public fixed uint gl_buffers[SG_NUM_INFLIGHT_FRAMES];
-            public fixed byte _mtl_buffers[IntPtr.Size * SG_NUM_INFLIGHT_FRAMES];
+            public fixed byte _mtl_buffers[PTR_SIZE * SG_NUM_INFLIGHT_FRAMES];
             public static void* d3d11_buffer;
             public uint _end_canary;
-            
+
             public void* GetMTLBuffers()
             {
                 fixed (sg_buffer_desc* buffer_desc = &this)
@@ -528,6 +563,8 @@ namespace Sokol
             }
         }
 
+        public const int SG_SUBIMAGE_CONTENT_SIZE = PTR_SIZE + INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_subimage_content
         {
@@ -535,11 +572,14 @@ namespace Sokol
             public int size;
         }
 
+        public const int SG_IMAGE_CONSTANT_SIZE =
+            SG_SUBIMAGE_CONTENT_SIZE * (int) sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_image_content
         {
-            public fixed byte _subimage[Unsafe.SizeOf<sg_subimage_content>() * (int)sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS];
-            
+            public fixed byte _subimage[SG_SUBIMAGE_CONTENT_SIZE * (int) sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS];
+
             public sg_subimage_content* GetSubimage()
             {
                 fixed (sg_image_content* image_content = &this)
@@ -548,7 +588,10 @@ namespace Sokol
                 }
             }
         }
-        
+
+        public const int SG_IMAGE_DESC_SIZE = INT_SIZE + INT_SIZE + BOOL_SIZE + INT_SIZE + INT_SIZE + INT_SIZE + INT_SIZE +
+                                         INT_SIZE + INT_SIZE + INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_image_desc
         {
@@ -574,10 +617,10 @@ namespace Sokol
             public sg_image_content content;
             public static char* label;
             public fixed uint gl_textures[SG_NUM_INFLIGHT_FRAMES];
-            public fixed byte _mtl_textures[IntPtr.Size * SG_NUM_INFLIGHT_FRAMES];
+            public fixed byte _mtl_textures[PTR_SIZE * SG_NUM_INFLIGHT_FRAMES];
             public static void* d3d11_texture;
             public uint _end_canary;
-            
+
             public void* GetMTLTextures()
             {
                 fixed (sg_image_desc* image_desc = &this)
@@ -587,6 +630,8 @@ namespace Sokol
             }
         }
 
+        public const int SG_SHADER_ATTR_DESC_SIZE = PTR_SIZE + PTR_SIZE + INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader_attr_desc
         {
@@ -595,6 +640,8 @@ namespace Sokol
             public int sem_index;
         }
 
+        public const int SG_SHADER_UNIFORM_DESC_SIZE = PTR_SIZE + INT_SIZE + INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader_uniform_desc
         {
@@ -602,13 +649,15 @@ namespace Sokol
             public sg_uniform_type type;
             public int array_count;
         }
-        
+
+        public const int SG_SHADER_UNIFORM_BLOCK_DESC_SIZE = INT_SIZE + SG_SHADER_UNIFORM_DESC_SIZE * SG_MAX_UB_MEMBERS;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader_uniform_block_desc
         {
             public int size;
-            public fixed byte _uniforms[Unsafe.SizeOf<sg_shader_uniform_desc>() * SG_MAX_UB_MEMBERS];
-            
+            public fixed byte _uniforms[SG_SHADER_UNIFORM_DESC_SIZE * SG_MAX_UB_MEMBERS];
+
             public void* GetUniforms()
             {
                 fixed (sg_shader_uniform_block_desc* shader_uniform_block_desc = &this)
@@ -618,13 +667,19 @@ namespace Sokol
             }
         }
 
+        public const int SG_SHADER_IMAGE_DESC_SIZE = PTR_SIZE + INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader_image_desc
         {
             public static char* name;
             public sg_image_type type;
         }
-        
+
+        public const int SG_SHADER_STAGE_DESC_SIZE = PTR_SIZE + PTR_SIZE + INT_SIZE + PTR_SIZE +
+                                                     SG_SHADER_UNIFORM_BLOCK_DESC_SIZE * SG_MAX_SHADERSTAGE_UBS +
+                                                     SG_SHADER_IMAGE_DESC_SIZE * SG_MAX_SHADERSTAGE_IMAGES;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader_stage_desc
         {
@@ -632,9 +687,9 @@ namespace Sokol
             public static byte* byte_code;
             public int byte_code_size;
             public static char* entry;
-            public fixed byte _uniform_blocks[Unsafe.SizeOf<sg_shader_uniform_block_desc>() * SG_MAX_SHADERSTAGE_UBS];
-            public fixed byte _images[Unsafe.SizeOf<sg_shader_image_desc>() * SG_MAX_SHADERSTAGE_IMAGES];
-            
+            public fixed byte _uniform_blocks[SG_SHADER_UNIFORM_BLOCK_DESC_SIZE * SG_MAX_SHADERSTAGE_UBS];
+            public fixed byte _images[SG_SHADER_IMAGE_DESC_SIZE * SG_MAX_SHADERSTAGE_IMAGES];
+
             public sg_shader_uniform_block_desc* GetUniformBlocks()
             {
                 fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
@@ -642,7 +697,7 @@ namespace Sokol
                     return (sg_shader_uniform_block_desc*) (&sg_shader_stage_desc->_uniform_blocks[0]);
                 }
             }
-            
+
             public sg_shader_image_desc* GetImages()
             {
                 fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
@@ -651,17 +706,20 @@ namespace Sokol
                 }
             }
         }
-        
+
+        public const int SG_SHADER_DESC_SIZE = INT_SIZE + SG_SHADER_ATTR_DESC_SIZE * SG_MAX_VERTEX_ATTRIBUTES +
+                                               SG_SHADER_STAGE_DESC_SIZE * 2 + PTR_SIZE + INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader_desc
         {
             public uint _start_canary;
-            public fixed byte _attrs[Unsafe.SizeOf<sg_shader_attr_desc>() * SG_MAX_VERTEX_ATTRIBUTES];
+            public fixed byte _attrs[SG_SHADER_ATTR_DESC_SIZE * SG_MAX_VERTEX_ATTRIBUTES];
             public sg_shader_stage_desc vs;
             public sg_shader_stage_desc fs;
             public static char* label;
             public uint _end_canary;
-            
+
             public sg_shader_attr_desc* GetAttrs()
             {
                 fixed (sg_shader_desc* sg_shader_stage_desc = &this)
@@ -671,6 +729,7 @@ namespace Sokol
             }
         }
 
+        public const int SG_BUFFER_LAYOUT_DESC_SIZE = INT_SIZE * 3;
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_buffer_layout_desc
         {
@@ -679,6 +738,7 @@ namespace Sokol
             public int step_rate;
         }
 
+        public const int SG_VERTEX_ATTR_DESC_SIZE = INT_SIZE * 3;
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_vertex_attr_desc
         {
@@ -686,13 +746,15 @@ namespace Sokol
             public int offset;
             public sg_vertex_format format;
         }
-        
+
+        public const int SG_LAYOUT_DESC_SIZE = SG_BUFFER_LAYOUT_DESC_SIZE * SG_MAX_SHADERSTAGE_BUFFERS +
+                                               SG_VERTEX_ATTR_DESC_SIZE * SG_MAX_VERTEX_ATTRIBUTES;
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_layout_desc
         {
-            public fixed byte _buffers[Unsafe.SizeOf<sg_buffer_layout_desc>() * SG_MAX_SHADERSTAGE_BUFFERS];
-            public fixed byte _attrs[Unsafe.SizeOf<sg_vertex_attr_desc>() * SG_MAX_VERTEX_ATTRIBUTES];
-            
+            public fixed byte _buffers[SG_BUFFER_LAYOUT_DESC_SIZE * SG_MAX_SHADERSTAGE_BUFFERS];
+            public fixed byte _attrs[SG_VERTEX_ATTR_DESC_SIZE * SG_MAX_VERTEX_ATTRIBUTES];
+
             public sg_buffer_layout_desc* GetBuffers()
             {
                 fixed (sg_layout_desc* layout_desc = &this)
@@ -700,7 +762,7 @@ namespace Sokol
                     return (sg_buffer_layout_desc*) (&layout_desc->_buffers[0]);
                 }
             }
-            
+
             public sg_vertex_attr_desc* GetAttrs()
             {
                 fixed (sg_layout_desc* layout_desc = &this)
@@ -708,9 +770,9 @@ namespace Sokol
                     return (sg_vertex_attr_desc*) (&layout_desc->_attrs[0]);
                 }
             }
-
         }
 
+        public const int SG_STENCIL_STATE_SIZE = INT_SIZE * 4;
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_stencil_state
         {
@@ -720,6 +782,8 @@ namespace Sokol
             public sg_compare_func compare_func;
         }
 
+        public const int SG_DEPTH_STENCIL_STATE_SIZE =
+            SG_STENCIL_STATE_SIZE * 2 + INT_SIZE + BOOL_SIZE * 2 + BYTE_SIZE * 3;
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_depth_stencil_state
         {
@@ -733,6 +797,7 @@ namespace Sokol
             public byte stencil_ref;
         }
 
+        public const int SG_BLEND_STATE_SIZE = BOOL_SIZE + INT_SIZE * 6 + 1 + INT_SIZE * 3 + FLOAT_SIZE * 4;
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_blend_state
         {
@@ -750,6 +815,7 @@ namespace Sokol
             public fixed float blend_color[4];
         }
 
+        public const int SG_RASTERIZER_STATE_SIZE = BOOL_SIZE + INT_SIZE * 3 + FLOAT_SIZE * 3;
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_rasterizer_state
         {
@@ -762,6 +828,9 @@ namespace Sokol
             public float depth_bias_clamp;
         }
 
+        public const int SG_PIPELINE_DESC_SIZE = INT_SIZE + SG_LAYOUT_DESC_SIZE + SG_SHADER_SIZE + INT_SIZE * 2 +
+                                                 SG_DEPTH_STENCIL_STATE_SIZE + SG_BLEND_STATE_SIZE + PTR_SIZE +
+                                                 INT_SIZE;
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_pipeline_desc
         {
@@ -777,6 +846,8 @@ namespace Sokol
             public uint _end_canary;
         }
 
+        public const int SG_ATTACHMENT_DESC_SIZE = SG_IMAGE_DESC_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_attachment_desc
         {
@@ -784,16 +855,19 @@ namespace Sokol
             public int mip_level;
             public int faceOrLayerOrSlice;
         }
-        
+
+        public const int SG_PASS_DESC_SIZE = INT_SIZE + SG_ATTACHMENT_DESC_SIZE * SG_MAX_COLOR_ATTACHMENTS +
+                                             SG_ATTACHMENT_DESC_SIZE + PTR_SIZE + INT_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_pass_desc
         {
             public uint _start_canary;
-            public fixed byte _color_attachments[Unsafe.SizeOf<sg_attachment_desc>() * SG_MAX_COLOR_ATTACHMENTS];
+            public fixed byte _color_attachments[SG_ATTACHMENT_DESC_SIZE * SG_MAX_COLOR_ATTACHMENTS];
             public sg_attachment_desc depth_stencil_attachment;
             public static char* label;
             public uint _end_canary;
-            
+
             public sg_attachment_desc* GetColorAttachments()
             {
                 fixed (sg_pass_desc* pass_desc = &this)
@@ -809,6 +883,8 @@ namespace Sokol
         {
         }
 
+        public const int SG_SLOT_INFO_SIZE = INT_SIZE * 3;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_slot_info
         {
@@ -816,6 +892,9 @@ namespace Sokol
             public uint res_id;
             public uint ctx_id;
         }
+
+        public const int SG_BUFFER_INFO_SIZE =
+            SG_SLOT_INFO_SIZE + INT_SIZE * 3 + BOOL_SIZE + INT_SIZE * 2;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_buffer_info
@@ -829,6 +908,8 @@ namespace Sokol
             public int active_slot;
         }
 
+        public const int SG_IMAGE_INFO_SIZE = SG_SLOT_INFO_SIZE + INT_SIZE * 3;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_image_info
         {
@@ -838,11 +919,15 @@ namespace Sokol
             public int active_slot;
         }
 
+        public const int SG_SHADER_INFO = SG_SLOT_INFO_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader_info
         {
             public sg_slot_info slot;
         }
+
+        public const int SG_PIPELINE_INFO = SG_SLOT_INFO_SIZE;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_pipeline_info
@@ -850,11 +935,16 @@ namespace Sokol
             public sg_slot_info slot;
         }
 
+        public const int SG_PASS_INFO_SIZE = SG_SLOT_INFO_SIZE;
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_pass_info
         {
             public sg_slot_info slot;
         }
+
+        public const int SG_DESC_SIZE =
+            INT_SIZE * 7 + BOOL_SIZE + PTR_SIZE * 3 + INT_SIZE * 2 + PTR_SIZE * 4 + INT_SIZE;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_desc
@@ -1109,5 +1199,11 @@ namespace Sokol
         public const uint GL_HALF_FLOAT = 0x140B;
         public const uint GL_DEPTH_STENCIL = 0x84F9;
         public const uint GL_LUMINANCE = 0x1909;
+
+        public const int BYTE_SIZE = 1;
+        public const int BOOL_SIZE = 1;
+        public const int INT_SIZE = 4;
+        public const int FLOAT_SIZE = 4;
+        public const int PTR_SIZE = 8;
     }
 }
