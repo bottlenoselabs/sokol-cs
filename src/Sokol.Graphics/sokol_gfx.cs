@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // ReSharper disable InconsistentNaming
@@ -240,7 +241,7 @@ namespace Sokol
             _SG_IMAGETYPE_FORCE_U32 = 0x7FFFFFFF
         }
 
-        public enum sg_cube_face
+        public enum sg_cube_face : uint
         {
             SG_CUBEFACE_POS_X,
             SG_CUBEFACE_NEG_X,
@@ -472,22 +473,25 @@ namespace Sokol
             public sg_action action;
             public byte val;
         }
-
-        //TODO: Make sg_pass_action blittable
+        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_pass_action
         {
             public uint _start_canary;
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SG_MAX_COLOR_ATTACHMENTS)]
-            public sg_color_attachment_action[] colors;
-
+            public fixed byte _colors[Unsafe.SizeOf<sg_color_attachment_action>() * SG_MAX_COLOR_ATTACHMENTS];
             public sg_depth_attachment_action depth;
             public sg_stencil_attachment_action stencil;
             public uint _end_canary;
+            
+            public sg_color_attachment_action* GetColors()
+            {
+                fixed (sg_pass_action* pass_action = &this)
+                {
+                    return (sg_color_attachment_action*) (&pass_action->_colors[0]);
+                }
+            }
         }
-
-        // TODO: Make sg_bindings blittable with type proper type safety
+        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_bindings
         {
@@ -500,8 +504,7 @@ namespace Sokol
             public fixed uint fs_images[SG_MAX_SHADERSTAGE_IMAGES];
             public uint _end_canary;
         }
-
-        //TODO: Make sg_buffer_desc blittable
+        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_buffer_desc
         {
@@ -512,12 +515,17 @@ namespace Sokol
             public static void* content;
             public static char* label;
             public fixed uint gl_buffers[SG_NUM_INFLIGHT_FRAMES];
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SG_NUM_INFLIGHT_FRAMES)]
-            public IntPtr[] mtl_buffers;
-
+            public fixed byte _mtl_buffers[IntPtr.Size * SG_NUM_INFLIGHT_FRAMES];
             public static void* d3d11_buffer;
             public uint _end_canary;
+            
+            public void* GetMTLBuffers()
+            {
+                fixed (sg_buffer_desc* buffer_desc = &this)
+                {
+                    return &buffer_desc->_mtl_buffers[0];
+                }
+            }
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
@@ -527,13 +535,20 @@ namespace Sokol
             public int size;
         }
 
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_image_content
         {
-            //TODO: Have to use fixed here I guess
-            //sg_subimage_content subimage[SG_CUBEFACE_NUM][SG_MAX_MIPMAPS];
+            public fixed byte _subimage[Unsafe.SizeOf<sg_subimage_content>() * (int)sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS];
+            
+            public sg_subimage_content* GetSubimage()
+            {
+                fixed (sg_image_content* image_content = &this)
+                {
+                    return (sg_subimage_content*) (&image_content->_subimage[0]);
+                }
+            }
         }
-
-        //TODO: Make sg_image_desc blittable
+        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_image_desc
         {
@@ -559,12 +574,17 @@ namespace Sokol
             public sg_image_content content;
             public static char* label;
             public fixed uint gl_textures[SG_NUM_INFLIGHT_FRAMES];
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SG_NUM_INFLIGHT_FRAMES)]
-            public IntPtr[] mtl_textures;
-
+            public fixed byte _mtl_textures[IntPtr.Size * SG_NUM_INFLIGHT_FRAMES];
             public static void* d3d11_texture;
             public uint _end_canary;
+            
+            public void* GetMTLTextures()
+            {
+                fixed (sg_image_desc* image_desc = &this)
+                {
+                    return &image_desc->_mtl_textures[0];
+                }
+            }
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
@@ -582,15 +602,20 @@ namespace Sokol
             public sg_uniform_type type;
             public int array_count;
         }
-
-        //TODO: Make sg_shader_uniform_block_desc blittable
+        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader_uniform_block_desc
         {
             public int size;
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SG_MAX_UB_MEMBERS)]
-            public sg_shader_uniform_desc[] uniforms;
+            public fixed byte _uniforms[Unsafe.SizeOf<sg_shader_uniform_desc>() * SG_MAX_UB_MEMBERS];
+            
+            public void* GetUniforms()
+            {
+                fixed (sg_shader_uniform_block_desc* shader_uniform_block_desc = &this)
+                {
+                    return &shader_uniform_block_desc->_uniforms[0];
+                }
+            }
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
@@ -599,8 +624,7 @@ namespace Sokol
             public static char* name;
             public sg_image_type type;
         }
-
-        //TODO: Make sg_shader_stage_desc blittable
+        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader_stage_desc
         {
@@ -608,27 +632,43 @@ namespace Sokol
             public static byte* byte_code;
             public int byte_code_size;
             public static char* entry;
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SG_MAX_SHADERSTAGE_UBS)]
-            public sg_shader_uniform_block_desc[] uniform_blocks;
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SG_MAX_SHADERSTAGE_IMAGES)]
-            public sg_shader_image_desc[] images;
+            public fixed byte _uniform_blocks[Unsafe.SizeOf<sg_shader_uniform_block_desc>() * SG_MAX_SHADERSTAGE_UBS];
+            public fixed byte _images[Unsafe.SizeOf<sg_shader_image_desc>() * SG_MAX_SHADERSTAGE_IMAGES];
+            
+            public sg_shader_uniform_block_desc* GetUniformBlocks()
+            {
+                fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
+                {
+                    return (sg_shader_uniform_block_desc*) (&sg_shader_stage_desc->_uniform_blocks[0]);
+                }
+            }
+            
+            public sg_shader_image_desc* GetImages()
+            {
+                fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
+                {
+                    return (sg_shader_image_desc*) (&sg_shader_stage_desc->_images[0]);
+                }
+            }
         }
-
-        //TODO: Make sg_shader_desc blittable
+        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_shader_desc
         {
             public uint _start_canary;
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SG_MAX_VERTEX_ATTRIBUTES)]
-            public sg_shader_attr_desc[] attrs;
-
+            public fixed byte _attrs[Unsafe.SizeOf<sg_shader_attr_desc>() * SG_MAX_VERTEX_ATTRIBUTES];
             public sg_shader_stage_desc vs;
             public sg_shader_stage_desc fs;
             public static char* label;
             public uint _end_canary;
+            
+            public sg_shader_attr_desc* GetAttrs()
+            {
+                fixed (sg_shader_desc* sg_shader_stage_desc = &this)
+                {
+                    return (sg_shader_attr_desc*) (&sg_shader_stage_desc->_attrs[0]);
+                }
+            }
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
@@ -646,16 +686,29 @@ namespace Sokol
             public int offset;
             public sg_vertex_format format;
         }
-
-        //TODO: Make sg_layout_desc blittable
+        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_layout_desc
         {
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SG_MAX_SHADERSTAGE_BUFFERS)]
-            public sg_buffer_layout_desc[] buffers;
+            public fixed byte _buffers[Unsafe.SizeOf<sg_buffer_layout_desc>() * SG_MAX_SHADERSTAGE_BUFFERS];
+            public fixed byte _attrs[Unsafe.SizeOf<sg_vertex_attr_desc>() * SG_MAX_VERTEX_ATTRIBUTES];
+            
+            public sg_buffer_layout_desc* GetBuffers()
+            {
+                fixed (sg_layout_desc* layout_desc = &this)
+                {
+                    return (sg_buffer_layout_desc*) (&layout_desc->_buffers[0]);
+                }
+            }
+            
+            public sg_vertex_attr_desc* GetAttrs()
+            {
+                fixed (sg_layout_desc* layout_desc = &this)
+                {
+                    return (sg_vertex_attr_desc*) (&layout_desc->_attrs[0]);
+                }
+            }
 
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SG_MAX_VERTEX_ATTRIBUTES)]
-            public sg_vertex_attr_desc[] attrs;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
@@ -731,19 +784,23 @@ namespace Sokol
             public int mip_level;
             public int faceOrLayerOrSlice;
         }
-
-        // TODO: Make sg_pass_desc blittable
+        
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         public struct sg_pass_desc
         {
             public uint _start_canary;
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SG_MAX_COLOR_ATTACHMENTS)]
-            public sg_attachment_desc[] color_attachments;
-
+            public fixed byte _color_attachments[Unsafe.SizeOf<sg_attachment_desc>() * SG_MAX_COLOR_ATTACHMENTS];
             public sg_attachment_desc depth_stencil_attachment;
             public static char* label;
             public uint _end_canary;
+            
+            public sg_attachment_desc* GetColorAttachments()
+            {
+                fixed (sg_pass_desc* pass_desc = &this)
+                {
+                    return (sg_attachment_desc*) (&pass_desc->_color_attachments[0]);
+                }
+            }
         }
 
         // TODO: sg_trace_hooks
