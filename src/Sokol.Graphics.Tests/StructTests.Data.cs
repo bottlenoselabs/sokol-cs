@@ -1,23 +1,23 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 #pragma warning disable 649
 // ReSharper disable InconsistentNaming
+// ReSharper disable SuspiciousTypeConversion.Global
 
 namespace Sokol.Graphics.Tests
 {
     public partial class StructTests
     {
-        private static readonly List<object[]> _sokolStructs = new List<object[]>();
-        private static readonly List<object[]> _sokolStructsWithExpectedSizes = new List<object[]>();
-
-        public static IEnumerable<object[]> SokolStructs => _sokolStructs;
-        public static IEnumerable<object[]> SokolStructsWithExpectedSizes => _sokolStructsWithExpectedSizes;
+        public static List<object[]> SokolStructs { get; } = new List<object[]>();
+        public static List<object[]> SokolStructsWithExpectedSizes { get; } = new List<object[]>();
 
         static StructTests()
         {
+            var sokolStructs = SokolStructs;
+            var sokolStructsWithExpectedSizes = SokolStructsWithExpectedSizes;
+            
             var sokolType = typeof(sokol_gfx);
             foreach (var type in sokolType.GetNestedTypes())
             {
@@ -26,7 +26,7 @@ namespace Sokol.Graphics.Tests
                     continue;
                 }
 
-                _sokolStructs.Add(new object[] {type});
+                sokolStructs.Add(new object[] {type});
 
                 var constSizeName = $"{type.Name.ToUpper()}_SIZE";
                 var fieldInfo = sokolType.GetField(constSizeName,
@@ -38,7 +38,7 @@ namespace Sokol.Graphics.Tests
 
                 var expectedSize = fieldInfo.GetRawConstantValue();
 
-                _sokolStructsWithExpectedSizes.Add(new[] {type, expectedSize});
+                sokolStructsWithExpectedSizes.Add(new[] {type, expectedSize});
             }
         }
 
