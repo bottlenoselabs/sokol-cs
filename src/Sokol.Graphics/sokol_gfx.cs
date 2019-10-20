@@ -1028,6 +1028,9 @@ namespace Sokol
 
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_destroy_shader(sg_shader shd);
+        
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_destroy_pipeline(sg_pipeline pip);
 
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_destroy_pass(sg_pass pass);
