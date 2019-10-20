@@ -1,4 +1,4 @@
-﻿/* The MIT License
+/* The MIT License
  *
  * Copyright (c) 2019 Lucas Girouard-Stranks
  *
@@ -1211,6 +1211,19 @@ namespace Sokol
         public const uint GL_HALF_FLOAT = 0x140B;
         public const uint GL_DEPTH_STENCIL = 0x84F9;
         public const uint GL_LUMINANCE = 0x1909;
+        
+        public const uint _SG_STRING_SIZE = 16;
+        public const uint _SG_SLOT_SHIFT = 16;
+        public const uint _SG_SLOT_MASK = 65535;
+        public const uint _SG_MAX_POOL_SIZE = 65536;
+        public const uint _SG_DEFAULT_BUFFER_POOL_SIZE = 128;
+        public const uint _SG_DEFAULT_IMAGE_POOL_SIZE = 128;
+        public const uint _SG_DEFAULT_SHADER_POOL_SIZE = 32;
+        public const uint _SG_DEFAULT_PIPELINE_POOL_SIZE = 64;
+        public const uint _SG_DEFAULT_PASS_POOL_SIZE = 16;
+        public const uint _SG_DEFAULT_CONTEXT_POOL_SIZE = 16;
+        public const uint _SG_MTL_DEFAULT_UB_SIZE = 4 * 1024 * 1024;
+        public const uint _SG_MTL_DEFAULT_SAMPLER_CACHE_CAPACITY = 64;
 
         public const int BYTE_SIZE = 1;
         public const int BOOL_SIZE = 1;
