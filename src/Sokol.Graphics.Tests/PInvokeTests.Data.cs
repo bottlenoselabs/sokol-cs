@@ -21,7 +21,7 @@ namespace Sokol.Graphics.Tests
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                throw new NotImplementedException();
+                filePath = Path.Combine(libsPath, "win64", $"{libraryName}.dll");
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
@@ -36,7 +36,8 @@ namespace Sokol.Graphics.Tests
                 throw new NotImplementedException();
             }
             
-            return NativeLibrary.Load(filePath, assembly, null);
+            var handle = NativeLibrary.Load(filePath, assembly, null);
+            return handle;
         }
     }
 }
