@@ -4,6 +4,8 @@
         <TargetFramework>netcoreapp3.0</TargetFramework>
 
         <IsPackable>false</IsPackable>
+
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,6 +17,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\ext\libsokol_gfx-2019.10.08\macOS-10.15\Metal\libsokol_gfx.dylib">
+        <Link>libs/macOS/libsokol_gfx.dylib</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
