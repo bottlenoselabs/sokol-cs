@@ -5,6 +5,7 @@ using System.Reflection;
 #pragma warning disable 649
 // ReSharper disable InconsistentNaming
 // ReSharper disable SuspiciousTypeConversion.Global
+// ReSharper disable CollectionNeverQueried.Global
 
 namespace Sokol.Graphics.Tests
 {
@@ -15,18 +16,16 @@ namespace Sokol.Graphics.Tests
 
         static StructTests()
         {
-            var sokolStructs = SokolStructs;
-            var sokolStructsWithExpectedSizes = SokolStructsWithExpectedSizes;
-            
             var sokolType = typeof(sokol_gfx);
-            foreach (var type in sokolType.GetNestedTypes())
+            var types = sokolType.GetNestedTypes();
+            foreach (var type in types)
             {
                 if (!type.IsValueType || type.IsEnum)
                 {
                     continue;
                 }
 
-                sokolStructs.Add(new object[] {type});
+                SokolStructs.Add(new object[] {type});
 
                 var constSizeName = $"{type.Name.ToUpper()}_SIZE";
                 var fieldInfo = sokolType.GetField(constSizeName,
@@ -38,7 +37,7 @@ namespace Sokol.Graphics.Tests
 
                 var expectedSize = fieldInfo.GetRawConstantValue();
 
-                sokolStructsWithExpectedSizes.Add(new[] {type, expectedSize});
+                SokolStructsWithExpectedSizes.Add(new[] {type, expectedSize});
             }
         }
 
