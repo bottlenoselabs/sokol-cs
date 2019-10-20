@@ -1163,7 +1163,10 @@ namespace Sokol
 
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc);
-
+        
+        [DllImport(SokolGfxLibraryName)]
+        public static extern void sg_fail_buffer(sg_buffer buf_id);
+        
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_fail_image(sg_image img_id);
 
