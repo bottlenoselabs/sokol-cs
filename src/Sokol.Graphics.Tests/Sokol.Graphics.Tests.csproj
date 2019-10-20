@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\ext\libsokol_gfx-2019.10.08\macOS-10.15\Metal\libsokol_gfx.dylib">
+      <None Include="..\..\ext\libsokol_gfx-2019.10.08\macOS-10.15\Dummy\libsokol_gfx.dylib">
         <Link>libs/macOS/libsokol_gfx.dylib</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
