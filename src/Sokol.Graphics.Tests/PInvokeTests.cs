@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Xunit;
 using static Sokol.sokol_gfx;
@@ -35,6 +36,7 @@ namespace Sokol.Graphics.Tests
             sg_setup(&setupDesc);
 
             var desc = sg_query_desc();
+
             Assert.True(desc.buffer_pool_size == 1024);
             Assert.True(desc.image_pool_size == _SG_DEFAULT_IMAGE_POOL_SIZE);
             Assert.True(desc.shader_pool_size == 128);
@@ -45,6 +47,11 @@ namespace Sokol.Graphics.Tests
             Assert.True(desc.mtl_sampler_cache_size == _SG_MTL_DEFAULT_SAMPLER_CACHE_CAPACITY);
 
             sg_shutdown();
+        }
+
+        public static string ByteArrayToString(byte[] ba)
+        {
+            return BitConverter.ToString(ba).Replace("-", "");
         }
 
         [Fact]

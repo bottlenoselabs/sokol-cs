@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using FluentAssertions;
 using Xunit;
 
 // ReSharper disable InconsistentNaming
@@ -9,30 +12,125 @@ namespace Sokol.Graphics.Tests
     public partial class StructTests
     {
         [Fact]
-        public void Struct_WithChar_IsNotBlittable()
+        public void Struct_Char_IsNotBlittable()
         {
-            Assert.False(BlittableHelper.IsBlittable<MyNonBlittableStruct_Char>());
+            // Arrange
+            
+            // Act
+            var isBlittable = BlittableHelper.IsBlittable<Struct_Char>();
+
+            isBlittable.Should().BeFalse("struct is not blittable");
         }
 
         [Fact]
-        public void Struct_WithArray_IsNotBlittable()
+        public void Struct_IntArray_IsNotBlittable()
         {
-            Assert.False(BlittableHelper.IsBlittable<MyNonBlittableStruct_IntArray>());
-        }
+            // Arrange
+            
+            // Act
+            var isBlittable = BlittableHelper.IsBlittable<Struct_IntArray>();
 
+            isBlittable.Should().BeFalse("struct is not blittable");
+        }
+        
+        [Fact]
+        public void Struct_TightPack_IsBlittable()
+        {
+            // Arrange
+            
+            // Act
+            var isBlittable = BlittableHelper.IsBlittable<Struct_TightPack>();
+
+            isBlittable.Should().BeTrue("struct is blittable");
+        }
+        
+        [Fact]
+        public void Struct_SloppyPack_IsBlittable()
+        {
+            // Arrange
+            
+            // Act
+            var isBlittable = BlittableHelper.IsBlittable<Struct_SloppyPack>();
+
+            isBlittable.Should().BeTrue("struct is blittable");
+        }
+        
         [Theory]
         [MemberData(nameof(SokolStructs))]
-        public void SokolStruct_IsBlittable(Type structType)
+        public void Struct_IsBlittable(Type structType)
         {
             Assert.True(structType.IsBlittable());
         }
 
-        [Theory]
-        [MemberData(nameof(SokolStructsWithExpectedSizes))]
-        public void SokolStruct_IsExpectedSize(Type structType, int expectedSize)
+        [Fact]
+        public void Struct_TightPack_IsNotCEquivalent()
         {
-            var actualSize = Marshal.SizeOf(structType);
-            Assert.Equal(expectedSize, actualSize);
+            // Arrange
+            var structType = typeof(Struct_TightPack);
+            var generatedStructCopyType = structType.CStructType();
+            
+            // Act
+            var expectedSize = Marshal.SizeOf(structType);
+            var actualSize = Marshal.SizeOf(generatedStructCopyType);
+            
+            // Assert
+            expectedSize.Should().NotBe(actualSize, "struct is not C equivalent");
+        }
+        
+        [Fact]
+        public void Struct_SloppyPack_IsCEquivalent()
+        {
+            // Arrange
+            var structType = typeof(Struct_SloppyPack);
+            var generatedStructCopyType = structType.CStructType();
+            
+            // Act
+            var expectedSize = Marshal.SizeOf(structType);
+            var actualSize = Marshal.SizeOf(generatedStructCopyType);
+            
+            // Assert
+            expectedSize.Should().Be(actualSize, "struct is C equivalent");
+        }
+
+        [Fact]
+        public void Struct_Nested_IsNotCEquivalent()
+        {
+            var structType = typeof(MyStruct_Nested);
+            var generatedStructCopyType = structType.CStructType();
+            var expectedSize = Marshal.SizeOf(structType);
+            var actualSize = Marshal.SizeOf(generatedStructCopyType);
+            expectedSize.Should().NotBe(actualSize, "struct is not C equivalent");
+            Assert.NotEqual(expectedSize, actualSize);
+        }
+
+        [Theory]
+        [MemberData(nameof(SokolStructsAndCCopies))]
+        public void Struct_IsCEquivalent(Type structType, Type structTypeC)
+        {
+            var structFields = structType.GetTypeInfo().DeclaredFields.ToArray();
+            var structCFields = structTypeC.GetTypeInfo().DeclaredFields.ToArray();
+            
+            var i = 0;
+            while (true)
+            {
+                if (structFields.Length <= i || structCFields.Length <= i)
+                {
+                    break;
+                }
+                
+                var expectedField = structFields[i];
+                var actualField = structCFields[i];
+
+                var expectedOffset = Marshal.OffsetOf(structType, expectedField.Name);
+                var actualOffset = Marshal.OffsetOf(structTypeC, actualField.Name);
+                
+                expectedOffset.Should().BeEquivalentTo(actualOffset, "field offsets should be equal");
+                i++;
+            }
+
+            var expectedSize = Marshal.SizeOf(structType);
+            var actualSize = Marshal.SizeOf(structTypeC);
+            expectedSize.Should().Be(actualSize, "marshaled struct sizes should be equal");
         }
     }
 }
