@@ -661,7 +661,8 @@ namespace Sokol
             [FieldOffset(8)] public BlittableBoolean render_target;
             [FieldOffset(12)] public int width;
             [FieldOffset(16)] public int height;
-            [FieldOffset(20)] public int depthOrLayers;
+            [FieldOffset(20)] public int depth;
+            [FieldOffset(20)] public int layers;
             [FieldOffset(24)] public int num_mipmaps;
             [FieldOffset(28)] public sg_usage usage;
             [FieldOffset(32)] public sg_pixel_format pixel_format;
@@ -977,7 +978,9 @@ namespace Sokol
         {
             [FieldOffset(0)] public sg_image image;
             [FieldOffset(4)] public int mip_level;
-            [FieldOffset(8)] public int faceOrLayerOrSlice;
+            [FieldOffset(8)] public int face;
+            [FieldOffset(8)] public int layer;
+            [FieldOffset(8)] public int slice;
         }
 
         // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
