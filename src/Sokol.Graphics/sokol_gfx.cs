@@ -1153,6 +1153,9 @@ namespace Sokol
 
         [DllImport(SokolGfxLibraryName)]
         public static extern sg_shader sg_make_shader(sg_shader_desc* desc);
+        
+        [DllImport(SokolGfxLibraryName)]
+        public static extern sg_pipeline sg_make_pipeline(sg_pipeline_desc* desc);
 
         [DllImport(SokolGfxLibraryName)]
         public static extern sg_pass sg_make_pass(sg_pass_desc* desc);
