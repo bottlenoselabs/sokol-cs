@@ -65,11 +65,23 @@ namespace Sokol.Graphics.Tests
                 typeof(ValueType));
 
             var fields = structType.GetTypeInfo().DeclaredFields;
+            var currentFieldPosition = -1;
+            
             foreach (var field in fields)
             {
                 var fieldType = field.FieldType;
                 var structTypeC = CStructType(fieldType);
 
+                var fieldOffsetAttribute = field.GetCustomAttribute<FieldOffsetAttribute>();
+                if (fieldOffsetAttribute?.Value == currentFieldPosition)
+                {
+                    continue;
+                }
+
+                if (fieldOffsetAttribute != null)
+                {
+                    currentFieldPosition = fieldOffsetAttribute.Value;
+                }
                 generatedStructTypeBuilder.DefineField(field.Name, structTypeC, FieldAttributes.Public);
             }
 

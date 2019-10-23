@@ -110,22 +110,37 @@ namespace Sokol.Graphics.Tests
             var structFields = structType.GetTypeInfo().DeclaredFields.ToArray();
             var structCFields = structTypeC.GetTypeInfo().DeclaredFields.ToArray();
             
-            var i = 0;
+            var structFieldIndex = 0;
+            var structCFieldIndex = 0;
+            var currentFieldPosition = -1;
             while (true)
             {
-                if (structFields.Length <= i || structCFields.Length <= i)
+                if (structFieldIndex >= structFields.Length || structCFieldIndex >= structCFields.Length)
                 {
                     break;
                 }
                 
-                var expectedField = structFields[i];
-                var actualField = structCFields[i];
-
+                var expectedField = structFields[structFieldIndex];
+                var actualField = structCFields[structCFieldIndex];
+                
+                var fieldOffsetAttribute = expectedField.GetCustomAttribute<FieldOffsetAttribute>();
+                if (fieldOffsetAttribute?.Value == currentFieldPosition)
+                {
+                    structFieldIndex++;
+                    continue;
+                }
+                
+                if (fieldOffsetAttribute != null)
+                {
+                    currentFieldPosition = fieldOffsetAttribute.Value;
+                }
+                
                 var expectedOffset = Marshal.OffsetOf(structType, expectedField.Name);
                 var actualOffset = Marshal.OffsetOf(structTypeC, actualField.Name);
                 
                 expectedOffset.Should().BeEquivalentTo(actualOffset, "field offsets should be equal");
-                i++;
+                structFieldIndex++;
+                structCFieldIndex++;
             }
 
             var expectedSize = Marshal.SizeOf(structType);
