@@ -6,6 +6,8 @@
         <IsPackable>false</IsPackable>
 
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <LangVersion>8</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
