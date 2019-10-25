@@ -496,10 +496,7 @@ namespace Sokol
         public struct sg_color_attachment_action
         {
             [FieldOffset(0)] public sg_action action;
-
-            [FieldOffset(4)]
-            //TODO: USE RGBAFLOAT
-            public fixed float val[4];
+            [FieldOffset(4)] public Vector4 val;
         }
 
         // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
