@@ -14,7 +14,7 @@ namespace Sokol.Graphics.Tests
         public void InitShutdown()
         {
             var setupDesc = new sg_desc();
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -33,7 +33,7 @@ namespace Sokol.Graphics.Tests
                 shader_pool_size = 128,
                 pass_pool_size = 64
             };
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var desc = sg_query_desc();
 
@@ -58,7 +58,7 @@ namespace Sokol.Graphics.Tests
         public void QueryBackend()
         {
             var setupDesc = new sg_desc();
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var backend = sg_query_backend();
             Assert.True(backend == sg_backend.SG_BACKEND_DUMMY);
@@ -73,7 +73,7 @@ namespace Sokol.Graphics.Tests
             {
                 buffer_pool_size = 3
             };
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -118,7 +118,7 @@ namespace Sokol.Graphics.Tests
             {
                 image_pool_size = 3
             };
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -162,7 +162,7 @@ namespace Sokol.Graphics.Tests
             {
                 shader_pool_size = 3
             };
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -206,7 +206,7 @@ namespace Sokol.Graphics.Tests
             {
                 pipeline_pool_size = 3
             };
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -250,7 +250,7 @@ namespace Sokol.Graphics.Tests
             {
                 pass_pool_size = 3
             };
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -294,7 +294,7 @@ namespace Sokol.Graphics.Tests
             {
                 pass_pool_size = 1
             };
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var data = stackalloc float[4];
             data[0] = 1.0f;
@@ -331,7 +331,7 @@ namespace Sokol.Graphics.Tests
             {
                 pass_pool_size = 1
             };
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var bufferDesc = new sg_buffer_desc();
             var desc = sg_query_buffer_defaults(&bufferDesc);
@@ -364,7 +364,7 @@ namespace Sokol.Graphics.Tests
         public void QueryImageDefaults()
         {
             var setupDesc = new sg_desc();
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var desc = new sg_image_desc();
             desc = sg_query_image_defaults(&desc);
@@ -390,7 +390,7 @@ namespace Sokol.Graphics.Tests
         public void QueryShaderDefaults()
         {
             var setupDesc = new sg_desc();
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var desc = new sg_shader_desc();
             desc = sg_query_shader_defaults(&desc);
@@ -408,7 +408,7 @@ namespace Sokol.Graphics.Tests
         public void QueryPipelineDefaults()
         {
             var setupDesc = new sg_desc();
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
 
             var desc = new sg_pipeline_desc();
             var attrs = desc.layout.GetAttrs();
@@ -471,7 +471,7 @@ namespace Sokol.Graphics.Tests
         public void QueryPassDefaults()
         {
             var setupDesc = new sg_desc();
-            sg_setup(&setupDesc);
+            sg_setup(ref setupDesc);
             
             var desc = new sg_pass_desc();
             desc = sg_query_pass_defaults(&desc);
