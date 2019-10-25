@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading;
-using SDL2;
 using static SDL2.SDL;
 using static Sokol.sokol_gfx;
 
