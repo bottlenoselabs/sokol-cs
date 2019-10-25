@@ -8,6 +8,7 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 // ReSharper disable InconsistentNaming
@@ -1121,7 +1122,7 @@ namespace Sokol
         private const string SokolGfxLibraryName = "sokol_gfx";
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern void sg_setup(sg_desc* desc);
+        public static extern void sg_setup([In] ref sg_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_shutdown();
@@ -1185,10 +1186,10 @@ namespace Sokol
         public static extern bool sg_query_buffer_overflow(sg_buffer buf);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern void sg_begin_default_pass(sg_pass_action* pass_action, int width, int height);
+        public static extern void sg_begin_default_pass([In] ref sg_pass_action pass_action, int width, int height);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern void sg_begin_pass(sg_pass pass, sg_pass_action* pass_action);
+        public static extern void sg_begin_pass(sg_pass pass, [In] ref sg_pass_action pass_action);
 
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_apply_viewport(int x, int y, int width, int height, bool origin_top_left);
@@ -1200,7 +1201,7 @@ namespace Sokol
         public static extern void sg_apply_pipeline(sg_pipeline pip);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern void sg_apply_bindings(sg_bindings* bindings);
+        public static extern void sg_apply_bindings([In] ref sg_bindings bindings);
 
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, void* data, int num_bytes);
