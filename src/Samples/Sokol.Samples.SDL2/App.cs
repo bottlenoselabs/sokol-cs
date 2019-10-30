@@ -73,6 +73,11 @@ namespace Sokol
                 //mtl_drawable_cb = (void*) getMetalDrawableCallback
             };
             sg_setup(ref desc);
+
+            var renderer = SDL_CreateRenderer(WindowHandle, 0, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+            SDL_GetDisplayDPI(0, out var ddpi, out var hdpi, out var vdpi);
+            SDL_GetRendererOutputSize(renderer, out var width, out var height);
+            Console.WriteLine();
         }
 
         public void Run()
