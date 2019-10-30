@@ -1160,16 +1160,16 @@ namespace Sokol
         public static extern void sg_pop_debug_group();
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern sg_buffer sg_make_buffer(sg_buffer_desc* desc);
+        public static extern sg_buffer sg_make_buffer([In] ref sg_buffer_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern sg_image sg_make_image(sg_image_desc* desc);
+        public static extern sg_image sg_make_image([In] ref sg_image_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern sg_shader sg_make_shader(sg_shader_desc* desc);
+        public static extern sg_shader sg_make_shader([In] ref sg_shader_desc desc);
         
         [DllImport(SokolGfxLibraryName)]
-        public static extern sg_pipeline sg_make_pipeline(sg_pipeline_desc* desc);
+        public static extern sg_pipeline sg_make_pipeline([In] ref sg_pipeline_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
         public static extern sg_pass sg_make_pass(sg_pass_desc* desc);
