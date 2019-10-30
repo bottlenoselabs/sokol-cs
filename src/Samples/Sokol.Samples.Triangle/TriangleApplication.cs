@@ -1,6 +1,5 @@
 using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using static SDL2.SDL;
 using static Sokol.sokol_gfx;
 
@@ -24,11 +23,10 @@ namespace Sokol.Samples.Triangle
             vertices[1].Color = RgbaFloat.Green;
             vertices[2].Position = new Vector3(-0.5f, -0.5f, 0.5f);
             vertices[2].Color = RgbaFloat.Blue;
-
-            var vertexBufferSize = Marshal.SizeOf<VertexPositionColor>() * vertices.Length;
-            _vertexBuffer = new SgBuffer(SgBufferType.Vertex, SgBufferUsage.Immutable, vertexBufferSize);
-            _vertexBuffer.Update(vertices.AsMemory());
             
+            _vertexBuffer = new SgBuffer<VertexPositionColor>(SgBufferType.Vertex, SgBufferUsage.Immutable,
+                vertices.AsMemory());
+
             _bindings.SetVertexBuffer(_vertexBuffer);
 
             var vertexShaderSourceCode = @"

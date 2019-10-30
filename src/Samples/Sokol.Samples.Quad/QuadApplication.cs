@@ -1,6 +1,5 @@
 using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using static Sokol.sokol_gfx;
 using static SDL2.SDL;
 
@@ -27,10 +26,9 @@ namespace Sokol.Samples.Quad
             vertices[2].Color = RgbaFloat.Blue;
             vertices[3].Position = new Vector3(-0.5f, -0.5f, 0.5f);
             vertices[3].Color = RgbaFloat.Yellow;
-
-            var vertexBufferSize = Marshal.SizeOf<VertexPositionColor>() * vertices.Length;
-            _vertexBuffer = new SgBuffer(SgBufferType.Vertex, SgBufferUsage.Immutable, vertexBufferSize);
-            _vertexBuffer.Update(vertices.AsMemory());
+            
+            _vertexBuffer = new SgBuffer<VertexPositionColor>(SgBufferType.Vertex, SgBufferUsage.Immutable, 
+                vertices.AsMemory());
 
             var indices = new ushort[]
             {
@@ -38,9 +36,8 @@ namespace Sokol.Samples.Quad
                 0, 2, 3
             };
             var indexBufferSize = 6 * 2;
-            _indexBuffer = new SgBuffer(SgBufferType.Index, SgBufferUsage.Immutable, indexBufferSize);
-            _indexBuffer.Update(indices.AsMemory());
-            
+            _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, indices.AsMemory());
+
             _bindings.SetVertexBuffer(_vertexBuffer);
             _bindings.SetIndexBuffer(_indexBuffer);
             

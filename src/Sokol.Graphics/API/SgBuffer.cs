@@ -5,47 +5,34 @@ using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public sealed class SgBuffer : SgResource
+    public abstract class SgBuffer : SgResource
     {
-        private MemoryHandle? _dataHandle;
-
-        public sg_buffer Handle { get; private set; }
+        public sg_buffer Handle { get; protected set; }
 
         public int Size { get; }
 
         public SgBufferType Type { get; }
 
         public SgBufferUsage Usage { get; }
-
-        public SgBuffer(SgBufferType type, SgBufferUsage usage, int size, string name = null)
+        
+        protected SgBuffer(SgBufferType type, SgBufferUsage usage, int size, string name = null) 
             : base(name)
         {
             Type = type;
             Size = size;
             Usage = usage;
-
-            if (usage != SgBufferUsage.Immutable)
-            {
-                CreateNonImmutableBuffer();
-            }
         }
+    }
+    
+    public sealed class SgBuffer<T> : SgBuffer where T : struct
+    {
+        private MemoryHandle? _dataHandle;
 
-        private void CreateNonImmutableBuffer()
+        public SgBuffer(SgBufferType type, SgBufferUsage usage, Memory<T> data, string name = null)
+            : base(type, usage, Marshal.SizeOf<T>() * data.Length, name)
         {
             CreateDescription(out var description);
-            Handle = sg_make_buffer(ref description);
-        }
-
-        private void CreateImmutableBuffer<T>(Memory<T> data)
-        {
-            var dataSize = Marshal.SizeOf<T>() * data.Length;
-            if (Size != dataSize)
-            {
-                throw new InvalidOperationException();
-            }
-
-            CreateDescription(out var description);
-
+            
             var dataHandle = data.Pin();
             unsafe
             {
@@ -55,7 +42,7 @@ namespace Sokol
             
             Handle = sg_make_buffer(ref description);
         }
-
+        
         private void CreateDescription(out sg_buffer_desc description)
         {
             var result = new sg_buffer_desc
@@ -84,21 +71,26 @@ namespace Sokol
             description = result;
         }
 
-        public void Update<T>(Memory<T> data) where T : struct
+        public void Update(Memory<T> data)
         {
             EnsureNotDisposed();
             
-            if (Handle.id == 0)
+            if (Usage == SgBufferUsage.Immutable)
             {
-                CreateImmutableBuffer(data);
-                return;
+                throw new InvalidOperationException();
             }
 
             _dataHandle?.Dispose();
+            
+            var dataSize = Marshal.SizeOf<T>() * data.Length;
+            if (Size != dataSize)
+            {
+                throw new InvalidOperationException();
+            }
+            
             var dataHandle = data.Pin();
             _dataHandle = dataHandle;
             
-            var dataSize = Marshal.SizeOf<T>() * data.Length;
             unsafe
             {
                 sg_update_buffer(Handle, dataHandle.Pointer, dataSize);   
