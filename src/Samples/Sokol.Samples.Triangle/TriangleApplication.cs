@@ -1,3 +1,5 @@
+using System;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using static SDL2.SDL;
 using static Sokol.sokol_gfx;
@@ -6,55 +8,28 @@ namespace Sokol.Samples.Triangle
 {
     public class TriangleApplication : App
     {
-        private static sg_pipeline _pipeline;
-        private static sg_bindings _bindings;
+        private readonly SgPipeline _pipeline;
+        private readonly SgBindings _bindings = new SgBindings();
+        private readonly SgBuffer _vertexBuffer;
+        private readonly SgShader _shader;
+        private sg_pass_action _clearAction;
         
         public unsafe TriangleApplication()
+            : base(true)
         {
-            var vertices = stackalloc float[21 * 4];
-            
-            // v1
-            vertices[0] = 0.0f;
-            vertices[1] = 0.5f;
-            vertices[2] = 0.5f;
-            
-            // c1
-            vertices[3] = 1.0f;
-            vertices[4] = 0.0f;
-            vertices[5] = 0.0f;
-            vertices[6] = 1.0f;
-            
-            // v2
-            vertices[7] = 0.5f;
-            vertices[8] = -0.5f;
-            vertices[9] = 0.5f;
-            
-            // c2
-            vertices[10] = 0.0f;
-            vertices[11] = 1.0f;
-            vertices[12] = 0.0f;
-            vertices[13] = 1.0f;
-            
-            // v3
-            vertices[14] = -0.5f;
-            vertices[15] = -0.5f;
-            vertices[16] = 0.5f;
-            
-            // c3
-            vertices[17] = 0.0f;
-            vertices[18] = 0.0f;
-            vertices[29] = 1.0f;
-            vertices[20] = 1.0f;
-            
-            var vertexBufferDesc = new sg_buffer_desc {size = 21 * 4, content = vertices};
-            var vertexBuffer = sg_make_buffer(&vertexBufferDesc);
-            _bindings = new sg_bindings();
-            _bindings.vertex_buffers[0] = vertexBuffer.id;
+            var vertices = new VertexPositionColor[3];
+            vertices[0].Position = new Vector3(0.0f, 0.5f, 0.5f);
+            vertices[0].Color = RgbaFloat.Red;
+            vertices[1].Position = new Vector3(0.5f, -0.5f, 0.5f);
+            vertices[1].Color = RgbaFloat.Green;
+            vertices[2].Position = new Vector3(-0.5f, -0.5f, 0.5f);
+            vertices[2].Color = RgbaFloat.Blue;
 
-            var shaderDesc = new sg_shader_desc();
-            var shaderAttrs = shaderDesc.GetAttrs();
-            shaderAttrs[0].name = (char*) Marshal.StringToHGlobalAnsi("position");
-            shaderAttrs[1].name = (char*) Marshal.StringToHGlobalAnsi("color0");
+            var vertexBufferSize = Marshal.SizeOf<VertexPositionColor>() * vertices.Length;
+            _vertexBuffer = new SgBuffer(SgBufferType.Vertex, SgBufferUsage.Immutable, vertexBufferSize);
+            _vertexBuffer.Update(vertices.AsMemory());
+            
+            _bindings.SetVertexBuffer(_vertexBuffer);
 
             var vertexShaderSourceCode = @"
 #version 330
@@ -67,8 +42,6 @@ void main() {
 }
 "; 
             
-            shaderDesc.vs.source = (char*) Marshal.StringToHGlobalAnsi(vertexShaderSourceCode);
-
             var fragmentShaderSourceCode = @"
 #version 330
 in vec4 color;
@@ -77,35 +50,35 @@ void main() {
   frag_color = color;
 }
 "; 
-
-            shaderDesc.fs.source = (char*) Marshal.StringToHGlobalAnsi(fragmentShaderSourceCode);
-            var shader = sg_make_shader(&shaderDesc);
-
-            var pipelineDesc = new sg_pipeline_desc()
-            {
-                shader = shader
-            };
-            var pipelineAttrs = pipelineDesc.layout.GetAttrs();
-            pipelineAttrs[0] = new sg_vertex_attr_desc()
-            {
-                format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT3,
-            };
-            pipelineAttrs[1] = new sg_vertex_attr_desc()
-            {
-                format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT4
-            };
             
-            _pipeline = sg_make_pipeline(&pipelineDesc);
+            _shader = new SgShader(vertexShaderSourceCode, fragmentShaderSourceCode, new []
+            {
+                "position", "color0"
+            });
+            
+            _pipeline = new SgPipeline(_shader, new[]
+            {
+                sg_vertex_format.SG_VERTEXFORMAT_FLOAT3, 
+                sg_vertex_format.SG_VERTEXFORMAT_FLOAT4
+            });
+            
+            _clearAction = new sg_pass_action();
+            _clearAction.GetColors()[0] = new sg_color_attachment_action()
+            {
+                action = sg_action.SG_ACTION_CLEAR,
+                val = RgbaFloat.Black
+            };
         }
 
         protected override void Draw()
         {
             SDL_GL_GetDrawableSize(WindowHandle, out var width, out var height);
-            var passAction = new sg_pass_action();
-            sg_begin_default_pass(ref passAction, width, height);
-            sg_apply_pipeline(_pipeline);
-            sg_apply_bindings(ref _bindings);
+            
+            sg_begin_default_pass(ref _clearAction, width, height);
+            _pipeline.Apply();
+            _bindings.Apply();
             sg_draw(0, 3, 1);
+
             sg_end_pass();
         }
     }

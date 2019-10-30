@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
-
-// ReSharper disable InconsistentNaming
-
+﻿
 namespace Sokol.Samples.Triangle
 {
     internal static class Program
