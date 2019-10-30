@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Xunit;
 using static Sokol.sokol_gfx;
@@ -310,7 +309,7 @@ namespace Sokol.Graphics.Tests
                     content = data
                 };
 
-                var buffer = sg_make_buffer(&desc);
+                var buffer = sg_make_buffer(ref desc);
                 Assert.True(buffer.id != SG_INVALID_ID);
 
                 var bufferState = sg_query_buffer_state(buffer);

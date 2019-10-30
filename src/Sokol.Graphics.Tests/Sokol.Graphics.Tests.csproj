@@ -32,13 +32,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\macos\dummy\libsokol_gfx.dylib">
-        <Link>libs/macos/libsokol_gfx.dylib</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
       <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\dummy\sokol_gfx.dll">
         <Link>libs/windows/sokol_gfx.dll</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -51,6 +44,11 @@
         <Link>libs/windows/sokol_gfx.pdb</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="libs\macos\debug" />
+      <Folder Include="libs\macos\release" />
     </ItemGroup>
 
 </Project>
