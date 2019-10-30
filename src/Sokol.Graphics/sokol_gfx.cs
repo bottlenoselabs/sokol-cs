@@ -8,6 +8,7 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
@@ -31,6 +32,21 @@ namespace Sokol
         public struct sg_buffer
         {
             [FieldOffset(0)] public uint id;
+
+            internal sg_buffer(uint id)
+            {
+                this.id = id;
+            }
+
+            public static implicit operator sg_buffer(uint value)
+            {
+                return new sg_buffer(value);
+            }
+            
+            public static implicit operator uint(sg_buffer buffer)
+            {
+                return buffer.id;
+            }
         }
 
         // NOTE: This struct is 4 byte aligned because largest field is a int; each line below is a 4 byte boundary
