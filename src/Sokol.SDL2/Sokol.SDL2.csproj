@@ -36,15 +36,25 @@
         <Link>lib/macos/metal/libsokol_gfx.dylib</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\macos\opengl\libsokol_gfx.dylib">
-        <Link>lib/macos/opengl/libsokol_gfx.dylib</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
     <ItemGroup>
       <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\d3d11\sokol_gfx.dll">
         <Link>lib/windows/d3d11/sokol_gfx.dll</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\lib\libsokol_gfx-2019.10.08\macos\opengl\debug\libsokol_gfx.dylib">
+        <Link>lib/macos/opengl/debug/libsokol_gfx.dylib</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\lib\libsokol_gfx-2019.10.08\macos\opengl\release\libsokol_gfx.dylib">
+        <Link>lib/macos/opengl/release/libsokol_gfx.dylib</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>

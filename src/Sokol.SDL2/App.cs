@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static SDL2.SDL;
 using static Sokol.sokol_gfx;
@@ -10,15 +11,20 @@ namespace Sokol
     public abstract class App : IDisposable
     {
         private readonly IntPtr _deviceHandle;
+        private bool _isExiting;
+        private readonly bool _debugSokol;
         
         public IntPtr WindowHandle { get; }
 
         public Platform Platform { get; }
 
         public GraphicsBackend GraphicsBackend { get; }
-
-        protected App()
+        
+        
+        protected App(bool debugSokol = false)
         {
+            _debugSokol = debugSokol;
+            
             SDL_Init(SDL_INIT_VIDEO);
 
             var platformString = SDL_GetPlatform();
@@ -73,26 +79,32 @@ namespace Sokol
         {
             SDL_ShowWindow(WindowHandle);
             
-            var quit = false;
-            while (!quit)
+            while (!_isExiting)
             {
-                while (SDL_PollEvent(out var e) != 0) 
+                Tick();
+            }
+            
+            Exit();
+        }
+        
+        private void Tick()
+        {
+            while (SDL_PollEvent(out var e) != 0) 
+            {
+                switch (e.type) 
                 {
-                    switch (e.type) 
-                    {
-                        case SDL_EventType.SDL_QUIT: 
-                            quit = true; 
-                            break;
-                    }
+                    case SDL_EventType.SDL_QUIT: 
+                        _isExiting = true; 
+                        break;
                 }
+            }
                 
-                Draw();
+            Draw();
                 
-                sg_commit();
-                if (GraphicsBackend == GraphicsBackend.OpenGL)
-                {
-                    SDL_GL_SwapWindow(WindowHandle);   
-                }
+            sg_commit();
+            if (GraphicsBackend == GraphicsBackend.OpenGL)
+            {
+                SDL_GL_SwapWindow(WindowHandle);   
             }
         }
 
@@ -130,7 +142,12 @@ namespace Sokol
         {
             var platformString = Platform.ToString().ToLower();
             var graphicsBackendString = GraphicsBackend.ToString().ToLower();
-            var libPath = Path.Combine(AppContext.BaseDirectory, "lib", platformString, graphicsBackendString);
+            string configuration = _debugSokol ? "debug" : "release";
+            var libPath = Path.Combine(AppContext.BaseDirectory, 
+                "lib", 
+                platformString, 
+                graphicsBackendString, 
+                configuration);
 
             string filePath;
             switch (Platform)
