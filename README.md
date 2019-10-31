@@ -11,7 +11,7 @@ Includes "unsafe" [Platform Invoke (P/Invoke)](https://docs.microsoft.com/en-us/
 
 ## "Unsafe" API
 
-The [(P/Invoke)](https://docs.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke) bindings are a pure port of the C headers; they exactly match what is found in C and the naming conventions used in C are maintained. To use the C API in .NET, the `unsafe` keyword will most often be required for using the C structs and calling the C functions.
+The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke) bindings are a pure port of the C headers; they exactly match what is found in C and the naming conventions used in C are maintained. To use the C API in .NET, the `unsafe` keyword will most often be required for using the C structs and calling the C functions.
 
 For examples on how to use the C API, check out the [official C samples](https://github.com/floooh/sokol-samples). You can also find the same examples that run in your browser [here](https://floooh.github.io/sokol-html5/index.html).
 
@@ -23,7 +23,7 @@ For examples on how to use the .NET API, check out the [.NET Core v3 samples](sr
 
 ## Supported Platforms
 
-Since Sokol is a C library, technically any platform is possible. The following is a table of platforms which are known to work and their supported graphics API backends with `sokol`. If you find that anything is incorrect I would be more than happy to discuss and change the table in an GitHub issue.
+Since Sokol is a C library, technically any platform is possible. The following is a table of platforms which are known to work and their supported graphics API backends with `sokol`. If you find that anything is incorrect I would be more than happy to discuss and change the table in a existing or new [issue](https://github.com/lithiumtoast/sokol-csharp/issues).
 
 Platform|OpenGL 3.x|OpenGLES2/WebGL|OpenGLES3/WebGL2|Direct3D11|Direct3D12|Metal|Vulkan|.NET Support
 ---|---|---|---|---|---|---|---|---
