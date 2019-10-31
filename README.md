@@ -27,17 +27,17 @@ Since Sokol is a C library, technically any platform is possible. The following 
 
 Platform|OpenGL 3.x|OpenGLES2/WebGL|OpenGLES3/WebGL2|Direct3D11|Direct3D12|Metal|Vulkan|.NET Support
 ---|---|---|---|---|---|---|---|---
-Desktop Windows|✅|❌|❌|✅|❔|❌|❔|✅
-Desktop macOS|❕|❌|❌|❌|❌|✅|❔|✅
-Desktop Linux|✅|❌|❌|❌|❌|❌|❔|✅
-Mobile iOS|❌|❌|❌|❌|❌|✅|❔|✅
-Mobile Android|✅|❌|❌|❌|❌|❌|❔|✅
-Browser WebAssembly|❌|✅|✅|❌|❌|❌|❔|❕
-Smartwatch watchOS|❌|❌|❌|❌|❌|✅|❔|✅
-Microconsole tvOS|❌|❌|❌|❌|❌|✅|❔|✅
-Console Nintendo Switch|✅|❌|❌|❌|❌|❌|❔|❕
-Console Xbox One|❌|❌|❌|✅|❔|❌|❔|❕
-Console PlayStation 4|❔|❌|❌|❌|❌|❌|❔|❕
+Desktop Windows|✅|❌|❌|✅|❓|❌|❓|✅
+Desktop macOS|❗|❌|❌|❌|❌|✅|❓|✅
+Desktop Linux|✅|❌|❌|❌|❌|❌|❓|✅
+Mobile iOS|❌|❌|❌|❌|❌|✅|❓|✅
+Mobile Android|❌|✅|✅|❌|❌|❌|❓|✅
+Browser WebAssembly|❌|✅|✅|❌|❌|❌|❓|❗
+Smartwatch watchOS|❌|❌|❌|❌|❌|✅|❓|✅
+Microconsole tvOS|❌|❌|❌|❌|❌|✅|❓|✅
+Console Nintendo Switch|✅|❌|❌|❌|❌|❌|❓|❗
+Console Xbox One|❌|❌|❌|✅|❓|❌|❓|❗
+Console PlayStation 4|❓|❌|❌|❌|❌|❌|❓|❗
 
 - OpenGL is deprecated for macOS; recommended to only use Metal for macOS if hardware supports it. All Apple platforms support Metal and are supported with .NET using [Xamarin](https://dotnet.microsoft.com/apps/xamarin).
 - Android is supported with .NET using [Xamarin](https://dotnet.microsoft.com/apps/xamarin).
