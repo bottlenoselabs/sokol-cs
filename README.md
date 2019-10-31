@@ -53,13 +53,13 @@ Console PlayStation 4|✅|❌|❌|❌|❌|❓
 
 ## Contributing
 
-You want to contribute? Awesome! To get started please read the [CONTRIBUTING](CONTRIBUTING) file for details on our code of conduct, and the process for submitting pull requests.
+You want to contribute? Awesome! To get started please read the [CONTRIBUTING](CONTRIBUTING.md) file for details on our code of conduct, and the process for submitting pull requests.
 
 ## Versioning
 
 While [semantic versioning](https://semver.org) is industry standard, especially for NuGet packages, [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) is used for `Sokol#`. Calendar versioning is used when necessary because most of the changes are driven by external forces which are time sensitive such as updates to `sokol` itself, changes in graphics API technology, etc.
 
-The exact version scheme used for dynamic link libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH`. This means that major versions are for new features which require breaking API changes; minor versions are for new features which are backwards-compatible; and patch versions are for backwards-compatible bug fixes. For a complete list of the versions available,see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
+The exact version scheme used for dynamic link libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH`. This means that major versions are for new features which require breaking API changes; minor versions are for new features which are backwards-compatible; and patch versions are for backwards-compatible bug fixes. For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
 
 ## License
 
