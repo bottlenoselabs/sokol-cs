@@ -53,7 +53,7 @@ Console PlayStation 4|✅|❌|❌|❌|❌|❓
 
 ## Contributing
 
-You want to contribute? Awesome! To get started please read the [CONTRIBUTING](CONTRIBUTING.md) file for details on our code of conduct, and the process for submitting pull requests.
+You want to contribute? Awesome! To get started please read the [CONTRIBUTING](CONTRIBUTING) file for details on our code of conduct, and the process for submitting pull requests.
 
 ## Versioning
 
