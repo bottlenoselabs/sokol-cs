@@ -6,7 +6,7 @@ Includes "unsafe" [Platform Invoke (P/Invoke)](https://docs.microsoft.com/en-us/
 
 ## News
 
-- 2019/10/23: "Unsafe" API fairly well finished.
+- 2019/10/23: "Unsafe" `sokol_gfx` API fairly well finished.
 - 2019/10/15: Initial project creation.
 
 ## "Unsafe" API
