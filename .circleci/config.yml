@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  build:
+    macos:
+      xcode: 11.1
+    docker:
+      - image: docker pull mcr.microsoft.com/dotnet/core/sdk:3.0
+    environment:
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    steps:
+      - checkout
+      - run:
+          name: Restore
+          command: dotnet restore ./src/Sokol.sln --verbosity m
+      - run:
+          name: Build
+          command: dotnet publish ./src/Sokol.Graphics/Sokol.Graphics.csproj --no-restore -c Release
+      - run:
+          name: Tests
+          command: dotnet test ./src/Sokol.sln
+      - setup_remote_docker:
+          docker_layer_caching: true
