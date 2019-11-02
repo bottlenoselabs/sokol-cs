@@ -1,6 +1,5 @@
 version: '1.0.0.{build}'
 image:
-- Visual Studio 2017 
 - Visual Studio 2019
 - Ubuntu1604
 - Ubuntu1804
@@ -25,7 +24,7 @@ after_build:
 #  - path: '/src/Sokol.Graphics/bin/Release/netcoreapp3.0/publish'
 #    name: WebSite
 #    type: WebDeployPackage
-clone_depth: 1
+shallow_clone: true
 test_script:
   - cmd: dotnet restore ./src/Sokol.sln --verbosity m
   - cmd: dotnet test ./src/Sokol.sln
