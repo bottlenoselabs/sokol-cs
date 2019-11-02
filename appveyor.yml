@@ -7,18 +7,11 @@ image:
 branches:
   only:
   - master
-skip_tags: true
-cache:
-  - packages -> **\packages.config
-  - '%LocalAppData%\NuGet\Cache'
-  - '%LocalAppData%\NuGet\v3-cache'
 # nuget:
 #   # account_feed: true
 #   # project_feed: true
 #   disable_publish_on_pr: true
 #   publish_wap_octopus: true   
-platform: x64
-configuration: Release
 init:
   - cmd: git config --global core.autocrlf true
 install:
@@ -37,11 +30,4 @@ test_script:
   - cmd: dotnet restore ./src/Sokol.sln --verbosity m
   - cmd: dotnet test ./src/Sokol.sln
 on_finish :
-deploy:
-  - provider: GitHub
-    artifact: /.*\.nupkg/           # upload all NuGet packages to release assets
-    draft: false
-    prerelease: false
-    on:
-      branch: master                # release from master branch only
-      APPVEYOR_REPO_TAG: true       # deploy on tag push only
+deploy: off
