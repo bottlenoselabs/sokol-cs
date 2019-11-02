@@ -20,6 +20,6 @@ shallow_clone: true
 before_test:
   - cmd: dotnet restore ./src/Sokol.sln --verbosity m
 test_script:
-  - cmd: dotnet test ./src/Sokol.sln --no-restore --verbosity d
+  - cmd: dotnet test ./src/Sokol.sln --no-restore --verbosity n
 on_finish :
 deploy: off
