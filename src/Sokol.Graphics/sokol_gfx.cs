@@ -8,8 +8,6 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System;
-using System.Numerics;
 using System.Runtime.InteropServices;
 
 // ReSharper disable InconsistentNaming
@@ -642,7 +640,7 @@ namespace Sokol
         public struct sg_image_content
         {
             [FieldOffset(0)]
-            public fixed long _subimage[SG_SUBIMAGE_CONTENT_SIZE * (int) sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS / PTR_SIZE];
+            public fixed ulong _subimage[SG_SUBIMAGE_CONTENT_SIZE * (int) sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS / PTR_SIZE];
 
             public sg_subimage_content* GetSubimage()
             {
@@ -1024,7 +1022,7 @@ namespace Sokol
         // TODO: sg_trace_hooks
         public const int SG_TRACE_HOOKS_SIZE = 1;
 
-        [StructLayout(LayoutKind.Explicit, Size = 1)]
+        [StructLayout(LayoutKind.Explicit, Size = SG_TRACE_HOOKS_SIZE)]
         public struct sg_trace_hooks
         {
         }
@@ -1103,7 +1101,7 @@ namespace Sokol
         {
             [FieldOffset(0)] public sg_slot_info slot;
         }
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 4 byte boundary
+        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
         public const int SG_DESC_SIZE =
             INT_SIZE * 6 + 
             INT_SIZE + BOOL_SIZE + 3 + // 3 bytes padding 
