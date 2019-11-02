@@ -18,5 +18,3 @@ jobs:
       - run:
           name: Tests
           command: dotnet test ./src/Sokol.sln
-      - setup_remote_docker:
-          docker_layer_caching: true
