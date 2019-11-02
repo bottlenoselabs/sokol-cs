@@ -47,8 +47,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="libs\macos\debug" />
-      <Folder Include="libs\macos\release" />
+      <None Include="..\..\lib\libsokol_gfx-2019.10.08\macos\dummy\libsokol_gfx.dylib">
+        <Link>libs/macos/libsokol_gfx.dylib</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

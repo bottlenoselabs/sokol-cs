@@ -55,20 +55,40 @@ namespace Sokol.Graphics.Tests
             }
 
             var generatedStructName = $"{structType.Name}<C>";
-            var generatedStructTypeBuilder = ModuleBuilder.DefineType(generatedStructName,
-                TypeAttributes.Public |
-                TypeAttributes.Sealed |
-                TypeAttributes.SequentialLayout |
-                TypeAttributes.Serializable |
-                TypeAttributes.AnsiClass |
-                TypeAttributes.BeforeFieldInit,
-                typeof(ValueType));
+
+            if (structType.Name == "RgbaFloat")
+            {
+                Console.WriteLine();
+            }
+
+            TypeBuilder generatedStructTypeBuilder;
+            try
+            {
+                generatedStructTypeBuilder = ModuleBuilder.DefineType(generatedStructName,
+                    TypeAttributes.Public |
+                    TypeAttributes.Sealed |
+                    TypeAttributes.SequentialLayout |
+                    TypeAttributes.Serializable |
+                    TypeAttributes.AnsiClass |
+                    TypeAttributes.BeforeFieldInit,
+                    typeof(ValueType));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
             var fields = structType.GetTypeInfo().DeclaredFields;
             var currentFieldPosition = -1;
             
             foreach (var field in fields)
             {
+                if (field.IsStatic)
+                {
+                    continue;
+                }
+                
                 var fieldType = field.FieldType;
                 var structTypeC = CStructType(fieldType);
 
