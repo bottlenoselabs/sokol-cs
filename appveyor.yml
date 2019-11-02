@@ -19,7 +19,8 @@ after_build:
 shallow_clone: true
 before_test:
   - cmd: dotnet restore ./src/Sokol.sln --verbosity m
+  - cmd: dotnet build ./src/Sokol.sln --no-restore --verbosity m -c Debug
 test_script:
-  - cmd: dotnet test ./src/Sokol.sln --no-restore --verbosity m
+  - cmd: dotnet test ./src/Sokol.sln --no-build --verbosity n -c Debug
 on_finish :
 deploy: off
