@@ -2,7 +2,9 @@
 
 A C# wrapper for https://github.com/floooh/sokol.
 
-Includes "unsafe" [Platform Invoke (P/Invoke)](https://docs.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke) API bindings exactly as they are in C and safe .NET API over the C API for convenience.
+Includes the C API precisely as it is and a .NET API over the C API for convenience.
+
+[![Build status](https://ci.appveyor.com/api/projects/status/qk3g3ivd4897qboa/branch/master?svg=true&passingText=Windows%20✔️&pendingText=Windows%20🚧&failingText=Windows%20❌)](https://ci.appveyor.com/project/LithiumToast/sokol-csharp/branch/master)
 
 ## News
 
@@ -11,25 +13,25 @@ Includes "unsafe" [Platform Invoke (P/Invoke)](https://docs.microsoft.com/en-us/
 
 ## "Unsafe" API
 
-The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke) bindings are a pure port of the C headers; they exactly match what is found in C and the naming conventions used in C are maintained.
+The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained.
 
-To use the C API in .NET, the `unsafe` keyword will most often be required for using the C structs and calling the C functions. Also, for convenience, it's recommended to import the static class with all the bindings, structs, and enums like so:
+In .NET, the `unsafe` keyword will most often be necessary for using the C structs and calling the C functions. Also, for practicality, it's recommended to import the static class with all the bindings, structs, and enums like so:
 
 ```cs
 using static Sokol.sokol_gfx;
 ```
 
-For examples on how to use the C API, check out the [official C samples](https://github.com/floooh/sokol-samples). You can also find the same examples that run in your browser [here](https://floooh.github.io/sokol-html5/index.html).
+To learn how to use the C API, check out the [official C samples](https://github.com/floooh/sokol-samples). You can also find the same examples that run in [your browser](https://floooh.github.io/sokol-html5/index.html). The comments in the [`sokol_gfx.h`](https://github.com/floooh/sokol/blob/master/sokol_gfx.h) file are also a good reference.
 
 ## "Safe" API
 
 The .NET API is just wrappers over the C API for convenience and ease of use. The `unsafe` keyword is not required. All the "safe" classes/structs have the prefix `Sg`. E.g. `SgBuffer`, `SgShader`, etc. The safe API uses .NET Core v3 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
 
-For examples on how to use the .NET API, check out the [.NET Core v3 samples](src/Samples) which are in sync with the the official [C samples](https://github.com/floooh/sokol-samples).
+To learn how to use the .NET API, check out the .NET Core v3 samples, which are in sync with the official[C samples](https://github.com/floooh/sokol-samples).
 
 ## Supported Platforms
 
-Since Sokol is a C library, technically any platform is possible. The following is a table of platforms which are known to work and their supported graphics API backends with `sokol`. If you find that anything is incorrect I would be more than happy to discuss and change the table in a existing or new [issue](https://github.com/lithiumtoast/sokol-csharp/issues).
+Since `sokol` is a C library, technically, any platform is possible. The following is a table of platforms that are known to work and their supported graphics API backends with `sokol`. If you find that anything is incorrect, I would be more than happy to discuss and change the table in an existing or new [issue](https://github.com/lithiumtoast/sokol-csharp/issues).
 
 Platform|OpenGL 3.x|OpenGLESX/WebGLX|Direct3D11|Direct3D12|Metal|Vulkan
 ---|---|---|---|---|---|---
@@ -57,9 +59,7 @@ You want to contribute? Awesome! To get started please read the [CONTRIBUTING](C
 
 ## Versioning
 
-While [semantic versioning](https://semver.org) is industry standard, especially for NuGet packages, [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) is used for `Sokol#`. Calendar versioning is used when necessary because most of the changes are driven by external forces which are time sensitive such as updates to `sokol` itself, changes in graphics API technology, etc.
-
-The exact version scheme used for dynamic link libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH`. This means that major versions are for new features which require breaking API changes; minor versions are for new features which are backwards-compatible; and patch versions are for backwards-compatible bug fixes. For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
+Sokol# uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. The version scheme used for dynamic link libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH.BUILD`. For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
 
 ## License
 
