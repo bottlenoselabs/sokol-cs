@@ -1,7 +1,6 @@
 version: 2
 jobs:
   build:
-    machine: true
     docker:
       - image: docker pull mcr.microsoft.com/dotnet/core/sdk:3.0
     environment:
