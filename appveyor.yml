@@ -10,6 +10,7 @@ branches:
 init:
   - cmd: git config --global core.autocrlf true
 install:
+  - cmd: git submodule update --init --recursive
 before_build:
   - cmd: dotnet --version
   - cmd: dotnet restore ./src/Sokol.sln --verbosity m
