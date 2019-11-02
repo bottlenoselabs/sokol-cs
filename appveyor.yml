@@ -18,8 +18,8 @@ build_script:
 after_build:
 before_test:
   - cmd: dotnet restore ./src/Sokol.sln --verbosity m
-  - cmd: dotnet build ./src/Sokol.sln --no-restore --verbosity m -c Debug
+  - cmd: dotnet build ./**/*.Tests.csproj --no-restore --verbosity m -c Debug
 test_script:
-  - cmd: dotnet test ./src/Sokol.sln --no-build --verbosity n -c Debug
+  - cmd: dotnet test ./**/*.Tests.csproj  --no-build --verbosity n -c Debug
 on_finish :
 deploy: off
