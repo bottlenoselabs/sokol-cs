@@ -27,7 +27,7 @@ To learn how to use the C API, check out the [official C samples](https://github
 
 The .NET API is just wrappers over the C API for convenience and ease of use. The `unsafe` keyword is not required. All the "safe" classes/structs have the prefix `Sg`. E.g. `SgBuffer`, `SgShader`, etc. The safe API uses .NET Core v3 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
 
-To learn how to use the .NET API, check out the .NET Core v3 samples, which are in sync with the official[C samples](https://github.com/floooh/sokol-samples).
+To learn how to use the .NET API, check out the .NET Core v3 samples, which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
 
 ## Supported Platforms
 
