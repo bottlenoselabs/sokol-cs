@@ -35,7 +35,6 @@ namespace Sokol.Samples.Quad
                 0, 1, 2,
                 0, 2, 3
             };
-            var indexBufferSize = 6 * 2;
             _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, indices.AsMemory());
 
             _bindings.SetVertexBuffer(_vertexBuffer);
