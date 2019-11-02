@@ -1,8 +1,6 @@
 version: '1.0.0.{build}'
 image:
 - Visual Studio 2019
-- Ubuntu1604
-- Ubuntu1804
 branches:
   only:
   - master
