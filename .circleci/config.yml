@@ -15,5 +15,8 @@ jobs:
           name: Build
           command: dotnet publish ./src/Sokol.Graphics/Sokol.Graphics.csproj --no-restore -c Release
       - run:
-          name: Tests
-          command: dotnet test ./src/Sokol.sln --verbosity n
+          name: Build Tests
+          command: dotnet build ./src/Sokol.sln --no-restore --no-build --verbosity m -c Debug
+      - run:
+          name: Run Tests
+          command: dotnet test ./src/Sokol.sln --no-restore --no-build --verbosity m -c Debug
