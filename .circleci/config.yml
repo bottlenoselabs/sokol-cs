@@ -19,7 +19,7 @@ jobs:
           command: dotnet publish ./src/Sokol.Graphics/Sokol.Graphics.csproj --no-restore -c Release
       - run:
           name: Build Tests
-          command: dotnet build ./**/*.Tests.csproj --no-restore --verbosity m -c Debug
+          command: dotnet build ./src/Sokol.Graphics/Sokol.Graphics.Tests.csproj --no-restore --verbosity m -c Debug
       - run:
           name: Run Tests
-          command: dotnet test ./**/*.Tests.csproj --no-build --verbosity n -c Debug
+          command: dotnet test ./src/Sokol.Graphics/Sokol.Graphics.Tests.csproj --no-build --verbosity n -c Debug
