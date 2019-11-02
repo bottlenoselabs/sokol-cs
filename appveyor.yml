@@ -7,6 +7,7 @@ environment:
 branches:
   only:
   - master
+clone_depth: 1 
 init:
   - cmd: git config --global core.autocrlf true
 install:
@@ -17,7 +18,6 @@ before_build:
 build_script:
   - cmd: dotnet publish ./src/Sokol.Graphics/Sokol.Graphics.csproj --no-restore -c Release
 after_build:
-shallow_clone: true
 before_test:
   - cmd: dotnet restore ./src/Sokol.sln --verbosity m
   - cmd: dotnet build ./src/Sokol.sln --no-restore --verbosity m -c Debug
