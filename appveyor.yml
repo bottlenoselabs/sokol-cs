@@ -6,11 +6,6 @@ image:
 branches:
   only:
   - master
-# nuget:
-#   # account_feed: true
-#   # project_feed: true
-#   disable_publish_on_pr: true
-#   publish_wap_octopus: true   
 init:
   - cmd: git config --global core.autocrlf true
 install:
@@ -18,12 +13,8 @@ before_build:
   - cmd: dotnet --version
   - cmd: dotnet restore ./src/Sokol.sln --verbosity m
 build_script:
-  - cmd: dotnet publish ./src/Sokol.sln --no-restore -c Release
+  - cmd: dotnet publish ./src/Sokol.Graphics/Sokol.Graphics.csproj --no-restore -c Release
 after_build:
-# artifacts:
-#  - path: '/src/Sokol.Graphics/bin/Release/netcoreapp3.0/publish'
-#    name: WebSite
-#    type: WebDeployPackage
 shallow_clone: true
 test_script:
   - cmd: dotnet restore ./src/Sokol.sln --verbosity m
