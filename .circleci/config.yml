@@ -9,6 +9,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Git Submodules"
+          command: git submodule update --init --recursive
+      - run:
           name: Restore
           command: dotnet restore ./src/Sokol.sln --verbosity m
       - run:
