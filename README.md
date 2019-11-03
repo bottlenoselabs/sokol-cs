@@ -1,8 +1,8 @@
 # Sokol\#
 
-[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Windows/master?label=build%2Ftest%20Windows%20VS2019&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
-[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/macOS/master?label=build%2Ftest%20macOS%20Mojave%2010.14.x&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
-[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Linux/master?label=build%2Ftest%20Ubuntu%2018.04%20LTS&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Windows/master?label=build%2Ftest%20Windows%20VS2019&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=4&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/macOS/master?label=build%2Ftest%20macOS%20Mojave%2010.14&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Linux/master?label=build%2Ftest%20Ubuntu%2018.04%20LTS&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=3&branchName=master)
 
 A C# wrapper for https://github.com/floooh/sokol.
 
