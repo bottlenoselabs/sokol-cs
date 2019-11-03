@@ -34,14 +34,14 @@ stages:
         clean: true
 
 - stage: 'build'
-  displayName: 'Build Solution'
+  displayName: 'Build'
   jobs:
     - job: 'restore_solution'
-      displayName: 'Restore Solution'
+      displayName: 'Restore solution'
       continueOnError: false
       steps:
       - task: DotNetCoreCLI@2
-        displayName: 'Restore Solution'
+        displayName: 'Restore solution'
         inputs:
           command: 'restore'
           projects: '$(solution)'
@@ -52,18 +52,22 @@ stages:
       continueOnError: false
       steps:
       - task: DotNetCoreCLI@2
-        displayName: 'Build Solution (Release)'
+        displayName: 'Build solution'
         inputs:
           command: 'build'
           projects: '$(solution)'
           arguments: '--no-restore --verbosity m -c Release'
 
 - stage: 'test'
-  displayName: 'Test Solution'
+  displayName: 'Test'
   jobs:
-    - job: 'test_solution'
-      displayName: 'Test Solution'
-      inputs:
-        command: 'test'
-        projects: '$(solution)'
-        arguments: '--no-build --verbosity n -c Release'
+    - job: 'run_tests'
+      displayName: 'Run Tests'
+      continueOnError: false
+      steps:
+      - task: DotNetCoreCLI@2 
+        displayName: 'Run Tests in Solution'
+        inputs:
+          command: 'test'
+          projects: '$(solution)'
+          arguments: '--no-build --verbosity n -c Release'
