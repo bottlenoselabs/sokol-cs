@@ -5,69 +5,100 @@ pool:
   vmImage: 'macos-latest'
 
 variables:
-  solution: './src/Sokol.sln'
+  SOLUTION: './src/Sokol.sln'
+  GIT_REPO_PATH: '$(Pipeline.Workspace)/sokol-csharp'
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CORE_SDK_VERSION: 3.0
+  DOTNET_CACHE_KEY: dotnet | ${DOTNET_CORE_SDK_VERSION} | $(Agent.OS)
+  DOTNET_CACHE_FOLDER: $(Pipeline.Workspace)/${DOTNET_CACHE_KEY}
 
 stages:
 
 - stage: 'setup'
   displayName: 'Setup'
   jobs: 
-    - job: 'install_dotnet_sdk'
-      displayName: 'Install .NET SDK'
-      continueOnError: false 
-      steps:
-      - task: UseDotNet@2
-        displayName: 'Use .NET Core 3 SDK'
-        inputs:
-          packageType: sdk
-          version: 3.0.100
-          installationPath: $(Agent.ToolsDirectory)/dotnet
-    - job: 'clone_repo'
+    - job: 'git'
       displayName: 'Clone Git repository'
       continueOnError: false
       steps:
       - checkout: self
-        fetchDepth: 1
         submodules: true
+        fetchDepth: 1
         clean: true
+        path: $(GIT_REPO_PATH)
+    - job: 'install_dotnet_sdk'
+      displayName: 'Install .NET SDK'
+      continueOnError: false 
+      steps:
+      - checkout: none
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core SDK v$(DOTNET_CORE_SDK_VERSION)'
+        inputs:
+          packageType: sdk
+          version: $(DOTNET_CORE_SDK_VERSION)
+          installationPath: $(DOTNET_CACHE_FOLDER)
+      - task: CacheBeta@1
+        inputs:
+          key: $(DOTNET_CACHE_KEY)
+          path: $(DOTNET_CACHE_FOLDER)
+      
+  displayName: Cache Yarn packages
 
 - stage: 'build'
   displayName: 'Build'
   jobs:
-    - job: 'restore_solution'
-      displayName: 'Restore solution'
+    - job: 'use_dotnet_sdk'
+      displayName: 'Use .NET SDK'
+      continueOnError: false
+      steps:
+      - checkout: none
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core SDK v$(DOTNET_CORE_SDK_VERSION)'
+        inputs:
+          packageType: sdk
+          version: $(DOTNET_CORE_SDK_VERSION)
+          installationPath: $(DOTNET_CACHE_FOLDER)
+    - job: 'build_solution'
+      displayName: 'Build Solution'
+      dependsOn: 'use_dotnet_sdk'
       continueOnError: false
       steps:
       - task: DotNetCoreCLI@2
         displayName: 'Restore solution'
         inputs:
           command: 'restore'
-          projects: '$(solution)'
+          projects: '$(SOLUTION)'
           arguments: '--verbosity m'
-    - job: 'build_solution'
-      displayName: 'Build Solution'
-      dependsOn: 'restore_solution'
-      continueOnError: false
-      steps:
       - task: DotNetCoreCLI@2
         displayName: 'Build solution'
         inputs:
           command: 'build'
-          projects: '$(solution)'
+          projects: '$(SOLUTION)'
           arguments: '--no-restore --verbosity m -c Release'
 
 - stage: 'test'
   displayName: 'Test'
   jobs:
+    - job: 'use_dotnet_sdk'
+      displayName: 'Use .NET SDK'
+      continueOnError: false
+      steps:
+      - checkout: none
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core SDK v$(DOTNET_CORE_SDK_VERSION)'
+        inputs:
+          packageType: sdk
+          version: $(DOTNET_CORE_SDK_VERSION)
+          installationPath: $(DOTNET_CACHE_FOLDER)  
     - job: 'run_tests'
       displayName: 'Run Tests'
+      dependsOn: 'use_dotnet_sdk'
       continueOnError: false
       steps:
       - task: DotNetCoreCLI@2 
         displayName: 'Run Tests in Solution'
         inputs:
           command: 'test'
-          projects: '$(solution)'
+          projects: '$(SOLUTION)'
           arguments: '--no-build --verbosity n -c Release'
