@@ -1,8 +1,8 @@
 # Sokol\#
 
-[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Windows/master?label=build%2Ftest%20Windows&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
-[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/macOS/master?label=build%2Ftest%20macOS&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
-[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Linux/master?label=build%2Ftest%20Linux&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Windows/master?label=build%2Ftest%20Windows%20VS2019&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/macOS/master?label=build%2Ftest%20macOS%20Mojave%2010.14.x&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Linux/master?label=build%2Ftest%20Ubuntu%2018.04%20LTS&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
 
 A C# wrapper for https://github.com/floooh/sokol.
 
@@ -10,7 +10,9 @@ Includes the C API precisely as it is and a .NET API over the C API for convenie
 
 ## News
 
-- 2019/11/03: .NET Core examples working with Windows.
+- 2019/11/03: .NET Core examples working with Ubuntu.
+- 2019/11/03: Added Azure Pipelines for builds and tests.
+- 2019/11/02: .NET Core examples working with Windows.
 - 2019/10/25: .NET Core examples working with macOS.
 - 2019/10/23: "Unsafe" `sokol_gfx` API fairly well finished.
 - 2019/10/15: Initial project creation.
