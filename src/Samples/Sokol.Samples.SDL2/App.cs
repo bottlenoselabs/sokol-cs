@@ -154,6 +154,10 @@ namespace Sokol
                 graphicsBackendString, 
                 configuration);
 
+            var x = Environment.OSVersion;
+            Console.WriteLine(x);
+            Console.WriteLine(x.VersionString);
+
             string filePath;
             switch (Platform)
             {
