@@ -8,6 +8,12 @@ variables:
   solution: '**/*.sln'
 
 steps:
+- task: Bash@3
+  displayName: 'Initialize/update Git submodules'
+  inputs:
+    targetType: inline
+    script: git submodule update --init --recursive
+
 - task: UseDotNet@2
   displayName: 'Use .NET Core 3 SDK'
   inputs:
@@ -16,18 +22,22 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: DotNetCoreCLI@2
+  displayName: 'Restore Solution'
   inputs:
     command: 'restore'
     projects: '$(solution)'
     arguments: '--verbosity m'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Build Solution (Release)'
   inputs:
     command: 'build'
     projects: '$(solution)'
-    arguments: '--no-restore --verbosity m -c Debug'
+    arguments: '--no-restore --verbosity m -c Release'
+    
 - task: DotNetCoreCLI@2
+  displayName: 'Test Solution (Release)'
   inputs:
     command: 'test'
     projects: '$(solution)'
-    arguments: '--no-build --verbosity n -c Debug'
+    arguments: '--no-build --verbosity n -c Release'
