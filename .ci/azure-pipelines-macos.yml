@@ -25,19 +25,19 @@ steps:
       version: $(DOTNET_CORE_SDK_VERSION)
       installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
-    displayName: 'Restore solution'
+    displayName: 'dotnet restore'
     inputs:
       command: 'restore'
       projects: '$(SOLUTION)'
       arguments: '--verbosity m'
   - task: DotNetCoreCLI@2
-    displayName: 'Build solution'
+    displayName: 'dotnet build'
     inputs:
       command: 'build'
       projects: '$(SOLUTION)'
       arguments: '--no-restore --verbosity m -c Release'
   - task: DotNetCoreCLI@2 
-    displayName: 'Run Tests in Solution'
+    displayName: 'dotnet test'
     inputs:
       command: 'test'
       projects: '$(SOLUTION)'

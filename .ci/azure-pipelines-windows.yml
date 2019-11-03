@@ -1,43 +1,44 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'windows-latest'
-
 variables:
-  solution: './src/Sokol.sln'
+  VM_IMAGE: 'windows-latest'
+  SOLUTION: './src/Sokol.sln'
+  GIT_REPO_PATH: 'sokol-csharp'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CORE_SDK_VERSION: 3.0.100
+
+pool: 
+  vmImage: '$(VM_IMAGE)'
 
 steps:
-- task: Bash@3
-  displayName: 'Initialize/update Git submodules'
-  inputs:
-    targetType: inline
-    script: git submodule update --init --recursive
-
-- task: UseDotNet@2
-  displayName: 'Use .NET Core 3 SDK'
-  inputs:
-    packageType: sdk
-    version: 3.0.100
-    installationPath: $(Agent.ToolsDirectory)/dotnet
-
-- task: DotNetCoreCLI@2
-  displayName: 'Restore Solution'
-  inputs:
-    command: 'restore'
-    projects: '$(solution)'
-    arguments: '--verbosity m'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Build Solution (Release)'
-  inputs:
-    command: 'build'
-    projects: '$(solution)'
-    arguments: '--no-restore --verbosity m -c Release'
-    
-- task: DotNetCoreCLI@2
-  displayName: 'Test Solution (Release)'
-  inputs:
-    command: 'test'
-    projects: '$(solution)'
-    arguments: '--no-build --verbosity n -c Release'
+  - checkout: self
+    submodules: true
+    fetchDepth: 1
+    clean: true
+    path: $(GIT_REPO_PATH)
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core SDK v$(DOTNET_CORE_SDK_VERSION)'
+    inputs:
+      packageType: sdk
+      version: $(DOTNET_CORE_SDK_VERSION)
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: 'restore'
+      projects: '$(SOLUTION)'
+      arguments: '--verbosity m'
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      projects: '$(SOLUTION)'
+      arguments: '--no-restore --verbosity m -c Release'
+  - task: DotNetCoreCLI@2 
+    displayName: 'dotnet test'
+    inputs:
+      command: 'test'
+      projects: '$(SOLUTION)'
+      arguments: '--no-build --verbosity n -c Release'
