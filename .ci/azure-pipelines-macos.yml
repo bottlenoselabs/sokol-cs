@@ -22,8 +22,8 @@ steps:
     displayName: 'Use .NET Core SDK v$(DOTNET_CORE_SDK_VERSION)'
     inputs:
       packageType: sdk
-        version: $(DOTNET_CORE_SDK_VERSION)
-        installationPath: $(Agent.ToolsDirectory)/dotnet
+      version: $(DOTNET_CORE_SDK_VERSION)
+      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
     displayName: 'Restore solution'
     inputs:
