@@ -1,3 +1,4 @@
 [submodule "ext/SDL2-CS"]
 	path = ext/SDL2-CS
 	url = https://github.com/flibitijibibo/SDL2-CS
+	shallow = true
