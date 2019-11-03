@@ -8,6 +8,13 @@ variables:
   solution: '**/*.sln'
 
 steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET Core 3 SDK'
+  inputs:
+    packageType: sdk
+    version: 3.0.100
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
