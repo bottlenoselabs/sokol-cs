@@ -42,9 +42,7 @@ stages:
         inputs:
           key: $(DOTNET_CACHE_KEY)
           path: $(DOTNET_CACHE_FOLDER)
-      
-  displayName: Cache Yarn packages
-
+          
 - stage: 'build'
   displayName: 'Build'
   jobs:
