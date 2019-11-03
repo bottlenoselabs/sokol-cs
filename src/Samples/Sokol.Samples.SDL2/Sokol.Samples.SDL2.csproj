@@ -38,27 +38,15 @@
         <Link>lib\SDL2.dll</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\debug\sokol_gfx.dll">
-        <Link>lib\sokol_gfx.dll</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\debug\sokol_gfx.ilk">
-        <Link>lib\sokol_gfx.ilk</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\debug\sokol_gfx.pdb">
-        <Link>lib\sokol_gfx.pdb</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\release\sokol_gfx.dll">
-        <Link>lib\windows\opengl\release\sokol_gfx.dll</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
     <ItemGroup>
       <None Include="..\..\..\lib\libSDL2-2.0.10\libSDL2-2.0.0.dylib">
         <Link>lib/libSDL2-2.0.0.dylib</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\linux\opengl\debug\libsokol_gfx.so">
+        <Link>lib/libsokol_gfx.so</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <Content Include="..\..\..\lib\libsokol_gfx-2019.10.08\macos\opengl\debug\libsokol_gfx.dylib">
