@@ -8,6 +8,8 @@ Includes the C API precisely as it is and a .NET API over the C API for convenie
 
 ## News
 
+- 2019/11/03: .NET Core examples working with Windows.
+- 2019/10/25: .NET Core examples working with macOS.
 - 2019/10/23: "Unsafe" `sokol_gfx` API fairly well finished.
 - 2019/10/15: Initial project creation.
 
