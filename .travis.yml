@@ -1,7 +1,7 @@
 os: osx
 language: csharp
 mono: none
-dotnet: 3.0
+dotnet: 3.0.100
 git:
   quiet: true
   depth: 1
@@ -10,7 +10,6 @@ branches:
   - master
 env:
   - DOTNET_CLI_TELEMETRY_OPTOUT=true
-  - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 before_install:
   - if test "$TRAVIS_OS_NAME" == "osx"; then brew update;
   - dotnet restore ./src/Sokol.sln --verbosity m
