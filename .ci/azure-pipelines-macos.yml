@@ -6,38 +6,64 @@ pool:
 
 variables:
   solution: './src/Sokol.sln'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
 
-steps:
-- task: Bash@3
-  displayName: 'Initialize/update Git submodules'
-  inputs:
-    targetType: inline
-    script: git submodule update --init --recursive
+stages:
 
-- task: UseDotNet@2
-  displayName: 'Use .NET Core 3 SDK'
-  inputs:
-    packageType: sdk
-    version: 3.0.100
-    installationPath: $(Agent.ToolsDirectory)/dotnet
+- stage: 'setup'
+  displayName: 'Setup'
+  jobs: 
+    - job: 'install_dotnet_sdk'
+      displayName: 'Install .NET SDK'
+      continueOnError: false 
+      steps:
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core 3 SDK'
+        inputs:
+          packageType: sdk
+          version: 3.0.100
+          installationPath: $(Agent.ToolsDirectory)/dotnet
+    - job: 'clone_repo'
+      displayName: 'Clone Git repository'
+      continueOnError: false
+      steps:
+      - checkout:
+        fetchDepth: 1
+        submodules: true
+        clean: true
 
-- task: DotNetCoreCLI@2
-  displayName: 'Restore Solution'
-  inputs:
-    command: 'restore'
-    projects: '$(solution)'
-    arguments: '--verbosity m'
+- stage: 'build'
+  displayName: 'Build Solution'
+  jobs:
+    - job: 'restore_solution'
+      displayName: 'Restore Solution'
+      continueOnError: false
+      steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Restore Solution'
+        inputs:
+          command: 'restore'
+          projects: '$(solution)'
+          arguments: '--verbosity m'
+    - job: 'build_solution'
+      displayName: 'Build Solution'
+      dependsOn: 'restore_solution'
+      continueOnError: false
+      steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Build Solution (Release)'
+        inputs:
+          command: 'build'
+          projects: '$(solution)'
+          arguments: '--no-restore --verbosity m -c Release'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build Solution (Release)'
-  inputs:
-    command: 'build'
-    projects: '$(solution)'
-    arguments: '--no-restore --verbosity m -c Release'
-    
-- task: DotNetCoreCLI@2
-  displayName: 'Test Solution (Release)'
-  inputs:
-    command: 'test'
-    projects: '$(solution)'
-    arguments: '--no-build --verbosity n -c Release'
+- stage: 'test'
+  displayName: 'Test Solution'
+  jobs:
+    - job: 'test_solution'
+      displayName: 'Test Solution'
+      inputs:
+        command: 'test'
+        projects: '$(solution)'
+        arguments: '--no-build --verbosity n -c Release'
