@@ -28,7 +28,7 @@ stages:
       displayName: 'Clone Git repository'
       continueOnError: false
       steps:
-      - checkout:
+      - checkout: self
         fetchDepth: 1
         submodules: true
         clean: true
