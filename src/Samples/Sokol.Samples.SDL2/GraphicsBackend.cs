@@ -1,3 +1,5 @@
+using Sokol.Samples;
+
 namespace Sokol
 {
     public enum GraphicsBackend
@@ -15,8 +17,8 @@ namespace Sokol
         {
             return platform switch
             {
-                Platform.Windows => GraphicsBackend.Direct3D11,
-                Platform.macOS => GraphicsBackend.Metal,
+                Platform.Windows => GraphicsBackend.OpenGL, //TODO: Use Direct3D11 instead
+                Platform.macOS => GraphicsBackend.OpenGL, //TODO: Use Metal instead
                 Platform.Linux => GraphicsBackend.OpenGL,
                 Platform.iOS => GraphicsBackend.Metal,
                 Platform.Android => GraphicsBackend.OpenGLES3,
