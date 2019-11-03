@@ -13,6 +13,6 @@ env:
 before_install:
   - dotnet restore ./src/Sokol.sln --verbosity m
 script:
-  - dotnet build ./src/Sokol.sln --not-restore --verbosity m -c Debug
-  - dotnet build ./src/Sokol.sln --not-restore --verbosity m -c Release
-  - dotnet test ./src/Sokol.Graphics.Tests/Sokol.Graphics.Tests.csproj  --no-build --verbosity n -c Debug
+  - dotnet build ./src/Sokol.sln --no-restore --verbosity m -c Debug
+  - dotnet build ./src/Sokol.sln --no-restore --verbosity m -c Release
+  - dotnet test ./src/Sokol.Graphics.Tests/Sokol.Graphics.Tests.csproj --no-build --verbosity n -c Debug
