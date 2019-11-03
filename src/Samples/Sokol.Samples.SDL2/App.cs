@@ -1,7 +1,4 @@
 using System;
-using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using static SDL2.SDL;
 using static Sokol.glew;
 using static Sokol.sokol_gfx;
@@ -34,11 +31,10 @@ namespace Sokol.Samples
             
             DllMap.Configure(OperatingSystem.Windows, "SDL2", "SDL2.dll");
             DllMap.Configure(OperatingSystem.Darwin, "SDL2", "libSDL2-2.0.0.dylib");
-            DllMap.Configure(OperatingSystem.Linux, "SDL2", "libSDL2-2.0.so.0");
+            DllMap.Configure(OperatingSystem.Linux, "SDL2", "libSDL2-2.0.so");
             
             DllMap.Configure(OperatingSystem.Windows, "glew", "glew32.dll");
-            DllMap.Configure(OperatingSystem.Linux, "glew", "libGLEW.2.1.0.dylib");
-            DllMap.Configure(OperatingSystem.Linux, "glew", "libGLEW-2.1.0.so.0");
+            DllMap.Configure(OperatingSystem.Linux, "glew", "libGLEW.so.2.0.0");
             
             DllMap.Configure(OperatingSystem.Windows, "sokol_gfx", "sokol_gfx.dll");
             DllMap.Configure(OperatingSystem.Darwin, "sokol_gfx", "libsokol_gfx.dylib");
@@ -175,40 +171,6 @@ namespace Sokol.Samples
         ~App()
         {
             ReleaseUnmanagedResources();
-        }
-
-        private IntPtr ResolveLibraryHandle(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
-        {
-            var runtimeArchitecture = RuntimeInformation.OSArchitecture;
-            if (runtimeArchitecture == Architecture.Arm || runtimeArchitecture == Architecture.X86)
-            {
-                throw new NotSupportedException("32-bit architecture is not supported.");
-            }
-            
-            var platformString = Platform.ToString().ToLower();
-            var graphicsBackendString = GraphicsBackend.ToString().ToLower();
-            var configuration = _debugSokol ? "debug" : "release";
-            var libPath = Path.Combine(AppContext.BaseDirectory, 
-                "lib", 
-                platformString, 
-                graphicsBackendString, 
-                configuration);
-
-            string filePath;
-            switch (Platform)
-            {
-                case Platform.Windows:
-                    filePath = Path.Combine(libPath, "sokol_gfx.dll");
-                    break;
-                case Platform.macOS:
-                    filePath = Path.Combine(libPath, "libsokol_gfx.dylib");
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
-            var handle = NativeLibrary.Load(filePath, assembly, null);
-            return handle;
         }
     }
 }
