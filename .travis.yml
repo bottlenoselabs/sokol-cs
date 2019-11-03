@@ -11,7 +11,6 @@ branches:
 env:
   - DOTNET_CLI_TELEMETRY_OPTOUT=true
 before_install:
-  - if test "$TRAVIS_OS_NAME" == "osx"; then brew update;
   - dotnet restore ./src/Sokol.sln --verbosity m
 script:
   - dotnet build ./src/Sokol.sln --not-restore --verbosity m -c Debug
