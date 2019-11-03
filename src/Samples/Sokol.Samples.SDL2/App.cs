@@ -101,7 +101,11 @@ namespace Sokol.Samples
             {
                 deviceHandle = SDL_GL_CreateContext(WindowHandle);
                 SDL_GL_MakeCurrent(WindowHandle, deviceHandle);
-                glewInit();
+
+                if (Platform == Platform.Windows || Platform == Platform.Linux)
+                {
+                    glewInit();   
+                }
             }
             else
             {
