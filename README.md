@@ -4,7 +4,8 @@ A C# wrapper for https://github.com/floooh/sokol.
 
 Includes the C API precisely as it is and a .NET API over the C API for convenience.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/qk3g3ivd4897qboa/branch/master?svg=true&passingText=Windows%20✔️&pendingText=Windows%20🚧&failingText=Windows%20❌)](https://ci.appveyor.com/project/LithiumToast/sokol-csharp/branch/master)
+[![Build status](https://img.shields.io/appveyor/ci/lithiumtoast/sokol-csharp/master?label=build%2Ftest%20Windows&logo=AppVeyor)](https://ci.appveyor.com/project/LithiumToast/sokol-csharp/branch/master)
+[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/1/master?label=build%2Ftest%20macOS&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
 
 ## News
 
