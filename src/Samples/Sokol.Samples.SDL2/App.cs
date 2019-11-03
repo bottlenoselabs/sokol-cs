@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -155,8 +156,8 @@ namespace Sokol
                 configuration);
 
             var x = Environment.OSVersion;
-            Console.WriteLine(x);
-            Console.WriteLine(x.VersionString);
+            Debug.WriteLine(x);
+            Debug.WriteLine(x.VersionString);
 
             string filePath;
             switch (Platform)
