@@ -12,61 +12,33 @@ variables:
 pool: 
   vmImage: '$(VM_IMAGE)'
 
-stages:
-
-- stage: 'build'
-  displayName: 'Build'
-  jobs:
-    - job: 'git'
-      displayName: 'Clone Git repository'
-      continueOnError: false
-      steps:
-      - checkout: self
-        submodules: true
-        fetchDepth: 1
-        clean: true
-        path: $(GIT_REPO_PATH)
-    - job: 'use_dotnet_sdk'
-      displayName: 'Use .NET SDK'
-      continueOnError: false
-      steps:
-      - checkout: none
-      - task: UseDotNet@2
-        displayName: 'Use .NET Core SDK v$(DOTNET_CORE_SDK_VERSION)'
-        inputs:
-          packageType: sdk
-          version: $(DOTNET_CORE_SDK_VERSION)
-          installationPath: $(Agent.ToolsDirectory)/dotnet
-    - job: 'build_solution'
-      displayName: 'Build Solution'
-      dependsOn: 'use_dotnet_sdk'
-      continueOnError: false
-      steps:
-      - checkout: none
-      - task: DotNetCoreCLI@2
-        displayName: 'Restore solution'
-        inputs:
-          command: 'restore'
-          projects: '$(SOLUTION)'
-          arguments: '--verbosity m'
-      - task: DotNetCoreCLI@2
-        displayName: 'Build solution'
-        inputs:
-          command: 'build'
-          projects: '$(SOLUTION)'
-          arguments: '--no-restore --verbosity m -c Release'
-
-- stage: 'test'
-  displayName: 'Test'
-  jobs:
-    - job: 'run_tests'
-      displayName: 'Run Tests'
-      continueOnError: false
-      steps:
-      - checkout: none
-      - task: DotNetCoreCLI@2 
-        displayName: 'Run Tests in Solution'
-        inputs:
-          command: 'test'
-          projects: '$(SOLUTION)'
-          arguments: '--no-build --verbosity n -c Release'
+steps:
+  - checkout: self
+    submodules: true
+    fetchDepth: 1
+    clean: true
+    path: $(GIT_REPO_PATH)
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK v$(DOTNET_CORE_SDK_VERSION)'
+      inputs:
+        packageType: sdk
+         version: $(DOTNET_CORE_SDK_VERSION)
+         installationPath: $(Agent.ToolsDirectory)/dotnet
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore solution'
+      inputs:
+        command: 'restore'
+        projects: '$(SOLUTION)'
+        arguments: '--verbosity m'
+    - task: DotNetCoreCLI@2
+      displayName: 'Build solution'
+      inputs:
+        command: 'build'
+        projects: '$(SOLUTION)'
+        arguments: '--no-restore --verbosity m -c Release'
+    - task: DotNetCoreCLI@2 
+      displayName: 'Run Tests in Solution'
+      inputs:
+        command: 'test'
+        projects: '$(SOLUTION)'
+        arguments: '--no-build --verbosity n -c Release'
