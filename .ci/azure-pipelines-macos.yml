@@ -10,7 +10,7 @@ variables:
   DOTNET_CORE_SDK_VERSION: 3.0.100
 
 pool: 
-  - vmImage: '$(VM_IMAGE)'
+  vmImage: '$(VM_IMAGE)'
 
 stages:
 
