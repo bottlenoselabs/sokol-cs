@@ -51,4 +51,11 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="..\..\lib\libsokol_gfx-2019.10.08\linux\dummy\libsokol_gfx.so">
+        <Link>libs\linux\libsokol_gfx.so</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

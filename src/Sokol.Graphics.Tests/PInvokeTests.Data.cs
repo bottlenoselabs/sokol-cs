@@ -29,7 +29,7 @@ namespace Sokol.Graphics.Tests
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                throw new NotImplementedException();
+                filePath = Path.Combine(libsPath, "linux", $"lib{libraryName}.so");
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
             {
