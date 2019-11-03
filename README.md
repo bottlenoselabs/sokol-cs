@@ -4,8 +4,9 @@ A C# wrapper for https://github.com/floooh/sokol.
 
 Includes the C API precisely as it is and a .NET API over the C API for convenience.
 
-[![Build status](https://img.shields.io/appveyor/ci/lithiumtoast/sokol-csharp/master?label=build%2Ftest%20Windows&logo=AppVeyor)](https://ci.appveyor.com/project/LithiumToast/sokol-csharp/branch/master)
-[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/1/master?label=build%2Ftest%20macOS&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Windows/master?label=build%2Ftest%20Windows&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/macOS/master?label=build%2Ftest%20macOS&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Linux/master?label=build%2Ftest%20Linux&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
 
 ## News
 
