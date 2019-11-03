@@ -61,7 +61,6 @@ stages:
   jobs:
     - job: 'run_tests'
       displayName: 'Run Tests'
-      dependsOn: 'use_dotnet_sdk'
       continueOnError: false
       steps:
       - checkout: none
