@@ -41,6 +41,18 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\debug\sokol_gfx.dll">
+        <Link>lib/sokol_gfx.dll</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\debug\sokol_gfx.ilk">
+        <Link>lib/sokol_gfx.ilk</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\debug\sokol_gfx.pdb">
+        <Link>lib/sokol_gfx.pdb</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
       <None Include="..\..\..\lib\libSDL2-2.0.10\libSDL2-2.0.0.dylib">
         <Link>lib/libSDL2-2.0.0.dylib</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
