@@ -31,7 +31,7 @@ namespace Sokol.Samples
             
             DllMap.Configure(OperatingSystem.Windows, "SDL2", "SDL2.dll");
             DllMap.Configure(OperatingSystem.Darwin, "SDL2", "libSDL2-2.0.0.dylib");
-            DllMap.Configure(OperatingSystem.Linux, "SDL2", "libSDL2-2.0.so");
+            DllMap.Configure(OperatingSystem.Linux, "SDL2", "SDL2-2.0.so");
             
             DllMap.Configure(OperatingSystem.Windows, "glew", "glew32.dll");
             DllMap.Configure(OperatingSystem.Linux, "glew", "libGLEW.so.2.0.0");
