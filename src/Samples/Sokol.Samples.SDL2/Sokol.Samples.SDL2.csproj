@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\..\lib\libglew-2.1.0\glew32.dll">
+      <None Include="..\..\..\lib\libGLEW-2.1.0\glew32.dll">
         <Link>lib\glew32.dll</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
