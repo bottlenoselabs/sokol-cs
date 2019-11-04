@@ -77,6 +77,7 @@ namespace Sokol.Samples
         private void CreateWindow(out IntPtr windowHandle)
         {
             var windowFlags = SDL_WindowFlags.SDL_WINDOW_HIDDEN;
+            
             if (GraphicsBackend == GraphicsBackend.OpenGL)
             {
                 windowFlags |= SDL_WindowFlags.SDL_WINDOW_OPENGL;
@@ -89,6 +90,11 @@ namespace Sokol.Samples
             windowHandle = SDL_CreateWindow("", 
                 SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
                 800, 600, windowFlags);
+
+            if (windowHandle == IntPtr.Zero)
+            {
+                throw new ApplicationException("Failed to create a window with SDL2.");
+            }
         }
 
         private void CreateGraphicsDevice(out IntPtr deviceHandle)
@@ -96,8 +102,13 @@ namespace Sokol.Samples
             if (GraphicsBackend == GraphicsBackend.OpenGL)
             {
                 deviceHandle = SDL_GL_CreateContext(WindowHandle);
+                
+                if (deviceHandle == IntPtr.Zero)
+                {
+                    throw new ApplicationException("Failed to create OpenGL Core 3.3 context. Did you forget to update your drivers?");
+                }
+                
                 SDL_GL_MakeCurrent(WindowHandle, deviceHandle);
-
                 if (Platform == Platform.Windows || Platform == Platform.Linux)
                 {
                     glewInit();   
@@ -105,7 +116,7 @@ namespace Sokol.Samples
             }
             else
             {
-                deviceHandle = IntPtr.Zero;
+                throw new NotImplementedException();
             }
         }
 
