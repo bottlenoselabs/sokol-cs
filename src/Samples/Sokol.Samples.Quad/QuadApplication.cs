@@ -7,6 +7,12 @@ namespace Sokol.Samples.Quad
 {
     public class QuadApplication : App
     {
+        private struct Vertex
+        {
+            public Vector3 Position;
+            public RgbaFloat Color;
+        }
+        
         private readonly SgPipeline _pipeline;
         private readonly SgBindings _bindings = new SgBindings();
         private readonly SgBuffer _vertexBuffer;
@@ -16,7 +22,7 @@ namespace Sokol.Samples.Quad
 
         public unsafe QuadApplication()
         {
-            var vertices = new VertexPositionColor[4];
+            var vertices = new Vertex[4];
             vertices[0].Position = new Vector3(-0.5f, 0.5f, 0.5f);
             vertices[0].Color = RgbaFloat.Red;
             vertices[1].Position = new Vector3(0.5f, 0.5f, 0.5f);
@@ -26,7 +32,7 @@ namespace Sokol.Samples.Quad
             vertices[3].Position = new Vector3(-0.5f, -0.5f, 0.5f);
             vertices[3].Color = RgbaFloat.Yellow;
             
-            _vertexBuffer = new SgBuffer<VertexPositionColor>(SgBufferType.Vertex, SgBufferUsage.Immutable, 
+            _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable, 
                 vertices.AsMemory());
 
             var indices = new ushort[]
@@ -34,12 +40,13 @@ namespace Sokol.Samples.Quad
                 0, 1, 2,
                 0, 2, 3
             };
-            _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, indices.AsMemory());
+            _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, 
+                indices.AsMemory());
 
             _bindings.SetVertexBuffer(_vertexBuffer);
             _bindings.SetIndexBuffer(_indexBuffer);
             
-            var vertexShaderSourceCode = @"
+            const string vertexShaderSourceCode = @"
 #version 330
 layout(location=0) in vec4 position;
 layout(location=1) in vec4 color0;
@@ -50,7 +57,7 @@ void main() {
 }
 "; 
             
-            var fragmentShaderSourceCode = @"
+            const string fragmentShaderSourceCode = @"
 #version 330
 in vec4 color;
 out vec4 frag_color;

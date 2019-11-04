@@ -7,6 +7,12 @@ namespace Sokol.Samples.Triangle
 {
     public class TriangleApplication : App
     {
+        private struct Vertex
+        {
+            public Vector3 Position;
+            public RgbaFloat Color;
+        }
+        
         private readonly SgPipeline _pipeline;
         private readonly SgBindings _bindings = new SgBindings();
         private readonly SgBuffer _vertexBuffer;
@@ -15,7 +21,7 @@ namespace Sokol.Samples.Triangle
         
         public unsafe TriangleApplication()
         {
-            var vertices = new VertexPositionColor[3];
+            var vertices = new Vertex[3];
             vertices[0].Position = new Vector3(0.0f, 0.5f, 0.5f);
             vertices[0].Color = RgbaFloat.Red;
             vertices[1].Position = new Vector3(0.5f, -0.5f, 0.5f);
@@ -23,12 +29,12 @@ namespace Sokol.Samples.Triangle
             vertices[2].Position = new Vector3(-0.5f, -0.5f, 0.5f);
             vertices[2].Color = RgbaFloat.Blue;
             
-            _vertexBuffer = new SgBuffer<VertexPositionColor>(SgBufferType.Vertex, SgBufferUsage.Immutable,
+            _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable,
                 vertices.AsMemory());
 
             _bindings.SetVertexBuffer(_vertexBuffer);
 
-            var vertexShaderSourceCode = @"
+            const string vertexShaderSourceCode = @"
 #version 330
 in vec4 position;
 in vec4 color0;
@@ -39,7 +45,7 @@ void main() {
 }
 "; 
             
-            var fragmentShaderSourceCode = @"
+            const string fragmentShaderSourceCode = @"
 #version 330
 in vec4 color;
 out vec4 frag_color;

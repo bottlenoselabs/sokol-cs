@@ -31,7 +31,7 @@ namespace Sokol.Graphics.Tests
                 return _sokolStructs;
             }
         }
-
+        
         public static List<object[]> SokolStructsAndCCopies
         {
             get

@@ -1,5 +1,4 @@
-﻿
-namespace Sokol.Samples.Triangle
+﻿namespace Sokol.Samples.Triangle
 {
     internal static class Program
     {
