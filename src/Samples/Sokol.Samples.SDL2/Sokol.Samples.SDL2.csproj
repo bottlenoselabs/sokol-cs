@@ -53,9 +53,10 @@
         <Link>lib\libGLEW.so.2.0.0</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <Content Include="..\..\..\lib\libSDL2-2.0.10\libSDL2-2.0.so">
+      <None Include="..\..\..\lib\libSDL2-2.0.10\libSDL2-2.0.so">
         <Link>lib\libSDL2-2.0.so</Link>
-      </Content>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
       <Content Include="..\..\..\lib\libsokol_gfx-2019.10.08\macos\opengl\debug\libsokol_gfx.dylib">
         <Link>lib\libsokol_gfx.dylib</Link>
       </Content>
