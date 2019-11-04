@@ -1,6 +1,6 @@
 using System;
 using static SDL2.SDL;
-using static Sokol.glew;
+using static Sokol.Samples.glew;
 using static Sokol.sokol_gfx;
 
 namespace Sokol.Samples

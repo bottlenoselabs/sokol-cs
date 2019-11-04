@@ -5,7 +5,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Sokol
+namespace Sokol.Samples
 {
     public static class glew
     {

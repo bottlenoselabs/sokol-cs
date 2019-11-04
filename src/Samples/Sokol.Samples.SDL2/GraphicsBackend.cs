@@ -1,6 +1,4 @@
-using Sokol.Samples;
-
-namespace Sokol
+namespace Sokol.Samples
 {
     public enum GraphicsBackend
     {
