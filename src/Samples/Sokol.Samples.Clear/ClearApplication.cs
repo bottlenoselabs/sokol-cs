@@ -8,7 +8,6 @@ namespace Sokol.Samples.Clear
         private sg_pass_action _passAction;
 
         public unsafe ClearApplication()
-            : base(true)
         {
             _passAction = new sg_pass_action();
             var colors = _passAction.GetColors();

@@ -9,7 +9,6 @@ namespace Sokol.Samples
     {
         private readonly IntPtr _deviceHandle;
         private bool _isExiting;
-        private readonly bool _debugSokol;
 
         public IntPtr WindowHandle { get; }
         
@@ -17,14 +16,12 @@ namespace Sokol.Samples
         
         public GraphicsBackend GraphicsBackend { get; }
 
-        protected App(bool debugSokol = false)
+        protected App()
         {
             if (RuntimeInformationHelper.Is32BitArchitecture)
             {
                 throw new NotSupportedException("32-bit architecture is not supported.");
             }
-            
-            _debugSokol = debugSokol;
 
             DllMap.Register(typeof(App).Assembly);
             DllMap.Register(typeof(sokol_gfx).Assembly);

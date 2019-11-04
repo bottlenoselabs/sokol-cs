@@ -15,7 +15,6 @@ namespace Sokol.Samples.Quad
         private sg_pass_action _clearAction;
 
         public unsafe QuadApplication()
-            : base(true)
         {
             var vertices = new VertexPositionColor[4];
             vertices[0].Position = new Vector3(-0.5f, 0.5f, 0.5f);

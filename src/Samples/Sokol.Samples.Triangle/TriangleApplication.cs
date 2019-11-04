@@ -14,7 +14,6 @@ namespace Sokol.Samples.Triangle
         private sg_pass_action _clearAction;
         
         public unsafe TriangleApplication()
-            : base(true)
         {
             var vertices = new VertexPositionColor[3];
             vertices[0].Position = new Vector3(0.0f, 0.5f, 0.5f);
