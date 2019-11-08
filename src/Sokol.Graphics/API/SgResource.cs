@@ -15,11 +15,11 @@ namespace Sokol
 
         protected IntPtr CNamePointer { get; }
 
-        public SgResource(string name, bool createCNamePointer = true)
+        public SgResource(string name)
         {
             Name = name;
 
-            if (createCNamePointer && !string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 CNamePointer = Marshal.StringToHGlobalAnsi(Name);
             }
