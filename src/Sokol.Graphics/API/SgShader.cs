@@ -8,7 +8,7 @@ namespace Sokol
     {
         public sg_shader Handle { get; }
 
-        public unsafe SgShader(string vertexShaderSourceCode, string fragmentShaderSourceCode, string[] attributeNames = null, string name = null)
+        public unsafe SgShader(string vertexShaderSourceCode, string fragmentShaderSourceCode, string name = null)
             : base(name)
         {
             if (vertexShaderSourceCode == null)
@@ -20,24 +20,13 @@ namespace Sokol
             {
                 throw new ArgumentNullException(nameof(vertexShaderSourceCode));
             }
-            
+
             var description = new sg_shader_desc
             {
-                label = (char*) CNamePointer
+                label = (char*) CNamePointer,
+                fs = {source = (char*) Marshal.StringToHGlobalAnsi(fragmentShaderSourceCode)},
+                vs = {source = (char*) Marshal.StringToHGlobalAnsi(vertexShaderSourceCode)}
             };
-
-            if (attributeNames != null)
-            {
-                var attrs = description.GetAttrs();
-                for (var i = 0; i < attributeNames.Length; i++)
-                {
-                    var attributeName = attributeNames[i];
-                    attrs[i].name = (char*) Marshal.StringToHGlobalAnsi(attributeName);
-                }   
-            }
-
-            description.vs.source = (char*) Marshal.StringToHGlobalAnsi(vertexShaderSourceCode);
-            description.fs.source = (char*) Marshal.StringToHGlobalAnsi(fragmentShaderSourceCode);
 
             Handle = sg_make_shader(ref description);
         }

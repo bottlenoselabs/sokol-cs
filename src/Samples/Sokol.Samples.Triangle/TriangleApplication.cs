@@ -36,8 +36,8 @@ namespace Sokol.Samples.Triangle
 
             const string vertexShaderSourceCode = @"
 #version 330
-in vec4 position;
-in vec4 color0;
+layout(location=0) in vec4 position;
+layout(location=1) in vec4 color0;
 out vec4 color;
 void main() {
   gl_Position = position;
@@ -54,10 +54,7 @@ void main() {
 }
 "; 
             
-            _shader = new SgShader(vertexShaderSourceCode, fragmentShaderSourceCode, new []
-            {
-                "position", "color0"
-            });
+            _shader = new SgShader(vertexShaderSourceCode, fragmentShaderSourceCode);
             
             _pipeline = new SgPipeline(_shader, new[]
             {

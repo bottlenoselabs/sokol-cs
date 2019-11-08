@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Triangle", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Quad", "Samples\Sokol.Samples.Quad\Sokol.Samples.Quad.csproj", "{24C2F69D-5493-44B9-AAB8-3487577D0DC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.SDL2", "Samples\Sokol.Samples.SDL2\Sokol.Samples.SDL2.csproj", "{0F2FFCB3-A154-4A74-A559-59B9F73DE522}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Base", "Samples\Sokol.Samples.Base\Sokol.Samples.Base.csproj", "{0F2FFCB3-A154-4A74-A559-59B9F73DE522}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.BufferOffsets", "Samples\Sokol.Samples.BufferOffsets\Sokol.Samples.BufferOffsets.csproj", "{0B6FB505-3FEA-43F2-BAB7-7ED11FD11378}"
 EndProject
