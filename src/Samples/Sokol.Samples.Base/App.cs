@@ -7,7 +7,8 @@ namespace Sokol.Samples
 {
     public abstract class App : IDisposable
     {
-        private readonly IntPtr _deviceHandle;
+        private readonly SgDevice _device;
+        private readonly IntPtr _contextHandle;
         private bool _isExiting;
 
         public IntPtr WindowHandle { get; }
@@ -16,12 +17,8 @@ namespace Sokol.Samples
         
         public GraphicsBackend GraphicsBackend { get; }
 
-        protected App()
+        protected App(SgDeviceDescription? deviceDescription = null)
         {
-            if (RuntimeInformationHelper.Is32BitArchitecture)
-            {
-                throw new NotSupportedException("32-bit architecture is not supported.");
-            }
 
             DllMap.Register(typeof(App).Assembly);
             DllMap.Register(typeof(sokol_gfx).Assembly);
@@ -45,14 +42,10 @@ namespace Sokol.Samples
             CreateWindow(out var windowHandle);
             WindowHandle = windowHandle;
             CreateGraphicsDevice(out var deviceHandle);
-            _deviceHandle = deviceHandle;
-            
-            var desc = new sg_desc {
-                //mtl_device = (void*) _metalLayer.device,
-                //mtl_renderpass_descriptor_cb = (void*) getRenderPassDescriptorCallback,
-                //mtl_drawable_cb = (void*) getMetalDrawableCallback
-            };
-            sg_setup(ref desc);
+            _contextHandle = deviceHandle;
+
+            var deviceDescription1 = deviceDescription ?? new SgDeviceDescription();
+            _device = new SgDevice(deviceDescription1);
         }
 
         private void SetSdl2Attributes()
@@ -154,20 +147,27 @@ namespace Sokol.Samples
 
         public void Exit()
         {
-            sg_shutdown();
-
             Dispose();
         }
 
         private void ReleaseUnmanagedResources()
         {
+            _device.Dispose();
+            
             if (GraphicsBackend == GraphicsBackend.OpenGL)
             {
-                SDL_GL_DeleteContext(_deviceHandle);
+                if (_contextHandle != IntPtr.Zero)
+                {
+                    SDL_GL_DeleteContext(_contextHandle);   
+                }
             }
 
-            SDL_DestroyWindow(WindowHandle);
-            SDL_Quit();
+            if (WindowHandle != IntPtr.Zero)
+            {
+                SDL_DestroyWindow(WindowHandle);
+            }
+            
+            SDL_Quit();   
         }
 
         public void Dispose()
