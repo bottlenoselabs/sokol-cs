@@ -32,16 +32,14 @@ namespace Sokol.Samples.Quad
             vertices[3].Position = new Vector3(-0.5f, -0.5f, 0.5f);
             vertices[3].Color = RgbaFloat.Yellow;
             
-            _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable, 
-                vertices.AsMemory());
+            _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable, vertices);
 
             var indices = new ushort[]
             {
                 0, 1, 2,
                 0, 2, 3
             };
-            _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, 
-                indices.AsMemory());
+            _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, indices);
 
             _bindings.SetVertexBuffer(_vertexBuffer);
             _bindings.SetIndexBuffer(_indexBuffer);

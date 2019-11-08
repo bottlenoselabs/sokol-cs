@@ -29,8 +29,7 @@ namespace Sokol.Samples.Triangle
             vertices[2].Position = new Vector3(-0.5f, -0.5f, 0.5f);
             vertices[2].Color = RgbaFloat.Blue;
             
-            _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable,
-                vertices.AsMemory());
+            _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable, vertices);
 
             _bindings.SetVertexBuffer(_vertexBuffer);
 

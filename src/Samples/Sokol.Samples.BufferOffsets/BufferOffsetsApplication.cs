@@ -43,16 +43,14 @@ namespace Sokol.Samples.BufferOffsets
             vertices[6].Position = new Vector2(-0.25f, -0.55f);
             vertices[6].Color = RgbFloat.Yellow;
             
-            _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable, 
-                vertices.AsMemory());
+            _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable, vertices);
             
             var indices = new ushort[]
             {
                 0, 1, 2,
                 0, 1, 2, 0, 2, 3
             };
-            _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, 
-                indices.AsMemory());
+            _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, indices);
             
             _bindings.SetVertexBuffer(_vertexBuffer);
             _bindings.SetIndexBuffer(_indexBuffer);
