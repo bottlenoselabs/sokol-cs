@@ -78,37 +78,34 @@ namespace Sokol
 
                 var descUniformBlocks = description.vs.GetUniformBlocks();
 
-                for (var i = 0; i < uniformBlocks.Length; i++)
+                for (var blockIndex = 0; blockIndex < uniformBlocks.Length; blockIndex++)
                 {
-                    var uniformBlock = uniformBlocks[i];
+                    var uniformBlock = uniformBlocks[blockIndex];
                     var uniforms = uniformBlock.Uniforms;
                     if (uniforms.Length > SG_MAX_UB_MEMBERS)
                     {
                         throw new ArgumentException(nameof(vertexShaderDescription));
                     }
                     
-                    ref var descUniformBlock = ref descUniformBlocks[i];
+                    ref var descUniformBlock = ref descUniformBlocks[blockIndex];
                     var descUniforms = descUniformBlock.GetUniforms();
                     var uniformBlockSize = 0;
 
-                    for (var j = 0; j < uniforms.Length; j++)
+                    for (var i = 0; i < uniforms.Length; i++)
                     {
-                        var uniform = uniforms[j];
-                        if (uniform.ShaderStage != SgShaderStage.Vertex)
+                        var uniform = uniforms[i];
+                        if (uniform.ShaderStage != SgShaderStage.Vertex || uniform.BlockIndex != blockIndex)
                         {
                             throw new ArgumentException(nameof(vertexShaderDescription));
                         }
 
                         uniformBlockSize += uniform.Size; 
                         
-                        ref var descUniform = ref descUniforms[j];
+                        ref var descUniform = ref descUniforms[i];
                         
-                        if (!string.IsNullOrEmpty(uniform.Name))
-                        {
-                            var cNamePointer = Marshal.StringToHGlobalAnsi(uniform.Name);
-                            descUniform.name = (char*) cNamePointer;
-                            globalPointers.Add(cNamePointer);
-                        }
+                        var cNamePointer = Marshal.StringToHGlobalAnsi(uniform.Name);
+                        descUniform.name = (char*) cNamePointer;
+                        globalPointers.Add(cNamePointer);   
 
 #pragma warning disable 8509
                         descUniform.type = uniform.Type switch
@@ -118,7 +115,7 @@ namespace Sokol
                             SgShaderUniformType.Float2 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT2,
                             SgShaderUniformType.Float3 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT3,
                             SgShaderUniformType.Float4 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT4,
-                            SgShaderUniformType.Matrix4X4 => sg_uniform_type.SG_UNIFORMTYPE_MAT4
+                            SgShaderUniformType.Matrix4 => sg_uniform_type.SG_UNIFORMTYPE_MAT4
                         };
                     }
                     
@@ -137,16 +134,16 @@ namespace Sokol
 
                 var descUniformBlocks = description.fs.GetUniformBlocks();
 
-                for (var i = 0; i < uniformBlocks.Length; i++)
+                for (var blockIndex = 0; blockIndex < uniformBlocks.Length; blockIndex++)
                 {
-                    var uniformBlock = uniformBlocks[i];
+                    var uniformBlock = uniformBlocks[blockIndex];
                     var uniforms = uniformBlock.Uniforms;
                     if (uniforms.Length > SG_MAX_UB_MEMBERS)
                     {
                         throw new ArgumentException(nameof(vertexShaderDescription));
                     }
                     
-                    ref var descUniformBlock = ref descUniformBlocks[i];
+                    ref var descUniformBlock = ref descUniformBlocks[blockIndex];
                     var uniformBlockSize = 0;
                     var descUniforms = descUniformBlock.GetUniforms();
 
@@ -155,23 +152,20 @@ namespace Sokol
                         throw new ArgumentException(nameof(fragmentShaderDescription));
                     }
                     
-                    for (var j = 0; j < uniforms.Length; j++)
+                    for (var i = 0; i < uniforms.Length; i++)
                     {
-                        var uniform = uniforms[j];
-                        if (uniform.ShaderStage != SgShaderStage.Fragment)
+                        var uniform = uniforms[i];
+                        if (uniform.ShaderStage != SgShaderStage.Fragment || uniform.BlockIndex != blockIndex)
                         {
                             throw new ArgumentException(nameof(fragmentShaderDescription));
                         }
 
                         uniformBlockSize += uniform.Size;
-                        ref var descUniform = ref descUniforms[j];
+                        ref var descUniform = ref descUniforms[i];
 
-                        if (!string.IsNullOrEmpty(uniform.Name))
-                        {
-                            var cNamePointer = Marshal.StringToHGlobalAnsi(uniform.Name);
-                            descUniform.name = (char*) cNamePointer;
-                            globalPointers.Add(cNamePointer);
-                        }
+                        var cNamePointer = Marshal.StringToHGlobalAnsi(uniform.Name);
+                        descUniform.name = (char*) cNamePointer;
+                        globalPointers.Add(cNamePointer);
 
 #pragma warning disable 8509
                         descUniform.type = uniform.Type switch
@@ -181,7 +175,7 @@ namespace Sokol
                             SgShaderUniformType.Float2 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT2,
                             SgShaderUniformType.Float3 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT3,
                             SgShaderUniformType.Float4 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT4,
-                            SgShaderUniformType.Matrix4X4 => sg_uniform_type.SG_UNIFORMTYPE_MAT4
+                            SgShaderUniformType.Matrix4 => sg_uniform_type.SG_UNIFORMTYPE_MAT4
                         };
                     }
                     
