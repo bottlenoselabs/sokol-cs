@@ -189,10 +189,10 @@ void main() {
             SDL_GL_GetDrawableSize(WindowHandle, out var width, out var height);
             sg_begin_default_pass(ref _passAction, width, height);
 
-//            sg_apply_pipeline(_backgroundPipeline);
-//            _bindings.Apply();
-//            _tickUniform.Apply(ref _tick);
-//            sg_draw(0, 4, 1);
+            sg_apply_pipeline(_backgroundPipeline);
+            _bindings.Apply();
+            _tickUniform.Apply(ref _tick);
+            sg_draw(0, 4, 1);
 
             var r0 = _rotation;
             for (var src = 0; src < NUM_BLEND_FACTORS; src++) 
