@@ -23,6 +23,7 @@ SOFTWARE.
  */
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static Sokol.sokol_gfx;
 
@@ -64,6 +65,8 @@ namespace Sokol
                 label = (char*) CNamePointer
             };
 
+            var globalPointers = new List<IntPtr>();
+
             var vertexShaderUniformBlocks = vertexShaderDescription.UniformBlocks;
             if (vertexShaderUniformBlocks != null && vertexShaderUniformBlocks.Length > 0)
             {
@@ -100,9 +103,11 @@ namespace Sokol
                         
                         ref var descUniform = ref descUniforms[j];
                         
-                        if (uniform.CNamePointer != IntPtr.Zero)
+                        if (!string.IsNullOrEmpty(uniform.Name))
                         {
-                            descUniform.name = (char*) uniform.CNamePointer;   
+                            var cNamePointer = Marshal.StringToHGlobalAnsi(uniform.Name);
+                            descUniform.name = (char*) cNamePointer;
+                            globalPointers.Add(cNamePointer);
                         }
 
 #pragma warning disable 8509
@@ -161,9 +166,11 @@ namespace Sokol
                         uniformBlockSize += uniform.Size;
                         ref var descUniform = ref descUniforms[j];
 
-                        if (uniform.CNamePointer != IntPtr.Zero)
+                        if (!string.IsNullOrEmpty(uniform.Name))
                         {
-                            descUniform.name = (char*) uniform.CNamePointer;   
+                            var cNamePointer = Marshal.StringToHGlobalAnsi(uniform.Name);
+                            descUniform.name = (char*) cNamePointer;
+                            globalPointers.Add(cNamePointer);
                         }
 
 #pragma warning disable 8509
@@ -192,6 +199,11 @@ namespace Sokol
             
             Marshal.FreeHGlobal(vertexShaderSourceCodeCPointer);
             Marshal.FreeHGlobal(fragmentShaderSourceCodeCPointer);
+
+            foreach (var pointer in globalPointers)
+            {
+                Marshal.FreeHGlobal(pointer);
+            }
         }
 
         ~SgShader()

@@ -1,20 +1,19 @@
 using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public sealed class SgUniform : IDisposable
+    public sealed class SgUniform
     {
         private readonly sg_shader_stage _shaderStage;
         
         internal readonly int Size;
-        internal readonly IntPtr CNamePointer;
 
         public SgShaderStage ShaderStage { get; }
         public SgShaderUniformType Type { get; }
+        public string Name { get; }
 
         public SgUniform(SgShaderStage shaderStage, SgShaderUniformType type, string name = null)
         {
@@ -38,11 +37,7 @@ namespace Sokol
             };
 
             Type = type;
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                CNamePointer = Marshal.StringToHGlobalAnsi(name);
-            }
+            Name = name;
         }
 
         public unsafe void Apply<T>(ref T value) where T : unmanaged
@@ -56,22 +51,6 @@ namespace Sokol
             
             var pointer = Unsafe.AsPointer(ref value);
             sg_apply_uniforms(_shaderStage, 0, pointer, size);
-        }
-
-        private void ReleaseUnmanagedResources()
-        {
-            Marshal.FreeHGlobal(CNamePointer);
-        }
-
-        public void Dispose()
-        {
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
-        }
-
-        ~SgUniform()
-        {
-            ReleaseUnmanagedResources();
         }
     }
 }
