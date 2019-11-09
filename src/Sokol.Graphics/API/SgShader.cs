@@ -6,7 +6,7 @@ namespace Sokol
 {
     public sealed class SgShader : SgResource
     {
-        public sg_shader Handle { get; }
+        internal readonly sg_shader Handle;
 
         public unsafe SgShader(string vertexShaderSourceCode, string fragmentShaderSourceCode, string name = null)
             : base(name)
@@ -21,20 +21,26 @@ namespace Sokol
                 throw new ArgumentNullException(nameof(vertexShaderSourceCode));
             }
 
+            var vertexShaderSourceCodeCPointer = Marshal.StringToHGlobalAnsi(vertexShaderSourceCode);
+            var fragmentShaderSourceCodeCPointer = Marshal.StringToHGlobalAnsi(fragmentShaderSourceCode);
+
             var description = new sg_shader_desc
             {
                 label = (char*) CNamePointer,
-                fs = {source = (char*) Marshal.StringToHGlobalAnsi(fragmentShaderSourceCode)},
-                vs = {source = (char*) Marshal.StringToHGlobalAnsi(vertexShaderSourceCode)}
+                vs =
+                {
+                    source = (char*) vertexShaderSourceCodeCPointer
+                },
+                fs =
+                {
+                    source = (char*) fragmentShaderSourceCodeCPointer
+                }
             };
 
             Handle = sg_make_shader(ref description);
-        }
-
-        protected override void ReleaseUnmanagedResources()
-        {
-            //TODO: free attribute names, and shader source code
-            base.ReleaseUnmanagedResources();
+            
+            Marshal.FreeHGlobal(vertexShaderSourceCodeCPointer);
+            Marshal.FreeHGlobal(fragmentShaderSourceCodeCPointer);
         }
 
         ~SgShader()
