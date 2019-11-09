@@ -177,8 +177,7 @@ void main() {
             var colors = _passAction.GetColors();
             colors[0] = new sg_color_attachment_action
             {
-                action = sg_action.SG_ACTION_DONTCARE,
-                val = new RgbaFloat(0.5f, 0.5f, 1.0f, 1.0f)
+                action = sg_action.SG_ACTION_DONTCARE
             };
             _passAction.depth.action = sg_action.SG_ACTION_DONTCARE;
             _passAction.stencil.action = sg_action.SG_ACTION_DONTCARE;
