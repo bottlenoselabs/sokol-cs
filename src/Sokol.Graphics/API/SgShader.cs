@@ -30,37 +30,164 @@ namespace Sokol
 {
     public sealed class SgShader : SgResource
     {
-        internal readonly sg_shader Handle;
-
-        public unsafe SgShader(string vertexShaderSourceCode, string fragmentShaderSourceCode, string name = null)
+        public sg_shader Handle { get; }
+        
+        public SgShader(string vertexShaderSourceCode, string fragmentShaderSourceCode, string name = null)
+            : this(new SgShaderStageDescription
+            {
+                SourceCode = vertexShaderSourceCode
+            }, new SgShaderStageDescription
+            {
+                SourceCode = fragmentShaderSourceCode
+            }, name)
+        {
+        }
+        
+        public unsafe SgShader(
+            SgShaderStageDescription vertexShaderDescription, 
+            SgShaderStageDescription fragmentShaderDescription, 
+            string name = null)
             : base(name)
         {
-            if (vertexShaderSourceCode == null)
+            if (string.IsNullOrEmpty(vertexShaderDescription.SourceCode))
             {
-                throw new ArgumentNullException(nameof(vertexShaderSourceCode));
+                throw new ArgumentNullException(nameof(vertexShaderDescription.SourceCode));
             }
 
-            if (fragmentShaderSourceCode == null)
+            if (string.IsNullOrEmpty(fragmentShaderDescription.SourceCode))
             {
-                throw new ArgumentNullException(nameof(vertexShaderSourceCode));
+                throw new ArgumentNullException(nameof(fragmentShaderDescription.SourceCode));
             }
-
-            var vertexShaderSourceCodeCPointer = Marshal.StringToHGlobalAnsi(vertexShaderSourceCode);
-            var fragmentShaderSourceCodeCPointer = Marshal.StringToHGlobalAnsi(fragmentShaderSourceCode);
 
             var description = new sg_shader_desc
             {
-                label = (char*) CNamePointer,
-                vs =
-                {
-                    source = (char*) vertexShaderSourceCodeCPointer
-                },
-                fs =
-                {
-                    source = (char*) fragmentShaderSourceCodeCPointer
-                }
+                label = (char*) CNamePointer
             };
 
+            var vertexShaderUniformBlocks = vertexShaderDescription.UniformBlocks;
+            if (vertexShaderUniformBlocks != null && vertexShaderUniformBlocks.Length > 0)
+            {
+                var uniformBlocks = vertexShaderUniformBlocks;
+                if (uniformBlocks.Length > SG_MAX_SHADERSTAGE_UBS)
+                {
+                    throw new ArgumentException();
+                }
+
+                var descUniformBlocks = description.vs.GetUniformBlocks();
+
+                for (var i = 0; i < uniformBlocks.Length; i++)
+                {
+                    var uniformBlock = uniformBlocks[i];
+                    var uniforms = uniformBlock.Uniforms;
+                    if (uniforms.Length > SG_MAX_UB_MEMBERS)
+                    {
+                        throw new ArgumentException(nameof(vertexShaderDescription));
+                    }
+                    
+                    ref var descUniformBlock = ref descUniformBlocks[i];
+                    var descUniforms = descUniformBlock.GetUniforms();
+                    var uniformBlockSize = 0;
+
+                    for (var j = 0; j < uniforms.Length; j++)
+                    {
+                        var uniform = uniforms[j];
+                        if (uniform.ShaderStage != SgShaderStage.Vertex)
+                        {
+                            throw new ArgumentException(nameof(vertexShaderDescription));
+                        }
+
+                        uniformBlockSize += uniform.Size; 
+                        
+                        ref var descUniform = ref descUniforms[j];
+                        
+                        if (uniform.CNamePointer != IntPtr.Zero)
+                        {
+                            descUniform.name = (char*) uniform.CNamePointer;   
+                        }
+
+#pragma warning disable 8509
+                        descUniform.type = uniform.Type switch
+#pragma warning restore 8509
+                        {
+                            SgShaderUniformType.Float => sg_uniform_type.SG_UNIFORMTYPE_FLOAT,
+                            SgShaderUniformType.Float2 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT2,
+                            SgShaderUniformType.Float3 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT3,
+                            SgShaderUniformType.Float4 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT4,
+                            SgShaderUniformType.Matrix4X4 => sg_uniform_type.SG_UNIFORMTYPE_MAT4
+                        };
+                    }
+                    
+                    descUniformBlock.size = uniformBlockSize;
+                }
+            }
+            
+            var fragmentShaderUniformBlocks = fragmentShaderDescription.UniformBlocks;
+            if (fragmentShaderUniformBlocks != null && fragmentShaderUniformBlocks.Length > 0)
+            {
+                var uniformBlocks = fragmentShaderUniformBlocks;
+                if (uniformBlocks.Length > SG_MAX_SHADERSTAGE_UBS)
+                {
+                    throw new ArgumentException();
+                }
+
+                var descUniformBlocks = description.fs.GetUniformBlocks();
+
+                for (var i = 0; i < uniformBlocks.Length; i++)
+                {
+                    var uniformBlock = uniformBlocks[i];
+                    var uniforms = uniformBlock.Uniforms;
+                    if (uniforms.Length > SG_MAX_UB_MEMBERS)
+                    {
+                        throw new ArgumentException(nameof(vertexShaderDescription));
+                    }
+                    
+                    ref var descUniformBlock = ref descUniformBlocks[i];
+                    var uniformBlockSize = 0;
+                    var descUniforms = descUniformBlock.GetUniforms();
+
+                    if (uniforms.Length > SG_MAX_UB_MEMBERS)
+                    {
+                        throw new ArgumentException(nameof(fragmentShaderDescription));
+                    }
+                    
+                    for (var j = 0; j < uniforms.Length; j++)
+                    {
+                        var uniform = uniforms[j];
+                        if (uniform.ShaderStage != SgShaderStage.Fragment)
+                        {
+                            throw new ArgumentException(nameof(fragmentShaderDescription));
+                        }
+
+                        uniformBlockSize += uniform.Size;
+                        ref var descUniform = ref descUniforms[j];
+
+                        if (uniform.CNamePointer != IntPtr.Zero)
+                        {
+                            descUniform.name = (char*) uniform.CNamePointer;   
+                        }
+
+#pragma warning disable 8509
+                        descUniform.type = uniform.Type switch
+#pragma warning restore 8509
+                        {
+                            SgShaderUniformType.Float => sg_uniform_type.SG_UNIFORMTYPE_FLOAT,
+                            SgShaderUniformType.Float2 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT2,
+                            SgShaderUniformType.Float3 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT3,
+                            SgShaderUniformType.Float4 => sg_uniform_type.SG_UNIFORMTYPE_FLOAT4,
+                            SgShaderUniformType.Matrix4X4 => sg_uniform_type.SG_UNIFORMTYPE_MAT4
+                        };
+                    }
+                    
+                    descUniformBlock.size = uniformBlockSize;
+                }
+            }
+            
+            var vertexShaderSourceCodeCPointer = Marshal.StringToHGlobalAnsi(vertexShaderDescription.SourceCode);
+            var fragmentShaderSourceCodeCPointer = Marshal.StringToHGlobalAnsi(fragmentShaderDescription.SourceCode);
+            
+            description.vs.source = (char*) vertexShaderSourceCodeCPointer;
+            description.fs.source = (char*) fragmentShaderSourceCodeCPointer;
+            
             Handle = sg_make_shader(ref description);
             
             Marshal.FreeHGlobal(vertexShaderSourceCodeCPointer);
