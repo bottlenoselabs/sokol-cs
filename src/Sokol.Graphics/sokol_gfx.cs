@@ -949,7 +949,7 @@ namespace Sokol
             [FieldOffset(32)] public int color_attachment_count;
             [FieldOffset(36)] public sg_pixel_format color_format;
             [FieldOffset(40)] public sg_pixel_format depth_format;
-            [FieldOffset(44)] public fixed float blend_color[4];
+            [FieldOffset(44)] public RgbaFloat blend_color;
         }
 
         // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
