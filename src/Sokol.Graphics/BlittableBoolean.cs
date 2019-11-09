@@ -67,7 +67,7 @@ namespace Sokol
             set => _byteValue = Convert.ToByte(value);
         }
 
-        public static explicit operator BlittableBoolean(bool value)
+        public static implicit operator BlittableBoolean(bool value)
         {
             return new BlittableBoolean { Value = value };
         }
