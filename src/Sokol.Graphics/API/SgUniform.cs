@@ -37,10 +37,16 @@ namespace Sokol
 
         public SgShaderStage ShaderStage { get; }
         public SgShaderUniformType Type { get; }
+        public int BlockIndex { get; }
         public string Name { get; }
 
-        public SgUniform(SgShaderStage shaderStage, SgShaderUniformType type, string name = null)
+        public SgUniform(string name, SgShaderStage shaderStage, int blockIndex, SgShaderUniformType type)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            
             _shaderStage = shaderStage switch
             {
                 SgShaderStage.Fragment => sg_shader_stage.SG_SHADERSTAGE_FS,
@@ -56,12 +62,13 @@ namespace Sokol
                 SgShaderUniformType.Float2 => Unsafe.SizeOf<Vector2>(),
                 SgShaderUniformType.Float3 => Unsafe.SizeOf<Vector3>(),
                 SgShaderUniformType.Float4 => Unsafe.SizeOf<Vector4>(),
-                SgShaderUniformType.Matrix4X4 => Unsafe.SizeOf<Matrix4x4>(),
+                SgShaderUniformType.Matrix4 => Unsafe.SizeOf<Matrix4x4>(),
                 _ => throw new ArgumentOutOfRangeException(nameof(type))
             };
 
             Type = type;
             Name = name;
+            BlockIndex = blockIndex;
         }
 
         public unsafe void Apply<T>(ref T value) where T : unmanaged
@@ -74,7 +81,7 @@ namespace Sokol
             }
             
             var pointer = Unsafe.AsPointer(ref value);
-            sg_apply_uniforms(_shaderStage, 0, pointer, size);
+            sg_apply_uniforms(_shaderStage, BlockIndex, pointer, size);
         }
     }
 }
