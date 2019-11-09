@@ -74,7 +74,7 @@ namespace Sokol
             {
                 throw new ArgumentOutOfRangeException(nameof(description.ContextPoolSize));
             }
-
+            
             desc.buffer_pool_size = description.BufferPoolSize == 0
                 ? _SG_DEFAULT_BUFFER_POOL_SIZE
                 : description.BufferPoolSize;
@@ -91,7 +91,7 @@ namespace Sokol
                 ? _SG_DEFAULT_PIPELINE_POOL_SIZE
                 : description.PipelinePoolSize;
             
-            desc.pipeline_pool_size = description.PassPoolSize == 0
+            desc.pass_pool_size = description.PassPoolSize == 0
                 ? _SG_DEFAULT_PASS_POOL_SIZE
                 : description.PassPoolSize;
             
