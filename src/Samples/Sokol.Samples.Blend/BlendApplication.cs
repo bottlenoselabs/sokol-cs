@@ -199,7 +199,7 @@ void main() {
             {
                 for (var dst = 0; dst < NUM_BLEND_FACTORS; dst++, r0 += 0.6f)
                 {
-                    var rotationMatrix = Matrix4x4.CreateFromYawPitchRoll(0.0f, 0.0f, 0.0f);
+                    var rotationMatrix = Matrix4x4.CreateFromAxisAngle(new Vector3(0.0f, 1.0f, 0.0f), r0);
                     var x = (dst - NUM_BLEND_FACTORS/2) * 3.0f;
                     var y = (src - NUM_BLEND_FACTORS/2) * 2.2f;
                     
