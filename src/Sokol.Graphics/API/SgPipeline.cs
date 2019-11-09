@@ -29,8 +29,8 @@ namespace Sokol
 {
     public sealed class SgPipeline : SgResource
     {
-        internal readonly sg_pipeline Handle;
-        
+        public sg_pipeline Handle { get; }
+
         public SgShader Shader { get; }
 
         public unsafe SgPipeline(SgShader shader, sg_vertex_format[] vertexFormats, sg_index_type indexType = sg_index_type._SG_INDEXTYPE_DEFAULT, string name = null) 

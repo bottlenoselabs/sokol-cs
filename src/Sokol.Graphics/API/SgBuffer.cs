@@ -31,8 +31,8 @@ namespace Sokol
 {
     public abstract class SgBuffer : SgResource
     {
-        internal sg_buffer Handle;
-     
+        public sg_buffer Handle { get; protected set; }
+
         public SgBufferType Type { get; }
         
         public SgBufferUsage Usage { get; }

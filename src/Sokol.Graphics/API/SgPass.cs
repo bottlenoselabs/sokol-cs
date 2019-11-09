@@ -28,7 +28,7 @@ namespace Sokol
 {
     public class SgPass : SgResource
     {
-        internal readonly sg_pass Handle;
+        public sg_pass Handle { get; }
 
         public SgPass(string name = null)
             : base(name)
