@@ -30,6 +30,6 @@ namespace Sokol
         Float2,
         Float3,
         Float4,
-        Matrix4X4
+        Matrix4
     }
 }
