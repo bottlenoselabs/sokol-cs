@@ -8,12 +8,12 @@ namespace Sokol
     public abstract class SgResource : IDisposable
     {
         private int _disposedState;
+        
+        protected readonly IntPtr CNamePointer;
 
         public bool IsDisposed => _disposedState != 0;
 
         public string Name { get; }
-
-        protected IntPtr CNamePointer { get; }
 
         public SgResource(string name)
         {
