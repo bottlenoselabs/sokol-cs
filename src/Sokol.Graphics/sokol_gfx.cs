@@ -36,11 +36,7 @@ namespace Sokol
 {
     public static unsafe class sokol_gfx
     {
-        // NOTE: This struct is 4 byte aligned because largest field is a int; each line below is a 4 byte boundary
-        public const int SG_BUFFER_SIZE = 
-            INT_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_BUFFER_SIZE)]
+        [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
         public struct sg_buffer
         {
             [FieldOffset(0)] public uint id;
@@ -60,52 +56,32 @@ namespace Sokol
                 return buffer.id;
             }
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is a int; each line below is a 4 byte boundary
-        public const int SG_IMAGE_SIZE = 
-            INT_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_IMAGE_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
         public struct sg_image
         {
             [FieldOffset(0)] public uint id;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is a int; each line below is a 4 byte boundary
-        public const int SG_SHADER_SIZE = 
-            INT_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SHADER_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
         public struct sg_shader
         {
             [FieldOffset(0)] public uint id;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is a int; each line below is a 4 byte boundary
-        public const int SG_PIPELINE_SIZE = 
-            INT_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_PIPELINE_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
         public struct sg_pipeline
         {
             [FieldOffset(0)] public uint id;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is a int; each line below is a 4 byte boundary
-        public const int SG_PASS_SIZE = 
-            INT_SIZE;
-
-        [StructLayout(LayoutKind.Explicit)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
         public struct sg_pass
         {
             [FieldOffset(0)] public uint id;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is a int; each line below is a 4 byte boundary
-        public const int SG_CONTEXT_SIZE = 
-            INT_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_CONTEXT_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
         public struct sg_context
         {
             [FieldOffset(0)] public uint id;
@@ -207,12 +183,8 @@ namespace Sokol
             _SG_PIXELFORMAT_NUM,
             _SG_PIXELFORMAT_FORCE_U32 = 0x7FFFFFFF
         }
-
-        // NOTE: This struct is 1 byte aligned because largest field is a bool; each line below is a 1 byte boundary
-        public const int SG_PIXELFORMAT_INFO_SIZE = 
-            BOOL_SIZE * 6;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_PIXELFORMAT_INFO_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 6, Pack = 1)]
         public struct sg_pixelformat_info
         {
             [FieldOffset(0)] public BlittableBoolean sample;
@@ -222,12 +194,8 @@ namespace Sokol
             [FieldOffset(4)] public BlittableBoolean msaa;
             [FieldOffset(5)] public BlittableBoolean depth;
         }
-
-        // NOTE: This struct is 1 byte aligned because largest field is a bool; each line below is a 1 byte boundary
-        public const int SG_FEATURES_SIZE = 
-            BOOL_SIZE * 7;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_FEATURES_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 7, Pack = 1)]
         public struct sg_features
         {
             [FieldOffset(0)] public BlittableBoolean instancing;
@@ -238,12 +206,8 @@ namespace Sokol
             [FieldOffset(5)] public BlittableBoolean imagetype_array;
             [FieldOffset(6)] public BlittableBoolean image_clamp_to_border;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_LIMITS_SIZE = 
-            INT_SIZE * 6;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_LIMITS_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
         public struct sg_limits
         {
             [FieldOffset(0)] public uint max_image_size_2d;
@@ -515,56 +479,33 @@ namespace Sokol
             _SG_ACTION_NUM,
             _SG_ACTION_FORCE_U32 = 0x7FFFFFFF
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_COLOR_ATTACHMENT_ACTION_SIZE = 
-            INT_SIZE + 
-            FLOAT_SIZE * 4;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_COLOR_ATTACHMENT_ACTION_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
         public struct sg_color_attachment_action
         {
             [FieldOffset(0)] public sg_action action;
             [FieldOffset(4)] public RgbaFloat val;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_DEPTH_ATTACHMENT_ACTION_SIZE = 
-            INT_SIZE + 
-            FLOAT_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_DEPTH_ATTACHMENT_ACTION_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
         public struct sg_depth_attachment_action
         {
             [FieldOffset(0)] public sg_action action;
             [FieldOffset(4)] public float val;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_STENCIL_ATTACHMENT_ACTION_SIZE = 
-            INT_SIZE + 
-            BYTE_SIZE + 3; // padding of 3 bytes
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_STENCIL_ATTACHMENT_ACTION_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
         public struct sg_stencil_attachment_action
         {
             [FieldOffset(0)] public sg_action action;
             [FieldOffset(4)] public byte val;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_PASS_ACTION_SIZE = 
-            INT_SIZE + 
-            SG_COLOR_ATTACHMENT_ACTION_SIZE * SG_MAX_COLOR_ATTACHMENTS +
-            SG_DEPTH_ATTACHMENT_ACTION_SIZE + 
-            SG_STENCIL_ATTACHMENT_ACTION_SIZE +
-            INT_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_PASS_ACTION_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 4)]
         public struct sg_pass_action
         {
             [FieldOffset(0)] public uint _start_canary;
-            [FieldOffset(4)] public fixed int _colors[SG_COLOR_ATTACHMENT_ACTION_SIZE * SG_MAX_COLOR_ATTACHMENTS / INT_SIZE];
+            [FieldOffset(4)] public fixed int _colors[20 * SG_MAX_COLOR_ATTACHMENTS / 4];
             [FieldOffset(84)] public sg_depth_attachment_action depth;
             [FieldOffset(92)] public sg_stencil_attachment_action stencil;
             [FieldOffset(100)] public uint _end_canary;
@@ -577,19 +518,8 @@ namespace Sokol
                 }
             }
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_BINDINGS_SIZE = 
-            INT_SIZE + 
-            INT_SIZE * SG_MAX_SHADERSTAGE_BUFFERS +
-            INT_SIZE * SG_MAX_SHADERSTAGE_BUFFERS + 
-            SG_BUFFER_SIZE + 
-            INT_SIZE +
-            INT_SIZE * SG_MAX_SHADERSTAGE_IMAGES +
-            INT_SIZE * SG_MAX_SHADERSTAGE_IMAGES + 
-            INT_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_BINDINGS_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 176, Pack = 4)]
         public struct sg_bindings
         {
             [FieldOffset(0)] public uint _start_canary;
@@ -601,17 +531,8 @@ namespace Sokol
             [FieldOffset(124)] public fixed uint fs_images[SG_MAX_SHADERSTAGE_IMAGES];
             [FieldOffset(172)] public uint _end_canary;
         }
-
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_BUFFER_DESC_SIZE = 
-            INT_SIZE * 4 + 
-            PTR_SIZE * 2 + 
-            INT_SIZE * SG_NUM_INFLIGHT_FRAMES +
-            PTR_SIZE * SG_NUM_INFLIGHT_FRAMES + 
-            PTR_SIZE + 
-            INT_SIZE + 4; // padding of 4 bytes
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_BUFFER_DESC_SIZE, CharSet = CharSet.Ansi)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_buffer_desc
         {
             [FieldOffset(0)] public uint _start_canary;
@@ -633,28 +554,19 @@ namespace Sokol
                 }
             }
         }
-
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_SUBIMAGE_CONTENT_SIZE = 
-            PTR_SIZE + 
-            INT_SIZE + 4; // padding of 4 bytes
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SUBIMAGE_CONTENT_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
         public struct sg_subimage_content
         {
             [FieldOffset(0)] public void* ptr;
             [FieldOffset(8)] public int size;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is a int; each line below is a 4 byte boundary
-        public const int SG_IMAGE_CONTENT_SIZE =
-            SG_SUBIMAGE_CONTENT_SIZE * (int) sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_IMAGE_CONTENT_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 1536, Pack = 8)]
         public struct sg_image_content
         {
             [FieldOffset(0)]
-            public fixed ulong _subimage[SG_SUBIMAGE_CONTENT_SIZE * (int) sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS / PTR_SIZE];
+            public fixed ulong _subimage[16 * (int) sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS / 8];
 
             public sg_subimage_content* GetSubimage()
             {
@@ -665,21 +577,7 @@ namespace Sokol
             }
         }
 
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_IMAGE_DESC_SIZE =
-            INT_SIZE * 2 +
-            BOOL_SIZE + 3 + INT_SIZE + // padding of 3 bytes
-            INT_SIZE * 12 +
-            INT_SIZE + FLOAT_SIZE +
-            FLOAT_SIZE + 4 + // padding of 4 bytes
-            SG_IMAGE_CONTENT_SIZE +
-            PTR_SIZE +
-            INT_SIZE * SG_NUM_INFLIGHT_FRAMES +
-            PTR_SIZE * SG_NUM_INFLIGHT_FRAMES +
-            PTR_SIZE +
-            INT_SIZE + 4; // padding of 4 bytes
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_IMAGE_DESC_SIZE, CharSet = CharSet.Ansi)]
+        [StructLayout(LayoutKind.Explicit, Size = 1664, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_image_desc
         {
             [FieldOffset(0)] public uint _start_canary;
@@ -717,44 +615,28 @@ namespace Sokol
                 }
             }
         }
-
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_SHADER_ATTR_DESC_SIZE = 
-            PTR_SIZE + 
-            PTR_SIZE + 
-            INT_SIZE + 4; // 4 bytes padding
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SHADER_ATTR_DESC_SIZE, CharSet = CharSet.Ansi)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_shader_attr_desc
         {
             [FieldOffset(0)] public char* name;
             [FieldOffset(8)] public char* sem_name;
             [FieldOffset(16)] public int sem_index;
         }
-
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_SHADER_UNIFORM_DESC_SIZE = 
-            PTR_SIZE + 
-            INT_SIZE + INT_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SHADER_UNIFORM_DESC_SIZE, CharSet = CharSet.Ansi)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_shader_uniform_desc
         {
             [FieldOffset(0)] public char* name;
             [FieldOffset(8)] public sg_uniform_type type;
             [FieldOffset(12)] public int array_count;
         }
-
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_SHADER_UNIFORM_BLOCK_DESC_SIZE = 
-            INT_SIZE + 4 + // 4 bytes padding
-            SG_SHADER_UNIFORM_DESC_SIZE * SG_MAX_UB_MEMBERS;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SHADER_UNIFORM_BLOCK_DESC_SIZE, Pack = 8)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
         public struct sg_shader_uniform_block_desc
         {
             [FieldOffset(0)] public int size;
-            [FieldOffset(8)] public fixed ulong _uniforms[SG_SHADER_UNIFORM_DESC_SIZE * SG_MAX_UB_MEMBERS / PTR_SIZE];
+            [FieldOffset(8)] public fixed ulong _uniforms[16 * SG_MAX_UB_MEMBERS / 8];
 
             public sg_shader_uniform_desc* GetUniforms()
             {
@@ -764,39 +646,24 @@ namespace Sokol
                 }
             }
         }
-
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_SHADER_IMAGE_DESC_SIZE = 
-            PTR_SIZE + 
-            INT_SIZE + 4; // 4 bytes padding
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SHADER_IMAGE_DESC_SIZE, CharSet = CharSet.Ansi)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_shader_image_desc
         {
             [FieldOffset(0)] public char* name;
             [FieldOffset(8)] public sg_image_type type;
         }
-
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_SHADER_STAGE_DESC_SIZE = 
-            PTR_SIZE * 2 + 
-            INT_SIZE + 4 + // 4 bytes padding
-            PTR_SIZE +
-            SG_SHADER_UNIFORM_BLOCK_DESC_SIZE * SG_MAX_SHADERSTAGE_UBS +
-            SG_SHADER_IMAGE_DESC_SIZE * SG_MAX_SHADERSTAGE_IMAGES;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SHADER_STAGE_DESC_SIZE, CharSet = CharSet.Ansi)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 1280, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_shader_stage_desc
         {
             [FieldOffset(0)] public char* source;
             [FieldOffset(8)] public byte* byte_code;
             [FieldOffset(16)] public int byte_code_size;
             [FieldOffset(24)] public char* entry;
-
             [FieldOffset(32)]
-            public fixed ulong _uniform_blocks[SG_SHADER_UNIFORM_BLOCK_DESC_SIZE * SG_MAX_SHADERSTAGE_UBS / PTR_SIZE];
-
-            [FieldOffset(1088)] public fixed ulong _images[SG_SHADER_IMAGE_DESC_SIZE * SG_MAX_SHADERSTAGE_IMAGES / PTR_SIZE];
+            public fixed ulong _uniform_blocks[264 * SG_MAX_SHADERSTAGE_UBS / 8];
+            [FieldOffset(1088)] public fixed ulong _images[16 * SG_MAX_SHADERSTAGE_IMAGES / 8];
 
             public sg_shader_uniform_block_desc* GetUniformBlocks()
             {
@@ -815,22 +682,14 @@ namespace Sokol
             }
         }
 
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_SHADER_DESC_SIZE = 
-            INT_SIZE + 4 + // 4 bytes padding
-            SG_SHADER_ATTR_DESC_SIZE * SG_MAX_VERTEX_ATTRIBUTES +
-            SG_SHADER_STAGE_DESC_SIZE * 2 + 
-            PTR_SIZE + 
-            INT_SIZE + 4; // 4 bytes padding
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SHADER_DESC_SIZE, CharSet = CharSet.Ansi)]
+        [StructLayout(LayoutKind.Explicit, Size = 2968, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_shader_desc
         {
             [FieldOffset(0)] public uint _start_canary;
-            [FieldOffset(8)] public fixed ulong _attrs[SG_SHADER_ATTR_DESC_SIZE * SG_MAX_VERTEX_ATTRIBUTES / PTR_SIZE];
-            [FieldOffset(8 + SG_SHADER_ATTR_DESC_SIZE * SG_MAX_VERTEX_ATTRIBUTES)] public sg_shader_stage_desc vs;
-            [FieldOffset(392 + SG_SHADER_STAGE_DESC_SIZE)] public sg_shader_stage_desc fs;
-            [FieldOffset(392 + SG_SHADER_STAGE_DESC_SIZE * 2)] public char* label;
+            [FieldOffset(8)] public fixed ulong _attrs[24 * SG_MAX_VERTEX_ATTRIBUTES / 8];
+            [FieldOffset(392)] public sg_shader_stage_desc vs;
+            [FieldOffset(1672)] public sg_shader_stage_desc fs;
+            [FieldOffset(2952)] public char* label;
             [FieldOffset(2960)] public uint _end_canary;
 
             public sg_shader_attr_desc* GetAttrs()
@@ -842,40 +701,27 @@ namespace Sokol
             }
         }
 
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_BUFFER_LAYOUT_DESC_SIZE = 
-            INT_SIZE * 3;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_BUFFER_LAYOUT_DESC_SIZE)]
+        [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
         public struct sg_buffer_layout_desc
         {
             [FieldOffset(0)] public int stride;
             [FieldOffset(4)] public sg_vertex_step step_func;
             [FieldOffset(8)] public int step_rate;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_VERTEX_ATTR_DESC_SIZE = 
-            INT_SIZE * 3;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_VERTEX_ATTR_DESC_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
         public struct sg_vertex_attr_desc
         {
             [FieldOffset(0)] public int buffer_index;
             [FieldOffset(4)] public int offset;
             [FieldOffset(8)] public sg_vertex_format format;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_LAYOUT_DESC_SIZE = 
-            SG_BUFFER_LAYOUT_DESC_SIZE * SG_MAX_SHADERSTAGE_BUFFERS +
-            SG_VERTEX_ATTR_DESC_SIZE * SG_MAX_VERTEX_ATTRIBUTES;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_LAYOUT_DESC_SIZE, Pack = 4)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 288, Pack = 4)]
         public struct sg_layout_desc
         {
-            [FieldOffset(0)] public fixed int _buffers[SG_BUFFER_LAYOUT_DESC_SIZE * SG_MAX_SHADERSTAGE_BUFFERS / INT_SIZE];
-            [FieldOffset(96)] public fixed int _attrs[SG_VERTEX_ATTR_DESC_SIZE * SG_MAX_VERTEX_ATTRIBUTES / INT_SIZE];
+            [FieldOffset(0)] public fixed int _buffers[12 * SG_MAX_SHADERSTAGE_BUFFERS / 4];
+            [FieldOffset(96)] public fixed int _attrs[12 * SG_MAX_VERTEX_ATTRIBUTES / 4];
 
             public sg_buffer_layout_desc* GetBuffers()
             {
@@ -893,12 +739,8 @@ namespace Sokol
                 }
             }
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_STENCIL_STATE_SIZE = 
-            INT_SIZE * 4;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_STENCIL_STATE_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
         public struct sg_stencil_state
         {
             [FieldOffset(0)] public sg_stencil_op fail_op;
@@ -906,15 +748,8 @@ namespace Sokol
             [FieldOffset(8)] public sg_stencil_op pass_op;
             [FieldOffset(12)] public sg_compare_func compare_func;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_DEPTH_STENCIL_STATE_SIZE =
-            SG_STENCIL_STATE_SIZE * 2 + 
-            INT_SIZE + 
-            BOOL_SIZE * 2 + BYTE_SIZE * 2 + 
-            BYTE_SIZE + 3; // 3 bytes padding
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_DEPTH_STENCIL_STATE_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 44, Pack = 4)]
         public struct sg_depth_stencil_state
         {
             [FieldOffset(0)] public sg_stencil_state stencil_front;
@@ -926,16 +761,8 @@ namespace Sokol
             [FieldOffset(39)] public byte stencil_write_mask;
             [FieldOffset(40)] public byte stencil_ref;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_BLEND_STATE_SIZE = 
-            BOOL_SIZE + 3 + // 3 bytes padding
-            INT_SIZE * 6 + 
-            BYTE_SIZE + 3 + // 3 bytes padding
-            INT_SIZE * 3 + 
-            FLOAT_SIZE * 4;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_BLEND_STATE_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 60, Pack = 4)]
         public struct sg_blend_state
         {
             [FieldOffset(0)] public BlittableBoolean enabled;
@@ -951,14 +778,8 @@ namespace Sokol
             [FieldOffset(40)] public sg_pixel_format depth_format;
             [FieldOffset(44)] public RgbaFloat blend_color;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_RASTERIZER_STATE_SIZE = 
-            BOOL_SIZE + 3 + // 3 bytes padding
-            INT_SIZE * 3 + 
-            FLOAT_SIZE * 3;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_RASTERIZER_STATE_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
         public struct sg_rasterizer_state
         {
             [FieldOffset(0)] public BlittableBoolean alpha_to_coverage_enabled;
@@ -970,16 +791,7 @@ namespace Sokol
             [FieldOffset(24)] public float depth_bias_clamp;
         }
 
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_PIPELINE_DESC_SIZE =
-            INT_SIZE + SG_LAYOUT_DESC_SIZE + SG_SHADER_SIZE + 
-            INT_SIZE + INT_SIZE +
-            SG_DEPTH_STENCIL_STATE_SIZE + SG_BLEND_STATE_SIZE +
-            SG_RASTERIZER_STATE_SIZE + 4 // 4 bytes padding
-            + PTR_SIZE
-            + INT_SIZE + 4; // 4 bytes padding
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_PIPELINE_DESC_SIZE, CharSet = CharSet.Ansi)]
+        [StructLayout(LayoutKind.Explicit, Size = 456, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_pipeline_desc
         {
             [FieldOffset(0)] public uint _start_canary;
@@ -993,13 +805,8 @@ namespace Sokol
             [FieldOffset(440)] public char* label;
             [FieldOffset(448)] public uint _end_canary;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_ATTACHMENT_DESC_SIZE = 
-            SG_IMAGE_SIZE + 
-            INT_SIZE * 2;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_ATTACHMENT_DESC_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
         public struct sg_attachment_desc
         {
             [FieldOffset(0)] public sg_image image;
@@ -1008,18 +815,12 @@ namespace Sokol
             [FieldOffset(8)] public int layer;
             [FieldOffset(8)] public int slice;
         }
-
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_PASS_DESC_SIZE = 
-            INT_SIZE + SG_ATTACHMENT_DESC_SIZE * SG_MAX_COLOR_ATTACHMENTS + SG_ATTACHMENT_DESC_SIZE +
-            PTR_SIZE + 
-            INT_SIZE + 4; // 4 bytes padding
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_PASS_DESC_SIZE, CharSet = CharSet.Ansi)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_pass_desc
         {
             [FieldOffset(0)] public uint _start_canary;
-            [FieldOffset(4)] public fixed int _color_attachments[SG_ATTACHMENT_DESC_SIZE * SG_MAX_COLOR_ATTACHMENTS / INT_SIZE];
+            [FieldOffset(4)] public fixed int _color_attachments[12 * SG_MAX_COLOR_ATTACHMENTS / 4];
             [FieldOffset(52)] public sg_attachment_desc depth_stencil_attachment;
             [FieldOffset(64)] public char* label;
             [FieldOffset(72)] public uint _end_canary;
@@ -1032,35 +833,23 @@ namespace Sokol
                 }
             }
         }
-
-        // TODO: sg_trace_hooks
-        public const int SG_TRACE_HOOKS_SIZE = 1;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_TRACE_HOOKS_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
+        //[StructLayout(LayoutKind.Explicit, Size = 408, Pack = 8)]
         public struct sg_trace_hooks
         {
+            //TODO
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_SLOT_INFO_SIZE = 
-            INT_SIZE * 3;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SLOT_INFO_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
         public struct sg_slot_info
         {
             [FieldOffset(0)] public sg_resource_state state;
             [FieldOffset(4)] public uint res_id;
             [FieldOffset(8)] public uint ctx_id;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_BUFFER_INFO_SIZE =
-            SG_SLOT_INFO_SIZE + 
-            INT_SIZE * 3 + 
-            BOOL_SIZE + 3 + // 3 bytes padding 
-            INT_SIZE * 2;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_BUFFER_INFO_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
         public struct sg_buffer_info
         {
             [FieldOffset(0)] public sg_slot_info slot;
@@ -1071,13 +860,8 @@ namespace Sokol
             [FieldOffset(28)] public int num_slots;
             [FieldOffset(32)] public int active_slot;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_IMAGE_INFO_SIZE = 
-            SG_SLOT_INFO_SIZE + 
-            INT_SIZE * 3;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_IMAGE_INFO_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
         public struct sg_image_info
         {
             [FieldOffset(0)] public sg_slot_info slot;
@@ -1085,46 +869,26 @@ namespace Sokol
             [FieldOffset(16)] public int num_slots;
             [FieldOffset(20)] public int active_slot;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_SHADER_INFO_SIZE = 
-            SG_SLOT_INFO_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SLOT_INFO_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
         public struct sg_shader_info
         {
             [FieldOffset(0)] public sg_slot_info slot;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_PIPELINE_INFO_SIZE = 
-            SG_SLOT_INFO_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_PIPELINE_INFO_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
         public struct sg_pipeline_info
         {
             [FieldOffset(0)] public sg_slot_info slot;
         }
-
-        // NOTE: This struct is 4 byte aligned because largest field is an int; each line below is a 4 byte boundary
-        public const int SG_PASS_INFO_SIZE = 
-            SG_SLOT_INFO_SIZE;
-
-        [StructLayout(LayoutKind.Explicit, Size = SG_SLOT_INFO_SIZE)]
+        
+        [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
         public struct sg_pass_info
         {
             [FieldOffset(0)] public sg_slot_info slot;
         }
-        // NOTE: This struct is 8 byte aligned because largest field is a pointer; each line below is a 8 byte boundary
-        public const int SG_DESC_SIZE =
-            INT_SIZE * 6 + 
-            INT_SIZE + BOOL_SIZE + 3 + // 3 bytes padding 
-            PTR_SIZE * 3 + 
-            INT_SIZE * 2 + 
-            PTR_SIZE * 4 + 
-            INT_SIZE + 4; // 4 bytes padding
 
-        [StructLayout(LayoutKind.Explicit, Size = SG_DESC_SIZE)]
+        [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 8)]
         public struct sg_desc
         {
             [FieldOffset(0)] public uint _start_canary;
@@ -1400,11 +1164,5 @@ namespace Sokol
         public const int _SG_DEFAULT_CONTEXT_POOL_SIZE = 16;
         public const int _SG_MTL_DEFAULT_UB_SIZE = 4 * 1024 * 1024;
         public const int _SG_MTL_DEFAULT_SAMPLER_CACHE_CAPACITY = 64;
-
-        public const int BYTE_SIZE = 1;
-        public const int BOOL_SIZE = 1;
-        public const int INT_SIZE = 4;
-        public const int FLOAT_SIZE = 4;
-        public const int PTR_SIZE = 8;
     }
 }
