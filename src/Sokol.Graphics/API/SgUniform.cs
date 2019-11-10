@@ -46,6 +46,11 @@ namespace Sokol
             {
                 throw new ArgumentNullException(nameof(name));
             }
+
+            if (blockIndex < 0 || blockIndex >= SG_MAX_SHADERSTAGE_UBS)
+            {
+                throw new ArgumentOutOfRangeException(nameof(blockIndex));
+            }
             
             _shaderStage = shaderStage switch
             {
@@ -74,7 +79,6 @@ namespace Sokol
         public unsafe void Apply<T>(ref T value) where T : unmanaged
         {
             var size = Unsafe.SizeOf<T>();
-
             if (size != Size)
             {
                 throw new InvalidOperationException();
