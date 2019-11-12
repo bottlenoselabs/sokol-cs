@@ -115,4 +115,4 @@ stages:
           version: $(DOTNET_CORE_SDK_VERSION)
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
-      - script: dotnet nuget push --api-key $(myget-lithiumtoast-azure-devops-push-access-token) --source "https://www.myget.org/F/lithiumtoast/api/v2/package" ./**/*.nupkg
+      - script: dotnet nuget push --api-key $(myget-lithiumtoast-azure-devops-push-access-token) --source "https://www.myget.org/F/lithiumtoast/api/v2/package" ./**/*.nupkg || true
