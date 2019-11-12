@@ -76,7 +76,7 @@ stages:
         displayName: 'NuGet Pack'
         inputs:
           command: 'pack' 
-          packagesToPack: './src/**/*.csproj!**/*.Tests.csproj;!.src/Samples/**/*.csproj;'
+          packagesToPack: './src/**/*.csproj;-:./src/**/*.Tests.csproj;-:./src/Samples/**/*.csproj'
           nobuild: true
           versioningScheme: byEnvVar
           configuration: 'Release'
