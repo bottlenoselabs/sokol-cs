@@ -3,12 +3,11 @@ branches:
     regex: master
     mode: Mainline
     tag: ''
-    increment: None
+    increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
     tracks-release-branches: false
     is-release-branch: false
-    is-mainline: true
   release:
     regex: releases?[/-]
     mode: ContinuousDelivery
