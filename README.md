@@ -6,8 +6,15 @@ A C# wrapper for https://github.com/floooh/sokol.
 
 Includes the C API precisely as it is and a .NET API over the C API for convenience.
 
+## NuGet
+
+To get the NuGet packages, add the following feed: `https://www.myget.org/F/lithiumtoast/api/v3/index.json`
+
+- [`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)
+
 ## News
 
+- 2019/11/11: [`v0.1`](https://github.com/lithiumtoast/sokol-csharp/releases/tag/v0.1) released: `Sokol.Graphics` available as NuGet package (does not include shared library binaries).
 - 2019/11/03: .NET Core examples working with Ubuntu.
 - 2019/11/03: Added Azure Pipelines for builds and tests.
 - 2019/11/02: .NET Core examples working with Windows.
@@ -63,7 +70,7 @@ You want to contribute? Awesome! To get started please read the [CONTRIBUTING](C
 
 ## Versioning
 
-`Sokol#` uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. The version scheme used for dynamic link libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH-TAG`. Semantic versioning is [best practice for NuGet packages](https://docs.microsoft.com/en-us/nuget/concepts/package-versioning). For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
+`Sokol#` uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. The version scheme used for dynamic link libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH-TAG`. For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
 
 ## License
 
