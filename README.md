@@ -1,8 +1,6 @@
 # Sokol\#
 
-[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Windows/master?label=build%2Ftest%20Windows%20VS2019&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=4&branchName=master)
-[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/macOS/master?label=build%2Ftest%20macOS%20Mojave%2010.14&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=1&branchName=master)
-[![Build Status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Linux/master?label=build%2Ftest%20Ubuntu%2018.04&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=3&branchName=master)
+[![Build, test, and deploy status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Build-Test-Pack-Deploy/master?label=build%2Ftest%2Fdeploy%20%2ENET%20Core%203&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=4&branchName=master)
 
 A C# wrapper for https://github.com/floooh/sokol.
 
@@ -65,7 +63,7 @@ You want to contribute? Awesome! To get started please read the [CONTRIBUTING](C
 
 ## Versioning
 
-`Sokol#` uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. The version scheme used for dynamic link libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH.BUILD`. For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
+`Sokol#` uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. The version scheme used for dynamic link libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH-TAG`. For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
 
 ## License
 

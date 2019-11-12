@@ -1,0 +1,117 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+    - develop
+
+variables:
+  SOLUTION: './src/Sokol.sln'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CORE_SDK_VERSION: 3.0.100
+
+stages:
+
+  - stage: 'build_test_pack' 
+    displayName: 'Build, Test, & Pack'
+    jobs:
+    - job: 'build_test_pack_job'
+      displayName: '- '
+      strategy:
+        matrix:
+          Linux:
+            operatingSystem: linux
+            imageName: 'ubuntu-latest'
+          macOS:
+            operatingSystem: darwin
+            imageName: 'macos-latest'
+          Windows:
+            operatingSystem: windows
+            imageName: 'windows-latest'
+      pool:
+        vmImage: $(imageName)
+      steps:
+
+      - checkout: self
+        submodules: true
+        clean: true
+
+      - task: GitVersion@5
+        displayName: 'GitVersion'
+        inputs:
+          preferBundledVersion: false
+
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core SDK v$(DOTNET_CORE_SDK_VERSION)'
+        inputs:
+          packageType: sdk
+          version: $(DOTNET_CORE_SDK_VERSION)
+          installationPath: $(Agent.ToolsDirectory)/dotnet
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Restore Solution'
+        inputs:
+          command: 'restore'
+          projects: '$(SOLUTION)'
+          arguments: '--verbosity m'
+          versioningScheme: byBuildNumber
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Build Solution'
+        inputs:
+          command: 'build'
+          projects: '$(SOLUTION)'
+          arguments: '--no-restore --verbosity m -c Release /p:Version=$(GitVersion.NuGetVersion)'
+          versioningScheme: byBuildNumber
+
+      - task: DotNetCoreCLI@2 
+        displayName: 'Test Solution'
+        inputs:
+          command: 'test'
+          projects: '$(SOLUTION)'
+          arguments: '--no-build --verbosity n -c Release'
+
+      - task: DotNetCoreCLI@2 
+        displayName: 'NuGet Pack'
+        inputs:
+          command: 'pack' 
+          packagesToPack: './src/**/*.csproj!**/*.Tests.csproj;!.src/Samples/**/*.csproj;'
+          nobuild: true
+          versioningScheme: byEnvVar
+          configuration: 'Release'
+          versionEnvVar: GitVersion.NuGetVersion
+          outputDir: '$(Build.ArtifactStagingDirectory)'          
+      
+      - publish: '$(Build.ArtifactStagingDirectory)'
+        artifact: 'packages-$(operatingSystem)'
+
+  - stage: 'deploy_nuget_packages'
+    displayName: 'Deploy NuGet Packages'
+    jobs:
+    - job: 'pack_deploy_nuget_packages_job'
+      displayName: 'Push from Ubuntu'  
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+
+      - checkout: none
+
+      - task: DownloadPipelineArtifact@2
+        displayName: 'Download Artifacts'
+        inputs:
+          buildType: current
+          artifactName: 'packages-linux'
+          targetPath: $(System.DefaultWorkingDirectory)
+
+      - task: NuGetAuthenticate@0
+        displayName: 'NuGet Authenticate'
+
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core SDK v$(DOTNET_CORE_SDK_VERSION)'
+        inputs:
+          packageType: sdk
+          version: $(DOTNET_CORE_SDK_VERSION)
+          installationPath: $(Agent.ToolsDirectory)/dotnet
+
+      - script: dotnet nuget push --api-key $(myget-lithiumtoast-azure-devops-push-access-token) --source "https://www.myget.org/F/lithiumtoast/api/v2/package" ./**/*.nupkg
