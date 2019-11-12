@@ -1,13 +1,14 @@
 branches:
   master:
     regex: master
-    mode: ContinuousDelivery
+    mode: Mainline
     tag: ''
-    increment: Patch
+    increment: None
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
     tracks-release-branches: false
     is-release-branch: false
+    is-mainline: true
   release:
     regex: releases?[/-]
     mode: ContinuousDelivery
@@ -63,5 +64,9 @@ develop:
     track-merge-target: true
     tracks-release-branches: true
     is-release-branch: false
+major-version-bump-message: '\+semver:\s?(breaking|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+no-bump-message: '\+semver:\s?(none|skip)'
 ignore:
   sha: []
