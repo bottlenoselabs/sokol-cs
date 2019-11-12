@@ -90,7 +90,7 @@ stages:
     displayName: 'Deploy NuGet Packages'
     jobs:
     - job: 'pack_deploy_nuget_packages_job'
-      displayName: 'Push from Ubuntu'  
+      displayName: '- Ubuntu'  
       pool:
         vmImage: 'ubuntu-latest'
       steps:
