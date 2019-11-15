@@ -21,15 +21,15 @@ namespace Sokol.Graphics.Tests
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                filePath = Path.Combine(libsPath, "windows", $"{libraryName}.dll");
+                filePath = Path.Combine(libsPath, $"{libraryName}.dll");
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                filePath = Path.Combine(libsPath, "macos", $"lib{libraryName}.dylib");
+                filePath = Path.Combine(libsPath, $"lib{libraryName}.dylib");
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                filePath = Path.Combine(libsPath, "linux", $"lib{libraryName}.so");
+                filePath = Path.Combine(libsPath, $"lib{libraryName}.so");
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
             {
