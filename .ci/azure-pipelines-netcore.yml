@@ -90,9 +90,9 @@ stages:
     displayName: 'Deploy NuGet Packages'
     jobs:
     - job: 'pack_deploy_nuget_packages_job'
-      displayName: '- Ubuntu'  
+      displayName: '- windows'  
       pool:
-        vmImage: 'ubuntu-latest'
+        vmImage: 'windows-latest'
       steps:
 
       - checkout: none
@@ -101,11 +101,11 @@ stages:
         displayName: 'Download Artifacts'
         inputs:
           buildType: current
-          artifactName: 'packages-linux'
+          artifactName: 'packages-windows'
           targetPath: $(System.DefaultWorkingDirectory)
 
       - task: NuGetToolInstaller@1
 
       - script: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/lithiumtoast/index.json" -UserName lithiumtoast -Password $(github-lithiumtoast-azure-devops-nuget-push-access-token)
 
-      - script: nuget push -Source "GitHub" ./**/*.nupkg || true
+      - script: nuget push -Source "GitHub" "%CD%\**\*.nupkg" || true
