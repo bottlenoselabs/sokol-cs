@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <RootNamespace>Sokol.Graphics.DotNetCore</RootNamespace>
+        <LangVersion>8</LangVersion>
+        <PackageVersion>0.1.0</PackageVersion>
+        <Title>Sokol.Graphics.DotNetCoreOpenGL</Title>
+        <Authors>Lucas Girouard-Stranks</Authors>
+        <RootNamespace>Sokol</RootNamespace>
+        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+        <Copyright>Copyright © 2019 Lucas Girouard-Stranks</Copyright>
+        <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
+        <License>MIT</License>
+        <RepositoryUrl>https://github.com/lithiumtoast/sokol-csharp</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>sokol sokol_gfx c# csharp opengl</PackageTags>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <!--suppress CheckTagEmptyBody -->
+        <ContentTargetFolders></ContentTargetFolders>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\lib\libGLEW-2.1.0\GLEW.dll">
+        <Link>GLEW.dll</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\..\lib\libGLEW-2.1.0\libGLEW.so">
+        <Link>libGLEW.so</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\..\lib\libsokol_gfx-2019.10.08\linux\opengl\release\libsokol_gfx.so">
+        <Link>libsokol_gfx.so</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\..\lib\libsokol_gfx-2019.10.08\macos\opengl\release\libsokol_gfx.dylib">
+        <Link>libsokol_gfx.dylib</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\release\sokol_gfx.dll">
+        <Link>sokol_gfx.dll</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+</Project>

@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Sokol.Graphics.DotNetCoreOpenGL\Sokol.Graphics.DotNetCoreOpenGL.csproj" />
       <ProjectReference Include="..\..\Sokol.Graphics\Sokol.Graphics.csproj" />
     </ItemGroup>
 
@@ -27,13 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\..\lib\libGLEW-2.1.0\glew32.dll">
-        <Link>lib\glew32.dll</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
       <None Include="..\..\..\lib\libSDL2-2.0.10\SDL2.dll">
         <Link>lib\SDL2.dll</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -41,38 +35,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\debug\sokol_gfx.dll">
-        <Link>lib/sokol_gfx.dll</Link>
+      <Content Include="..\..\..\lib\libSDL2-2.0.10\libSDL2.dylib">
+        <Link>lib\libSDL2.dylib</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\debug\sokol_gfx.ilk">
-        <Link>lib/sokol_gfx.ilk</Link>
+      </Content>
+      <Content Include="..\..\..\lib\libSDL2-2.0.10\libSDL2.so">
+        <Link>lib\libSDL2.so</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\windows\opengl\debug\sokol_gfx.pdb">
-        <Link>lib/sokol_gfx.pdb</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\..\lib\libSDL2-2.0.10\libSDL2-2.0.0.dylib">
-        <Link>lib/libSDL2-2.0.0.dylib</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\linux\opengl\debug\libsokol_gfx.so">
-        <Link>lib/libsokol_gfx.so</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\..\lib\libGLEW-2.1.0\libGLEW.so.2.0.0">
-        <Link>lib\libGLEW.so.2.0.0</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\..\lib\libSDL2-2.0.10\libSDL2-2.0.so.0">
-        <Link>lib\libSDL2-2.0.so.0</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\..\lib\libsokol_gfx-2019.10.08\macos\opengl\debug\libsokol_gfx.dylib">
-        <Link>lib/libsokol_gfx.dylib</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+      </Content>
     </ItemGroup>
 
 </Project>

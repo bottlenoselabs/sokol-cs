@@ -90,9 +90,9 @@ stages:
     displayName: 'Deploy NuGet Packages'
     jobs:
     - job: 'pack_deploy_nuget_packages_job'
-      displayName: 'Push from Ubuntu'  
+      displayName: '- windows'  
       pool:
-        vmImage: 'ubuntu-latest'
+        vmImage: 'windows-latest'
       steps:
 
       - checkout: none
@@ -101,18 +101,11 @@ stages:
         displayName: 'Download Artifacts'
         inputs:
           buildType: current
-          artifactName: 'packages-linux'
+          artifactName: 'packages-windows'
           targetPath: $(System.DefaultWorkingDirectory)
 
-      - task: NuGetAuthenticate@0
-        displayName: 'NuGet Authenticate'
+      - task: NuGetToolInstaller@1
 
-      - task: UseDotNet@2
-        displayName: 'Use .NET Core SDK v$(DOTNET_CORE_SDK_VERSION)'
-        continueOnError: true
-        inputs:
-          packageType: sdk
-          version: $(DOTNET_CORE_SDK_VERSION)
-          installationPath: $(Agent.ToolsDirectory)/dotnet
+      - script: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/lithiumtoast/index.json" -UserName lithiumtoast -Password $(github-lithiumtoast-azure-devops-nuget-push-access-token)
 
-      - script: dotnet nuget push --api-key $(myget-lithiumtoast-azure-devops-push-access-token) --source "https://www.myget.org/F/lithiumtoast/api/v2/package" ./**/*.nupkg || true
+      - script: nuget push -Source "GitHub" "%CD%\**\*.nupkg" || true

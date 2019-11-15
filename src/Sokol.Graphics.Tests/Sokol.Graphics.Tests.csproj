@@ -33,27 +33,24 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\dummy\sokol_gfx.dll">
-        <Link>libs/windows/sokol_gfx.dll</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\dummy\sokol_gfx.ilk">
-        <Link>libs/windows/sokol_gfx.ilk</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\dummy\sokol_gfx.pdb">
-        <Link>libs/windows/sokol_gfx.pdb</Link>
+      <None Include="..\..\lib\libsokol_gfx-2019.10.08\linux\dummy\libsokol_gfx.so">
+        <Link>libs\libsokol_gfx.so</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Include="..\..\lib\libsokol_gfx-2019.10.08\macos\dummy\libsokol_gfx.dylib">
-        <Link>libs/macos/libsokol_gfx.dylib</Link>
+        <Link>libs\libsokol_gfx.dylib</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\linux\dummy\libsokol_gfx.so">
-        <Link>libs\linux\libsokol_gfx.so</Link>
+      <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\dummy\sokol_gfx.dll">
+        <Link>libs\sokol_gfx.dll</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\dummy\sokol_gfx.ilk">
+        <Link>libs\sokol_gfx.ilk</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\dummy\sokol_gfx.pdb">
+        <Link>libs\sokol_gfx.pdb</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
