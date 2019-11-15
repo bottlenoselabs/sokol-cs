@@ -111,4 +111,5 @@ stages:
 
       - task: NuGetToolInstaller@1
 
-      - script: nuget push ./**/*.nupkg -Source "GPR" || true
+      - script: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/lithiumtoast/index.json" -UserName lithiumtoast -Password $(github-lithiumtoast-azure-devops-nuget-push-access-token)
+      - script: nuget push ./**/*.nupkg -Source "GitHub" || true
