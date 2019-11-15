@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Sokol.Samples
 {
     public enum GraphicsBackend

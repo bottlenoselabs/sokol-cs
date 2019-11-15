@@ -19,21 +19,6 @@ namespace Sokol.Samples
 
         protected App(SgDeviceDescription? deviceDescription = null)
         {
-
-            DllMap.Register(typeof(App).Assembly);
-            DllMap.Register(typeof(sokol_gfx).Assembly);
-            
-            DllMap.Configure(OperatingSystem.Windows, "SDL2", "SDL2.dll");
-            DllMap.Configure(OperatingSystem.Darwin, "SDL2", "libSDL2-2.0.0.dylib");
-            DllMap.Configure(OperatingSystem.Linux, "SDL2", "SDL2-2.0.so.0");
-            
-            DllMap.Configure(OperatingSystem.Windows, "glew", "glew32.dll");
-            DllMap.Configure(OperatingSystem.Linux, "glew", "libGLEW.so.2.0.0");
-            
-            DllMap.Configure(OperatingSystem.Windows, "sokol_gfx", "sokol_gfx.dll");
-            DllMap.Configure(OperatingSystem.Darwin, "sokol_gfx", "libsokol_gfx.dylib");
-            DllMap.Configure(OperatingSystem.Linux, "sokol_gfx", "libsokol_gfx.so");
-
             SDL_Init(SDL_INIT_VIDEO);
             Platform = PlatformHelper.RuntimePlatform;
             GraphicsBackend = GraphicsBackendHelper.GetDefaultGraphicsBackendFor(Platform);
