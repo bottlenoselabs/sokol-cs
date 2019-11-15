@@ -16,8 +16,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>sokol sokol_gfx c# csharp opengl</PackageTags>
         <IncludeBuildOutput>false</IncludeBuildOutput>
-        <!--suppress CheckTagEmptyBody -->
-        <ContentTargetFolders></ContentTargetFolders>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
     <ItemGroup>
