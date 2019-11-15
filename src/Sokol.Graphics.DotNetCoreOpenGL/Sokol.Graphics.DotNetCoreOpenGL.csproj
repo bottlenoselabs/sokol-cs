@@ -3,6 +3,18 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
         <RootNamespace>Sokol.Graphics.DotNetCore</RootNamespace>
+        <LangVersion>8</LangVersion>
+        <PackageVersion>0.1.0</PackageVersion>
+        <Title>Sokol.Graphics.DotNetCoreOpenGL</Title>
+        <Authors>Lucas Girouard-Stranks</Authors>
+        <RootNamespace>Sokol</RootNamespace>
+        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+        <Copyright>Copyright © 2019 Lucas Girouard-Stranks</Copyright>
+        <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
+        <License>MIT</License>
+        <RepositoryUrl>https://github.com/lithiumtoast/sokol-csharp</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>sokol sokol_gfx c# csharp opengl</PackageTags>
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <!--suppress CheckTagEmptyBody -->
         <ContentTargetFolders></ContentTargetFolders>
