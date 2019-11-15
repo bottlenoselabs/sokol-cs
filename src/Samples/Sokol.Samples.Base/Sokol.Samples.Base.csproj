@@ -28,21 +28,21 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\..\lib\libSDL2-2.0.10\SDL2.dll">
-        <Link>lib\SDL2.dll</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
       <Content Include="..\..\..\lib\libSDL2-2.0.10\libSDL2.dylib">
-        <Link>lib\libSDL2.dylib</Link>
+        <Link>libSDL2.dylib</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <Content Include="..\..\..\lib\libSDL2-2.0.10\libSDL2.so">
-        <Link>lib\libSDL2.so</Link>
+        <Link>libSDL2.so</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\..\lib\libSDL2-2.0.10\SDL2.dll">
+        <Link>SDL2.dll</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
