@@ -90,9 +90,9 @@ stages:
     displayName: 'Deploy NuGet Packages'
     jobs:
     - job: 'pack_deploy_nuget_packages_job'
-      displayName: '- Windows'  
+      displayName: '- Ubuntu'  
       pool:
-        vmImage: 'windows-latest'
+        vmImage: 'ubuntu-latest'
       steps:
 
       - checkout: none
@@ -101,7 +101,7 @@ stages:
         displayName: 'Download Artifacts'
         inputs:
           buildType: current
-          artifactName: 'packages-windows'
+          artifactName: 'packages-linux'
           targetPath: $(System.DefaultWorkingDirectory)
 
       - task: NuGetToolInstaller@1
