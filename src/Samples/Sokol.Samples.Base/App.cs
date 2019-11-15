@@ -1,6 +1,5 @@
 using System;
 using static SDL2.SDL;
-using static Sokol.Samples.glew;
 using static Sokol.sokol_gfx;
 
 namespace Sokol.Samples
@@ -86,7 +85,7 @@ namespace Sokol.Samples
                 SDL_GL_MakeCurrent(WindowHandle, deviceHandle);
                 if (Platform == Platform.Windows || Platform == Platform.Linux)
                 {
-                    glewInit();   
+                    glew.glewInit();   
                 }
             }
             else
