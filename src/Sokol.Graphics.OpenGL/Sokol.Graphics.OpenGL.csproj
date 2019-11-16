@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>A .NETStandard wrapper for Sokol; minimal cross-platform standalone C headers.</Description>
-        <TargetFrameworks>netstandard1.0;netstandard2.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
         <RootNamespace>Sokol.Graphics.OpenGL</RootNamespace>
         <LangVersion>8</LangVersion>
         <PackageVersion>0.1.0</PackageVersion>
