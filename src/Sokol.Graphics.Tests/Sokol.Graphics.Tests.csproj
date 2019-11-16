@@ -11,48 +11,48 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <PlatformTarget>x64</PlatformTarget>
+        <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <PlatformTarget>x64</PlatformTarget>
+        <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentAssertions" Version="5.9.0" />
-        <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
-        <PackageReference Include="Moq" Version="4.13.1" />
-        <PackageReference Include="xunit" Version="2.4.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
-        <PackageReference Include="coverlet.collector" Version="1.1.0" />
+        <PackageReference Include="FluentAssertions" Version="5.9.0"/>
+        <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0"/>
+        <PackageReference Include="Moq" Version="4.13.1"/>
+        <PackageReference Include="xunit" Version="2.4.1"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1"/>
+        <PackageReference Include="coverlet.collector" Version="1.1.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
+        <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\linux\dummy\libsokol_gfx.so">
-        <Link>libs\libsokol_gfx.so</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\macos\dummy\libsokol_gfx.dylib">
-        <Link>libs\libsokol_gfx.dylib</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\dummy\sokol_gfx.dll">
-        <Link>libs\sokol_gfx.dll</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\dummy\sokol_gfx.ilk">
-        <Link>libs\sokol_gfx.ilk</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="..\..\lib\libsokol_gfx-2019.10.08\windows\dummy\sokol_gfx.pdb">
-        <Link>libs\sokol_gfx.pdb</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Include="..\..\lib\libsokol_gfx-2019.10.08\linux-x64\dummy\libsokol_gfx.so">
+            <Link>runtimes/linux-x64/native/libsokol_gfx.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\dummy\libsokol_gfx.dylib">
+            <Link>runtimes/osx-x64/native/libsokol_gfx.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\dummy\sokol_gfx.dll">
+            <Link>runtimes/win-x64/native/sokol_gfx.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\dummy\sokol_gfx.ilk">
+            <Link>runtimes/win-x64/native/sokol_gfx.ilk</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\dummy\sokol_gfx.pdb">
+            <Link>runtimes/win-x64/native/sokol_gfx.pdb</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

@@ -16,20 +16,20 @@ namespace Sokol.Graphics.Tests
         
         private static IntPtr Resolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
         {
-            var libsPath = Path.Combine(AppContext.BaseDirectory, "libs");
+            var libsPath = Path.Combine(AppContext.BaseDirectory, "runtimes");
             var filePath = string.Empty;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                filePath = Path.Combine(libsPath, $"{libraryName}.dll");
+                filePath = Path.Combine(libsPath, "linux-x64", "native", $"{libraryName}.dll");
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                filePath = Path.Combine(libsPath, $"lib{libraryName}.dylib");
+                filePath = Path.Combine(libsPath, "osx-x64", "native", $"lib{libraryName}.dylib");
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                filePath = Path.Combine(libsPath, $"lib{libraryName}.so");
+                filePath = Path.Combine(libsPath, "linux-x64", "native", $"lib{libraryName}.so");
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
             {

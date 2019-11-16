@@ -8,41 +8,42 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Sokol.Graphics.OpenGL\Sokol.Graphics.OpenGL.csproj" />
-      <ProjectReference Include="..\..\Sokol.Graphics\Sokol.Graphics.csproj" />
+        <ProjectReference Include="..\..\Sokol.Graphics.OpenGL\Sokol.Graphics.OpenGL.csproj" />
+        <ProjectReference Include="..\..\Sokol.Graphics\Sokol.Graphics.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Include="..\..\..\ext\SDL2-CS\src\SDL2.cs">
-        <Link>SDL2.cs</Link>
-      </Compile>
-      <Compile Include="..\..\..\ext\SDL2-CS\src\SDL2_image.cs">
-        <Link>SDL2_image.cs</Link>
-      </Compile>
-      <Compile Include="..\..\..\ext\SDL2-CS\src\SDL2_mixer.cs">
-        <Link>SDL2_mixer.cs</Link>
-      </Compile>
-      <Compile Include="..\..\..\ext\SDL2-CS\src\SDL2_ttf.cs">
-        <Link>SDL2_ttf.cs</Link>
-      </Compile>
+        <Compile Include="..\..\..\ext\SDL2-CS\src\SDL2.cs">
+            <Link>native\SDL2.cs</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Compile>
+        <Compile Include="..\..\..\ext\SDL2-CS\src\SDL2_image.cs">
+            <Link>SDL2_image.cs</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Compile>
+        <Compile Include="..\..\..\ext\SDL2-CS\src\SDL2_mixer.cs">
+            <Link>SDL2_mixer.cs</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Compile>
+        <Compile Include="..\..\..\ext\SDL2-CS\src\SDL2_ttf.cs">
+            <Link>SDL2_ttf.cs</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\..\lib\libSDL2-2.0.10\libSDL2.dylib">
-        <Link>libSDL2.dylib</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="..\..\..\lib\libSDL2-2.0.10\libSDL2.so">
-        <Link>libSDL2.so</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="..\..\..\lib\libSDL2-2.0.10\SDL2.dll">
-        <Link>SDL2.dll</Link>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <Content Include="..\..\..\lib\libSDL2-2.0.10\linux-x64\libSDL2.so">
+            <Link>libSDL2.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\lib\libSDL2-2.0.10\osx-x64\libSDL2.dylib">
+            <Link>libSDL2.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\..\..\lib\libSDL2-2.0.10\win-x64\SDL2.dll">
+            <Link>SDL2.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
