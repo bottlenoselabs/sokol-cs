@@ -21,7 +21,7 @@ namespace Sokol.Graphics.Tests
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                filePath = Path.Combine(libsPath, "windows-x64", "native", $"{libraryName}.dll");
+                filePath = Path.Combine(libsPath, "win-x64", "native", $"{libraryName}.dll");
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
