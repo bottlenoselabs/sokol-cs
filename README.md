@@ -14,6 +14,7 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 ## News
 
+- 2019/11/16: Added NuGet package `Sokol.Graphics.OpenGL` for packaging the OpenGL native shared libraries.
 - 2019/11/11: [`v0.1`](https://github.com/lithiumtoast/sokol-csharp/releases/tag/v0.1) released: `Sokol.Graphics` available as NuGet package (does not include shared library binaries).
 - 2019/11/03: .NET Core examples working with Ubuntu.
 - 2019/11/03: Added Azure Pipelines for builds and tests.
@@ -36,7 +37,7 @@ To learn how to use the C API, check out the [official C samples](https://github
 
 ## "Safe" API
 
-The .NET API is just wrappers over the C API for convenience and ease of use. The `unsafe` keyword is not required. All the "safe" classes/structs have the prefix `Sg`. E.g. `SgBuffer`, `SgShader`, etc. The safe API uses .NET Core v3 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
+The .NET API is just wrappers over the C API for convenience and ease of use. The `unsafe` keyword is not required. All the "safe" classes/structs have some prefix such as `Sg` for "Sokol Graphics". E.g. `SgBuffer`, `SgShader`, etc. The safe API targets .NET Standard 2.1 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
 
 To learn how to use the .NET API, check out the [.NET Core v3 samples](https://github.com/lithiumtoast/sokol-csharp/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
 
