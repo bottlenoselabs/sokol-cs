@@ -11,6 +11,7 @@ Includes the C API precisely as it is and a .NET API over the C API for convenie
 To get the NuGet packages, add the following feed: `https://www.myget.org/F/lithiumtoast/api/v3/index.json`
 
 - [`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)
+- [`Sokol.Graphics.OpenGL](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)
 
 ## News
 
