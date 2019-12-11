@@ -16,7 +16,6 @@
         <RepositoryUrl>https://github.com/lithiumtoast/sokol-csharp</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>sokol sokol_gfx c# csharp pinvoke .netstandard windows linux macos opengl</PackageTags>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
 
     <ItemGroup>
