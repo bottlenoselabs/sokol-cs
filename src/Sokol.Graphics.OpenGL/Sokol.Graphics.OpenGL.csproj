@@ -19,8 +19,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="..\..\lib\libGLEW-2.1.0\win-x64\GLEW.dll">
-            <Link>GLEW.dll</Link>
+        <Content Include="..\..\lib\libGLEW-2.1.0\win-x64\glew32.dll">
+            <Link>glew32.dll</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/win-x64/native</PackagePath>
         </Content>

@@ -1,4 +1,6 @@
 using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using static SDL2.SDL;
 using static Sokol.sokol_gfx;
 
@@ -23,6 +25,8 @@ namespace Sokol.Samples
             Platform = GetPlatformFrom(platformString);
             GraphicsBackend = GetDefaultGraphicsBackendFor(Platform);
             
+            NativeLibrary.SetDllImportResolver(typeof(glew).Assembly, Resolver);
+            
             SetSdl2Attributes();
             CreateWindow(out var windowHandle);
             WindowHandle = windowHandle;
@@ -32,7 +36,21 @@ namespace Sokol.Samples
             var deviceDescription1 = deviceDescription ?? new SgDeviceDescription();
             _device = new SgDevice(deviceDescription1);
         }
-        
+
+        private static IntPtr Resolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+        {
+            // ReSharper disable once InvertIf
+            if (libraryName.ToLower() == "glew")
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    libraryName = "glew32";   
+                }
+            }
+
+            return NativeLibrary.Load(libraryName, assembly, searchPath);
+        }
+
         private static Platform GetPlatformFrom(string @string)
         {
             return @string switch
@@ -103,16 +121,23 @@ namespace Sokol.Samples
             if (GraphicsBackend == GraphicsBackend.OpenGL)
             {
                 deviceHandle = SDL_GL_CreateContext(WindowHandle);
-                
                 if (deviceHandle == IntPtr.Zero)
                 {
-                    throw new ApplicationException("Failed to create OpenGL Core 3.3 context. Did you forget to update your drivers?");
+                    throw new ApplicationException("Failed to create OpenGL Core 3.3 context. Are you in a virtual machine without GPU acceleration? Did you forget to update your drivers?");
                 }
                 
-                SDL_GL_MakeCurrent(WindowHandle, deviceHandle);
+                var result = SDL_GL_MakeCurrent(WindowHandle, deviceHandle);
+                if (result != 0)
+                {
+                    throw new ApplicationException("Failed to setup OpenGL context with a window.");
+                }
                 if (Platform == Platform.Windows || Platform == Platform.Linux)
                 {
-                    glew.glewInit();   
+                    result = glew.glewInit();
+                    if (result != 0)
+                    {
+                        throw new ApplicationException("Failed to initialize OpenGL extension entry points using GLEW.");
+                    }
                 }
             }
             else

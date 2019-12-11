@@ -9,9 +9,7 @@ namespace Sokol
     {
         private const string GlewLibraryName = "glew";
 
-        public const int GLEW_OK = 0;
-        
         [DllImport(GlewLibraryName)]
-        public static extern uint glewInit();
+        public static extern int glewInit();
     }
 }
