@@ -14,7 +14,7 @@
 
     <ItemGroup>
         <Compile Include="..\..\..\ext\SDL2-CS\src\SDL2.cs">
-            <Link>native\SDL2.cs</Link>
+            <Link>SDL2.cs</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Compile>
         <Compile Include="..\..\..\ext\SDL2-CS\src\SDL2_image.cs">
