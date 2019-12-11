@@ -19,7 +19,8 @@ namespace Sokol.Samples
         protected App(SgDeviceDescription? deviceDescription = null)
         {
             SDL_Init(SDL_INIT_VIDEO);
-            Platform = PlatformHelper.RuntimePlatform;
+            var platformString = SDL_GetPlatform();
+            Platform = GetPlatformFrom(platformString);
             GraphicsBackend = GetDefaultGraphicsBackendFor(Platform);
             
             SetSdl2Attributes();
@@ -30,6 +31,19 @@ namespace Sokol.Samples
 
             var deviceDescription1 = deviceDescription ?? new SgDeviceDescription();
             _device = new SgDevice(deviceDescription1);
+        }
+        
+        private static Platform GetPlatformFrom(string @string)
+        {
+            return @string switch
+            {
+                "Windows" => Platform.Windows,
+                "Mac OS X" => Platform.macOS,
+                "Linux" => Platform.Linux,
+                "iOS" => Platform.iOS,
+                "Android" => Platform.Android,
+                _ => Platform.Unknown
+            };
         }
         
         internal static GraphicsBackend GetDefaultGraphicsBackendFor(Platform platform)
