@@ -20,7 +20,7 @@ namespace Sokol.Samples
         {
             SDL_Init(SDL_INIT_VIDEO);
             Platform = PlatformHelper.RuntimePlatform;
-            GraphicsBackend = GraphicsBackendHelper.GetDefaultGraphicsBackendFor(Platform);
+            GraphicsBackend = GetDefaultGraphicsBackendFor(Platform);
             
             SetSdl2Attributes();
             CreateWindow(out var windowHandle);
@@ -31,6 +31,19 @@ namespace Sokol.Samples
             var deviceDescription1 = deviceDescription ?? new SgDeviceDescription();
             _device = new SgDevice(deviceDescription1);
         }
+        
+        internal static GraphicsBackend GetDefaultGraphicsBackendFor(Platform platform)
+        {
+            return platform switch
+            {
+                Platform.Windows => GraphicsBackend.OpenGL, //TODO: Use Direct3D11 instead
+                Platform.macOS => GraphicsBackend.OpenGL, //TODO: Use Metal instead
+                Platform.Linux => GraphicsBackend.OpenGL,
+                Platform.iOS => GraphicsBackend.Metal,
+                Platform.Android => GraphicsBackend.OpenGLES3,
+                _ => GraphicsBackend.OpenGL
+            };
+        }   
 
         private void SetSdl2Attributes()
         {
