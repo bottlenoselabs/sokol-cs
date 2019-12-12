@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.BufferOffsets
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Blend", "Samples\Sokol.Samples.Blend\Sokol.Samples.Blend.csproj", "{37D4BDFC-0441-480B-AFA7-ECBB48E6D70E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.DotNetCoreOpenGL", "Sokol.Graphics.DotNetCoreOpenGL\Sokol.Graphics.DotNetCoreOpenGL.csproj", "{6E7DF387-44CD-4B4F-A7A9-ADAD89B21852}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.OpenGL", "Sokol.Graphics.OpenGL\Sokol.Graphics.OpenGL.csproj", "{6E7DF387-44CD-4B4F-A7A9-ADAD89B21852}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

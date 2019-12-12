@@ -1,6 +1,7 @@
 using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using static SDL2.SDL;
-using static Sokol.Samples.glew;
 using static Sokol.sokol_gfx;
 
 namespace Sokol.Samples
@@ -20,8 +21,11 @@ namespace Sokol.Samples
         protected App(SgDeviceDescription? deviceDescription = null)
         {
             SDL_Init(SDL_INIT_VIDEO);
-            Platform = PlatformHelper.RuntimePlatform;
-            GraphicsBackend = GraphicsBackendHelper.GetDefaultGraphicsBackendFor(Platform);
+            var platformString = SDL_GetPlatform();
+            Platform = GetPlatformFrom(platformString);
+            GraphicsBackend = GetDefaultGraphicsBackendFor(Platform);
+            
+            NativeLibrary.SetDllImportResolver(typeof(glew).Assembly, Resolver);
             
             SetSdl2Attributes();
             CreateWindow(out var windowHandle);
@@ -32,6 +36,46 @@ namespace Sokol.Samples
             var deviceDescription1 = deviceDescription ?? new SgDeviceDescription();
             _device = new SgDevice(deviceDescription1);
         }
+
+        private static IntPtr Resolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+        {
+            // ReSharper disable once InvertIf
+            if (libraryName.ToLower() == "glew")
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    libraryName = "glew32";   
+                }
+            }
+
+            return NativeLibrary.Load(libraryName, assembly, searchPath);
+        }
+
+        private static Platform GetPlatformFrom(string @string)
+        {
+            return @string switch
+            {
+                "Windows" => Platform.Windows,
+                "Mac OS X" => Platform.macOS,
+                "Linux" => Platform.Linux,
+                "iOS" => Platform.iOS,
+                "Android" => Platform.Android,
+                _ => Platform.Unknown
+            };
+        }
+        
+        internal static GraphicsBackend GetDefaultGraphicsBackendFor(Platform platform)
+        {
+            return platform switch
+            {
+                Platform.Windows => GraphicsBackend.OpenGL, //TODO: Use Direct3D11 instead
+                Platform.macOS => GraphicsBackend.OpenGL, //TODO: Use Metal instead
+                Platform.Linux => GraphicsBackend.OpenGL,
+                Platform.iOS => GraphicsBackend.Metal,
+                Platform.Android => GraphicsBackend.OpenGLES3,
+                _ => GraphicsBackend.OpenGL
+            };
+        }   
 
         private void SetSdl2Attributes()
         {
@@ -77,16 +121,23 @@ namespace Sokol.Samples
             if (GraphicsBackend == GraphicsBackend.OpenGL)
             {
                 deviceHandle = SDL_GL_CreateContext(WindowHandle);
-                
                 if (deviceHandle == IntPtr.Zero)
                 {
-                    throw new ApplicationException("Failed to create OpenGL Core 3.3 context. Did you forget to update your drivers?");
+                    throw new ApplicationException("Failed to create OpenGL Core 3.3 context. Are you in a virtual machine without GPU acceleration? Did you forget to update your drivers?");
                 }
                 
-                SDL_GL_MakeCurrent(WindowHandle, deviceHandle);
+                var result = SDL_GL_MakeCurrent(WindowHandle, deviceHandle);
+                if (result != 0)
+                {
+                    throw new ApplicationException("Failed to setup OpenGL context with a window.");
+                }
                 if (Platform == Platform.Windows || Platform == Platform.Linux)
                 {
-                    glewInit();   
+                    result = glew.glewInit();
+                    if (result != 0)
+                    {
+                        throw new ApplicationException("Failed to initialize OpenGL extension entry points using GLEW.");
+                    }
                 }
             }
             else

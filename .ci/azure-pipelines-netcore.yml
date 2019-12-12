@@ -107,5 +107,7 @@ stages:
       - task: NuGetToolInstaller@1
 
       - script: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/lithiumtoast/index.json" -UserName lithiumtoast -Password $(github-lithiumtoast-azure-devops-nuget-push-access-token)
+      - script: nuget source Add -Name "MyGet" -Source "https://www.myget.org/F/lithiumtoast/api/v2/package"
 
       - script: nuget push -Source "GitHub" "%CD%\**\*.nupkg" || true
+      - script: nuget push -Source "MyGet" -ApiKey $(myget-lithiumtoast-azure-devops-push-access-token) "%CD%\**\*.nupkg" || true
