@@ -1,6 +1,4 @@
 using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using static SDL2.SDL;
 using static Sokol.sokol_gfx;
 
@@ -20,8 +18,6 @@ namespace Sokol.Samples
 
         protected App(SgDeviceDescription? deviceDescription = null)
         {
-            NativeLibrary.SetDllImportResolver(typeof(glew).Assembly, Resolver);
-            
             SDL_Init(SDL_INIT_VIDEO);
             var platformString = SDL_GetPlatform();
             Platform = GetPlatformFrom(platformString);
@@ -29,25 +25,10 @@ namespace Sokol.Samples
             var description = deviceDescription ?? new SgDeviceDescription();
             GraphicsBackend = description.GraphicsBackend;
             
-            SetSDL2Attributes(GraphicsBackend);
             WindowHandle = CreateWindow();
             _renderer = CreateRenderer(WindowHandle, GraphicsBackend, Platform);
 
             _device = new SgDevice(description);
-        }
-
-        private static IntPtr Resolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
-        {
-            // ReSharper disable once InvertIf
-            if (libraryName.ToLower() == "glew")
-            {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    libraryName = "glew32";   
-                }
-            }
-
-            return NativeLibrary.Load(libraryName, assembly, searchPath);
         }
 
         private static Platform GetPlatformFrom(string @string)
@@ -61,43 +42,6 @@ namespace Sokol.Samples
                 "Android" => Platform.Android,
                 _ => Platform.Unknown
             };
-        }
-        
-        internal static GraphicsBackend GetDefaultGraphicsBackendFor(Platform platform)
-        {
-            return platform switch
-            {
-                Platform.Windows => GraphicsBackend.OpenGL, //TODO: Use Direct3D11 instead
-                Platform.macOS => GraphicsBackend.OpenGL, //TODO: Use Metal instead
-                Platform.Linux => GraphicsBackend.OpenGL,
-                Platform.iOS => GraphicsBackend.Metal,
-                Platform.Android => GraphicsBackend.OpenGLES3,
-                _ => GraphicsBackend.OpenGL
-            };
-        }   
-
-        private static void SetSDL2Attributes(GraphicsBackend backend)
-        {
-            switch (backend)
-            {
-                case GraphicsBackend.OpenGL:
-                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_FLAGS, (int) SDL_GLcontext.SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_PROFILE_MASK, SDL_GLprofile.SDL_GL_CONTEXT_PROFILE_CORE);
-                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_MINOR_VERSION, 3);
-                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_DOUBLEBUFFER, 1);
-                    break;
-                case GraphicsBackend.OpenGLES2:
-                    break;
-                case GraphicsBackend.OpenGLES3:
-                    break;
-                case GraphicsBackend.Direct3D11:
-                    break;
-                case GraphicsBackend.Metal:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
 
         private IntPtr CreateWindow()
