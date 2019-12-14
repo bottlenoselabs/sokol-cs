@@ -1,9 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Description>A .NETStandard wrapper for Sokol; minimal cross-platform standalone C headers.</Description>
-        <TargetFrameworks>netstandard2.0</TargetFrameworks>
-        <RootNamespace>Sokol.Graphics.OpenGL</RootNamespace>
+        <Description>A .NET wrapper for Sokol; minimal cross-platform standalone C headers.</Description>
+        <RootNamespace>Sokol.Graphics</RootNamespace>
         <LangVersion>8</LangVersion>
         <PackageVersion>0.1.0</PackageVersion>
         <Title>Sokol.Graphics.OpenGL</Title>
@@ -16,6 +15,7 @@
         <RepositoryUrl>https://github.com/lithiumtoast/sokol-csharp</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>sokol sokol_gfx c# csharp pinvoke .netstandard windows linux macos opengl</PackageTags>
+        <TargetFramework>netstandard2.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -44,6 +44,10 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/win-x64/native</PackagePath>
         </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
     </ItemGroup>
 
 </Project>
