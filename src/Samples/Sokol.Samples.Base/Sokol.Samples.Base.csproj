@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Sokol.Graphics.OpenGL\Sokol.Graphics.OpenGL.csproj" />
+        <ProjectReference Include="..\..\Sokol.Graphics.Metal\Sokol.Graphics.Metal.csproj" />
         <ProjectReference Include="..\..\Sokol.Graphics\Sokol.Graphics.csproj" />
     </ItemGroup>
 

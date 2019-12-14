@@ -8,6 +8,10 @@ namespace Sokol.Samples.Clear
         private sg_pass_action _passAction;
 
         public unsafe ClearApplication()
+            : base(new SgDeviceDescription
+            {
+                GraphicsBackend = GraphicsBackend.Metal
+            })
         {
             _passAction = new sg_pass_action();
             var colors = _passAction.GetColors();

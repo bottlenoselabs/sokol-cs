@@ -26,9 +26,9 @@ namespace Sokol.Samples
             GraphicsBackend = description.GraphicsBackend;
             
             WindowHandle = CreateWindow();
-            _renderer = CreateRenderer(WindowHandle, GraphicsBackend, Platform);
+            _renderer = CreateRenderer(ref description, WindowHandle, Platform);
 
-            _device = new SgDevice(description);
+            _device = new SgDevice(ref description);
         }
 
         private static Platform GetPlatformFrom(string @string)
@@ -65,35 +65,35 @@ namespace Sokol.Samples
             return windowHandle;
         }
         
-        private static Renderer CreateRenderer(IntPtr windowHandle, GraphicsBackend backend, Platform platform)
+        private static Renderer CreateRenderer(ref SgDeviceDescription deviceDescription, IntPtr windowHandle, 
+            Platform platform)
         {
+            var backend = deviceDescription.GraphicsBackend;
             if (backend == GraphicsBackend.OpenGL)
             { 
                 return new RendererOpenGL(windowHandle, platform);
             }
             
-            throw new NotImplementedException();
+            var sysWmInfo = new SDL_SysWMinfo();
+            SDL_GetWindowWMInfo(windowHandle, ref sysWmInfo);
 
-//            var sysWmInfo = new SDL_SysWMinfo();
-//            SDL_GetVersion(out sysWmInfo.version);
-//            SDL_GetWindowWMInfo(windowHandle, ref sysWmInfo);
-//                
-//            switch (sysWmInfo.subsystem)
-//            {
-//                case SDL_SYSWM_TYPE.SDL_SYSWM_COCOA:
-//                    
-//                    var window = new NSWindow(sysWmInfo.info.cocoa.window);
-//                    _renderer = new RendererMetal(window);
-//                    var windowContentSize = window.contentView.frame.size;
-//                    width = (uint)windowContentSize.width;
-//                    height = (uint)windowContentSize.height;
-//                    var contentView = window.contentView;
-//                    contentView.wantsLayer = true;
-//                    contentView.layer = _metalLayer.NativePtr;
-//                    return SwapchainSource.CreateNSWindow(nsWindow);
-//                default:
-//                    throw new PlatformNotSupportedException("Cannot create a SwapchainSource for " + sysWmInfo.subsystem + ".");
-//            }
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (sysWmInfo.subsystem)                                            
+            {
+                case SDL_SYSWM_TYPE.SDL_SYSWM_COCOA:
+                    var nsWindow = new AppKit.NSWindow(sysWmInfo.info.cocoa.window);
+                    return new RendererMetal(ref deviceDescription, windowHandle, nsWindow);
+                case SDL_SYSWM_TYPE.SDL_SYSWM_UIKIT:
+                    // TODO: iOS Metal
+                case SDL_SYSWM_TYPE.SDL_SYSWM_WINDOWS:
+                    // TODO: Windows DirectX11
+                case SDL_SYSWM_TYPE.SDL_SYSWM_WINRT:
+                    // TODO: Windows DirectX11
+                case SDL_SYSWM_TYPE.SDL_SYSWM_ANDROID:
+                    // TODO: Android OpenGL ES
+                default:
+                    throw new PlatformNotSupportedException("Cannot create a SwapchainSource for " + sysWmInfo.subsystem + ".");
+            }
         }
 
         public void Run()
