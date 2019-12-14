@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Blend", "Samp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.OpenGL", "Sokol.Graphics.OpenGL\Sokol.Graphics.OpenGL.csproj", "{6E7DF387-44CD-4B4F-A7A9-ADAD89B21852}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.Metal", "Sokol.Graphics.Metal\Sokol.Graphics.Metal.csproj", "{E9327C9E-A290-48FD-A360-F3BB11C608D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{6E7DF387-44CD-4B4F-A7A9-ADAD89B21852}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E7DF387-44CD-4B4F-A7A9-ADAD89B21852}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E7DF387-44CD-4B4F-A7A9-ADAD89B21852}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9327C9E-A290-48FD-A360-F3BB11C608D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9327C9E-A290-48FD-A360-F3BB11C608D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9327C9E-A290-48FD-A360-F3BB11C608D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9327C9E-A290-48FD-A360-F3BB11C608D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{72A5D206-5F0C-46DA-927E-9277BA817D1E} = {DF872AF1-F024-4734-951F-248FA834668A}
