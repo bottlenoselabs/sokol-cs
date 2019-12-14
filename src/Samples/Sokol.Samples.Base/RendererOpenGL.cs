@@ -9,11 +9,31 @@ namespace Sokol.Samples
     public class RendererOpenGL : Renderer
     {
         private readonly IntPtr _contextHandle;
-        private readonly IntPtr _windowHandle;
-        
-        public RendererOpenGL(IntPtr windowHandle, Platform platform)
+
+        public override bool VerticalSyncIsEnabled
         {
-            _windowHandle = windowHandle;
+            get
+            {
+                var result = SDL_GL_GetSwapInterval();
+                return result != 0;
+            }
+            set
+            {
+                var result = SDL_GL_SetSwapInterval(value ? 1 : 0);
+                if (result != 0)
+                {
+                    throw new ApplicationException("Failed to set vertical sync.");
+                }
+            }
+        }
+
+        public RendererOpenGL(IntPtr windowHandle, Platform platform)
+            : base(windowHandle, platform)
+        {
+            if (platform == Platform.Unknown || platform == Platform.iOS || platform == Platform.Android)
+            {
+                throw new ArgumentException($"OpenGL is not supported for the platform `{platform}`.");
+            }
             
             SetSDL2Attributes();
             
@@ -34,13 +54,13 @@ namespace Sokol.Samples
                 return;
             }
             
-            NativeLibrary.SetDllImportResolver(typeof(glew).Assembly, ResolveLibrary);
-
-            result = glew.glewInit();
-            if (result != 0)
-            {
-                throw new ApplicationException("Failed to initialize GLEW.");
-            }
+//            NativeLibrary.SetDllImportResolver(typeof(glew).Assembly, ResolveLibrary);
+//
+//            result = glew.glewInit();
+//            if (result != 0)
+//            {
+//                throw new ApplicationException("Failed to initialize GLEW.");
+//            }
         }
         
         private static void SetSDL2Attributes()
@@ -54,13 +74,13 @@ namespace Sokol.Samples
 
         public override (int width, int height) GetDrawableSize()
         {
-            SDL_GL_GetDrawableSize(_windowHandle, out var width, out var height);
+            SDL_GL_GetDrawableSize(WindowHandle, out var width, out var height);
             return (width, height);
         }
 
         public override void Present()
         {
-            SDL_GL_SwapWindow(_windowHandle);
+            SDL_GL_SwapWindow(WindowHandle);
         }
 
         protected override void ReleaseResources()
