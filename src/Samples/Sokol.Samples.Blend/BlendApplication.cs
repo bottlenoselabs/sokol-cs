@@ -172,9 +172,8 @@ void main() {
             _passAction.stencil.action = sg_action.SG_ACTION_DONTCARE;
         }
 
-        protected override void Draw()
+        protected override void Draw(int width, int height)
         {
-            SDL_GL_GetDrawableSize(WindowHandle, out var width, out var height);
             sg_begin_default_pass(ref _passAction, width, height);
             
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float) (90.0f * Math.PI / 180), (float)width / height,

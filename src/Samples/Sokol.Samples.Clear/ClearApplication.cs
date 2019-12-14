@@ -18,11 +18,10 @@ namespace Sokol.Samples.Clear
             };
         }
         
-        protected override unsafe void Draw()
+        protected override unsafe void Draw(int width, int height)
         {
             var g = _passAction.GetColors()[0].val.G + 0.01f;
             _passAction.GetColors()[0].val.G = g > 1.0f ? 0.0f : g;
-            SDL_GL_GetDrawableSize(WindowHandle, out var width, out var height);
             sg_begin_default_pass(ref _passAction, width, height);
             sg_end_pass();
         }

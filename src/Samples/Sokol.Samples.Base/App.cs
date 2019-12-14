@@ -9,7 +9,7 @@ namespace Sokol.Samples
     public abstract class App : IDisposable
     {
         private readonly SgDevice _device;
-        private readonly IntPtr _contextHandle;
+        private readonly Renderer _renderer;
         private bool _isExiting;
 
         public IntPtr WindowHandle { get; }
@@ -20,21 +20,20 @@ namespace Sokol.Samples
 
         protected App(SgDeviceDescription? deviceDescription = null)
         {
+            NativeLibrary.SetDllImportResolver(typeof(glew).Assembly, Resolver);
+            
             SDL_Init(SDL_INIT_VIDEO);
             var platformString = SDL_GetPlatform();
             Platform = GetPlatformFrom(platformString);
-            GraphicsBackend = GetDefaultGraphicsBackendFor(Platform);
             
-            NativeLibrary.SetDllImportResolver(typeof(glew).Assembly, Resolver);
+            var description = deviceDescription ?? new SgDeviceDescription();
+            GraphicsBackend = description.GraphicsBackend;
             
-            SetSdl2Attributes();
-            CreateWindow(out var windowHandle);
-            WindowHandle = windowHandle;
-            CreateGraphicsDevice(out var deviceHandle);
-            _contextHandle = deviceHandle;
+            SetSDL2Attributes(GraphicsBackend);
+            WindowHandle = CreateWindow();
+            _renderer = CreateRenderer(WindowHandle, GraphicsBackend, Platform);
 
-            var deviceDescription1 = deviceDescription ?? new SgDeviceDescription();
-            _device = new SgDevice(deviceDescription1);
+            _device = new SgDevice(description);
         }
 
         private static IntPtr Resolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
@@ -77,36 +76,40 @@ namespace Sokol.Samples
             };
         }   
 
-        private void SetSdl2Attributes()
+        private static void SetSDL2Attributes(GraphicsBackend backend)
         {
-            if (GraphicsBackend == GraphicsBackend.OpenGL)
+            switch (backend)
             {
-                SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_FLAGS, (int) SDL_GLcontext.SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-                SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_PROFILE_MASK, SDL_GLprofile.SDL_GL_CONTEXT_PROFILE_CORE);
-                SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-                SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_MINOR_VERSION, 3);
-                SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_DOUBLEBUFFER, 1);
-            }
-            else if (GraphicsBackend == GraphicsBackend.Metal)
-            {
-                SDL_SetHint(SDL_HINT_RENDER_DRIVER, "metal");
+                case GraphicsBackend.OpenGL:
+                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_FLAGS, (int) SDL_GLcontext.SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_PROFILE_MASK, SDL_GLprofile.SDL_GL_CONTEXT_PROFILE_CORE);
+                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_MINOR_VERSION, 3);
+                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_DOUBLEBUFFER, 1);
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                    break;
+                case GraphicsBackend.OpenGLES3:
+                    break;
+                case GraphicsBackend.Direct3D11:
+                    break;
+                case GraphicsBackend.Metal:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void CreateWindow(out IntPtr windowHandle)
+        private IntPtr CreateWindow()
         {
-            var windowFlags = SDL_WindowFlags.SDL_WINDOW_HIDDEN;
+            var windowFlags = SDL_WindowFlags.SDL_WINDOW_HIDDEN | SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI;
             
             if (GraphicsBackend == GraphicsBackend.OpenGL)
             {
                 windowFlags |= SDL_WindowFlags.SDL_WINDOW_OPENGL;
             }
-            else if (GraphicsBackend == GraphicsBackend.Metal)
-            {
-                windowFlags |= SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI;
-            }
             
-            windowHandle = SDL_CreateWindow("", 
+            var windowHandle = SDL_CreateWindow("", 
                 SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
                 800, 600, windowFlags);
 
@@ -114,36 +117,39 @@ namespace Sokol.Samples
             {
                 throw new ApplicationException("Failed to create a window with SDL2.");
             }
-        }
 
-        private void CreateGraphicsDevice(out IntPtr deviceHandle)
+            return windowHandle;
+        }
+        
+        private static Renderer CreateRenderer(IntPtr windowHandle, GraphicsBackend backend, Platform platform)
         {
-            if (GraphicsBackend == GraphicsBackend.OpenGL)
-            {
-                deviceHandle = SDL_GL_CreateContext(WindowHandle);
-                if (deviceHandle == IntPtr.Zero)
-                {
-                    throw new ApplicationException("Failed to create OpenGL Core 3.3 context. Are you in a virtual machine without GPU acceleration? Did you forget to update your drivers?");
-                }
-                
-                var result = SDL_GL_MakeCurrent(WindowHandle, deviceHandle);
-                if (result != 0)
-                {
-                    throw new ApplicationException("Failed to setup OpenGL context with a window.");
-                }
-                if (Platform == Platform.Windows || Platform == Platform.Linux)
-                {
-                    result = glew.glewInit();
-                    if (result != 0)
-                    {
-                        throw new ApplicationException("Failed to initialize OpenGL extension entry points using GLEW.");
-                    }
-                }
+            if (backend == GraphicsBackend.OpenGL)
+            { 
+                return new RendererOpenGL(windowHandle, platform);
             }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            
+            throw new NotImplementedException();
+
+//            var sysWmInfo = new SDL_SysWMinfo();
+//            SDL_GetVersion(out sysWmInfo.version);
+//            SDL_GetWindowWMInfo(windowHandle, ref sysWmInfo);
+//                
+//            switch (sysWmInfo.subsystem)
+//            {
+//                case SDL_SYSWM_TYPE.SDL_SYSWM_COCOA:
+//                    
+//                    var window = new NSWindow(sysWmInfo.info.cocoa.window);
+//                    _renderer = new RendererMetal(window);
+//                    var windowContentSize = window.contentView.frame.size;
+//                    width = (uint)windowContentSize.width;
+//                    height = (uint)windowContentSize.height;
+//                    var contentView = window.contentView;
+//                    contentView.wantsLayer = true;
+//                    contentView.layer = _metalLayer.NativePtr;
+//                    return SwapchainSource.CreateNSWindow(nsWindow);
+//                default:
+//                    throw new PlatformNotSupportedException("Cannot create a SwapchainSource for " + sysWmInfo.subsystem + ".");
+//            }
         }
 
         public void Run()
@@ -169,34 +175,24 @@ namespace Sokol.Samples
                         break;
                 }
             }
-                
-            Draw();
-                
+
+            var (width, height) = _renderer.GetDrawableSize();
+            Draw(width, height);
             sg_commit();
-            if (GraphicsBackend == GraphicsBackend.OpenGL)
-            {
-                SDL_GL_SwapWindow(WindowHandle);   
-            }
+            _renderer.Present();
         }
 
-        protected abstract void Draw();
+        protected abstract void Draw(int drawableWidth, int drawableHeight);
 
         public void Exit()
         {
             Dispose();
         }
 
-        private void ReleaseUnmanagedResources()
+        private void ReleaseResources()
         {
             _device.Dispose();
-            
-            if (GraphicsBackend == GraphicsBackend.OpenGL)
-            {
-                if (_contextHandle != IntPtr.Zero)
-                {
-                    SDL_GL_DeleteContext(_contextHandle);   
-                }
-            }
+            _renderer.Dispose();
 
             if (WindowHandle != IntPtr.Zero)
             {
@@ -208,13 +204,13 @@ namespace Sokol.Samples
 
         public void Dispose()
         {
-            ReleaseUnmanagedResources();
+            ReleaseResources();
             GC.SuppressFinalize(this);
         }
 
         ~App()
         {
-            ReleaseUnmanagedResources();
+            ReleaseResources();
         }
     }
 }
