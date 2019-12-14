@@ -65,6 +65,7 @@ Console PlayStation 4|✅|❌|❌|❌|❌|❓
 - Android is supported with .NET using [Xamarin](https://dotnet.microsoft.com/apps/xamarin).
 - As of Q4 2019, WebAssembly is made possible with .NET using [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor). I have not tried to get Sokol working with Blazor yet.
 - As of Q4 2019, consoles are made possible with .NET using [BRUTE](http://brute.rocks). However, the tool is not yet released to the general public. Also, SDK licenses are required for each console.
+- As of Q2 2019, [.NET 5 has been accounced as the next .NET Core that will unify desktop, mobile, browser, consoles, and other platforms](https://devblogs.microsoft.com/dotnet/introducing-net-5/). Thus, adopting .NET Core *now* is future proofing.
 
 ## Contributing
 
