@@ -24,6 +24,8 @@ SOFTWARE.
 
 using System;
 
+// ReSharper disable UnassignedField.Global
+
 namespace Sokol
 {
     public struct SgDeviceDescription
