@@ -22,15 +22,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
+using System;
+
 namespace Sokol
 {
     public struct SgDeviceDescription
     {
+        public GraphicsBackend GraphicsBackend;
         public int BufferPoolSize;
         public int ImagePoolSize;
         public int ShaderPoolSize;
         public int PipelinePoolSize;
         public int PassPoolSize;
         public int ContextPoolSize;
+        public Func<IntPtr> GetMetalDevice;
+        public Func<IntPtr> GetMetalRenderPassDescriptor;
+        public Func<IntPtr> GetMetalDrawable;
     }
 }
