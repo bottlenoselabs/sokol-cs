@@ -32,12 +32,13 @@ namespace Sokol
     public class SgDevice : IDisposable
     {
         private static int _isInitialized;
-        
-        private GCHandle _getMetalDrawableDelegateGCHandle;
-        private GCHandle _getMetalRenderPassDescriptorDelegateGCHandle;
+
+        private GCHandle _getMetalDeviceGCHandle;
+        private GCHandle _getMetalDrawableGCHandle;
+        private GCHandle _getMetalRenderPassDescriptorGCHandle;
         private int _isDisposed;
 
-        public SgDevice(SgDeviceDescription description)
+        public SgDevice(ref SgDeviceDescription description)
         {
             Ensure64BitArchitecture();
             EnsureIsNotAlreadyInitialized();
@@ -108,8 +109,12 @@ namespace Sokol
             }
 
             // We need to prevent the delegates used above from getting garbage collected
-            _getMetalRenderPassDescriptorDelegateGCHandle = GCHandle.Alloc(getMetalRenderPassDescriptor);
-            _getMetalDrawableDelegateGCHandle = GCHandle.Alloc(getMetalDrawable);
+            // NOTE: When creating a function pointer from a delegate, a stub is created. Thus the delegate does not
+            //    need to be pinned. The GC is free to move around the delegate as the stub never changes.
+            //    When the delegate is claimed by the GC the stub is also removed.
+            _getMetalDeviceGCHandle = GCHandle.Alloc(getMetalDevice);
+            _getMetalRenderPassDescriptorGCHandle = GCHandle.Alloc(getMetalRenderPassDescriptor);
+            _getMetalDrawableGCHandle = GCHandle.Alloc(getMetalDrawable);
         }
 
         public void Dispose()
@@ -173,14 +178,18 @@ namespace Sokol
             }
 
             sg_shutdown();
-            
-            if (_getMetalRenderPassDescriptorDelegateGCHandle.IsAllocated)
+
+            if (_getMetalDeviceGCHandle.IsAllocated)
             {
-                _getMetalRenderPassDescriptorDelegateGCHandle.Free();
+                _getMetalDeviceGCHandle.Free();
             }
-            if (_getMetalDrawableDelegateGCHandle.IsAllocated)
+            if (_getMetalRenderPassDescriptorGCHandle.IsAllocated)
             {
-                _getMetalDrawableDelegateGCHandle.Free();
+                _getMetalRenderPassDescriptorGCHandle.Free();
+            }
+            if (_getMetalDrawableGCHandle.IsAllocated)
+            {
+                _getMetalDrawableGCHandle.Free();
             }
         }
 

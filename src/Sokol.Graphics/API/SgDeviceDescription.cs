@@ -23,11 +23,18 @@ SOFTWARE.
  */
 
 using System;
+using System.Runtime.InteropServices;
 
 // ReSharper disable UnassignedField.Global
 
 namespace Sokol
 {
+    // NOTE:
+    // - GetFunctionPointerForDelegate does not accept generics and thus we have to define our own delegates.
+    // - UnmanagedFunctionPointer is necessary for iOS AOT.
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate IntPtr GetPointerDelegate();
+
     public struct SgDeviceDescription
     {
         public GraphicsBackend GraphicsBackend;
@@ -37,8 +44,8 @@ namespace Sokol
         public int PipelinePoolSize;
         public int PassPoolSize;
         public int ContextPoolSize;
-        public Func<IntPtr> GetMetalDevice;
-        public Func<IntPtr> GetMetalRenderPassDescriptor;
-        public Func<IntPtr> GetMetalDrawable;
+        public GetPointerDelegate GetMetalDevice;
+        public GetPointerDelegate GetMetalRenderPassDescriptor;
+        public GetPointerDelegate GetMetalDrawable;
     }
 }
