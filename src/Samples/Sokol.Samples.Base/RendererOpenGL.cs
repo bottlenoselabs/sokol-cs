@@ -1,5 +1,4 @@
 using System;
-using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using static SDL2.SDL;
@@ -27,14 +26,9 @@ namespace Sokol.Samples
             }
         }
 
-        public RendererOpenGL(IntPtr windowHandle, Platform platform)
-            : base(windowHandle, platform)
+        public RendererOpenGL(IntPtr windowHandle)
+            : base(windowHandle)
         {
-            if (platform == Platform.Unknown || platform == Platform.iOS || platform == Platform.Android)
-            {
-                throw new ArgumentException($"OpenGL is not supported for the platform `{platform}`.");
-            }
-            
             SetSDL2Attributes();
             
             _contextHandle = SDL_GL_CreateContext(windowHandle);
@@ -48,21 +42,23 @@ namespace Sokol.Samples
             {
                 throw new ApplicationException("Failed to setup OpenGL context with a window.");
             }
+            
+            NativeLibrary.SetDllImportResolver(typeof(sokol_gfx).Assembly, ResolveLibrary);
 
-            if (platform != Platform.Windows && platform != Platform.Linux)
-            {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            { 
                 return;
             }
             
-//            NativeLibrary.SetDllImportResolver(typeof(glew).Assembly, ResolveLibrary);
-//
-//            result = glew.glewInit();
-//            if (result != 0)
-//            {
-//                throw new ApplicationException("Failed to initialize GLEW.");
-//            }
+            NativeLibrary.SetDllImportResolver(typeof(glew).Assembly, ResolveLibrary);
+
+            result = glew.glewInit();
+            if (result != 0)
+            {
+                throw new ApplicationException("Failed to initialize GLEW.");
+            }
         }
-        
+
         private static void SetSDL2Attributes()
         {
             SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_CONTEXT_FLAGS, (int) SDL_GLcontext.SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
@@ -93,13 +89,20 @@ namespace Sokol.Samples
         
         private static IntPtr ResolveLibrary(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
         {
-            // ReSharper disable once InvertIf
-            if (libraryName.ToLower() == "glew")
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (libraryName.ToLower())
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                case "glew":
                 {
-                    libraryName = "glew32";   
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        libraryName = "glew32";   
+                    }
+                    break;
                 }
+                case "sokol_gfx":
+                    libraryName = "sokol_gfx-opengl";
+                    break;
             }
 
             return NativeLibrary.Load(libraryName, assembly, searchPath);

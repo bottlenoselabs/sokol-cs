@@ -8,8 +8,6 @@ namespace Sokol.Samples
         private int _disposedState;
 
         public IntPtr WindowHandle { get; }
-        public Platform Platform { get; }
-
         public abstract bool VerticalSyncIsEnabled { get; set; }
 
         public abstract (int width, int height) GetDrawableSize();
@@ -17,7 +15,7 @@ namespace Sokol.Samples
 
         protected abstract void ReleaseResources();
 
-        public Renderer(IntPtr windowHandle, Platform platform)
+        protected Renderer(IntPtr windowHandle)
         {
             if (windowHandle == IntPtr.Zero)
             {
@@ -25,7 +23,6 @@ namespace Sokol.Samples
             }
             
             WindowHandle = windowHandle;
-            Platform = platform;
         }
 
         public void Dispose()
