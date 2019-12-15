@@ -23,9 +23,8 @@ SOFTWARE.
  */
 
 // ReSharper disable InconsistentNaming
-// ReSharper disable once CheckNamespace
 
-namespace Metal
+namespace Sokol.Metal
 {
     internal static class Constants
     {

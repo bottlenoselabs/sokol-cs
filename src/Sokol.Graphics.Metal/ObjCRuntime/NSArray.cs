@@ -23,29 +23,27 @@ SOFTWARE.
  */
 
 using System;
-using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using static Sokol.ObjCRuntime.Messaging;
 
-// ReSharper disable UnassignedField.Global
+// ReSharper disable InconsistentNaming
 
-namespace Sokol
+namespace Sokol.ObjCRuntime
 {
-    // NOTE:
-    // - GetFunctionPointerForDelegate does not accept generics and thus we have to define our own delegates.
-    // - UnmanagedFunctionPointer is necessary for iOS AOT.
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr GetPointerDelegate();
-
-    public struct SgDeviceDescription
+    public static class NSArray
     {
-        public GraphicsBackend GraphicsBackend;
-        public int BufferPoolSize;
-        public int ImagePoolSize;
-        public int ShaderPoolSize;
-        public int PipelinePoolSize;
-        public int PassPoolSize;
-        public int ContextPoolSize;
-        public IntPtr MetalDevice;
-        public GetPointerDelegate GetMetalRenderPassDescriptor;
-        public GetPointerDelegate GetMetalDrawable;
+        public static unsafe T objectAtIndexedSubscript<T>(IntPtr receiver, UIntPtr index) where T : unmanaged
+        {
+            var value = intptr_objc_msgSend_nsuinteger(receiver, sel_objectAtIndexedSubscript, index);
+            return Unsafe.AsRef<T>(&value);
+        }
+
+        public static void setObjectAtIndexedSubscript<T>(IntPtr receiver, IntPtr value, UIntPtr index) where T : unmanaged
+        {
+            void_objc_msgSend_intptr_nsuinteger(receiver, sel_setObjectAtIndexedSubscript, value, index);
+        }
+        
+        private static readonly Selector sel_objectAtIndexedSubscript = "objectAtIndexedSubscript:";
+        private static readonly Selector sel_setObjectAtIndexedSubscript = "setObject:atIndexedSubscript:";
     }
 }

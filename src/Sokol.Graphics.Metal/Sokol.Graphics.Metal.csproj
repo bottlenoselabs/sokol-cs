@@ -24,8 +24,8 @@
     </ItemGroup>
     
     <ItemGroup>
-        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\metal\debug\libsokol_gfx.dylib">
-            <Link>libsokol_gfx.dylib</Link>
+        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\metal\release\libsokol_gfx.dylib">
+            <Link>libsokol_gfx-metal.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/osx-x64/native</PackagePath>
         </Content>

@@ -51,16 +51,16 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-using CoreGraphics;
-using Metal;
-using ObjCRuntime;
-using Sokol;
-using static ObjCRuntime.Messaging;
+using Sokol.CoreGraphics;
+using Sokol.Metal;
+using Sokol.ObjCRuntime;
+using static Sokol.ObjCRuntime.Messaging;
 
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
-// ReSharper disable once CheckNamespace
 
-namespace CoreAnimation
+namespace Sokol.CoreAnimation
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct CAMetalLayer

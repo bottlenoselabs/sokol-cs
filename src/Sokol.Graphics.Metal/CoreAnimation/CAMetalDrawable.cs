@@ -49,23 +49,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-
 using System;
 using System.Runtime.InteropServices;
+using Sokol.Metal;
+using Sokol.ObjCRuntime;
+using static Sokol.ObjCRuntime.Messaging;
 
 // ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable once CheckNamespace
+// ReSharper disable InconsistentNaming
 
-namespace CoreAnimation
+namespace Sokol.CoreAnimation
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct CAMetalDrawable
     {
         public readonly IntPtr Handle;
         
+        public MTLTexture texture => t_objc_msgSend<MTLTexture>(Handle, sel_texture);
+
         public static implicit operator IntPtr(CAMetalDrawable value)
         {
             return value.Handle;
         }
+        
+        internal static readonly Selector sel_texture = "texture";
     }
 }

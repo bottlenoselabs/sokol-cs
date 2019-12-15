@@ -23,29 +23,25 @@ SOFTWARE.
  */
 
 using System;
-using System.Runtime.InteropServices;
+using static Sokol.ObjCRuntime.Messaging;
 
-// ReSharper disable UnassignedField.Global
+// ReSharper disable InconsistentNaming
 
-namespace Sokol
+namespace Sokol.ObjCRuntime
 {
-    // NOTE:
-    // - GetFunctionPointerForDelegate does not accept generics and thus we have to define our own delegates.
-    // - UnmanagedFunctionPointer is necessary for iOS AOT.
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr GetPointerDelegate();
-
-    public struct SgDeviceDescription
+    public static class NSObject
     {
-        public GraphicsBackend GraphicsBackend;
-        public int BufferPoolSize;
-        public int ImagePoolSize;
-        public int ShaderPoolSize;
-        public int PipelinePoolSize;
-        public int PassPoolSize;
-        public int ContextPoolSize;
-        public IntPtr MetalDevice;
-        public GetPointerDelegate GetMetalRenderPassDescriptor;
-        public GetPointerDelegate GetMetalDrawable;
+        public static void release(IntPtr receiver)
+        {
+            void_objc_msgSend(receiver, sel_release);
+        }
+        
+        public static void retain(IntPtr receiver)
+        {
+            void_objc_msgSend(receiver, sel_retain);
+        }
+
+        private static readonly Selector sel_release = "release";
+        private static readonly Selector sel_retain = "retain";
     }
 }

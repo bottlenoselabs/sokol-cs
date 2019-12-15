@@ -50,17 +50,15 @@ SOFTWARE.
  */
 
 using System;
-using CoreGraphics;
-using ObjCRuntime;
-using Sokol;
-using static ObjCRuntime.Messaging;
+using Sokol.CoreGraphics;
+using Sokol.ObjCRuntime;
+using static Sokol.ObjCRuntime.Messaging;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
-// ReSharper disable once CheckNamespace
 
-namespace AppKit
+namespace Sokol.AppKit
 {
     public struct NSView
     {
@@ -80,7 +78,11 @@ namespace AppKit
 
         public CGRect frame => t_objc_msgSend_stret<CGRect>(Handle, sel_frame);
 
-        
+        public readonly CGPoint convertToBacking(CGPoint point)
+        {
+            return cgpoint_objc_msgSend_cgpoint(Handle, sel_convertToBacking, point);
+        }
+
         public NSView(IntPtr pointer)
         {
             Handle = pointer;
@@ -96,5 +98,6 @@ namespace AppKit
         private static readonly Selector sel_layer = "layer";
         private static readonly Selector sel_setLayer = "setLayer:";
         private static readonly Selector sel_frame = "frame";
+        private static readonly Selector sel_convertToBacking = "convertPointToBacking:";
     }
 }

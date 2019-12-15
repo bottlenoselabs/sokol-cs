@@ -32,8 +32,7 @@ namespace Sokol
     public class SgDevice : IDisposable
     {
         private static int _isInitialized;
-
-        private GCHandle _getMetalDeviceGCHandle;
+        
         private GCHandle _getMetalDrawableGCHandle;
         private GCHandle _getMetalRenderPassDescriptorGCHandle;
         private int _isDisposed;
@@ -109,10 +108,10 @@ namespace Sokol
 
         private void SetupMetal(ref sg_desc desc, ref SgDeviceDescription description)
         {
-            var getMetalDevice = description.GetMetalDevice;
-            if (getMetalDevice == null)
+            var metalDevice = description.MetalDevice;
+            if (metalDevice == IntPtr.Zero)
             {
-                throw new ArgumentNullException(nameof(description.GetMetalDevice));
+                throw new ArgumentException("MTLDevice is a null pointer.", nameof(description.MetalDevice));
             }
 
             var getMetalRenderPassDescriptor = description.GetMetalRenderPassDescriptor;
@@ -129,17 +128,16 @@ namespace Sokol
 
             unsafe
             {
-                desc.mtl_device = (void*) Marshal.GetFunctionPointerForDelegate(getMetalDevice);
+                desc.mtl_device = (void*) metalDevice;
                 desc.mtl_renderpass_descriptor_cb =
                     (void*) Marshal.GetFunctionPointerForDelegate(getMetalRenderPassDescriptor);
                 desc.mtl_drawable_cb = (void*) Marshal.GetFunctionPointerForDelegate(getMetalDrawable);
             }
 
             // We need to prevent the delegates used above from getting garbage collected
-            // NOTE: When creating a function pointer from a delegate, a stub is created. Thus the delegate does not
-            //    need to be pinned. The GC is free to move around the delegate as the stub never changes.
-            //    When the delegate is claimed by the GC the stub is also removed.
-            _getMetalDeviceGCHandle = GCHandle.Alloc(getMetalDevice);
+            // NOTE: When creating a function pointer from a delegate, a thunk is created. Thus the delegate does not
+            //    need to be pinned. The GC is free to move around the delegate as the thunk never changes.
+            //    When the delegate is claimed by the GC the thunk is also removed.
             _getMetalRenderPassDescriptorGCHandle = GCHandle.Alloc(getMetalRenderPassDescriptor);
             _getMetalDrawableGCHandle = GCHandle.Alloc(getMetalDrawable);
         }
@@ -205,11 +203,7 @@ namespace Sokol
             }
 
             sg_shutdown();
-
-            if (_getMetalDeviceGCHandle.IsAllocated)
-            {
-                _getMetalDeviceGCHandle.Free();
-            }
+            
             if (_getMetalRenderPassDescriptorGCHandle.IsAllocated)
             {
                 _getMetalRenderPassDescriptorGCHandle.Free();

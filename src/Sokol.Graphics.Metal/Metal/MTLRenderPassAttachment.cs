@@ -22,30 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System;
-using System.Runtime.InteropServices;
+using Sokol.ObjCRuntime;
 
-// ReSharper disable UnassignedField.Global
+// ReSharper disable InconsistentNaming
 
-namespace Sokol
+namespace Sokol.Metal
 {
-    // NOTE:
-    // - GetFunctionPointerForDelegate does not accept generics and thus we have to define our own delegates.
-    // - UnmanagedFunctionPointer is necessary for iOS AOT.
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate IntPtr GetPointerDelegate();
-
-    public struct SgDeviceDescription
+    internal static class MTLRenderPassAttachment
     {
-        public GraphicsBackend GraphicsBackend;
-        public int BufferPoolSize;
-        public int ImagePoolSize;
-        public int ShaderPoolSize;
-        public int PipelinePoolSize;
-        public int PassPoolSize;
-        public int ContextPoolSize;
-        public IntPtr MetalDevice;
-        public GetPointerDelegate GetMetalRenderPassDescriptor;
-        public GetPointerDelegate GetMetalDrawable;
+        internal static readonly Selector sel_texture = "texture";
+        internal static readonly Selector sel_setTexture = "setTexture:";
     }
 }

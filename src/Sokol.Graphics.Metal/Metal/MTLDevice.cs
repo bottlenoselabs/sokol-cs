@@ -81,11 +81,11 @@ SOFTWARE.
 using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Local
 // ReSharper disable InconsistentNaming
-// ReSharper disable once CheckNamespace
 
-namespace Metal
+namespace Sokol.Metal
 {
     public struct MTLDevice
     {
@@ -95,7 +95,7 @@ namespace Metal
         {
             Handle = handle;
         }
-        
+
         public static implicit operator IntPtr(MTLDevice value)
         {
             return value.Handle;

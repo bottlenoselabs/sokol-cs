@@ -83,9 +83,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 // ReSharper disable ArrangeTypeMemberModifiers
-// ReSharper disable once CheckNamespace
 
-namespace ObjCRuntime
+namespace Sokol.ObjCRuntime
 {
     public unsafe struct Selector
     {

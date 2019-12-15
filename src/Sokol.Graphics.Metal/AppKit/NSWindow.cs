@@ -50,15 +50,14 @@ SOFTWARE.
  */
 
 using System;
-using ObjCRuntime;
-using static ObjCRuntime.Messaging;
+using Sokol.ObjCRuntime;
+using static Sokol.ObjCRuntime.Messaging;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
-// ReSharper disable once CheckNamespace
 
-namespace AppKit
+namespace Sokol.AppKit
 {
     public struct NSWindow
     {

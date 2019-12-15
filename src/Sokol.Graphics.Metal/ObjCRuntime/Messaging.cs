@@ -81,14 +81,13 @@ SOFTWARE.
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using CoreGraphics;
-using Sokol;
+using Sokol.CoreGraphics;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable IdentifierTypo
-// ReSharper disable once CheckNamespace
+// ReSharper disable InconsistentNaming
 
-namespace ObjCRuntime
+namespace Sokol.ObjCRuntime
 {
     public static unsafe class Messaging
     {
@@ -101,10 +100,15 @@ namespace ObjCRuntime
         
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern void void_objc_msgSend_uint(IntPtr receiver, Selector selector, uint arg1);
-        
 
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern void void_objc_msgSend_intptr(IntPtr receiver, Selector selector, IntPtr arg1);
+        
+        [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
+        public static extern void void_objc_msgSend_uintptr(IntPtr receiver, Selector selector, UIntPtr arg1);
+        
+        [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
+        public static extern void void_objc_msgSend_intptr_nsuinteger(IntPtr receiver, Selector selector, IntPtr arg1, UIntPtr arg2);
         
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern void void_objc_msgSend_cgsize(IntPtr receiver, Selector selector, CGSize arg1);
@@ -128,6 +132,12 @@ namespace ObjCRuntime
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector);
         
+        [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
+        public static extern UIntPtr uintptr_objc_msgSend(IntPtr receiver, Selector selector);
+        
+        [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
+        public static extern IntPtr intptr_objc_msgSend_nsuinteger(IntPtr receiver, Selector selector, UIntPtr arg1);
+        
         public static T t_objc_msgSend<T>(IntPtr receiver, Selector selector) where T : unmanaged
         {
             var value = intptr_objc_msgSend(receiver, selector);
@@ -136,5 +146,8 @@ namespace ObjCRuntime
         
         [DllImport (Constants.ObjCLibrary, EntryPoint="objc_msgSend")]
         public static extern CGSize cgsize_objc_msgSend(IntPtr receiver, IntPtr selector);
+        
+        [DllImport (Constants.ObjCLibrary, EntryPoint="objc_msgSend")]
+        public static extern CGPoint cgpoint_objc_msgSend_cgpoint(IntPtr receiver, IntPtr selector, CGPoint point);
     }
 }

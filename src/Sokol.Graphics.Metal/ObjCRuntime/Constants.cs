@@ -23,9 +23,8 @@ SOFTWARE.
  */
 
 // ReSharper disable InconsistentNaming
-// ReSharper disable once CheckNamespace
 
-namespace ObjCRuntime
+namespace Sokol.ObjCRuntime
 {
     internal static class Constants
     {

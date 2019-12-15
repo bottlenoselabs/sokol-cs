@@ -55,9 +55,8 @@ using System.Globalization;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
-// ReSharper disable once CheckNamespace
 
-namespace CoreGraphics
+namespace Sokol.CoreGraphics
 {
     public struct CGFloat
     {
