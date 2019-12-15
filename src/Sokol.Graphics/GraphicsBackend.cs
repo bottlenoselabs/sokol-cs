@@ -26,6 +26,7 @@ namespace Sokol
 {
     public enum GraphicsBackend
     {
+        Default,
         OpenGL, // Core 3.3
         OpenGLES2,
         OpenGLES3,

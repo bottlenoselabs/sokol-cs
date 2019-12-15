@@ -44,14 +44,41 @@ namespace Sokol
             EnsureIsNotAlreadyInitialized();
             
             ValidatePoolSizes(ref description);
+            ValidateGraphicsBackend(ref description);
+            
             var desc = CreateDefaultSgDesc(description);
-
+            
             if (description.GraphicsBackend == GraphicsBackend.Metal)
             {
                 SetupMetal(ref desc, ref description);
             }
 
             sg_setup(ref desc);
+        }
+
+        private static void ValidateGraphicsBackend(ref SgDeviceDescription description)
+        {
+            if (description.GraphicsBackend != GraphicsBackend.Default)
+            {
+                return;
+            }
+
+            // TODO: In .NET 5 there should be a way to check if iOS, Android, etc
+            
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                description.GraphicsBackend = GraphicsBackend.Direct3D11;
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                description.GraphicsBackend = GraphicsBackend.Metal;
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                description.GraphicsBackend = GraphicsBackend.OpenGL;
+            }
         }
 
         private static sg_desc CreateDefaultSgDesc(SgDeviceDescription description)
