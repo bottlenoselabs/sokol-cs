@@ -10,4 +10,10 @@
       <ProjectReference Include="..\Sokol.Samples.Base\Sokol.Samples.Base.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Update="assets\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>
