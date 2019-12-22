@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using static SDL2.SDL;
@@ -55,25 +56,18 @@ namespace Sokol.Samples.BufferOffsets
             _bindings.SetVertexBuffer(_vertexBuffer);
             _bindings.SetIndexBuffer(_indexBuffer);
             
-            const string vertexShaderSourceCode = @"
-#version 330
-layout(location=0) in vec2 position;
-layout(location=1) in vec3 color0;
-out vec4 color;
-void main() {
-  gl_Position = vec4(position, 0.5, 1.0);
-  color = vec4(color0, 1.0);
-}
-"; 
-            
-            const string fragmentShaderSourceCode = @"
-#version 330
-in vec4 color;
-out vec4 frag_color;
-void main() {
-  frag_color = color;
-}
-"; 
+            string vertexShaderSourceCode;
+            string fragmentShaderSourceCode;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/metal/main.vert");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/metal/main.frag");
+            }
+            else
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+            }
             
             _shader = new SgShader(vertexShaderSourceCode, fragmentShaderSourceCode);
             
