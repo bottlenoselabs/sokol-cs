@@ -1,4 +1,3 @@
-using static SDL2.SDL;
 using static Sokol.sokol_gfx;
 
 namespace Sokol.Samples.Clear
@@ -8,10 +7,6 @@ namespace Sokol.Samples.Clear
         private sg_pass_action _passAction;
 
         public unsafe ClearApplication()
-            : base(new SgDeviceDescription
-            {
-                GraphicsBackend = GraphicsBackend.Metal
-            })
         {
             _passAction = new sg_pass_action();
             var colors = _passAction.GetColors();
