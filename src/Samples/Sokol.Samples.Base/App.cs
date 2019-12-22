@@ -16,12 +16,12 @@ namespace Sokol.Samples
             SDL_Init(SDL_INIT_VIDEO);
 
             var description = deviceDescription ?? new SgDeviceDescription();
-            GraphicsBackend = description.GraphicsBackend;
 
             WindowHandle = CreateWindow();
             _renderer = CreateRenderer(ref description, WindowHandle);
 
             _device = new SgDevice(ref description);
+            GraphicsBackend = _device.GraphicsBackend;
         }
 
         public IntPtr WindowHandle { get; }

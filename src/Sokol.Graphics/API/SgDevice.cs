@@ -37,6 +37,8 @@ namespace Sokol
         private GCHandle _getMetalRenderPassDescriptorGCHandle;
         private int _isDisposed;
 
+        public GraphicsBackend GraphicsBackend { get; }
+
         public SgDevice(ref SgDeviceDescription description)
         {
             Ensure64BitArchitecture();
@@ -44,10 +46,11 @@ namespace Sokol
             
             ValidatePoolSizes(ref description);
             ValidateGraphicsBackend(ref description);
+            GraphicsBackend = description.GraphicsBackend;
             
             var desc = CreateDefaultSgDesc(description);
             
-            if (description.GraphicsBackend == GraphicsBackend.Metal)
+            if (GraphicsBackend == GraphicsBackend.Metal)
             {
                 SetupMetal(ref desc, ref description);
             }
