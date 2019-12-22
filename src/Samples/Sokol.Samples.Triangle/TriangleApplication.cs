@@ -1,5 +1,7 @@
 using System;
+using System.IO;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using static SDL2.SDL;
 using static Sokol.sokol_gfx;
 
@@ -32,26 +34,19 @@ namespace Sokol.Samples.Triangle
             _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable, vertices);
 
             _bindings.SetVertexBuffer(_vertexBuffer);
-
-            const string vertexShaderSourceCode = @"
-#version 330
-layout(location=0) in vec4 position;
-layout(location=1) in vec4 color0;
-out vec4 color;
-void main() {
-  gl_Position = position;
-  color = color0;
-}
-"; 
             
-            const string fragmentShaderSourceCode = @"
-#version 330
-in vec4 color;
-out vec4 frag_color;
-void main() {
-  frag_color = color;
-}
-"; 
+            string vertexShaderSourceCode;
+            string fragmentShaderSourceCode;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/metal/main.vert");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/metal/main.frag");
+            }
+            else
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+            }
             
             _shader = new SgShader(vertexShaderSourceCode, fragmentShaderSourceCode);
             
