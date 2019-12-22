@@ -2,7 +2,7 @@
 
 [![Build, test, and deploy status](https://img.shields.io/azure-devops/build/lustranks/sokol-csharp/Build-Test-Pack-Deploy/master?label=build%2Ftest%2Fdeploy&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=4&branchName=master)
 
-A C# wrapper for https://github.com/floooh/sokol.
+A .NET wrapper (VB, C#, F#) for https://github.com/floooh/sokol.
 
 Includes the C API precisely as it is and a .NET API over the C API for convenience.
 
