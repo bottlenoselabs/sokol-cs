@@ -48,7 +48,7 @@ namespace Sokol.Samples.Quad
 
             string vertexShaderSourceCode;
             string fragmentShaderSourceCode;
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            if (GraphicsBackend == GraphicsBackend.Metal)
             {
                 vertexShaderSourceCode = File.ReadAllText("assets/shaders/metal/main.vert");
                 fragmentShaderSourceCode = File.ReadAllText("assets/shaders/metal/main.frag");
