@@ -66,7 +66,8 @@ namespace Sokol
             
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                description.GraphicsBackend = GraphicsBackend.Direct3D11;
+                //TODO: Use DirectX11
+                description.GraphicsBackend = GraphicsBackend.OpenGL;
             }
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
