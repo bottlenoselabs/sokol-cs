@@ -1,6 +1,6 @@
 using System;
+using System.IO;
 using System.Numerics;
-using static SDL2.SDL;
 using static Sokol.sokol_gfx;
 
 namespace Sokol.Samples.Blend
@@ -46,38 +46,30 @@ namespace Sokol.Samples.Blend
             vertices[3].Color = new RgbaFloat(1.0f, 1.0f, 0.0f, 0.5f);
 
             _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable, vertices);
-
-            const string backgroundVertexShaderSourceCode = @"
-#version 330
-layout(location=0) in vec2 position;
-layout(location=1) in vec3 color0;
-void main() {
-    gl_Position = vec4(position, 0.5, 1.0);
-}
-";
-            var backgroundVertexShaderDescription = new SgShaderStageDescription
-            {
-                SourceCode = backgroundVertexShaderSourceCode,
-            };
             
-            const string backgroundFragmentShaderSourceCode = @"
-#version 330
-uniform float tick;
-out vec4 frag_color;
-void main() {
-    vec2 xy = fract((gl_FragCoord.xy-vec2(tick)) / 50.0);
-    frag_color = vec4(vec3(xy.x*xy.y), 1.0);
-}
-";
+            var backgroundVertexShaderDescription = new SgShaderStageDescription();
+            
             _tickUniform = new SgUniform("tick", SgShaderStage.Fragment, 0, SgShaderUniformType.Float);
             var backgroundFragmentShaderDescription = new SgShaderStageDescription
             {
-                SourceCode = backgroundFragmentShaderSourceCode,
                 UniformBlocks = new[]
                 {
                     new SgUniformBlock(_tickUniform),
                 }
             };
+            
+            if (GraphicsBackend == GraphicsBackend.Metal)
+            {
+                backgroundVertexShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/background.vert");
+                backgroundVertexShaderDescription.Entry = "vs_main";
+                backgroundFragmentShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/background.frag");
+                backgroundFragmentShaderDescription.Entry = "fs_main";
+            }
+            else
+            {
+                backgroundVertexShaderDescription.SourceCode = File.ReadAllText("assets/shaders/opengl/background.vert");
+                backgroundFragmentShaderDescription.SourceCode = File.ReadAllText("assets/shaders/opengl/background.frag");
+            }
             
             _backgroundShader = new SgShader(backgroundVertexShaderDescription, backgroundFragmentShaderDescription);
 
@@ -91,37 +83,29 @@ void main() {
             
             _backgroundPipeline = sg_make_pipeline(ref backgroundPipeline);
             
-            const string quadVertexShaderSourceCode = @"
-#version 330
-uniform mat4 mvp;
-layout(location=0) in vec4 position;
-layout(location=1) in vec4 color0;
-out vec4 color;
-void main() {
-    gl_Position = mvp * position;
-    color = color0;
-}";
             _modelViewProjectionUniform = new SgUniform("mvp", SgShaderStage.Vertex, 0, SgShaderUniformType.Matrix4);
             var quadVertexShaderDescription = new SgShaderStageDescription
             {
-                SourceCode = quadVertexShaderSourceCode,
                 UniformBlocks = new[]
                 {
                     new SgUniformBlock(_modelViewProjectionUniform)
                 }
             };
 
-            const string quadFragmentShaderSourceCode = @"
-#version 330
-in vec4 color;
-out vec4 frag_color;
-void main() {
-    frag_color = color;
-}";
-            var quadFragmentShaderDescription = new SgShaderStageDescription
+            var quadFragmentShaderDescription = new SgShaderStageDescription();
+
+            if (GraphicsBackend == GraphicsBackend.Metal)
             {
-                SourceCode = quadFragmentShaderSourceCode
-            };
+                quadVertexShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/quad.vert");
+                quadVertexShaderDescription.Entry = "vs_main";
+                quadFragmentShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/quad.frag");
+                quadFragmentShaderDescription.Entry = "fs_main";
+            }
+            else
+            {
+                quadVertexShaderDescription.SourceCode = File.ReadAllText("assets/shaders/opengl/quad.vert");
+                quadFragmentShaderDescription.SourceCode = File.ReadAllText("assets/shaders/opengl/quad.frag");
+            }
             
             _quadShader = new SgShader(quadVertexShaderDescription, quadFragmentShaderDescription);
             
@@ -133,6 +117,7 @@ void main() {
             quadPipelineDesc.primitive_type = sg_primitive_type.SG_PRIMITIVETYPE_TRIANGLE_STRIP;
             quadPipelineDesc.blend.enabled = true;
             quadPipelineDesc.blend.blend_color = RgbaFloat.Red;
+            quadPipelineDesc.rasterizer.sample_count = 4;
             
             _quadPipelines = new sg_pipeline[NUM_BLEND_FACTORS * NUM_BLEND_FACTORS];
             for (var src = 0; src < NUM_BLEND_FACTORS; src++)
@@ -156,8 +141,6 @@ void main() {
                     }
                 }
             }
-
-            
             
             _bindings = new SgBindings();
             _bindings.SetVertexBuffer(_vertexBuffer);
