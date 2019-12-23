@@ -16,7 +16,7 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 ## News
 
-- 2019/12/23: Metal graphics backend working with examples. Added NuGet package `Sokol.Graphics.Metal` for Metal specific code and packaging the `sokol` Metal native shared library.
+- 2019/12/23: Metal graphics backend working with examples. Added NuGet package `Sokol.Graphics.Metal` for Metal specific code and packaging any `sokol` Metal native shared libraries.
 - 2019/11/16: Added NuGet package `Sokol.Graphics.OpenGL` for OpenGL specific code and packaging all the necessary native shared libraries.
 - 2019/11/11: [`v0.1`](https://github.com/lithiumtoast/sokol-csharp/releases/tag/v0.1) released: `Sokol.Graphics` available as NuGet package (does not include shared library binaries).
 - 2019/11/03: .NET Core examples working with Ubuntu.
