@@ -27,6 +27,7 @@ namespace Sokol
     public struct SgShaderStageDescription
     {
         public string SourceCode;
+        public string Entry;
         public SgUniformBlock[] UniformBlocks;
     }
 }
