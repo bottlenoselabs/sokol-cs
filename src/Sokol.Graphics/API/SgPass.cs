@@ -56,5 +56,10 @@ namespace Sokol
 }
              */
         }
+        
+        public static implicit operator sg_pass(SgPass pass)
+        {
+            return pass.Handle;
+        }
     }
 }

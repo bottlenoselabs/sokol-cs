@@ -65,5 +65,10 @@ namespace Sokol
         {
             ReleaseUnmanagedResources();
         }
+        
+        public static implicit operator sg_pipeline(SgPipeline pipeline)
+        {
+            return pipeline.Handle;
+        }
     }
 }

@@ -23,12 +23,14 @@ SOFTWARE.
  */
 
 using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace Sokol
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class SgResource : IDisposable
     {
         private int _disposedState;

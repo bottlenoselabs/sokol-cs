@@ -24,11 +24,13 @@ SOFTWARE.
 
 using System;
 using System.Buffers;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class SgBuffer : SgResource
     {
         public sg_buffer Handle { get; protected set; }
@@ -60,6 +62,11 @@ namespace Sokol
             Type = type;
             Usage = usage;
             Size = size;
+        }
+        
+        public static implicit operator sg_buffer(SgBuffer buffer)
+        {
+            return buffer.Handle;
         }
     }
     
