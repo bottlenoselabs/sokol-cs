@@ -44,8 +44,7 @@ namespace Sokol
             Ensure64BitArchitecture();
             EnsureIsNotAlreadyInitialized();
             
-            ValidatePoolSizes(ref description);
-            ValidateGraphicsBackend(ref description);
+            description.Validate();
             GraphicsBackend = description.GraphicsBackend;
             
             var desc = CreateDefaultSgDesc(description);
@@ -56,32 +55,6 @@ namespace Sokol
             }
 
             sg_setup(ref desc);
-        }
-
-        private static void ValidateGraphicsBackend(ref SgDeviceDescription description)
-        {
-            if (description.GraphicsBackend != GraphicsBackend.Default)
-            {
-                return;
-            }
-
-            // TODO: In .NET 5 there should be a way to check if iOS, Android, etc
-            
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                //TODO: Use DirectX11
-                description.GraphicsBackend = GraphicsBackend.OpenGL;
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                description.GraphicsBackend = GraphicsBackend.Metal;
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                description.GraphicsBackend = GraphicsBackend.OpenGL;
-            }
         }
 
         private static sg_desc CreateDefaultSgDesc(SgDeviceDescription description)
@@ -167,34 +140,6 @@ namespace Sokol
             if (isInitialized != 0)
             {
                 throw new InvalidOperationException("`sg_setup` has already been called.");
-            }
-        }
-
-        private static void ValidatePoolSizes(ref SgDeviceDescription description)
-        {
-            if (description.BufferPoolSize < 0 || description.BufferPoolSize >= _SG_MAX_POOL_SIZE)
-            {
-                throw new ArgumentOutOfRangeException(nameof(description.BufferPoolSize));
-            }
-
-            if (description.ImagePoolSize < 0 || description.ImagePoolSize >= _SG_MAX_POOL_SIZE)
-            {
-                throw new ArgumentOutOfRangeException(nameof(description.ImagePoolSize));
-            }
-
-            if (description.ShaderPoolSize < 0 || description.ShaderPoolSize >= _SG_MAX_POOL_SIZE)
-            {
-                throw new ArgumentOutOfRangeException(nameof(description.ShaderPoolSize));
-            }
-
-            if (description.PassPoolSize < 0 || description.PassPoolSize >= _SG_MAX_POOL_SIZE)
-            {
-                throw new ArgumentOutOfRangeException(nameof(description.PassPoolSize));
-            }
-
-            if (description.ContextPoolSize < 0 || description.ContextPoolSize >= _SG_MAX_POOL_SIZE)
-            {
-                throw new ArgumentOutOfRangeException(nameof(description.ContextPoolSize));
             }
         }
 

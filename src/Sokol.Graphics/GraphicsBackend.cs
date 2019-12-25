@@ -22,6 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+using System.Runtime.InteropServices;
+
 namespace Sokol
 {
     public enum GraphicsBackend
@@ -32,5 +35,27 @@ namespace Sokol
         OpenGLES3,
         Direct3D11,
         Metal
+    }
+
+    public static class GraphicsBackendHelper
+    {
+        public static GraphicsBackend GetDefaultPlatformGraphicsBackend()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // TODO: Use DirectX
+                return GraphicsBackend.OpenGL;
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return GraphicsBackend.Metal;
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return GraphicsBackend.OpenGL;
+            }
+
+            throw new NotSupportedException("Unknown platform; could not decide on graphics backend.");
+        }
     }
 }
