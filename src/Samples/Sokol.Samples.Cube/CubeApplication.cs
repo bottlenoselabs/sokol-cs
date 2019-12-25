@@ -13,7 +13,6 @@ namespace Sokol.Samples.Cube
             public RgbaFloat Color;
         }
         
-        private sg_pass_action _passAction;
         private readonly sg_pipeline _pipeline;
         private readonly SgBindings _bindings = new SgBindings();
         private readonly SgBuffer _vertexBuffer;
