@@ -16,14 +16,15 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 ## News
 
-- 2019/12/23: Metal graphics backend working with examples. Added NuGet package `Sokol.Graphics.Metal` for Metal specific code and packaging any `sokol` Metal native shared libraries.
-- 2019/11/16: Added NuGet package `Sokol.Graphics.OpenGL` for OpenGL specific code and packaging all the necessary native shared libraries.
+- 2019/12/25: Added cube sample.
+- 2019/12/23: Metal graphics backend working with samples. Added NuGet package `Sokol.Graphics.Metal` for Metal specific code and packaging any `sokol` Metal native shared libraries.
+- 2019/11/16: Added NuGet package `Sokol.Graphics.OpenGL` for OpenGL specific code and packaging all the necessary OpenGL native shared libraries.
 - 2019/11/11: [`v0.1`](https://github.com/lithiumtoast/sokol-csharp/releases/tag/v0.1) released: `Sokol.Graphics` available as NuGet package (does not include shared library binaries).
-- 2019/11/03: .NET Core examples working with Ubuntu.
+- 2019/11/03: .NET Core samples working with Ubuntu.
 - 2019/11/03: Added Azure Pipelines for builds and tests.
-- 2019/11/02: .NET Core examples working with Windows.
-- 2019/10/25: .NET Core examples working with macOS.
-- 2019/10/23: "Unsafe" `sokol_gfx` API fairly well finished.
+- 2019/11/02: .NET Core samples working with Windows.
+- 2019/10/25: .NET Core samples working with macOS.
+- 2019/10/23: "Unsafe" `sokol_gfx` API finished.
 - 2019/10/15: Initial project creation.
 
 ## "Unsafe" API
@@ -56,7 +57,6 @@ Desktop Linux|✅|❌|❌|❌|❌|⭕
 Mobile iOS|❌|❌|❌|❌|✅|⭕
 Mobile Android|❌|✅|❌|❌|❌|❓
 Browser WebAssembly|❌|✅|❌|❌|❌|❌
-Smartwatch watchOS|❌|❌|❌|❌|✅|❌
 Microconsole tvOS|❌|❌|❌|❌|✅|❌
 Console Nintendo Switch|✅|❌|❌|❌|❌|⭕
 Console Xbox One|❌|❌|✅|⭕|❌|❌
@@ -75,7 +75,7 @@ You want to contribute? Awesome! To get started please read the [CONTRIBUTING](C
 
 ## Versioning
 
-`Sokol#` uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. The version scheme used for dynamic link libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH-TAG`. For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
+`Sokol#` uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. The version scheme used for native shared libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH-TAG`. For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
 
 ## License
 
