@@ -58,22 +58,25 @@ namespace Sokol
 {
     public struct RgbaFloat
     {
-        //TODO: Add more names from https://www.w3.org/TR/css-color-3/#svg-color
-        public static readonly RgbaFloat Red = new RgbaFloat(1, 0, 0, 1);
-        public static readonly RgbaFloat DarkRed = new RgbaFloat(0.6f, 0, 0, 1);
-        public static readonly RgbaFloat Green = new RgbaFloat(0, 1, 0, 1);
-        public static readonly RgbaFloat Blue = new RgbaFloat(0, 0, 1, 1);
-        public static readonly RgbaFloat Yellow = new RgbaFloat(1, 1, 0, 1);
-        public static readonly RgbaFloat Grey = new RgbaFloat(.25f, .25f, .25f, 1);
-        public static readonly RgbaFloat LightGrey = new RgbaFloat(.65f, .65f, .65f, 1);
-        public static readonly RgbaFloat Cyan = new RgbaFloat(0, 1, 1, 1);
-        public static readonly RgbaFloat White = new RgbaFloat(1, 1, 1, 1);
-        public static readonly RgbaFloat CornflowerBlue = new RgbaFloat(0.3921f, 0.5843f, 0.9294f, 1);
-        public static readonly RgbaFloat Clear = new RgbaFloat(0, 0, 0, 0);
+        // Basic colors: https://www.w3.org/TR/css-color-3/#html4
         public static readonly RgbaFloat Black = new RgbaFloat(0, 0, 0, 1);
-        public static readonly RgbaFloat Pink = new RgbaFloat(1f, 0.45f, 0.75f, 1);
-        public static readonly RgbaFloat Orange = new RgbaFloat(1f, 0.36f, 0f, 1);
-
+        public static readonly RgbaFloat Silver = new RgbaFloat(0.752941176470588f, 0.752941176470588f, 0.752941176470588f, 1);
+        public static readonly RgbaFloat Gray = new RgbaFloat(0.501960784313725f, 0.501960784313725f, 0.501960784313725f, 1);
+        public static readonly RgbaFloat White = new RgbaFloat(1, 1, 1, 1);
+        public static readonly RgbaFloat Maroon = new RgbaFloat(0.501960784313725f, 0, 0, 1);
+        public static readonly RgbaFloat Red = new RgbaFloat(1, 0, 0, 1);
+        public static readonly RgbaFloat Purple = new RgbaFloat(0.501960784313725f, 0, 0.501960784313725f, 1);
+        public static readonly RgbaFloat Fuchsia = new RgbaFloat(1, 0, 1, 1);
+        public static readonly RgbaFloat Green = new RgbaFloat(0, 0.501960784313725f, 0, 1);
+        public static readonly RgbaFloat Lime = new RgbaFloat(0, 1, 0, 1);
+        public static readonly RgbaFloat Olive = new RgbaFloat(0.501960784313725f, 0.501960784313725f, 0, 1);
+        public static readonly RgbaFloat Yellow = new RgbaFloat(1, 1, 0, 1);
+        public static readonly RgbaFloat Navy = new RgbaFloat(0, 0, 0.501960784313725f, 1);
+        public static readonly RgbaFloat Blue = new RgbaFloat(0, 0, 1, 1);
+        public static readonly RgbaFloat Teal = new RgbaFloat(0, 0.501960784313725f, 0.501960784313725f, 1);
+        public static readonly RgbaFloat Aqua = new RgbaFloat(0, 1, 1, 1);
+        
+        //TODO: https://www.w3.org/TR/css-color-3/#svg-color
         
         public float R;
         public float G;
