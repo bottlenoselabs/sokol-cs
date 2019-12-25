@@ -60,9 +60,9 @@ namespace Sokol.Samples.Blend
             
             if (GraphicsBackend == GraphicsBackend.Metal)
             {
-                backgroundVertexShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/background.vert");
+                backgroundVertexShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/backgroundVert.metal");
                 backgroundVertexShaderDescription.Entry = "vs_main";
-                backgroundFragmentShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/background.frag");
+                backgroundFragmentShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/backgroundFrag.metal");
                 backgroundFragmentShaderDescription.Entry = "fs_main";
             }
             else
@@ -96,9 +96,9 @@ namespace Sokol.Samples.Blend
 
             if (GraphicsBackend == GraphicsBackend.Metal)
             {
-                quadVertexShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/quad.vert");
+                quadVertexShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/quadVert.metal");
                 quadVertexShaderDescription.Entry = "vs_main";
-                quadFragmentShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/quad.frag");
+                quadFragmentShaderDescription.SourceCode = File.ReadAllText("assets/shaders/metal/quadFrag.metal");
                 quadFragmentShaderDescription.Entry = "fs_main";
             }
             else

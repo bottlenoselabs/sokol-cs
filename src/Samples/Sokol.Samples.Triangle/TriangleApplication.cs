@@ -39,8 +39,8 @@ namespace Sokol.Samples.Triangle
             string fragmentShaderSourceCode;
             if (GraphicsBackend == GraphicsBackend.Metal)
             {
-                vertexShaderSourceCode = File.ReadAllText("assets/shaders/metal/main.vert");
-                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/metal/main.frag");
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
             }
             else
             {
