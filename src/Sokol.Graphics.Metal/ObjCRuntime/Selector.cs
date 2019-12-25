@@ -86,21 +86,11 @@ using System.Text;
 
 namespace Sokol.ObjCRuntime
 {
-    public unsafe struct Selector
+    internal unsafe struct Selector
     {
-        public readonly IntPtr Handle;
+        private readonly IntPtr _handle;
 
-        public Selector(IntPtr sel, bool check = true)
-        {
-            if (check && !sel_isMapped(sel))
-            {
-                throw new ArgumentException("Not a selector handle.", nameof(sel));
-            }
-
-            Handle = sel;
-        }
-
-        public Selector(string name)
+        private Selector(string name)
         {
             var byteCount = Encoding.UTF8.GetMaxByteCount(name.Length);
             var utf8BytesPtr = stackalloc byte[byteCount];
@@ -109,7 +99,7 @@ namespace Sokol.ObjCRuntime
                 Encoding.UTF8.GetBytes(namePtr, name.Length, utf8BytesPtr, byteCount);
             }
 
-            Handle = sel_registerName(utf8BytesPtr);
+            _handle = sel_registerName(utf8BytesPtr);
         }
 
         public static implicit operator Selector(string @string)
@@ -119,13 +109,10 @@ namespace Sokol.ObjCRuntime
         
         public static implicit operator IntPtr(Selector value)
         {
-            return value.Handle;
+            return value._handle;
         }
         
         [DllImport(Constants.ObjCLibrary)]
         private static extern IntPtr sel_registerName(byte* namePtr);
-        
-        [DllImport(Constants.ObjCLibrary)]
-        private static extern bool sel_isMapped(IntPtr sel);
     }
 }

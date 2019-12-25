@@ -58,10 +58,10 @@ namespace Sokol.CoreGraphics
 {
     public struct CGSize
     {
-        public double width;
-        public double height;
+        public CGFloat width;
+        public CGFloat height;
 
-        public CGSize(double width, double height)
+        public CGSize(CGFloat width, CGFloat height)
         {
             this.width = width;
             this.height = height;

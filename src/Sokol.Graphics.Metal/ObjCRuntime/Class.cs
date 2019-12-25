@@ -89,7 +89,7 @@ using static Sokol.ObjCRuntime.Messaging;
 
 namespace Sokol.ObjCRuntime
 {
-    public unsafe struct Class
+    internal unsafe struct Class
     {
         public IntPtr Handle;
         
@@ -104,11 +104,10 @@ namespace Sokol.ObjCRuntime
 
             Handle = objc_getClass(utf8BytesPtr);
         }
-        
-        public readonly T AllocInit<T>() where T : unmanaged
+
+        public readonly T New<T>() where T : unmanaged
         {
-            var value = intptr_objc_msgSend(Handle, sel_alloc);
-            void_objc_msgSend(value, sel_init);
+            var value = intptr_objc_msgSend(Handle, sel_new);
             return Unsafe.AsRef<T>(&value);
         }
         
@@ -116,10 +115,9 @@ namespace Sokol.ObjCRuntime
         {
             return value.Handle;
         }
-
-        private static readonly Selector sel_alloc = "alloc";
-        private static readonly Selector sel_init = "init";
-
+        
+        private static readonly Selector sel_new = "new";
+  
         [DllImport(Constants.ObjCLibrary)]
         private static extern IntPtr objc_getClass(byte* namePtr);
     }

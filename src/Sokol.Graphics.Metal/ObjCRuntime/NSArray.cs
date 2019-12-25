@@ -30,7 +30,7 @@ using static Sokol.ObjCRuntime.Messaging;
 
 namespace Sokol.ObjCRuntime
 {
-    public static class NSArray
+    internal static class NSArray
     {
         public static unsafe T objectAtIndexedSubscript<T>(IntPtr receiver, UIntPtr index) where T : unmanaged
         {

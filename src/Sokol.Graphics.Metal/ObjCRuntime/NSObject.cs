@@ -35,13 +35,7 @@ namespace Sokol.ObjCRuntime
         {
             void_objc_msgSend(receiver, sel_release);
         }
-        
-        public static void retain(IntPtr receiver)
-        {
-            void_objc_msgSend(receiver, sel_retain);
-        }
 
         private static readonly Selector sel_release = "release";
-        private static readonly Selector sel_retain = "retain";
     }
 }

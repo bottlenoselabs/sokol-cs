@@ -89,18 +89,14 @@ using Sokol.CoreGraphics;
 
 namespace Sokol.ObjCRuntime
 {
-    public static unsafe class Messaging
+    internal static unsafe class Messaging
     {
-        // void returns
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern void void_objc_msgSend(IntPtr receiver, Selector selector);
         
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern void void_objc_msgSend_bool(IntPtr receiver, Selector selector, BlittableBoolean arg1);
         
-        [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
-        public static extern void void_objc_msgSend_uint(IntPtr receiver, Selector selector, uint arg1);
-
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern void void_objc_msgSend_intptr(IntPtr receiver, Selector selector, IntPtr arg1);
         
@@ -112,16 +108,9 @@ namespace Sokol.ObjCRuntime
         
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern void void_objc_msgSend_cgsize(IntPtr receiver, Selector selector, CGSize arg1);
-
+        
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend_stret")]
         public static extern void ptr_objc_msgSend_stret(void* retPtr, IntPtr receiver, Selector selector);
-
-        public static T t_objc_msgSend_stret<T>(IntPtr receiver, Selector selector) where T : unmanaged
-        {
-            T ret = default;
-            ptr_objc_msgSend_stret(Unsafe.AsPointer(ref ret), receiver, selector);
-            return ret;
-        }
 
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern BlittableBoolean bool_objc_msgSend(IntPtr receiver, Selector selector);
@@ -133,11 +122,8 @@ namespace Sokol.ObjCRuntime
         public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector);
         
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
-        public static extern UIntPtr uintptr_objc_msgSend(IntPtr receiver, Selector selector);
-        
-        [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern IntPtr intptr_objc_msgSend_nsuinteger(IntPtr receiver, Selector selector, UIntPtr arg1);
-        
+
         public static T t_objc_msgSend<T>(IntPtr receiver, Selector selector) where T : unmanaged
         {
             var value = intptr_objc_msgSend(receiver, selector);
@@ -145,9 +131,6 @@ namespace Sokol.ObjCRuntime
         }
         
         [DllImport (Constants.ObjCLibrary, EntryPoint="objc_msgSend")]
-        public static extern CGSize cgsize_objc_msgSend(IntPtr receiver, IntPtr selector);
-        
-        [DllImport (Constants.ObjCLibrary, EntryPoint="objc_msgSend")]
-        public static extern CGPoint cgpoint_objc_msgSend_cgpoint(IntPtr receiver, IntPtr selector, CGPoint point);
+        public static extern CGSize cgsize_objc_msgSend(IntPtr receiver, Selector selector);
     }
 }

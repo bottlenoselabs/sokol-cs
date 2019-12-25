@@ -66,8 +66,8 @@ namespace Sokol.Metal
         
         public readonly IntPtr Handle;
         
-        public static MTLRenderPassDescriptor New() => _class.AllocInit<MTLRenderPassDescriptor>();
-        
+        public static MTLRenderPassDescriptor New() => _class.New<MTLRenderPassDescriptor>();
+
         public MTLRenderPassColorAttachmentDescriptorArray colorAttachments
             => t_objc_msgSend<MTLRenderPassColorAttachmentDescriptorArray>(Handle, sel_colorAttachments);
         

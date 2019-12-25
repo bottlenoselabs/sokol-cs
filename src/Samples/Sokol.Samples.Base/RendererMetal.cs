@@ -2,9 +2,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Sokol.AppKit;
 using Sokol.CoreAnimation;
-using Sokol.CoreGraphics;
 using Sokol.Metal;
 using Sokol.ObjCRuntime;
 using static SDL2.SDL;
@@ -13,116 +11,103 @@ namespace Sokol.Samples
 {
     public class RendererMetal : Renderer
     {
-        private static int _isInitialized;
+        private static int _initializedState;
         private static RendererMetal _instance;
-
-        private readonly NSView _nsView;
-        private readonly MTLDevice _device;
+        
         private CAMetalDrawable _drawable;
+        private MTLRenderPassDescriptor _renderPassDescriptor;
         private CAMetalLayer _metalLayer;
-        private int _drawableWidth;
-        private int _drawableHeight;
-        private readonly bool _isHighDPI;
 
         public override bool VerticalSyncIsEnabled
         {
             get => _metalLayer.displaySyncEnabled;
             set => _metalLayer.displaySyncEnabled = value;
         }
-        
-        public RendererMetal(ref SgDeviceDescription deviceDescription, IntPtr windowHandle, NSWindow nsWindow) 
+
+        public RendererMetal(ref SgDeviceDescription deviceDescription, IntPtr windowHandle) 
             : base(windowHandle)
         {
             EnsureIsNotAlreadyInitialized();
             
             _instance = this;
-            _nsView = nsWindow.contentView;
-            _device = MTLDevice.MTLCreateSystemDefaultDevice();
+
+            // Setup the Metal "swapchain" by creating the SDL_Renderer even though we don't use it.
+            // This reduces the PInvoke we need to do in C# and works for macOS, iOS, and tvOS.
+            // See the the following function in `SDL_render_mental.m` in SDL code base:
+            //     static SDL_Renderer * METAL_CreateRenderer(SDL_Window * window, Uint32 flags)
+            SDL_SetHint("SDL_HINT_RENDER_DRIVER", "metal");
+            const SDL_RendererFlags sdlRendererFlags = SDL_RendererFlags.SDL_RENDERER_ACCELERATED;
+            var sdlRendererHandle = SDL_CreateRenderer(windowHandle, -1, sdlRendererFlags);
+            var metalLayerHandle = SDL_RenderGetMetalLayer(sdlRendererHandle);
+            SDL_DestroyRenderer(sdlRendererHandle);
+
+            if (metalLayerHandle == IntPtr.Zero)
+            {
+                throw new InvalidOperationException("CAMetalLayer is a null pointer.");
+            }
             
-            _nsView.wantsLayer = true;
-
-            var windowFlags = SDL_GetWindowFlags(windowHandle);
-            _isHighDPI = (windowFlags & (uint) SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI) != 0;
-
-            _metalLayer = CAMetalLayer.New();
-            _metalLayer.device = _device;
-            _metalLayer.framebufferOnly = true;
-            _metalLayer.pixelFormat = MTLPixelFormat.BGRA8Unorm;
-            _metalLayer.drawableSize = CalculateDrawableSize();
-            _nsView.layer = _metalLayer;
-
-            SetSgDeviceMetalCallbacks(ref deviceDescription);
+            _metalLayer = new CAMetalLayer(metalLayerHandle)
+            {
+                // framebufferOnly is set to false by SDL for RenderReadPixels but we won't be using SDL renderer API
+                framebufferOnly = true,
+                // Enable vertical sync by default
+                displaySyncEnabled = true
+            };
+            
+            deviceDescription.MetalDevice = _metalLayer.device;
+            deviceDescription.GetMetalRenderPassDescriptor = GetMTLRenderPassDescriptor;
+            deviceDescription.GetMetalDrawable = GetMTLDrawable;
             
             NativeLibrary.SetDllImportResolver(typeof(sokol_gfx).Assembly, ResolveLibrary);
         }
         
         private static void EnsureIsNotAlreadyInitialized()
         {
-            var isInitialized = Interlocked.CompareExchange(ref _isInitialized, 1, 0);
-            if (isInitialized != 0)
+            var state = Interlocked.CompareExchange(ref _initializedState, 1, 0);
+            if (state != 0)
             {
-                throw new InvalidOperationException("Only one `MetalRenderer` can be initialized.");
+                throw new InvalidOperationException($"Only one `{nameof(RendererMetal)}` can be initialized.");
             }
-        }
-
-        private static void SetSgDeviceMetalCallbacks(ref SgDeviceDescription deviceDescription)
-        {
-            deviceDescription.MetalDevice = GetMTLDevice();
-            deviceDescription.GetMetalRenderPassDescriptor = GetMTLRenderPassDescriptor;
-            deviceDescription.GetMetalDrawable = GetMTLDrawable;
-        }
-
-        private static IntPtr GetMTLDevice()
-        {
-            return _instance._device;
         }
 
         private static IntPtr GetMTLRenderPassDescriptor()
         {
+            // This callback is invoked by sokol_gfx native library in `sg_begin_default_pass()`
             return _instance.GetMetalRenderPassDescriptor();
         }
         
         private static IntPtr GetMTLDrawable()
         {
+            // This callback is invoked by sokol_gfx native library in `sg_end_pass()` for the default pass
             return _instance._drawable;
         }
 
         private IntPtr GetMetalRenderPassDescriptor()
         {
-            _metalLayer.drawableSize = CalculateDrawableSize();
+            if (_drawable.Handle != IntPtr.Zero)
+            {
+                NSObject.release(_drawable);
+            }
             _drawable = _metalLayer.nextDrawable();
             
-            var renderPassDescriptor = MTLRenderPassDescriptor.New();
-            var colorAttachment = renderPassDescriptor.colorAttachments[0];
+            if (_renderPassDescriptor != IntPtr.Zero)
+            {
+                NSObject.release(_renderPassDescriptor);
+            }
+            _renderPassDescriptor = MTLRenderPassDescriptor.New();
+            
+            var colorAttachment = _renderPassDescriptor.colorAttachments[0];
             colorAttachment.texture = _drawable.texture;
 
-            return renderPassDescriptor; 
-        }
-
-        private CGSize CalculateDrawableSize()
-        {
-            SDL_GetWindowSize(WindowHandle, out var width, out var height);
-
-            CGSize size;
-            if (_isHighDPI)
-            {
-                var point = _nsView.convertToBacking(new CGPoint(width, height));
-                size = new CGSize(point.x, point.y);
-            }
-            else
-            {
-                size = new CGSize(width, height);
-            }
-
-            _drawableWidth = (int) size.width;
-            _drawableHeight = (int) size.height;
-
-            return size;
+            return _renderPassDescriptor; 
         }
 
         public override (int width, int height) GetDrawableSize()
         {
-            return (_drawableWidth, _drawableHeight);
+            var drawableSize = _metalLayer.drawableSize;
+            var width = (int)drawableSize.width;
+            var height = (int)drawableSize.height;
+            return (width, height);
         }
 
         public override void Present()
@@ -135,6 +120,11 @@ namespace Sokol.Samples
             if (_drawable.Handle != IntPtr.Zero)
             {
                 NSObject.release(_drawable);
+            }
+
+            if (_metalLayer.Handle != IntPtr.Zero)
+            {
+                NSObject.release(_metalLayer.Handle);
             }
         }
         

@@ -1,5 +1,4 @@
 using System;
-using Sokol.AppKit;
 using static SDL2.SDL;
 using static Sokol.sokol_gfx;
 
@@ -59,10 +58,18 @@ namespace Sokol.Samples
 
         private static Renderer CreateRenderer(ref SgDeviceDescription deviceDescription, IntPtr windowHandle)
         {
-            var backend = deviceDescription.GraphicsBackend;
-            if (backend == GraphicsBackend.OpenGL)
+            if (deviceDescription.GraphicsBackend == GraphicsBackend.Default)
             {
-                return new RendererOpenGL(windowHandle);
+                deviceDescription.GraphicsBackend = GraphicsBackendHelper.GetDefaultPlatformGraphicsBackend();
+            }
+            
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+            switch (deviceDescription.GraphicsBackend)
+            {
+                case GraphicsBackend.OpenGL:
+                    return new RendererOpenGL(windowHandle);
+                case GraphicsBackend.Metal:
+                    return new RendererMetal(ref deviceDescription, windowHandle);
             }
 
             var sysWmInfo = new SDL_SysWMinfo();
@@ -71,11 +78,6 @@ namespace Sokol.Samples
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (sysWmInfo.subsystem)
             {
-                case SDL_SYSWM_TYPE.SDL_SYSWM_COCOA:
-                    var nsWindow = new NSWindow(sysWmInfo.info.cocoa.window);
-                    return new RendererMetal(ref deviceDescription, windowHandle, nsWindow);
-                case SDL_SYSWM_TYPE.SDL_SYSWM_UIKIT:
-                // TODO: iOS Metal
                 case SDL_SYSWM_TYPE.SDL_SYSWM_WINDOWS:
                 // TODO: Windows DirectX11
                 case SDL_SYSWM_TYPE.SDL_SYSWM_WINRT:
@@ -83,7 +85,7 @@ namespace Sokol.Samples
                 case SDL_SYSWM_TYPE.SDL_SYSWM_ANDROID:
                 // TODO: Android OpenGL ES
                 default:
-                    throw new PlatformNotSupportedException("Cannot create a SwapchainSource for " +
+                    throw new PlatformNotSupportedException("Cannot create a renderer for " +
                                                             sysWmInfo.subsystem + ".");
             }
         }

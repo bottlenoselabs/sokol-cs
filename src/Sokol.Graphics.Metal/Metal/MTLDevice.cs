@@ -100,8 +100,5 @@ namespace Sokol.Metal
         {
             return value.Handle;
         }
-        
-        [DllImport (Constants.MetalLibrary)]
-        public static extern MTLDevice MTLCreateSystemDefaultDevice();
     }
 }
