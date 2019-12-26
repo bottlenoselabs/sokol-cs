@@ -175,7 +175,7 @@ namespace Sokol
         public static readonly RgbFloat PowderBlue = "#B0E0E6";
         // public static readonly RgbFloat Purple = "#800080";
         // public static readonly RgbFloat Red = "#FF0000";
-        public static readonly RgbFloat PosyBrown = "#BC8F8F";
+        public static readonly RgbFloat RosyBrown = "#BC8F8F";
         public static readonly RgbFloat RoyalBlue = "#4169E1";
         public static readonly RgbFloat SaddleBrown = "#8B4513";
         public static readonly RgbFloat Salmon = "#FA8072";
