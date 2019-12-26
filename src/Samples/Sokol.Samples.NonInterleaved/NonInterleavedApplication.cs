@@ -1,8 +1,6 @@
 using System;
 using System.IO;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using static Sokol.sokol_gfx;
 
 namespace Sokol.Samples.NonInterleaved
@@ -88,7 +86,7 @@ namespace Sokol.Samples.NonInterleaved
             
             _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, indices);
 
-            _bindings.SetVertexBuffer(0, _vertexBuffer, 0);
+            _bindings.SetVertexBuffer(0, _vertexBuffer);
             _bindings.SetVertexBuffer(1, _vertexBuffer, 12 * 6 * sizeof(float));
             _bindings.SetIndexBuffer(_indexBuffer);
             
@@ -119,7 +117,6 @@ namespace Sokol.Samples.NonInterleaved
             unsafe
             {
                 var pipeline = new sg_pipeline_desc();
-                var buffers = pipeline.layout.GetBuffers();
                 var attributes = pipeline.layout.GetAttrs();
                 attributes[0].format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT3;
                 attributes[0].buffer_index = 0;
