@@ -2,9 +2,9 @@
 
 namespace Sokol.Samples.Cube
 {
-    static class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             using var app = new CubeApplication();
             app.Run();
