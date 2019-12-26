@@ -35,30 +35,37 @@ namespace Sokol
         {
         }
 
-        public unsafe void SetVertexBuffer(SgBuffer buffer, int bufferIndex = 0)
+        public void SetVertexBuffer(int bufferIndex, SgBuffer buffer, int bufferOffset = 0)
         {
+            if (bufferIndex > SG_MAX_SHADERSTAGE_BUFFERS)
+            {
+                throw new ArgumentOutOfRangeException(nameof(bufferIndex), bufferIndex, null);
+            }
+            
             if (buffer.Handle.id == 0)
             {
                 throw new ArgumentException(nameof(buffer));
             }
-            
-            if (bufferIndex > SG_MAX_SHADERSTAGE_BUFFERS)
-            {
-                throw new ArgumentOutOfRangeException(nameof(bufferIndex), bufferIndex, null);
-            }
-            
-            _bindings.vertex_buffers[bufferIndex] = buffer.Handle;
-            _bindings.vertex_buffer_offsets[bufferIndex] = 0;
-        }
 
-        public unsafe void SetVertexBufferOffset(int bufferIndex, int bufferOffset)
+            unsafe
+            {
+                _bindings.vertex_buffers[bufferIndex] = buffer.Handle;
+                _bindings.vertex_buffer_offsets[bufferIndex] = bufferOffset;   
+            }
+        }
+        
+        
+        public void SetVertexBufferOffset(int bufferIndex, int bufferOffset)
         {
             if (bufferIndex > SG_MAX_SHADERSTAGE_BUFFERS)
             {
                 throw new ArgumentOutOfRangeException(nameof(bufferIndex), bufferIndex, null);
             }
-            
-            _bindings.vertex_buffer_offsets[bufferIndex] = bufferOffset;
+
+            unsafe
+            {
+                _bindings.vertex_buffer_offsets[bufferIndex] = bufferOffset;   
+            }
         }
 
         public void SetIndexBuffer(SgBuffer buffer)

@@ -33,7 +33,7 @@ namespace Sokol.Samples.Triangle
             
             _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable, vertices);
 
-            _bindings.SetVertexBuffer(_vertexBuffer);
+            _bindings.SetVertexBuffer(0, _vertexBuffer);
             
             string vertexShaderSourceCode;
             string fragmentShaderSourceCode;

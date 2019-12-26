@@ -43,7 +43,7 @@ namespace Sokol.Samples.Quad
             };
             _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, indices);
 
-            _bindings.SetVertexBuffer(_vertexBuffer);
+            _bindings.SetVertexBuffer(0, _vertexBuffer);
             _bindings.SetIndexBuffer(_indexBuffer);
 
             string vertexShaderSourceCode;

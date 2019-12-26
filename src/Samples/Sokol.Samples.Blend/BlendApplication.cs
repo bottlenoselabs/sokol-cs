@@ -143,7 +143,7 @@ namespace Sokol.Samples.Blend
             }
             
             _bindings = new SgBindings();
-            _bindings.SetVertexBuffer(_vertexBuffer);
+            _bindings.SetVertexBuffer(0, _vertexBuffer);
 
             _passAction = new sg_pass_action();
             var colors = _passAction.GetColors();
