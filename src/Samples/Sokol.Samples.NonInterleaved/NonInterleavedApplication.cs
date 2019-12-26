@@ -133,14 +133,6 @@ namespace Sokol.Samples.NonInterleaved
             }
             
             _clearAction = new sg_pass_action();
-            unsafe
-            {
-                _clearAction.GetColors()[0] = new sg_color_attachment_action()
-                {
-                    action = sg_action.SG_ACTION_CLEAR,
-                    val = new RgbaFloat(0.25f, 0.5f, 0.75f, 1.0f)
-                };   
-            }
         }
         
         protected override void Draw(int width, int height)
