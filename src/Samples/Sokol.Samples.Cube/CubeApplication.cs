@@ -27,60 +27,66 @@ namespace Sokol.Samples.Cube
         public CubeApplication()
         {
             var vertices = new Vertex[24];
-            
+
+            var color1 = RgbaFloat.Red;
             vertices[0].Position = new Vector3(-1.0f, -1.0f, -1.0f);
-            vertices[0].Color = RgbaFloat.Red;
+            vertices[0].Color = color1;
             vertices[1].Position = new Vector3(1.0f, -1.0f, -1.0f);
-            vertices[1].Color = RgbaFloat.Red;
+            vertices[1].Color = color1;
             vertices[2].Position = new Vector3(1.0f, 1.0f, -1.0f);
-            vertices[2].Color = RgbaFloat.Red;
+            vertices[2].Color = color1;
             vertices[3].Position = new Vector3(-1.0f, 1.0f, -1.0f);
-            vertices[3].Color = RgbaFloat.Red;
-            
+            vertices[3].Color = color1;
+
+            var color2 = RgbaFloat.Lime;
             vertices[4].Position = new Vector3(-1.0f, -1.0f, 1.0f);
-            vertices[4].Color = RgbaFloat.Lime;
+            vertices[4].Color = color2;
             vertices[5].Position = new Vector3(1.0f, -1.0f, 1.0f);
-            vertices[5].Color = RgbaFloat.Lime;
+            vertices[5].Color = color2;
             vertices[6].Position = new Vector3(1.0f, 1.0f, 1.0f);
-            vertices[6].Color = RgbaFloat.Lime;
+            vertices[6].Color = color2;
             vertices[7].Position = new Vector3(-1.0f, 1.0f, 1.0f);
-            vertices[7].Color = RgbaFloat.Lime;
-            
+            vertices[7].Color = color2;
+
+            var color3 = RgbaFloat.Blue;
             vertices[8].Position = new Vector3(-1.0f, -1.0f, -1.0f);
-            vertices[8].Color = RgbaFloat.Blue;
+            vertices[8].Color = color3;
             vertices[9].Position = new Vector3(-1.0f, 1.0f, -1.0f);
-            vertices[9].Color = RgbaFloat.Blue;
+            vertices[9].Color = color3;
             vertices[10].Position = new Vector3(-1.0f, 1.0f, 1.0f);
-            vertices[10].Color = RgbaFloat.Blue;
+            vertices[10].Color = color3;
             vertices[11].Position = new Vector3(-1.0f, -1.0f, 1.0f);
-            vertices[11].Color = RgbaFloat.Blue;
+            vertices[11].Color = color3;
             
+            var color4 = new RgbaFloat(1f, 0.5f, 0f, 1f);
             vertices[12].Position = new Vector3(1.0f, -1.0f, -1.0f);
-            vertices[12].Color = new RgbaFloat(1f, 0.5f, 0f, 1f);
+            vertices[12].Color = color4;
             vertices[13].Position = new Vector3(1.0f, 1.0f, -1.0f);
-            vertices[13].Color = new RgbaFloat(1f, 0.5f, 0f, 1f);
+            vertices[13].Color = color4;
             vertices[14].Position = new Vector3(1.0f, 1.0f, 1.0f);
-            vertices[14].Color = new RgbaFloat(1f, 0.5f, 0f, 1f);
+            vertices[14].Color = color4;
             vertices[15].Position = new Vector3(1.0f, -1.0f, 1.0f);
-            vertices[15].Color = new RgbaFloat(1f, 0.5f, 0f, 1f);
+            vertices[15].Color = color4;
             
+            var color5 = new RgbaFloat(0f, 0.5f, 1f, 1f);
             vertices[16].Position = new Vector3(-1.0f, -1.0f, -1.0f);
-            vertices[16].Color = new RgbaFloat(0f, 0.5f, 1f, 1f);
+            vertices[16].Color = color5;
             vertices[17].Position = new Vector3(-1.0f, -1.0f, 1.0f);
-            vertices[17].Color = new RgbaFloat(0f, 0.5f, 1f, 1f);
+            vertices[17].Color = color5;
             vertices[18].Position = new Vector3(1.0f, -1.0f, 1.0f);
-            vertices[18].Color = new RgbaFloat(0f, 0.5f, 1f, 1f);
+            vertices[18].Color = color5;
             vertices[19].Position = new Vector3(1.0f, -1.0f, -1.0f);
-            vertices[19].Color = new RgbaFloat(0f, 0.5f, 1f, 1f);
+            vertices[19].Color = color5;
      
+            var color6 = new RgbaFloat(1.0f, 0.0f, 0.5f, 1f);
             vertices[20].Position = new Vector3(-1.0f, 1.0f, -1.0f);
-            vertices[20].Color = new RgbaFloat(1.0f, 0.0f, 0.5f, 1f);
+            vertices[20].Color = color6;
             vertices[21].Position = new Vector3(-1.0f, 1.0f, 1.0f);
-            vertices[21].Color = new RgbaFloat(1.0f, 0.0f, 0.5f, 1f);
+            vertices[21].Color = color6;
             vertices[22].Position = new Vector3(1.0f, 1.0f, 1.0f);
-            vertices[22].Color = new RgbaFloat(1.0f, 0.0f, 0.5f, 1f);
+            vertices[22].Color = color6;
             vertices[23].Position = new Vector3(1.0f, 1.0f, -1.0f);
-            vertices[23].Color = new RgbaFloat(1.0f, 0.0f, 0.5f, 1f);
+            vertices[23].Color = color6;
             
             _vertexBuffer = new SgBuffer<Vertex>(SgBufferType.Vertex, SgBufferUsage.Immutable, vertices, "cube-vertices");
             
@@ -96,7 +102,7 @@ namespace Sokol.Samples.Cube
             
             _indexBuffer = new SgBuffer<ushort>(SgBufferType.Index, SgBufferUsage.Immutable, indices, "cube-indices");
 
-            _bindings.SetVertexBuffer(_vertexBuffer);
+            _bindings.SetVertexBuffer(0, _vertexBuffer);
             _bindings.SetIndexBuffer(_indexBuffer);
             
             _modelViewProjectionUniform = new SgUniform("mvp", SgShaderStage.Vertex, 0, SgShaderUniformType.Matrix4);
