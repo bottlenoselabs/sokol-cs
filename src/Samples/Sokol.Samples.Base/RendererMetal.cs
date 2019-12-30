@@ -6,6 +6,7 @@ using Sokol.CoreAnimation;
 using Sokol.Metal;
 using Sokol.ObjCRuntime;
 using static SDL2.SDL;
+using static Sokol.sokol_gfx;
 
 namespace Sokol.Samples
 {
@@ -18,13 +19,16 @@ namespace Sokol.Samples
         private MTLRenderPassDescriptor _renderPassDescriptor;
         private CAMetalLayer _metalLayer;
 
+        private GCHandle _getMetalRenderPassDescriptorGCHandle;
+        private GCHandle _getMetalDrawableGCHandle;
+
         public override bool VerticalSyncIsEnabled
         {
             get => _metalLayer.displaySyncEnabled;
             set => _metalLayer.displaySyncEnabled = value;
         }
 
-        public RendererMetal(ref SgDeviceDescription deviceDescription, IntPtr windowHandle) 
+        public unsafe RendererMetal(ref sg_desc desc, IntPtr windowHandle) 
             : base(windowHandle)
         {
             EnsureIsNotAlreadyInitialized();
@@ -54,9 +58,15 @@ namespace Sokol.Samples
                 displaySyncEnabled = true
             };
             
-            deviceDescription.MetalDevice = _metalLayer.device;
-            deviceDescription.GetMetalRenderPassDescriptor = GetMTLRenderPassDescriptor;
-            deviceDescription.GetMetalDrawable = GetMTLDrawable;
+            var getMetalRenderPassDescriptor = new GetPointerDelegate(StaticGetMetalRenderPassDescriptor);
+            var getMetalDrawable = new GetPointerDelegate(StaticGetMetalDrawable);
+            
+            _getMetalRenderPassDescriptorGCHandle = GCHandle.Alloc(getMetalRenderPassDescriptor);
+            _getMetalDrawableGCHandle = GCHandle.Alloc(getMetalDrawable);
+
+            desc.mtl_device = (void*) _metalLayer.device.Handle;
+            desc.mtl_renderpass_descriptor_cb = (void*) Marshal.GetFunctionPointerForDelegate(getMetalRenderPassDescriptor);
+            desc.mtl_drawable_cb = (void*) Marshal.GetFunctionPointerForDelegate(getMetalDrawable);
             
             NativeLibrary.SetDllImportResolver(typeof(sokol_gfx).Assembly, ResolveLibrary);
         }
@@ -70,13 +80,13 @@ namespace Sokol.Samples
             }
         }
 
-        private static IntPtr GetMTLRenderPassDescriptor()
+        private static IntPtr StaticGetMetalRenderPassDescriptor()
         {
             // This callback is invoked by sokol_gfx native library in `sg_begin_default_pass()`
             return _instance.GetMetalRenderPassDescriptor();
         }
         
-        private static IntPtr GetMTLDrawable()
+        private static IntPtr StaticGetMetalDrawable()
         {
             // This callback is invoked by sokol_gfx native library in `sg_end_pass()` for the default pass
             return _instance._drawable;
@@ -125,6 +135,16 @@ namespace Sokol.Samples
             if (_metalLayer.Handle != IntPtr.Zero)
             {
                 NSObject.release(_metalLayer.Handle);
+            }
+            
+            if (_getMetalRenderPassDescriptorGCHandle.IsAllocated)
+            {
+                _getMetalRenderPassDescriptorGCHandle.Free();
+            }
+
+            if (_getMetalDrawableGCHandle.IsAllocated)
+            {
+                _getMetalDrawableGCHandle.Free();
             }
         }
         
