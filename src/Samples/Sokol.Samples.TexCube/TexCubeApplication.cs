@@ -172,13 +172,13 @@ namespace Sokol.Samples.TexCube
             imageDescription.height = 4;
             imageDescription.depth = 1;
             imageDescription.num_mipmaps = 1;
-            imageDescription.sample_count = 4;
             imageDescription.pixel_format = sg_pixel_format.SG_PIXELFORMAT_RGBA8;
             ref var subImage = ref imageDescription.content.subimage(0, 0);
             subImage.ptr = texturePixels;
             subImage.size = 4 * 4 * Marshal.SizeOf<float>();
 
             // create the image from the description
+            // note: for immutable images this "uploads" the data to the GPU
             _image = sg_make_image(ref imageDescription);
  
             // describe the binding of the vertex and index buffer (not applied yet!)
@@ -192,6 +192,7 @@ namespace Sokol.Samples.TexCube
             ref var mvpUniform = ref shaderDesc.vs.uniformBlock(0).uniform(0);
             mvpUniform.name = (byte*) Marshal.StringToHGlobalAnsi("mvp");
             mvpUniform.type = sg_uniform_type.SG_UNIFORMTYPE_MAT4;
+            shaderDesc.fs.image(0).type = sg_image_type.SG_IMAGETYPE_2D;
             // specify shader stage source code for each graphics backend
             string vertexShaderStageSourceCode;
             string fragmentShaderStageSourceCode;
