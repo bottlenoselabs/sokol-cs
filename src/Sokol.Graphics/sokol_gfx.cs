@@ -22,8 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
+using System;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 
+// ReSharper disable UnusedType.Global
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
 // ReSharper disable IdentifierTypo
@@ -61,6 +66,21 @@ namespace Sokol
         public struct sg_image
         {
             [FieldOffset(0)] public uint id;
+            
+            internal sg_image(uint id)
+            {
+                this.id = id;
+            }
+            
+            public static implicit operator sg_image(uint value)
+            {
+                return new sg_image(value);
+            }
+            
+            public static implicit operator uint(sg_image image)
+            {
+                return image.id;
+            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
@@ -510,12 +530,36 @@ namespace Sokol
             [FieldOffset(92)] public sg_stencil_attachment_action stencil;
             [FieldOffset(100)] public uint _end_canary;
 
-            public sg_color_attachment_action* GetColors()
+            public ref sg_color_attachment_action color(int index)
             {
                 fixed (sg_pass_action* pass_action = &this)
                 {
-                    return (sg_color_attachment_action*) (&pass_action->_colors[0]);
+                    var pointerBase = (sg_color_attachment_action*) &pass_action->_colors[0];
+                    var pointerOffset = index;
+                    return ref Unsafe.AsRef<sg_color_attachment_action>(pointerBase + pointerOffset);
                 }
+            }
+
+            public static sg_pass_action clear(RgbaFloat? color = null)
+            {
+                var passAction = new sg_pass_action();
+                ref var colorAttachment0 = ref passAction.color(0);
+                colorAttachment0.action = sg_action.SG_ACTION_CLEAR;
+                colorAttachment0.val = color ?? RgbaFloat.Gray;
+                return passAction;
+            }
+            
+            public static sg_pass_action dontCare()
+            {
+                var passAction = new sg_pass_action();
+                for (var i = 0; i < SG_MAX_COLOR_ATTACHMENTS; i++)
+                {
+                    passAction.color(i).action = sg_action.SG_ACTION_DONTCARE;   
+                }
+
+                passAction.depth.action = sg_action.SG_ACTION_DONTCARE;
+                passAction.stencil.action = sg_action.SG_ACTION_DONTCARE;
+                return passAction;
             }
         }
         
@@ -523,13 +567,48 @@ namespace Sokol
         public struct sg_bindings
         {
             [FieldOffset(0)] public uint _start_canary;
-            [FieldOffset(4)] public fixed uint vertex_buffers[SG_MAX_SHADERSTAGE_BUFFERS];
-            [FieldOffset(36)] public fixed int vertex_buffer_offsets[SG_MAX_SHADERSTAGE_BUFFERS];
+            [FieldOffset(4)] public fixed uint _vertex_buffers[SG_MAX_SHADERSTAGE_BUFFERS];
+            [FieldOffset(36)] public fixed int _vertex_buffer_offsets[SG_MAX_SHADERSTAGE_BUFFERS];
             [FieldOffset(68)] public sg_buffer index_buffer;
             [FieldOffset(72)] public int index_buffer_offset;
-            [FieldOffset(76)] public fixed uint vs_images[SG_MAX_SHADERSTAGE_IMAGES];
-            [FieldOffset(124)] public fixed uint fs_images[SG_MAX_SHADERSTAGE_IMAGES];
+            [FieldOffset(76)] public fixed uint _vs_images[SG_MAX_SHADERSTAGE_IMAGES];
+            [FieldOffset(124)] public fixed uint _fs_images[SG_MAX_SHADERSTAGE_IMAGES];
             [FieldOffset(172)] public uint _end_canary;
+
+            public ref sg_buffer vertex_buffer(int index)
+            {
+                fixed (sg_bindings* bindings = &this)
+                {
+                    var pointerBase = (sg_buffer*) &bindings->_vertex_buffers[0];
+                    var pointerOffset = index;
+                    return ref Unsafe.AsRef<sg_buffer>(pointerBase + pointerOffset);
+                }
+            }
+            
+            public ref int vertex_buffer_offset(int index)
+            {
+                return ref _vertex_buffer_offsets[index];
+            }
+
+            public ref sg_image vs_image(int index)
+            {
+                fixed (sg_bindings* bindings = &this)
+                {
+                    var pointerBase = (sg_image*) &bindings->_vs_images[0];
+                    var pointerOffset = index;
+                    return ref Unsafe.AsRef<sg_image>(pointerBase + pointerOffset);
+                }
+            }
+            
+            public ref sg_image fs_image(int index)
+            {
+                fixed (sg_bindings* bindings = &this)
+                {
+                    var pointerBase = (sg_image*) &bindings->_fs_images[0];
+                    var pointerOffset = index;
+                    return ref Unsafe.AsRef<sg_image>(pointerBase + pointerOffset);
+                }
+            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8, CharSet = CharSet.Ansi)]
@@ -540,7 +619,7 @@ namespace Sokol
             [FieldOffset(8)] public sg_buffer_type type;
             [FieldOffset(12)] public sg_usage usage;
             [FieldOffset(16)] public void* content;
-            [FieldOffset(24)] public char* label;
+            [FieldOffset(24)] public byte* label;
             [FieldOffset(32)] public fixed uint gl_buffers[SG_NUM_INFLIGHT_FRAMES];
             [FieldOffset(40)] public fixed ulong _mtl_buffers[SG_NUM_INFLIGHT_FRAMES];
             [FieldOffset(56)] public void* d3d11_buffer;
@@ -568,11 +647,13 @@ namespace Sokol
             [FieldOffset(0)]
             public fixed ulong _subimage[16 * (int) sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS / 8];
 
-            public sg_subimage_content* GetSubimage()
+            public ref sg_subimage_content subimage(int cubeFaceIndex, int mipMapIndex)
             {
                 fixed (sg_image_content* image_content = &this)
                 {
-                    return (sg_subimage_content*) (&image_content->_subimage[0]);
+                    var pointerBase = (sg_subimage_content*) &image_content->_subimage[0];
+                    var pointerOffset = cubeFaceIndex * (int) sg_cube_face.SG_CUBEFACE_NUM + mipMapIndex;
+                    return ref Unsafe.AsRef<sg_subimage_content>(pointerBase + pointerOffset);
                 }
             }
         }
@@ -601,7 +682,7 @@ namespace Sokol
             [FieldOffset(68)] public float min_lod;
             [FieldOffset(72)] public float max_lod;
             [FieldOffset(80)] public sg_image_content content;
-            [FieldOffset(1616)] public char* label;
+            [FieldOffset(1616)] public byte* label;
             [FieldOffset(1624)] public fixed uint gl_textures[SG_NUM_INFLIGHT_FRAMES];
             [FieldOffset(1632)] public fixed ulong _mtl_textures[SG_NUM_INFLIGHT_FRAMES];
             [FieldOffset(1648)] public void* d3d11_texture;
@@ -619,15 +700,15 @@ namespace Sokol
         [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_shader_attr_desc
         {
-            [FieldOffset(0)] public char* name;
-            [FieldOffset(8)] public char* sem_name;
+            [FieldOffset(0)] public byte* name;
+            [FieldOffset(8)] public byte* sem_name;
             [FieldOffset(16)] public int sem_index;
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_shader_uniform_desc
         {
-            [FieldOffset(0)] public char* name;
+            [FieldOffset(0)] public byte* name;
             [FieldOffset(8)] public sg_uniform_type type;
             [FieldOffset(12)] public int array_count;
         }
@@ -638,11 +719,13 @@ namespace Sokol
             [FieldOffset(0)] public int size;
             [FieldOffset(8)] public fixed ulong _uniforms[16 * SG_MAX_UB_MEMBERS / 8];
 
-            public sg_shader_uniform_desc* GetUniforms()
+            public ref sg_shader_uniform_desc uniform(int index)
             {
                 fixed (sg_shader_uniform_block_desc* shader_uniform_block_desc = &this)
                 {
-                    return (sg_shader_uniform_desc*) (&shader_uniform_block_desc->_uniforms[0]);
+                    var pointerBase = &shader_uniform_block_desc->_uniforms[0];
+                    var pointerOffset = index;
+                    return ref Unsafe.AsRef<sg_shader_uniform_desc>(pointerBase + pointerOffset);
                 }
             }
         }
@@ -650,34 +733,38 @@ namespace Sokol
         [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_shader_image_desc
         {
-            [FieldOffset(0)] public char* name;
+            [FieldOffset(0)] public byte* name;
             [FieldOffset(8)] public sg_image_type type;
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 1280, Pack = 8, CharSet = CharSet.Ansi)]
         public struct sg_shader_stage_desc
         {
-            [FieldOffset(0)] public char* source;
+            [FieldOffset(0)] public byte* source;
             [FieldOffset(8)] public byte* byte_code;
             [FieldOffset(16)] public int byte_code_size;
-            [FieldOffset(24)] public char* entry;
+            [FieldOffset(24)] public byte* entry;
             [FieldOffset(32)]
             public fixed ulong _uniform_blocks[264 * SG_MAX_SHADERSTAGE_UBS / 8];
             [FieldOffset(1088)] public fixed ulong _images[16 * SG_MAX_SHADERSTAGE_IMAGES / 8];
 
-            public sg_shader_uniform_block_desc* GetUniformBlocks()
+            public ref sg_shader_uniform_block_desc uniformBlock(int index)
             {
                 fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
                 {
-                    return (sg_shader_uniform_block_desc*) (&sg_shader_stage_desc->_uniform_blocks[0]);
+                    var pointerBase = &sg_shader_stage_desc->_uniform_blocks[0];
+                    var pointerOffset = index;
+                    return ref Unsafe.AsRef<sg_shader_uniform_block_desc>(pointerBase + pointerOffset);
                 }
             }
 
-            public sg_shader_image_desc* GetImages()
+            public ref sg_shader_image_desc GetImage(int index)
             {
                 fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
                 {
-                    return (sg_shader_image_desc*) (&sg_shader_stage_desc->_images[0]);
+                    var pointerBase = &sg_shader_stage_desc->_images[0];
+                    var pointerOffset = index;
+                    return ref Unsafe.AsRef<sg_shader_image_desc>(pointerBase + pointerOffset);
                 }
             }
         }
@@ -689,14 +776,16 @@ namespace Sokol
             [FieldOffset(8)] public fixed ulong _attrs[24 * SG_MAX_VERTEX_ATTRIBUTES / 8];
             [FieldOffset(392)] public sg_shader_stage_desc vs;
             [FieldOffset(1672)] public sg_shader_stage_desc fs;
-            [FieldOffset(2952)] public char* label;
+            [FieldOffset(2952)] public byte* label;
             [FieldOffset(2960)] public uint _end_canary;
 
-            public sg_shader_attr_desc* GetAttrs()
+            public ref sg_shader_attr_desc attr(int index)
             {
                 fixed (sg_shader_desc* sg_shader_stage_desc = &this)
                 {
-                    return (sg_shader_attr_desc*) (&sg_shader_stage_desc->_attrs[0]);
+                    var pointerBase = &sg_shader_stage_desc->_attrs[0];
+                    var pointerIndex = index;
+                    return ref Unsafe.AsRef<sg_shader_attr_desc>(pointerBase + pointerIndex);
                 }
             }
         }
@@ -723,19 +812,23 @@ namespace Sokol
             [FieldOffset(0)] public fixed int _buffers[12 * SG_MAX_SHADERSTAGE_BUFFERS / 4];
             [FieldOffset(96)] public fixed int _attrs[12 * SG_MAX_VERTEX_ATTRIBUTES / 4];
 
-            public sg_buffer_layout_desc* GetBuffers()
+            public ref sg_buffer_layout_desc buffer(int index)
             {
                 fixed (sg_layout_desc* layout_desc = &this)
                 {
-                    return (sg_buffer_layout_desc*) (&layout_desc->_buffers[0]);
+                    var pointerBase = (sg_buffer_layout_desc*) &layout_desc->_buffers[0];
+                    var pointerOffset = index;
+                    return ref Unsafe.AsRef<sg_buffer_layout_desc>(pointerBase + pointerOffset);
                 }
             }
 
-            public sg_vertex_attr_desc* GetAttrs()
+            public ref sg_vertex_attr_desc attr(int index)
             {
                 fixed (sg_layout_desc* layout_desc = &this)
                 {
-                    return (sg_vertex_attr_desc*) (&layout_desc->_attrs[0]);
+                    var pointerBase = (sg_buffer_layout_desc*) &layout_desc->_attrs[0];
+                    var pointerOffset = index;
+                    return ref Unsafe.AsRef<sg_vertex_attr_desc>(pointerBase + pointerOffset);
                 }
             }
         }
@@ -825,11 +918,13 @@ namespace Sokol
             [FieldOffset(64)] public char* label;
             [FieldOffset(72)] public uint _end_canary;
 
-            public sg_attachment_desc* GetColorAttachments()
+            public ref sg_attachment_desc color_attachment(int index)
             {
                 fixed (sg_pass_desc* pass_desc = &this)
                 {
-                    return (sg_attachment_desc*) (&pass_desc->_color_attachments[0]);
+                    var pointerBase = (sg_attachment_desc*) &pass_desc->_color_attachments[0];
+                    var pointerOffset = index;
+                    return ref Unsafe.AsRef<sg_attachment_desc>(pointerBase + pointerOffset);
                 }
             }
         }
@@ -948,7 +1043,7 @@ namespace Sokol
         public static extern sg_pipeline sg_make_pipeline([In] ref sg_pipeline_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern sg_pass sg_make_pass(sg_pass_desc* desc);
+        public static extern sg_pass sg_make_pass([In] ref sg_pass_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_destroy_buffer(sg_buffer buf);
