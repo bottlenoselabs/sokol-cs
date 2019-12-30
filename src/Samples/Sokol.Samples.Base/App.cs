@@ -1,29 +1,31 @@
 using System;
+using System.Runtime.InteropServices;
 using static SDL2.SDL;
 using static Sokol.sokol_gfx;
+
+// ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol.Samples
 {
     public abstract class App : IDisposable
     {
-        private readonly SgDevice _device;
         private readonly Renderer _renderer;
         private bool _isExiting;
+        private readonly IntPtr _windowHandle;
 
-        protected App(SgDeviceDescription? deviceDescription = null)
+        protected App(GraphicsBackend? graphicsBackend = null, sg_desc? desc = null)
         {
+            Ensure64BitArchitecture();
             SDL_Init(SDL_INIT_VIDEO);
+            GraphicsBackend = graphicsBackend ?? GetDefaultGraphicsBackend();
+            var description = desc ?? new sg_desc();
 
-            var description = deviceDescription ?? new SgDeviceDescription();
-
-            WindowHandle = CreateWindow();
-            _renderer = CreateRenderer(ref description, WindowHandle);
-
-            _device = new SgDevice(ref description);
-            GraphicsBackend = _device.GraphicsBackend;
+            _windowHandle = CreateWindow(GraphicsBackend);
+            _renderer = CreateRenderer(GraphicsBackend, ref description, _windowHandle);
+            
+            sg_setup(ref description);
         }
-
-        public IntPtr WindowHandle { get; }
 
         public GraphicsBackend GraphicsBackend { get; }
 
@@ -32,14 +34,59 @@ namespace Sokol.Samples
             ReleaseResources();
             GC.SuppressFinalize(this);
         }
+        
+        private static GraphicsBackend GetDefaultGraphicsBackend()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                //TODO: Use DirectX
+                return GraphicsBackend.Direct3D11;
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return GraphicsBackend.Metal;
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return GraphicsBackend.OpenGL;
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+            {
+                return GraphicsBackend.OpenGL;
+            }
 
-        private IntPtr CreateWindow()
+            return GraphicsBackend.OpenGL;
+        }
+        
+        private static void Ensure64BitArchitecture()
+        {
+            var runtimeArchitecture = RuntimeInformation.OSArchitecture;
+            if (runtimeArchitecture == Architecture.Arm || runtimeArchitecture == Architecture.X86)
+            {
+                throw new NotSupportedException("32-bit architecture is not supported.");
+            }
+        }
+        
+        private static Renderer CreateRenderer(GraphicsBackend graphicsBackend, ref sg_desc deviceDescription, IntPtr windowHandle)
+        {
+            return graphicsBackend switch
+            {
+                GraphicsBackend.OpenGL => new RendererOpenGL(windowHandle),
+                GraphicsBackend.Metal => new RendererMetal(ref deviceDescription, windowHandle),
+                GraphicsBackend.OpenGLES2 => throw new NotImplementedException(),
+                GraphicsBackend.OpenGLES3 => throw new NotImplementedException(),
+                GraphicsBackend.Direct3D11 => throw new NotImplementedException(),
+                _ => throw new ArgumentOutOfRangeException(nameof(graphicsBackend), graphicsBackend, null),
+            };
+        }
+
+        private static IntPtr CreateWindow(GraphicsBackend graphicsBackend)
         {
             var windowFlags = SDL_WindowFlags.SDL_WINDOW_HIDDEN |
                               SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI |
                               SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
 
-            if (GraphicsBackend == GraphicsBackend.OpenGL)
+            if (graphicsBackend == GraphicsBackend.OpenGL)
             {
                 windowFlags |= SDL_WindowFlags.SDL_WINDOW_OPENGL;
             }
@@ -56,43 +103,9 @@ namespace Sokol.Samples
             return windowHandle;
         }
 
-        private static Renderer CreateRenderer(ref SgDeviceDescription deviceDescription, IntPtr windowHandle)
-        {
-            if (deviceDescription.GraphicsBackend == GraphicsBackend.Default)
-            {
-                deviceDescription.GraphicsBackend = GraphicsBackendHelper.GetDefaultPlatformGraphicsBackend();
-            }
-            
-            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
-            switch (deviceDescription.GraphicsBackend)
-            {
-                case GraphicsBackend.OpenGL:
-                    return new RendererOpenGL(windowHandle);
-                case GraphicsBackend.Metal:
-                    return new RendererMetal(ref deviceDescription, windowHandle);
-            }
-
-            var sysWmInfo = new SDL_SysWMinfo();
-            SDL_GetWindowWMInfo(windowHandle, ref sysWmInfo);
-
-            // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (sysWmInfo.subsystem)
-            {
-                case SDL_SYSWM_TYPE.SDL_SYSWM_WINDOWS:
-                // TODO: Windows DirectX11
-                case SDL_SYSWM_TYPE.SDL_SYSWM_WINRT:
-                // TODO: Windows DirectX11
-                case SDL_SYSWM_TYPE.SDL_SYSWM_ANDROID:
-                // TODO: Android OpenGL ES
-                default:
-                    throw new PlatformNotSupportedException("Cannot create a renderer for " +
-                                                            sysWmInfo.subsystem + ".");
-            }
-        }
-
         public void Run()
         {
-            SDL_ShowWindow(WindowHandle);
+            SDL_ShowWindow(_windowHandle);
 
             while (!_isExiting)
             {
@@ -129,12 +142,13 @@ namespace Sokol.Samples
 
         private void ReleaseResources()
         {
-            _device.Dispose();
+            sg_shutdown();
+            
             _renderer.Dispose();
 
-            if (WindowHandle != IntPtr.Zero)
+            if (_windowHandle != IntPtr.Zero)
             {
-                SDL_DestroyWindow(WindowHandle);
+                SDL_DestroyWindow(_windowHandle);
             }
 
             SDL_Quit();
