@@ -29,33 +29,10 @@ namespace Sokol
 {
     public enum GraphicsBackend
     {
-        Default,
         OpenGL, // Core 3.3
         OpenGLES2,
         OpenGLES3,
         Direct3D11,
         Metal
-    }
-
-    public static class GraphicsBackendHelper
-    {
-        public static GraphicsBackend GetDefaultPlatformGraphicsBackend()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                // TODO: Use DirectX
-                return GraphicsBackend.OpenGL;
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                return GraphicsBackend.Metal;
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                return GraphicsBackend.OpenGL;
-            }
-
-            throw new NotSupportedException("Unknown platform; could not decide on graphics backend.");
-        }
     }
 }
