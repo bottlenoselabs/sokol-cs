@@ -48,11 +48,6 @@ namespace Sokol.Graphics.Tests
             sg_shutdown();
         }
 
-        public static string ByteArrayToString(byte[] ba)
-        {
-            return BitConverter.ToString(ba).Replace("-", "");
-        }
-
         [Fact]
         public void QueryBackend()
         {
@@ -317,7 +312,7 @@ namespace Sokol.Graphics.Tests
                 Assert.True(buffer.id >> 16 == (uint) (i + 1));
                 sg_destroy_buffer(buffer);
                 bufferState = sg_query_buffer_state(buffer);
-                Assert.True(sg_query_buffer_state(buffer) == sg_resource_state.SG_RESOURCESTATE_INVALID);
+                Assert.True(bufferState == sg_resource_state.SG_RESOURCESTATE_INVALID);
             }
 
             sg_shutdown();
@@ -410,22 +405,22 @@ namespace Sokol.Graphics.Tests
             sg_setup(ref setupDesc);
 
             var desc = new sg_pipeline_desc();
-            var attrs = desc.layout.GetAttrs();
-            attrs[0].format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT3;
-            attrs[1].format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT4;
+            ref var attr0 = ref desc.layout.attr(0);
+            attr0.format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT3;
+            ref var attr1 = ref desc.layout.attr(1);
+            attr1.format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT4;
             desc = sg_query_pipeline_defaults(&desc);
 
-            var buffers = desc.layout.GetBuffers();
-            attrs = desc.layout.GetAttrs();
-            Assert.True(buffers[0].stride == 28);
-            Assert.True(buffers[0].step_rate == 1);
-            Assert.True(buffers[0].step_func == sg_vertex_step.SG_VERTEXSTEP_PER_VERTEX);
-            Assert.True(attrs[0].offset == 0);
-            Assert.True(attrs[0].buffer_index == 0);
-            Assert.True(attrs[0].format == sg_vertex_format.SG_VERTEXFORMAT_FLOAT3);
-            Assert.True(attrs[1].offset == 12);
-            Assert.True(attrs[1].buffer_index == 0);
-            Assert.True(attrs[1].format == sg_vertex_format.SG_VERTEXFORMAT_FLOAT4);
+            ref var buffer0 = ref desc.layout.buffer(0);
+            Assert.True(buffer0.stride == 28);
+            Assert.True(buffer0.step_rate == 1);
+            Assert.True(buffer0.step_func == sg_vertex_step.SG_VERTEXSTEP_PER_VERTEX);
+            Assert.True(attr0.offset == 0);
+            Assert.True(attr0.buffer_index == 0);
+            Assert.True(attr0.format == sg_vertex_format.SG_VERTEXFORMAT_FLOAT3);
+            Assert.True(attr1.offset == 12);
+            Assert.True(attr1.buffer_index == 0);
+            Assert.True(attr1.format == sg_vertex_format.SG_VERTEXFORMAT_FLOAT4);
             Assert.True(desc.primitive_type == sg_primitive_type.SG_PRIMITIVETYPE_TRIANGLES);
             Assert.True(desc.index_type == sg_index_type.SG_INDEXTYPE_NONE);
             Assert.True(desc.depth_stencil.stencil_front.fail_op == sg_stencil_op.SG_STENCILOP_KEEP);
@@ -475,9 +470,9 @@ namespace Sokol.Graphics.Tests
             var desc = new sg_pass_desc();
             desc = sg_query_pass_defaults(&desc);
 
-            var colorAttachments = desc.GetColorAttachments();
-            Assert.True(colorAttachments[0].image.id == SG_INVALID_ID);
-            Assert.True(colorAttachments[0].mip_level == 0);
+            ref var colorAttachment0 = ref desc.color_attachment(0);
+            Assert.True(colorAttachment0.image.id == SG_INVALID_ID);
+            Assert.True(colorAttachment0.mip_level == 0);
             
             sg_shutdown();
         }
