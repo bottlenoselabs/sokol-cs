@@ -758,7 +758,7 @@ namespace Sokol
                 }
             }
 
-            public ref sg_shader_image_desc GetImage(int index)
+            public ref sg_shader_image_desc image(int index)
             {
                 fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
                 {
