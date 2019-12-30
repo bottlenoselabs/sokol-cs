@@ -11,7 +11,7 @@ struct vs_out {
   float4 pos [[position]];
   float4 color;
 };
-vertex vs_out vs_main(vs_in in [[stage_in]], constant params_t& params [[buffer(0)]]) {
+vertex vs_out _main(vs_in in [[stage_in]], constant params_t& params [[buffer(0)]]) {
   vs_out out;
   out.pos = params.mvp * in.position;
   out.color = in.color;
