@@ -106,7 +106,7 @@ namespace Sokol.Samples.Cube
             // note: for immutable buffers, this "uploads" the data to the GPU
             _vertexBuffer = sg_make_buffer(ref vertexBufferDesc);
             
-            // use memory form the thread's stack to create the cube indices
+            // use memory from the thread's stack to create the cube indices
             var indices = stackalloc ushort[]
             {
                 0, 1, 2,  0, 2, 3, // quad 1 of cube

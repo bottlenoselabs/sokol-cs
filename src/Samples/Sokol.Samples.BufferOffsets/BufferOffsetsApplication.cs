@@ -60,7 +60,7 @@ namespace Sokol.Samples.BufferOffsets
             // note: for immutable buffers, this "uploads" the data to the GPU
             _vertexBuffer = sg_make_buffer(ref vertexBufferDesc);
             
-            // use memory form the thread's stack to create the quad indices
+            // use memory from the thread's stack to create the quad indices
             var indices = stackalloc ushort[]
             {
                 0, 1, 2, // triangle

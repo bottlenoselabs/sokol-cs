@@ -133,7 +133,7 @@ namespace Sokol.Samples.TexCube
             // note: for immutable buffers, this "uploads" the data to the GPU
             _vertexBuffer = sg_make_buffer(ref vertexBufferDesc);
             
-            // use memory form the thread's stack to create the cube indices
+            // use memory from the thread's stack to create the cube indices
             var indices = stackalloc ushort[]
             {
                 0, 1, 2,  0, 2, 3, // quad 1 of cube
@@ -156,7 +156,7 @@ namespace Sokol.Samples.TexCube
             // note: for immutable buffers, this "uploads" the data to the GPU
             _indexBuffer = sg_make_buffer(ref indexBufferDesc);
             
-            // use memory form the thread's stack to create the checkerboard texture data
+            // use memory from the thread's stack to create the checkerboard texture data
             var texturePixels = stackalloc uint[] {
                 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
                 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
