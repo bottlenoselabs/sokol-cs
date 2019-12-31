@@ -290,6 +290,10 @@ namespace Sokol
                     span = span.Slice(1);
                 }
                 value = uint.Parse(span, NumberStyles.HexNumber);
+                if (span.Length == 6)
+                {
+                    value = (value << 8) + 0xFF;
+                }
             }
             catch
             {
