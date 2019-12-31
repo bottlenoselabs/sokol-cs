@@ -298,11 +298,23 @@ namespace Sokol
 
         public static implicit operator RgbaFloat(uint value)
         {
-            var r = ((value >> 16) & 0xFF) / 255f;
-            var g = ((value >> 8) & 0xFF) / 255f;
-            var b = (value & 0xFF) / 255f;
-            
-            return new RgbaFloat(r, g, b, 1);
+            float r, g, b, a;
+            if (value > 0xFFFFFF)
+            {
+                r = ((value >> 24) & 0xFF) / 255f;
+                g = ((value >> 16) & 0xFF) / 255f;
+                b = ((value >> 8) & 0xFF) / 255f;
+                a = (value & 0xFF) / 255f;
+            }
+            else
+            {
+                r = ((value >> 16) & 0xFF) / 255f;
+                g = ((value >> 8) & 0xFF) / 255f;
+                b = (value & 0xFF) / 255f;
+                a = 1f;
+            }
+
+            return new RgbaFloat(r, g, b, a);
         }
     }
 }
