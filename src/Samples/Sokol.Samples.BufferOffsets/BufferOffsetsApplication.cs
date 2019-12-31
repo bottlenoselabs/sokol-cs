@@ -123,7 +123,7 @@ namespace Sokol.Samples.BufferOffsets
         protected override void Draw(int width, int height)
         {
             // begin a framebuffer render pass
-            var frameBufferPassAction = sg_pass_action.clear(0x8080ff);
+            var frameBufferPassAction = sg_pass_action.clear(0x8080FFFF);
             sg_begin_default_pass(ref frameBufferPassAction, width, height);
 
             // apply the render pipeline for the render pass
