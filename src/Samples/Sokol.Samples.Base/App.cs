@@ -111,8 +111,6 @@ namespace Sokol.Samples
             {
                 Tick();
             }
-
-            Exit();
         }
 
         private void Tick()
@@ -137,7 +135,7 @@ namespace Sokol.Samples
 
         public void Exit()
         {
-            Dispose();
+            _isExiting = true;
         }
 
         private void ReleaseResources()
