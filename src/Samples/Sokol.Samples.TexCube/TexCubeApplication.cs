@@ -157,11 +157,11 @@ namespace Sokol.Samples.TexCube
             _indexBuffer = sg_make_buffer(ref indexBufferDesc);
             
             // use memory from the thread's stack to create the checkerboard texture data
-            var texturePixels = stackalloc uint[] {
-                0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
-                0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
-                0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
-                0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+            var texturePixels = stackalloc Rgba8UInt[] {
+                Rgba8UInt.White, Rgba8UInt.Black, Rgba8UInt.White, Rgba8UInt.Black,
+                Rgba8UInt.Transparent, Rgba8UInt.White, Rgba8UInt.Transparent, Rgba8UInt.White,
+                Rgba8UInt.White, Rgba8UInt.Transparent, Rgba8UInt.White, Rgba8UInt.Transparent,
+                Rgba8UInt.Transparent, Rgba8UInt.White, Rgba8UInt.Transparent, Rgba8UInt.White,
             };
 
             // describe an immutable 2d texture
