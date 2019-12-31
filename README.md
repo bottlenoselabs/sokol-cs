@@ -28,7 +28,7 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 ## "Unsafe" API
 
-The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained.
+The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/framework/interop/consuming-unmanaged-dll-functions) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained. All the structs in C# are blittable, which means they have [the exact same memory layout as C structs](https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types). This allows the structures to be passed by value (copy of data) or reference (copy of pointer) from the managed world of .NET to the unmanaged world of C [as is, improving performance](https://docs.microsoft.com/en-us/dotnet/framework/interop/copying-and-pinning#formatted-blittable-classes).
 
 In .NET, the `unsafe` keyword will most often be necessary for using the C structs and calling the C functions. Also, for practicality, it's recommended to import the static class with all the bindings, structs, and enums like so:
 
