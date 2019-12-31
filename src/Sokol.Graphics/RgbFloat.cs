@@ -37,6 +37,11 @@ namespace Sokol
 {
     public struct RgbFloat
     {
+        // Custom colors
+        public static readonly RgbFloat TransparentBlack = 0x000000;
+        public static readonly RgbFloat Transparent = 0x000000;
+        public static readonly RgbFloat MonoGameOrange = 0xE73C00;
+        
         // Basic colors: https://www.w3.org/TR/css-color-3/#html4
         public static readonly RgbFloat Black = 0x000000;
         public static readonly RgbFloat Silver = 0xC0C0C0;

@@ -65,8 +65,10 @@ namespace Sokol
 {
     public struct RgbaFloat
     {
-        // custom colors
+        // Custom colors
         public static readonly RgbaFloat TransparentBlack = 0x00000000;
+        public static readonly RgbaFloat Transparent = 0x00000000;
+        public static readonly RgbaFloat MonoGameOrange = 0xE73C00FF;
 
         // Basic colors: https://www.w3.org/TR/css-color-3/#html4
         public static readonly RgbaFloat Black = 0x000000FF;
