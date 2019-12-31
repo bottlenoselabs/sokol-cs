@@ -159,9 +159,9 @@ namespace Sokol.Samples.TexCube
             // use memory from the thread's stack to create the checkerboard texture data
             var texturePixels = stackalloc Rgba8UInt[] {
                 Rgba8UInt.White, Rgba8UInt.Black, Rgba8UInt.White, Rgba8UInt.Black,
-                Rgba8UInt.Transparent, Rgba8UInt.White, Rgba8UInt.Transparent, Rgba8UInt.White,
-                Rgba8UInt.White, Rgba8UInt.Transparent, Rgba8UInt.White, Rgba8UInt.Transparent,
-                Rgba8UInt.Transparent, Rgba8UInt.White, Rgba8UInt.Transparent, Rgba8UInt.White,
+                Rgba8UInt.Black, Rgba8UInt.White, Rgba8UInt.Black, Rgba8UInt.White,
+                Rgba8UInt.White, Rgba8UInt.Black, Rgba8UInt.White, Rgba8UInt.Black,
+                Rgba8UInt.Black, Rgba8UInt.White, Rgba8UInt.Black, Rgba8UInt.White,
             };
 
             // describe an immutable 2d texture
