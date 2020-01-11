@@ -99,7 +99,7 @@ namespace Sokol
                     return;
                 }
                 
-                if (!string.IsNullOrEmpty(_name) && desc.label != (void*) 0)
+                if (!string.IsNullOrEmpty(_name))
                 {
                     Marshal.FreeHGlobal((IntPtr) desc.label);
                 }
