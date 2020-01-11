@@ -73,7 +73,7 @@ namespace Sokol
             get => desc.size;
             set
             {
-                if (desc.size <= 0)
+                if (value <= 0)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
                 }
