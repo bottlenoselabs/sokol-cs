@@ -10,11 +10,10 @@ namespace Sokol
     public struct SgBufferDescription
     {
         internal sg_buffer_desc desc;
+        internal MemoryHandle? DataHandle;
         
         private string _name;
         
-        internal MemoryHandle? DataHandle { get; set; }
-
         public SgBufferType Type
         {
             get
