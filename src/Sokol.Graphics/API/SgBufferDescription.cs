@@ -117,4 +117,13 @@ namespace Sokol
 
         internal unsafe IntPtr NameCPointer => (IntPtr) desc.label;
     }
+
+    public static partial class SgSafeExtensions
+    {
+        // ReSharper disable once InconsistentNaming
+        public static ref sg_buffer_desc desc(this ref SgBufferDescription description) 
+        {
+            return ref description.desc;
+        }
+    }
 }

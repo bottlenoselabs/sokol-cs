@@ -50,12 +50,15 @@ namespace Sokol.Samples.Blend
             vertices[3].Color = new RgbaFloat(1.0f, 1.0f, 0.0f, 0.5f);
             
             // describe an immutable vertex buffer
-            var vertexBufferDesc = new sg_buffer_desc();
-            vertexBufferDesc.usage = sg_usage.SG_USAGE_IMMUTABLE;
-            vertexBufferDesc.type = sg_buffer_type.SG_BUFFERTYPE_VERTEXBUFFER;
-            // immutable buffers need to specify the data/size in the description
-            vertexBufferDesc.content = vertices;
-            vertexBufferDesc.size = Marshal.SizeOf<Vertex>() * 4;
+            var vertexBufferDescription = new SgBufferDescription
+            {
+                Usage = SgBufferUsage.Immutable,
+                Type = SgBufferType.Vertex,
+                DataPointer = (IntPtr) vertices,
+                // immutable buffers need to specify the data/size in the description
+                DataSize = Marshal.SizeOf<Vertex>() * 4
+            };
+            ref var vertexBufferDesc = ref vertexBufferDescription.desc();
 
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
