@@ -67,9 +67,9 @@ namespace Sokol
             Handle = sg_make_buffer(ref description.desc);
 
             // ReSharper disable once InvertIf
-            if (_dataHandle.HasValue && Usage == SgBufferUsage.Immutable)
+            if (Usage == SgBufferUsage.Immutable)
             {
-                _dataHandle.Value.Dispose();
+                _dataHandle?.Dispose();
                 _dataHandle = null;
             }
         }
