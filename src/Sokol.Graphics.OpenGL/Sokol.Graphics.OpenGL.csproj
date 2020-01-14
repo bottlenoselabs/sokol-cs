@@ -9,7 +9,7 @@
         <Authors>Lucas Girouard-Stranks</Authors>
         <RootNamespace>Sokol</RootNamespace>
         <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-        <Copyright>Copyright © 2019 Lucas Girouard-Stranks</Copyright>
+        <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
         <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
         <License>MIT</License>
         <RepositoryUrl>https://github.com/lithiumtoast/sokol-csharp</RepositoryUrl>
