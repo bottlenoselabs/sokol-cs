@@ -30,7 +30,7 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/framework/interop/consuming-unmanaged-dll-functions) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained. All the structs in C# are blittable, which means they have [the exact same memory layout as C structs](https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types). This allows the structures to be passed by value (copy of data) or reference (copy of pointer) from the managed world of .NET to the unmanaged world of C [as is, improving performance](https://docs.microsoft.com/en-us/dotnet/framework/interop/copying-and-pinning#formatted-blittable-classes).
 
-In .NET, the `unsafe` keyword will most often be necessary for using the C structs and calling the C functions. Also, for practicality, it's recommended to import the static class with all the bindings, structs, and enums like so:
+In .NET, the `unsafe` keyword will most often be necessary for using the C structs and calling the C functions. Also, for practicality, it's recommended to import the module with all the bindings, structs, and enums like so:
 
 ```cs
 using static Sokol.sokol_gfx;
@@ -40,9 +40,19 @@ To learn how to use the C API, check out the [official C samples](https://github
 
 ## "Safe" API
 
-The .NET API is just wrappers over the C API for convenience and ease of use. The `unsafe` keyword is not required. All the "safe" classes/structs have some prefix such as `Sg` for "Sokol Graphics". E.g. `SgBuffer`, `SgShader`, etc. The safe API targets .NET Standard 2.1 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
+The .NET API is just wrappers over the C API for .NET idioms, convenience, and ease of use. The `unsafe` keyword is not required. All the "safe" types have some prefix such as `Sg` for "Sokol Graphics". The safe API targets .NET Standard 2.1 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
 
-To learn how to use the .NET API, check out the [.NET Core v3 samples](https://github.com/lithiumtoast/sokol-csharp/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
+### Sokol.Graphics
+
+All the "safe" types which are a resource (`SgBuffer`, `SgImage`, `SgShader`, `SgPipeline`, `SgPass`, `SgContext`) are a [.NET reference type](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/reference-types). Everything else is a [.NET value type](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and other high performance applications.
+
+### Strings
+
+In the "unsafe" and "safe" API, string management is still on you. To convert .NET strings (UTF16) to C strings (ASCII) use [`Marshal.StringToHGlobalAnsi`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.stringtohglobalansi). This method will allocate on the unmanaged heap and you are responsible for freeing the memory with [`Marshal.FreeHGlobal`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.freehglobal).
+
+### Samples
+
+To learn how to use the .NET API, check out the [.NET Core samples](https://github.com/lithiumtoast/sokol-csharp/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
 
 ## Supported Platforms
 
