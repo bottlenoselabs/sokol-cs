@@ -43,63 +43,123 @@ namespace Sokol
     public static unsafe class sokol_gfx
     {
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-        public struct sg_buffer
+        public struct sg_buffer : IEquatable<uint>
         {
             [FieldOffset(0)] public uint id;
-
-            internal sg_buffer(uint id)
-            {
-                this.id = id;
-            }
-
+            
             public static implicit operator sg_buffer(uint value)
             {
-                return new sg_buffer(value);
+                return new sg_buffer
+                {
+                    id = value
+                };
             }
             
             public static implicit operator uint(sg_buffer buffer)
             {
                 return buffer.id;
             }
+
+            public bool Equals(uint other)
+            {
+                return id.Equals(other);
+            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-        public struct sg_image
+        public struct sg_image : IEquatable<uint>
         {
             [FieldOffset(0)] public uint id;
-            
-            internal sg_image(uint id)
-            {
-                this.id = id;
-            }
-            
+
             public static implicit operator sg_image(uint value)
             {
-                return new sg_image(value);
+                return new sg_image
+                {
+                    id = value
+                };
             }
             
             public static implicit operator uint(sg_image image)
             {
                 return image.id;
             }
+            
+            public bool Equals(uint other)
+            {
+                return id.Equals(other);
+            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-        public struct sg_shader
+        public struct sg_shader : IEquatable<uint>
         {
             [FieldOffset(0)] public uint id;
+            
+            public static implicit operator sg_shader(uint value)
+            {
+                return new sg_shader
+                {
+                    id = value
+                };
+            }
+            
+            public static implicit operator uint(sg_shader image)
+            {
+                return image.id;
+            }
+            
+            public bool Equals(uint other)
+            {
+                return id.Equals(other);
+            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-        public struct sg_pipeline
+        public struct sg_pipeline : IEquatable<uint>
         {
             [FieldOffset(0)] public uint id;
+            
+            public static implicit operator sg_pipeline(uint value)
+            {
+                return new sg_pipeline
+                {
+                    id = value
+                };
+            }
+            
+            public static implicit operator uint(sg_pipeline pipeline)
+            {
+                return pipeline.id;
+            }
+            
+            public bool Equals(uint other)
+            {
+                return id.Equals(other);
+            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-        public struct sg_pass
+        public struct sg_pass : IEquatable<uint>
         {
             [FieldOffset(0)] public uint id;
+            
+            public static implicit operator sg_pass(uint value)
+            {
+                return new sg_pass
+                {
+                    id = value
+                };
+            }
+            
+            public static implicit operator uint(sg_pass pass)
+            {
+                return pass.id;
+            }
+            
+            public bool Equals(uint other)
+            {
+                return id.Equals(other);
+            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
