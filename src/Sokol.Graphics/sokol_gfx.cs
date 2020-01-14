@@ -23,6 +23,7 @@ SOFTWARE.
  */
 
 using System;
+using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -1216,48 +1217,89 @@ namespace Sokol
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_discard_context(sg_context ctx_id);
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const float SG_DEFAULT_CLEAR_RED = 0.5f;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const float SG_DEFAULT_CLEAR_GREEN = 0.5f;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const float SG_DEFAULT_CLEAR_BLUE = 0.5f;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const float SG_DEFAULT_CLEAR_ALPHA = 1.0f;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const float SG_DEFAULT_CLEAR_STENCIL = 0;
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_UNSIGNED_INT_2_10_10_10_REV = 0x8368;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_UNSIGNED_INT_24_8 = 0x84FA;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_TEXTURE_MAX_ANISOTROPY_EXT = 0x84FF;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGBA_S3TC_DXT1_EXT = 0x83F1;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGBA_S3TC_DXT3_EXT = 0x83F2;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGBA_S3TC_DXT5_EXT = 0x83F3;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RED_RGTC1 = 0x8DBB;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_SIGNED_RED_RGTC1 = 0x8DBC;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RED_GREEN_RGTC2 = 0x8DBD;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_SIGNED_RED_GREEN_RGTC2 = 0x8DBE;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGBA_BPTC_UNORM_ARB = 0x8E8C;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM_ARB = 0x8E8D;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT_ARB = 0x8E8F;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_ARB = 0x83F3;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG = 0x8C01;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG = 0x8C00;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG = 0x8C03;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG = 0x8C02;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGB8_ETC2 = 0x9274;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_COMPRESSED_RGBA8_ETC2_EAC = 0x9278;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_DEPTH24_STENCIL8 = 0x88F0;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_HALF_FLOAT = 0x140B;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_DEPTH_STENCIL = 0x84F9;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const uint GL_LUMINANCE = 0x1909;
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_STRING_SIZE = 16;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_SLOT_SHIFT = 16;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_SLOT_MASK = 65535;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_MAX_POOL_SIZE = 65536;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_DEFAULT_BUFFER_POOL_SIZE = 128;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_DEFAULT_IMAGE_POOL_SIZE = 128;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_DEFAULT_SHADER_POOL_SIZE = 32;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_DEFAULT_PIPELINE_POOL_SIZE = 64;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_DEFAULT_PASS_POOL_SIZE = 16;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_DEFAULT_CONTEXT_POOL_SIZE = 16;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_MTL_DEFAULT_UB_SIZE = 4 * 1024 * 1024;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public const int _SG_MTL_DEFAULT_SAMPLER_CACHE_CAPACITY = 64;
     }
 }
