@@ -20,13 +20,13 @@ namespace Sokol.Samples.Offscreen
             public Vector2 TextureCoordinate;
         }
         
-        private sg_buffer _vertexBuffer;
-        private sg_buffer _indexBuffer;
+        private SgBuffer _vertexBuffer;
+        private SgBuffer _indexBuffer;
         private sg_image _renderTargetColorImage;
         private sg_image _renderTargetDepthImage;
         private sg_pass _offscreenRenderPass; 
-        private sg_bindings _frameBufferBindings;
-        private sg_bindings _offscreenBindings;
+        private SgBindings _frameBufferBindings;
+        private SgBindings _offscreenBindings;
         private sg_shader _offscreenShader;
         private sg_shader _frameBufferShader;
         private sg_pipeline _frameBufferPipeline;
@@ -130,16 +130,18 @@ namespace Sokol.Samples.Offscreen
             vertices[23].TextureCoordinate = new Vector2(0.0f, 1.0f);
 
             // describe an immutable vertex buffer
-            var vertexBufferDesc = new sg_buffer_desc();
-            vertexBufferDesc.usage = sg_usage.SG_USAGE_IMMUTABLE;
-            vertexBufferDesc.type = sg_buffer_type.SG_BUFFERTYPE_VERTEXBUFFER;
-            // immutable buffers need to specify the data/size in the description
-            vertexBufferDesc.content = vertices;
-            vertexBufferDesc.size = Marshal.SizeOf<Vertex>() * 4 * 6;
+            var vertexBufferDescription = new SgBufferDescription
+            {
+                Usage = SgUsage.Immutable,
+                Type = SgBufferType.Vertex,
+                // immutable buffers need to specify the data/size in the description
+                Content = (IntPtr) vertices,
+                Size = Marshal.SizeOf<Vertex>() * 4 * 6
+            };
 
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _vertexBuffer = sg_make_buffer(ref vertexBufferDesc);
+            _vertexBuffer = new SgBuffer(ref vertexBufferDescription);
             
             // use memory from the thread's stack to create the cube indices
             var indices = stackalloc ushort[]
@@ -153,16 +155,18 @@ namespace Sokol.Samples.Offscreen
             };
             
             // describe an immutable index buffer
-            var indexBufferDesc = new sg_buffer_desc();
-            indexBufferDesc.usage = sg_usage.SG_USAGE_IMMUTABLE;
-            indexBufferDesc.type = sg_buffer_type.SG_BUFFERTYPE_INDEXBUFFER;
-            // immutable buffers need to specify the data/size in the description
-            indexBufferDesc.content = indices;
-            indexBufferDesc.size = Marshal.SizeOf<ushort>() * 6 * 6;
-            
+            var indexBufferDesc = new SgBufferDescription
+            {
+                Usage = SgUsage.Immutable,
+                Type = SgBufferType.Index,
+                // immutable buffers need to specify the data/size in the description
+                Content = (IntPtr) indices,
+                Size = Marshal.SizeOf<ushort>() * 6 * 6
+            };
+
             // create the index buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _indexBuffer = sg_make_buffer(ref indexBufferDesc);
+            _indexBuffer = new SgBuffer(ref indexBufferDesc);
 
             // describe a 2d texture render target
             var offscreenImageDesc = new sg_image_desc();
@@ -194,13 +198,13 @@ namespace Sokol.Samples.Offscreen
             _offscreenRenderPass = sg_make_pass(ref passDesc);
 
             // describe the bindings for rendering a non-textured cube into the render target (not applied yet!)
-            _offscreenBindings.vertex_buffer(0) = _vertexBuffer;
-            _offscreenBindings.index_buffer = _indexBuffer;
+            _offscreenBindings.Set(ref _vertexBuffer);
+            _offscreenBindings.Set(ref _indexBuffer);
 
             // describe the bindings for using the offscreen render target as the sampled texture (not applied yet!)
-            _frameBufferBindings.vertex_buffer(0) = _vertexBuffer;
-            _frameBufferBindings.index_buffer = _indexBuffer;
-            _frameBufferBindings.fs_image(0) = _renderTargetColorImage;
+            _frameBufferBindings.Set(ref _vertexBuffer);
+            _frameBufferBindings.Set(ref _indexBuffer);
+            _frameBufferBindings.GetCStruct().fs_image(0) = _renderTargetColorImage;
             
             // describe the offscreen shader program
             var offscreenShaderDesc = new sg_shader_desc();
@@ -314,8 +318,8 @@ namespace Sokol.Samples.Offscreen
 
             // apply the render pipeline and bindings for the offscreen render pass
             sg_apply_pipeline(_offscreenPipeline);
-            sg_apply_bindings(ref _offscreenBindings);
-            
+            _offscreenBindings.Apply();
+
             // rotate cube and create vertex shader mvp matrix
             _rotationX += 1.0f * 0.020f;
             _rotationY += 2.0f * 0.020f;
@@ -340,8 +344,8 @@ namespace Sokol.Samples.Offscreen
             
             // apply the render pipeline and bindings for the framebuffer render pass
             sg_apply_pipeline(_frameBufferPipeline);
-            sg_apply_bindings(ref _frameBufferBindings);
-            
+            _frameBufferBindings.Apply();
+
             // apply the mvp matrix to the framebuffer vertex shader
             var mvpMatrix2 = Unsafe.AsPointer(ref modelViewProjectionMatrix);
             sg_apply_uniforms(sg_shader_stage.SG_SHADERSTAGE_VS, 0, mvpMatrix2, Marshal.SizeOf<Matrix4x4>());

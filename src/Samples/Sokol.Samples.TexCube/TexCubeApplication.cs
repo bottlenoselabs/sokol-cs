@@ -20,12 +20,12 @@ namespace Sokol.Samples.TexCube
             public Vector2 TextureCoordinate;
         }
         
-        private sg_buffer _vertexBuffer;
-        private sg_buffer _indexBuffer;
+        private SgBuffer _vertexBuffer;
+        private SgBuffer _indexBuffer;
         private sg_image _image;
-        private sg_bindings _bindings;
-        private sg_pipeline _pipeline;
-        private sg_shader _shader;
+        private SgBindings _bindings;
+        private SgPipeline _pipeline;
+        private SgShader _shader;
 
         private float _rotationX;
         private float _rotationY;
@@ -122,16 +122,18 @@ namespace Sokol.Samples.TexCube
             vertices[23].TextureCoordinate = new Vector2(0.0f, 1.0f);
 
             // describe an immutable vertex buffer
-            var vertexBufferDesc = new sg_buffer_desc();
-            vertexBufferDesc.usage = sg_usage.SG_USAGE_IMMUTABLE;
-            vertexBufferDesc.type = sg_buffer_type.SG_BUFFERTYPE_VERTEXBUFFER;
-            // immutable buffers need to specify the data/size in the description
-            vertexBufferDesc.content = vertices;
-            vertexBufferDesc.size = Marshal.SizeOf<Vertex>() * 4 * 6;
+            var vertexBufferDesc = new SgBufferDescription
+            {
+                Usage = SgUsage.Immutable,
+                Type = SgBufferType.Vertex,
+                // immutable buffers need to specify the data/size in the description
+                Content = (IntPtr) vertices,
+                Size = Marshal.SizeOf<Vertex>() * 4 * 6
+            };
 
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _vertexBuffer = sg_make_buffer(ref vertexBufferDesc);
+            _vertexBuffer = new SgBuffer(ref vertexBufferDesc);
             
             // use memory from the thread's stack to create the cube indices
             var indices = stackalloc ushort[]
@@ -145,16 +147,18 @@ namespace Sokol.Samples.TexCube
             };
             
             // describe an immutable index buffer
-            var indexBufferDesc = new sg_buffer_desc();
-            indexBufferDesc.usage = sg_usage.SG_USAGE_IMMUTABLE;
-            indexBufferDesc.type = sg_buffer_type.SG_BUFFERTYPE_INDEXBUFFER;
-            // immutable buffers need to specify the data/size in the description
-            indexBufferDesc.content = indices;
-            indexBufferDesc.size = Marshal.SizeOf<ushort>() * 6 * 6;
-            
+            var indexBufferDesc = new SgBufferDescription
+            {
+                Usage = SgUsage.Immutable,
+                Type = SgBufferType.Index,
+                // immutable buffers need to specify the data/size in the description
+                Content = (IntPtr) indices,
+                Size = Marshal.SizeOf<ushort>() * 6 * 6
+            };
+
             // create the index buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _indexBuffer = sg_make_buffer(ref indexBufferDesc);
+            _indexBuffer = new SgBuffer(ref indexBufferDesc);
             
             // use memory from the thread's stack to create the checkerboard texture data
             var texturePixels = stackalloc Rgba8UInt[] {
@@ -182,17 +186,17 @@ namespace Sokol.Samples.TexCube
             _image = sg_make_image(ref imageDescription);
  
             // describe the binding of the vertex and index buffer (not applied yet!)
-            _bindings.vertex_buffer(0) = _vertexBuffer;
-            _bindings.index_buffer = _indexBuffer;
-            _bindings.fs_image(0) = _image;
+            _bindings.Set(ref _vertexBuffer);
+            _bindings.Set(ref _indexBuffer);
+            _bindings.GetCStruct().fs_image(0) = _image;
 
             // describe the shader program
-            var shaderDesc = new sg_shader_desc();
-            shaderDesc.vs.uniformBlock(0).size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.vs.uniformBlock(0).uniform(0);
-            mvpUniform.name = (byte*) Marshal.StringToHGlobalAnsi("mvp");
-            mvpUniform.type = sg_uniform_type.SG_UNIFORMTYPE_MAT4;
-            shaderDesc.fs.image(0).type = sg_image_type.SG_IMAGETYPE_2D;
+            var shaderDesc = new SgShaderDescription();
+            shaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
+            ref var mvpUniform = ref shaderDesc.VertexShader.UniformBlock(0).Uniform(0);
+            mvpUniform.Name = Marshal.StringToHGlobalAnsi("mvp");
+            mvpUniform.Type = SgShaderUniformType.Matrix4x4;
+            shaderDesc.FragmentShader.GetCStruct().image(0).type = sg_image_type.SG_IMAGETYPE_2D;
             // specify shader stage source code for each graphics backend
             string vertexShaderStageSourceCode;
             string fragmentShaderStageSourceCode;
@@ -207,30 +211,30 @@ namespace Sokol.Samples.TexCube
                 fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
             }
             // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            shaderDesc.vs.source = (byte*) Marshal.StringToHGlobalAnsi(vertexShaderStageSourceCode);
-            shaderDesc.fs.source = (byte*) Marshal.StringToHGlobalAnsi(fragmentShaderStageSourceCode);
+            shaderDesc.VertexShader.Source = Marshal.StringToHGlobalAnsi(vertexShaderStageSourceCode);
+            shaderDesc.FragmentShader.Source = Marshal.StringToHGlobalAnsi(fragmentShaderStageSourceCode);
             
             // create the shader resource from the description
-            _shader = sg_make_shader(ref shaderDesc);
+            _shader = new SgShader(ref shaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal((IntPtr) shaderDesc.vs.uniformBlock(0).uniform(0).name);
-            Marshal.FreeHGlobal((IntPtr) shaderDesc.vs.source);
-            Marshal.FreeHGlobal((IntPtr) shaderDesc.fs.source);
+            Marshal.FreeHGlobal(shaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
+            Marshal.FreeHGlobal(shaderDesc.VertexShader.Source);
+            Marshal.FreeHGlobal(shaderDesc.FragmentShader.Source);
             
             // describe the render pipeline
-            var pipelineDesc = new sg_pipeline_desc();
-            pipelineDesc.layout.attr(0).format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT3;
-            pipelineDesc.layout.attr(1).format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT4;
-            pipelineDesc.layout.attr(2).format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT2;
-            pipelineDesc.shader = _shader;
-            pipelineDesc.index_type = sg_index_type.SG_INDEXTYPE_UINT16;
-            pipelineDesc.depth_stencil.depth_compare_func = sg_compare_func.SG_COMPAREFUNC_LESS_EQUAL;
-            pipelineDesc.depth_stencil.depth_write_enabled = true;
-            pipelineDesc.rasterizer.cull_mode = sg_cull_mode.SG_CULLMODE_BACK;
-            pipelineDesc.rasterizer.sample_count = 4;
+            var pipelineDesc = new SgPipelineDescription();
+            pipelineDesc.Layout.Attribute(0).Format = SgVertexFormat.Float3;
+            pipelineDesc.Layout.Attribute(1).Format = SgVertexFormat.Float4;
+            pipelineDesc.Layout.Attribute(2).Format = SgVertexFormat.Float2;
+            pipelineDesc.Shader = _shader;
+            pipelineDesc.IndexType = SgIndexType.UInt16;
+            pipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
+            pipelineDesc.DepthStencil.DepthWriteEnabled = true;
+            pipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
+            pipelineDesc.Rasterizer.SampleCount = 4;
 
             // create the pipeline resource from the description
-            _pipeline = sg_make_pipeline(ref pipelineDesc);
+            _pipeline = new SgPipeline(ref pipelineDesc);
         }
 
         protected override unsafe void Draw(int width, int height)
@@ -248,8 +252,8 @@ namespace Sokol.Samples.TexCube
             sg_begin_default_pass(ref frameBufferPassAction, width, height);
             
             // apply the render pipeline and bindings for the render pass
-            sg_apply_pipeline(_pipeline);
-            sg_apply_bindings(ref _bindings);
+            _pipeline.Apply();
+            _bindings.Apply();
 
             // rotate cube and create vertex shader mvp matrix
             _rotationX += 1.0f * 0.020f;

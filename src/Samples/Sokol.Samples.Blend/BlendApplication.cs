@@ -18,12 +18,12 @@ namespace Sokol.Samples.Blend
             public RgbaFloat Color;
         }
         
-        private sg_buffer _vertexBuffer;
-        private sg_bindings _bindings;
-        private sg_shader _backgroundShader;
-        private sg_pipeline _backgroundPipeline;
-        private sg_shader _quadShader;
-        private sg_pipeline[] _quadPipelines;
+        private SgBuffer _vertexBuffer;
+        private SgBindings _bindings;
+        private SgShader _backgroundShader;
+        private SgPipeline _backgroundPipeline;
+        private SgShader _quadShader;
+        private SgPipeline[] _quadPipelines;
 
         private float _tick;
         private float _rotation;
@@ -50,29 +50,28 @@ namespace Sokol.Samples.Blend
             vertices[3].Color = new RgbaFloat(1.0f, 1.0f, 0.0f, 0.5f);
             
             // describe an immutable vertex buffer
-            var vertexBufferDescription = new SgBufferDescription
+            var vertexBufferDesc = new SgBufferDescription
             {
-                Usage = SgBufferUsage.Immutable,
+                Usage = SgUsage.Immutable,
                 Type = SgBufferType.Vertex,
-                DataPointer = (IntPtr) vertices,
+                Content = (IntPtr) vertices,
                 // immutable buffers need to specify the data/size in the description
-                DataSize = Marshal.SizeOf<Vertex>() * 4
+                Size = Marshal.SizeOf<Vertex>() * 4
             };
-            ref var vertexBufferDesc = ref vertexBufferDescription.desc();
-
+  
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _vertexBuffer = sg_make_buffer(ref vertexBufferDesc);
+            _vertexBuffer = new SgBuffer(ref vertexBufferDesc);
             
-            // describe the binding of the vertex and index buffer (not applied yet!)
-            _bindings.vertex_buffer(0) = _vertexBuffer;
+            // describe the binding of the vertex (not applied yet!)
+            _bindings.Set(ref _vertexBuffer, 0);
 
             // describe the background shader program
-            var backgroundShaderDesc = new sg_shader_desc();
-            backgroundShaderDesc.fs.uniformBlock(0).size = Marshal.SizeOf<float>();
-            ref var tickUniform = ref backgroundShaderDesc.fs.uniformBlock(0).uniform(0);
-            tickUniform.name = (byte*) Marshal.StringToHGlobalAnsi("tick");
-            tickUniform.type = sg_uniform_type.SG_UNIFORMTYPE_FLOAT;
+            var backgroundShaderDesc = new SgShaderDescription();
+            backgroundShaderDesc.FragmentShader.UniformBlock(0).Size = Marshal.SizeOf<float>();
+            ref var tickUniform = ref backgroundShaderDesc.FragmentShader.UniformBlock(0).Uniform(0);
+            tickUniform.Name = Marshal.StringToHGlobalAnsi("tick");
+            tickUniform.Type = SgShaderUniformType.Float;
             // specify shader stage source code for each graphics backend
             string backgroundVertexShaderStageSourceCode;
             string backgroundFragmentShaderStageSourceCode;
@@ -87,34 +86,34 @@ namespace Sokol.Samples.Blend
                 backgroundFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/background.frag");
             }
             // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            backgroundShaderDesc.vs.source = (byte*) Marshal.StringToHGlobalAnsi(backgroundVertexShaderStageSourceCode);
-            backgroundShaderDesc.fs.source = (byte*) Marshal.StringToHGlobalAnsi(backgroundFragmentShaderStageSourceCode);
+            backgroundShaderDesc.VertexShader.Source = Marshal.StringToHGlobalAnsi(backgroundVertexShaderStageSourceCode);
+            backgroundShaderDesc.FragmentShader.Source = Marshal.StringToHGlobalAnsi(backgroundFragmentShaderStageSourceCode);
             
             // create the background shader resource from the description
-            _backgroundShader = sg_make_shader(ref backgroundShaderDesc);
+            _backgroundShader = new SgShader(ref backgroundShaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal((IntPtr) backgroundShaderDesc.fs.uniformBlock(0).uniform(0).name);
-            Marshal.FreeHGlobal((IntPtr) backgroundShaderDesc.vs.source);
-            Marshal.FreeHGlobal((IntPtr) backgroundShaderDesc.fs.source);
+            Marshal.FreeHGlobal(backgroundShaderDesc.FragmentShader.UniformBlock(0).Uniform(0).Name);
+            Marshal.FreeHGlobal(backgroundShaderDesc.VertexShader.Source);
+            Marshal.FreeHGlobal(backgroundShaderDesc.FragmentShader.Source);
 
             // describe the background render pipeline
-            var backgroundPipelineDesc = new sg_pipeline_desc();
+            var backgroundPipelineDesc = new SgPipelineDescription();
             // note: reusing the vertices of the 3D quads, but only using the first two floats from the position
-            backgroundPipelineDesc.layout.buffer(0).stride = 28;
-            backgroundPipelineDesc.layout.attr(0).format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT2;
-            backgroundPipelineDesc.shader = _backgroundShader;
-            backgroundPipelineDesc.primitive_type = sg_primitive_type.SG_PRIMITIVETYPE_TRIANGLE_STRIP;
-            backgroundPipelineDesc.rasterizer.sample_count = 4;
+            backgroundPipelineDesc.Layout.Buffer(0).Stride = 28;
+            backgroundPipelineDesc.Layout.Attribute(0).Format = SgVertexFormat.Float2;
+            backgroundPipelineDesc.Shader = _backgroundShader;
+            backgroundPipelineDesc.PrimitiveType = SgPrimitiveType.TriangleStrip;
+            backgroundPipelineDesc.Rasterizer.SampleCount = 4;
             
             // create the background pipeline resource from the description
-            _backgroundPipeline = sg_make_pipeline(ref backgroundPipelineDesc);
+            _backgroundPipeline = new SgPipeline(ref backgroundPipelineDesc);
             
             // describe the quad shader program
-            var quadShaderDesc = new sg_shader_desc();
-            quadShaderDesc.vs.uniformBlock(0).size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref quadShaderDesc.vs.uniformBlock(0).uniform(0);
-            mvpUniform.name = (byte*) Marshal.StringToHGlobalAnsi("mvp");
-            mvpUniform.type = sg_uniform_type.SG_UNIFORMTYPE_MAT4;
+            var quadShaderDesc = new SgShaderDescription();
+            quadShaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
+            ref var mvpUniform = ref quadShaderDesc.VertexShader.UniformBlock(0).Uniform(0);
+            mvpUniform.Name = Marshal.StringToHGlobalAnsi("mvp");
+            mvpUniform.Type = SgShaderUniformType.Matrix4x4;
             // specify shader stage source code for each graphics backend
             string quadVertexShaderStageSourceCode;
             string quadFragmentShaderStageSourceCode;
@@ -129,42 +128,42 @@ namespace Sokol.Samples.Blend
                 quadFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/quad.frag");
             }
             // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            quadShaderDesc.vs.source = (byte*) Marshal.StringToHGlobalAnsi(quadVertexShaderStageSourceCode);
-            quadShaderDesc.fs.source = (byte*) Marshal.StringToHGlobalAnsi(quadFragmentShaderStageSourceCode);
+            quadShaderDesc.VertexShader.Source = Marshal.StringToHGlobalAnsi(quadVertexShaderStageSourceCode);
+            quadShaderDesc.FragmentShader.Source = Marshal.StringToHGlobalAnsi(quadFragmentShaderStageSourceCode);
             
             // create the quad shader resource from the description
-            _quadShader = sg_make_shader(ref quadShaderDesc);
+            _quadShader = new SgShader(ref quadShaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal((IntPtr) quadShaderDesc.vs.uniformBlock(0).uniform(0).name);
-            Marshal.FreeHGlobal((IntPtr) quadShaderDesc.vs.source);
-            Marshal.FreeHGlobal((IntPtr) quadShaderDesc.fs.source);
+            Marshal.FreeHGlobal(quadShaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
+            Marshal.FreeHGlobal(quadShaderDesc.VertexShader.Source);
+            Marshal.FreeHGlobal(quadShaderDesc.FragmentShader.Source);
             
             // describe the quad render pipelines
-            var quadPipelineDesc = new sg_pipeline_desc();
-            quadPipelineDesc.layout.attr(0).format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT3;
-            quadPipelineDesc.layout.attr(1).format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT4;
-            quadPipelineDesc.shader = _quadShader;
-            quadPipelineDesc.primitive_type = sg_primitive_type.SG_PRIMITIVETYPE_TRIANGLE_STRIP;
-            quadPipelineDesc.blend.enabled = true;
-            quadPipelineDesc.blend.blend_color = RgbaFloat.Red;
-            quadPipelineDesc.rasterizer.sample_count = 4;
+            var quadPipelineDesc = new SgPipelineDescription();
+            quadPipelineDesc.Layout.Attribute(0).Format = SgVertexFormat.Float3;
+            quadPipelineDesc.Layout.Attribute(1).Format = SgVertexFormat.Float4;
+            quadPipelineDesc.Shader = _quadShader;
+            quadPipelineDesc.PrimitiveType = SgPrimitiveType.TriangleStrip;
+            quadPipelineDesc.Blend.Enabled = true;
+            quadPipelineDesc.Blend.BlendColor = RgbaFloat.Red;
+            quadPipelineDesc.Rasterizer.SampleCount = 4;
             
-            _quadPipelines = new sg_pipeline[NUM_BLEND_FACTORS * NUM_BLEND_FACTORS];
+            _quadPipelines = new SgPipeline[NUM_BLEND_FACTORS * NUM_BLEND_FACTORS];
             for (var src = 0; src < NUM_BLEND_FACTORS; src++)
             {
                 for (var dst = 0; dst < NUM_BLEND_FACTORS; dst++)
                 {
-                    var srcBlend = (sg_blend_factor) (src + 1);
-                    var dstBlend = (sg_blend_factor) (dst + 1);
+                    var srcBlend = (SgBlendFactor) (src + 1);
+                    var dstBlend = (SgBlendFactor) (dst + 1);
                     
-                    quadPipelineDesc.blend.src_factor_rgb = srcBlend;
-                    quadPipelineDesc.blend.dst_factor_rgb = dstBlend;
-                    quadPipelineDesc.blend.src_factor_alpha = sg_blend_factor.SG_BLENDFACTOR_ONE;
-                    quadPipelineDesc.blend.dst_factor_alpha = sg_blend_factor.SG_BLENDFACTOR_ZERO;
+                    quadPipelineDesc.Blend.SourceFactorRgb = srcBlend;
+                    quadPipelineDesc.Blend.DestinationFactorRgb = dstBlend;
+                    quadPipelineDesc.Blend.SourceFactorAlpha = SgBlendFactor.One;
+                    quadPipelineDesc.Blend.DestinationFactorAlpha = SgBlendFactor.Zero;
 
                     var index = dst + src * NUM_BLEND_FACTORS;
                     ref var pipeline = ref _quadPipelines[index];
-                    pipeline = sg_make_pipeline(ref quadPipelineDesc);
+                    pipeline = new SgPipeline(ref quadPipelineDesc);
                 }
             }
         }
@@ -184,8 +183,8 @@ namespace Sokol.Samples.Blend
             sg_begin_default_pass(ref frameBufferPassAction, width, height);
             
             // apply the background render pipeline and bindings for the render pass
-            sg_apply_pipeline(_backgroundPipeline);
-            sg_apply_bindings(ref _bindings);
+            _backgroundPipeline.Apply();
+            _bindings.Apply();
 
             // apply the background tick uniform to the background fragment shader
             var tickPointer = Unsafe.AsPointer(ref _tick);
@@ -211,7 +210,7 @@ namespace Sokol.Samples.Blend
                     // apply the quad render pipeline and bindings for the render pass
                     var pipelineIndex = dst + src * NUM_BLEND_FACTORS;
                     sg_apply_pipeline(_quadPipelines[pipelineIndex]);
-                    sg_apply_bindings(ref _bindings);
+                    _bindings.Apply();
                     
                     // apply the mvp matrix to the vertex shader
                     var mvpMatrix = Unsafe.AsPointer(ref modelViewProjectionMatrix);
