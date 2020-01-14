@@ -1,7 +1,7 @@
 /* 
 MIT License
 
-Copyright (c) 2019 Lucas Girouard-Stranks
+Copyright (c) 2020 Lucas Girouard-Stranks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,98 +23,87 @@ SOFTWARE.
  */
 
 using System;
-using System.Buffers;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using static Sokol.sokol_gfx;
 
+// ReSharper disable InconsistentNaming
+
 namespace Sokol
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class SgBuffer : SgResource
+    public sealed class SgBuffer : SgResource<sg_buffer>
     {
-        private MemoryHandle? _dataHandle;
-        
-        public sg_buffer Handle { get; }
-
         public SgBufferType Type { get; }
         
-        public SgBufferUsage Usage { get; }
+        public SgUsage Usage { get; }
         
         public int Size { get; }
 
-        protected internal SgBuffer(ref SgBufferDescription description) 
-            : base(description.Name, description.NameCPointer)
+        public SgBuffer(ref SgBufferDescription description)
         {
             Type = description.Type;
             Usage = description.Usage;
-            Size = description.DataSize;
+            Size = description.Size;
 
             if (Size <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(description.DataSize), description.DataSize, null);
+                throw new ArgumentException("Buffer size is zero or less.");
             }
 
-            _dataHandle = description.DataHandle;
-            if (Usage == SgBufferUsage.Immutable)
+            if (Usage == SgUsage.Immutable)
             {
-                if (!_dataHandle.HasValue)
+                if (description.Content == IntPtr.Zero || description.Size <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(description.DataPointer), description.DataPointer, null);
+                    throw new ArgumentException("Immutable buffers need to have the content and the size set in description.");
                 }
             }
 
-            Handle = sg_make_buffer(ref description.desc);
-
-            // ReSharper disable once InvertIf
-            if (Usage == SgBufferUsage.Immutable)
-            {
-                _dataHandle?.Dispose();
-                _dataHandle = null;
-            }
+            _handle = sg_make_buffer(ref description.desc);
         }
         
-        protected override void ReleaseUnmanagedResources()
-        {
-            _dataHandle?.Dispose();
-            sg_destroy_buffer(Handle);
-            base.ReleaseUnmanagedResources();
-        }
-
         ~SgBuffer()
         {
             ReleaseUnmanagedResources();
         }
+
+        protected override void ReleaseUnmanagedResources()
+        {
+            if (_handle.id == 0)
+            {
+                return;
+            }
+
+            sg_destroy_buffer(_handle);
+            _handle.id = 0;
+        }
         
         public void Update<T>(Memory<T> data) where T : unmanaged
         {
-            if (Usage == SgBufferUsage.Immutable)
+            if (Usage == SgUsage.Immutable)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Can not update an immutable buffer.");
             }
             
             EnsureNotDisposed();
-
-            _dataHandle?.Dispose();
             
             var dataSize = Marshal.SizeOf<T>() * data.Length;
             if (Size != dataSize)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Attempt to update a buffer with wrong data size.");
             }
             
             var dataHandle = data.Pin();
-            _dataHandle = dataHandle;
-            
+
             unsafe
             {
-                sg_update_buffer(Handle, dataHandle.Pointer, dataSize);   
+                sg_update_buffer(_handle, dataHandle.Pointer, dataSize);   
             }
+            
+            dataHandle.Dispose();
         }
-
+        
         public static implicit operator sg_buffer(SgBuffer buffer)
         {
-            return buffer.Handle;
+            return buffer._handle;
         }
     }
 }

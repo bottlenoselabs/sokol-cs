@@ -1,7 +1,7 @@
 /* 
 MIT License
 
-Copyright (c) 2019 Lucas Girouard-Stranks
+Copyright (c) 2020 Lucas Girouard-Stranks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
+using System;
+using static Sokol.sokol_gfx;
+
 namespace Sokol
 {
-    public enum SgBufferUsage
+    public struct SgShaderUniformDescription
     {
-        Immutable,
-        Dynamic,
-        Stream
+        internal sg_shader_uniform_desc desc;
+
+        public unsafe IntPtr Name
+        {
+            get => (IntPtr) desc.name;
+            set => desc.name = (byte*) value;
+        }
+
+        public SgShaderUniformType Type
+        {
+            get => (SgShaderUniformType) desc.type;
+            set => desc.type = (sg_uniform_type) value;
+        }
+
+        public int ArrayCount
+        {
+            get => desc.array_count;
+            set => desc.array_count = value;
+        }
+    }
+    
+    public static partial class SgSafeExtensions
+    {
+        public static ref sg_shader_uniform_desc GetCStruct(this ref SgShaderUniformDescription description) 
+        {
+            return ref description.desc;
+        }
     }
 }

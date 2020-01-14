@@ -1,7 +1,7 @@
 /* 
 MIT License
 
-Copyright (c) 2019 Lucas Girouard-Stranks
+Copyright (c) 2020 Lucas Girouard-Stranks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,11 @@ SOFTWARE.
 
 namespace Sokol
 {
-    public enum SgBufferType
+    public enum SgIndexType
     {
-        Vertex,
-        Index
+        Default,
+        None,
+        UInt16,
+        UInt32
     }
 }

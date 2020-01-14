@@ -1,7 +1,7 @@
 /* 
 MIT License
 
-Copyright (c) 2019 Lucas Girouard-Stranks
+Copyright (c) 2020 Lucas Girouard-Stranks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,54 +23,60 @@ SOFTWARE.
  */
 
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Threading;
+using static Sokol.sokol_gfx;
+
+#pragma warning disable 649
 
 namespace Sokol
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class SgResource : IDisposable
+    public struct SgBufferDescription
     {
-        private int _disposedState;
-        
-        protected readonly IntPtr CNamePointer;
+        internal sg_buffer_desc desc;
 
-        public bool IsDisposed => _disposedState != 0;
-
-        public string Name { get; }
-
-        internal SgResource(string name, IntPtr nameCPointer)
+        public SgBufferType Type
         {
-            Name = name;
-            CNamePointer = nameCPointer;
+            get => (SgBufferType) desc.type;
+            set => desc.type = (sg_buffer_type) value;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void EnsureNotDisposed()
+        public SgUsage Usage
         {
-            if (IsDisposed)
+            get => (SgUsage) desc.usage;
+            set => desc.usage = (sg_usage) value;
+        }
+
+        public int Size
+        {
+            get => desc.size;
+            set
             {
-                throw new ObjectDisposedException(Name);
+                if (value <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value), value, null);
+                }
+                
+                desc.size = value;
             }
         }
 
-        protected virtual void ReleaseUnmanagedResources()
+        public unsafe IntPtr Content
         {
-            Marshal.FreeHGlobal(CNamePointer);
+            get => (IntPtr) desc.content;
+            set => desc.content = (void*) value;
         }
 
-        public void Dispose()
+        public unsafe IntPtr Label
         {
-            var disposedState = Interlocked.CompareExchange(ref _disposedState, 1, 0);
-            if (disposedState != 0)
-            {
-                return;
-            }
+            get => (IntPtr) desc.label;
+            set => desc.label = (byte*) value;
+        }
+    }
 
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
+    public static partial class SgSafeExtensions
+    {
+        public static ref sg_buffer_desc GetCStruct(this ref SgBufferDescription description) 
+        {
+            return ref description.desc;
         }
     }
 }
