@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.TexCube", "Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Offscreen", "Samples\Sokol.Samples.Offscreen\Sokol.Samples.Offscreen.csproj", "{566E8BC0-6047-40D1-AA22-85C96622D404}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Instancing", "Samples\Sokol.Samples.Instancing\Sokol.Samples.Instancing.csproj", "{A3287B22-E9D6-46E8-B1CE-59125EEE6E5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{566E8BC0-6047-40D1-AA22-85C96622D404}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{566E8BC0-6047-40D1-AA22-85C96622D404}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{566E8BC0-6047-40D1-AA22-85C96622D404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3287B22-E9D6-46E8-B1CE-59125EEE6E5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3287B22-E9D6-46E8-B1CE-59125EEE6E5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3287B22-E9D6-46E8-B1CE-59125EEE6E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3287B22-E9D6-46E8-B1CE-59125EEE6E5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{72A5D206-5F0C-46DA-927E-9277BA817D1E} = {DF872AF1-F024-4734-951F-248FA834668A}
@@ -104,5 +110,6 @@ Global
 		{4B0149AC-29BF-42EC-852F-9351AD4CDF7B} = {DF872AF1-F024-4734-951F-248FA834668A}
 		{1D0079B5-A8C9-44BD-AF01-2F070E90DD89} = {DF872AF1-F024-4734-951F-248FA834668A}
 		{566E8BC0-6047-40D1-AA22-85C96622D404} = {DF872AF1-F024-4734-951F-248FA834668A}
+		{A3287B22-E9D6-46E8-B1CE-59125EEE6E5D} = {DF872AF1-F024-4734-951F-248FA834668A}
 	EndGlobalSection
 EndGlobal
