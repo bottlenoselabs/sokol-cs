@@ -956,7 +956,7 @@ namespace Sokol
             [FieldOffset(304)] public sg_depth_stencil_state depth_stencil;
             [FieldOffset(348)] public sg_blend_state blend;
             [FieldOffset(408)] public sg_rasterizer_state rasterizer;
-            [FieldOffset(440)] public char* label;
+            [FieldOffset(440)] public byte* label;
             [FieldOffset(448)] public uint _end_canary;
         }
         
@@ -976,7 +976,7 @@ namespace Sokol
             [FieldOffset(0)] public uint _start_canary;
             [FieldOffset(4)] public fixed int _color_attachments[12 * SG_MAX_COLOR_ATTACHMENTS / 4];
             [FieldOffset(52)] public sg_attachment_desc depth_stencil_attachment;
-            [FieldOffset(64)] public char* label;
+            [FieldOffset(64)] public byte* label;
             [FieldOffset(72)] public uint _end_canary;
 
             public ref sg_attachment_desc color_attachment(int index)
