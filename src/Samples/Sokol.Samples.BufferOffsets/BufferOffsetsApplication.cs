@@ -85,8 +85,8 @@ namespace Sokol.Samples.BufferOffsets
             _indexBuffer = new SgBuffer(ref indexBufferDesc);
             
             // describe the binding of the vertex and index buffer (not applied yet!)
-            _bindings.Set(ref _vertexBuffer);
-            _bindings.Set(ref _indexBuffer);
+            _bindings.SetVertexBuffer(ref _vertexBuffer);
+            _bindings.SetIndexBuffer(ref _indexBuffer);
 
             // describe the shader program
             var shaderDesc = new SgShaderDescription();
@@ -134,16 +134,16 @@ namespace Sokol.Samples.BufferOffsets
             _pipeline.Apply();
 
             // set and apply the bindings necessary to render the triangle for the render pass
-            _bindings.Set(ref _vertexBuffer, 0, 0);
-            _bindings.Set(ref _indexBuffer, 0);
+            _bindings.SetVertexBuffer(ref _vertexBuffer, 0, 0);
+            _bindings.SetIndexBuffer(ref _indexBuffer, 0);
             _bindings.Apply();
 
             // draw the triangle into the target of the render pass
             sg_draw(0, 3, 1);
             
             // set and apply the bindings necessary to render the quad for the render pass
-            _bindings.Set(ref _vertexBuffer, 0, 3 * Marshal.SizeOf<Vertex>());
-            _bindings.Set(ref _indexBuffer, 0, 3 * Marshal.SizeOf<ushort>());
+            _bindings.SetVertexBuffer(ref _vertexBuffer, 0, 3 * Marshal.SizeOf<Vertex>());
+            _bindings.SetIndexBuffer(ref _indexBuffer, 3 * Marshal.SizeOf<ushort>());
             _bindings.Apply();
 
             // draw the quad into the target of the render pass

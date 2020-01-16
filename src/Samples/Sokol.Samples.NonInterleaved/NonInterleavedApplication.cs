@@ -127,9 +127,9 @@ namespace Sokol.Samples.NonInterleaved
             _indexBuffer = new SgBuffer(ref indexBufferDescription);
 
             // describe the binding of the vertex and index buffers (not applied yet!)
-            _bindings.Set(ref _vertexBuffer, 0, 0);
-            _bindings.Set(ref _vertexBuffer, 1, 12 * 6 * sizeof(float));
-            _bindings.Set(ref _indexBuffer);
+            _bindings.SetVertexBuffer(ref _vertexBuffer, 0, 0);
+            _bindings.SetVertexBuffer(ref _vertexBuffer, 1, 12 * 6 * sizeof(float));
+            _bindings.SetIndexBuffer(ref _indexBuffer);
  
             // describe the shader program
             var shaderDesc = new SgShaderDescription();

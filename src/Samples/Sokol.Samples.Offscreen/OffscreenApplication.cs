@@ -198,13 +198,13 @@ namespace Sokol.Samples.Offscreen
             _offscreenRenderPass = sg_make_pass(ref passDesc);
 
             // describe the bindings for rendering a non-textured cube into the render target (not applied yet!)
-            _offscreenBindings.Set(ref _vertexBuffer);
-            _offscreenBindings.Set(ref _indexBuffer);
+            _offscreenBindings.SetVertexBuffer(ref _vertexBuffer);
+            _offscreenBindings.SetIndexBuffer(ref _indexBuffer);
 
             // describe the bindings for using the offscreen render target as the sampled texture (not applied yet!)
-            _frameBufferBindings.Set(ref _vertexBuffer);
-            _frameBufferBindings.Set(ref _indexBuffer);
-            _frameBufferBindings.GetCStruct().fs_image(0) = _renderTargetColorImage;
+            _frameBufferBindings.SetVertexBuffer(ref _vertexBuffer);
+            _frameBufferBindings.SetIndexBuffer(ref _indexBuffer);
+            _frameBufferBindings.CStruct.fs_image(0) = _renderTargetColorImage;
             
             // describe the offscreen shader program
             var offscreenShaderDesc = new sg_shader_desc();

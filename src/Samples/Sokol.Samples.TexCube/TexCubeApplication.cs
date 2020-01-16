@@ -186,9 +186,9 @@ namespace Sokol.Samples.TexCube
             _image = sg_make_image(ref imageDescription);
  
             // describe the binding of the vertex and index buffer (not applied yet!)
-            _bindings.Set(ref _vertexBuffer);
-            _bindings.Set(ref _indexBuffer);
-            _bindings.GetCStruct().fs_image(0) = _image;
+            _bindings.SetVertexBuffer(ref _vertexBuffer);
+            _bindings.SetIndexBuffer(ref _indexBuffer);
+            _bindings.CStruct.fs_image(0) = _image;
 
             // describe the shader program
             var shaderDesc = new SgShaderDescription();
@@ -196,7 +196,7 @@ namespace Sokol.Samples.TexCube
             ref var mvpUniform = ref shaderDesc.VertexShader.UniformBlock(0).Uniform(0);
             mvpUniform.Name = Marshal.StringToHGlobalAnsi("mvp");
             mvpUniform.Type = SgShaderUniformType.Matrix4x4;
-            shaderDesc.FragmentShader.GetCStruct().image(0).type = sg_image_type.SG_IMAGETYPE_2D;
+            shaderDesc.FragmentShader.CStruct.image(0).type = sg_image_type.SG_IMAGETYPE_2D;
             // specify shader stage source code for each graphics backend
             string vertexShaderStageSourceCode;
             string fragmentShaderStageSourceCode;

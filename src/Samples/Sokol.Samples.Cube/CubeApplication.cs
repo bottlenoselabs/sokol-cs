@@ -134,8 +134,8 @@ namespace Sokol.Samples.Cube
             _indexBuffer = new SgBuffer(ref indexBufferDesc);
             
             // describe the binding of the vertex and index buffer (not applied yet!)
-            _bindings.Set(ref _vertexBuffer);
-            _bindings.Set(ref _indexBuffer);
+            _bindings.SetVertexBuffer(ref _vertexBuffer);
+            _bindings.SetIndexBuffer(ref _indexBuffer);
 
             // describe the shader program
             var shaderDesc = new SgShaderDescription();
