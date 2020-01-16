@@ -25,10 +25,21 @@ SOFTWARE.
 using System;
 using static Sokol.sokol_gfx;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol
 {
-    public sealed class SgShader : SgResource<sg_shader>
+    public struct SgShader
     {
+        public sg_shader CStruct;
+
+        public bool IsValid => CStruct.id != 0;
+
+        public SgShader(sg_shader shader)
+        {
+            CStruct = shader;
+        }
+        
         public SgShader(ref SgShaderDescription description)
         {
             ref var vs = ref description.VertexShader;
@@ -53,23 +64,28 @@ namespace Sokol
                 throw new ArgumentException("Vertex shader byte code is zero or less.");
             }
             
-            _handle = sg_make_shader(ref description.desc);
+            CStruct = sg_make_shader(ref description.CStruct);
         }
 
-        protected override void ReleaseUnmanagedResources()
+        public void Destroy()
         {
-            if (_handle.id == 0)
+            if (CStruct.id == 0)
             {
                 return;
             }
 
-            sg_destroy_shader(_handle);
-            _handle.id = 0;
+            sg_destroy_shader(CStruct);
+            CStruct.id = 0;
         }
         
         public static implicit operator sg_shader(SgShader shader)
         {
-            return shader._handle;
+            return shader.CStruct;
+        }
+        
+        public static implicit operator SgShader(sg_shader shader)
+        {
+            return new SgShader(shader);
         }
     }
 }

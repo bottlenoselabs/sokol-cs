@@ -22,43 +22,52 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System;
 using static Sokol.sokol_gfx;
+
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol
 {
-    public sealed class SgPipeline : SgResource<sg_pipeline>
+    public struct SgPipeline
     {
+        public sg_pipeline CStruct;
+
+        public bool IsValid => CStruct.id != 0;
+
+        public SgPipeline(sg_pipeline pipeline)
+        {
+            CStruct = pipeline;
+        }
+
         public SgPipeline(ref SgPipelineDescription description)
         {
-            _handle = sg_make_pipeline(ref description.desc);
+            CStruct = sg_make_pipeline(ref description.CStruct);
         }
-        
-        ~SgPipeline()
+
+        public void Destroy()
         {
-            GC.SuppressFinalize(this);
-            ReleaseUnmanagedResources();
-        }
-        
-        protected override void ReleaseUnmanagedResources()
-        {
-            if (_handle.id == 0)
+            if (CStruct.id == 0)
             {
                 return;
             }
 
-            sg_destroy_pipeline(_handle);
-            _handle.id = 0;
+            sg_destroy_pipeline(CStruct);
+            CStruct.id = 0;
         }
 
         public void Apply()
         {
-            sg_apply_pipeline(_handle);
+            sg_apply_pipeline(CStruct);
         }
 
         public static implicit operator sg_pipeline(SgPipeline pipeline)
         {
-            return pipeline._handle;
+            return pipeline.CStruct;
+        }
+        
+        public static implicit operator SgPipeline(sg_pipeline pipeline)
+        {
+            return new SgPipeline(pipeline);
         }
     }
 }

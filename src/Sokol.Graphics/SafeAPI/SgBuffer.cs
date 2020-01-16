@@ -26,30 +26,30 @@ using System;
 using System.Runtime.InteropServices;
 using static Sokol.sokol_gfx;
 
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
 
 namespace Sokol
 {
-    public sealed class SgBuffer : SgResource<sg_buffer>
+    public struct SgBuffer
     {
-        public SgBufferType Type { get; }
-        
-        public SgUsage Usage { get; }
-        
-        public int Size { get; }
+        public sg_buffer CStruct;
+
+        public bool IsValid => CStruct.id != 0;
+
+        public SgBuffer(sg_buffer buffer)
+        {
+            CStruct = buffer;
+        }
 
         public SgBuffer(ref SgBufferDescription description)
         {
-            Type = description.Type;
-            Usage = description.Usage;
-            Size = description.Size;
-
-            if (Size <= 0)
+            if (description.Size <= 0)
             {
                 throw new ArgumentException("Buffer size is zero or less.");
             }
 
-            if (Usage == SgUsage.Immutable)
+            if (description.Usage == SgUsage.Immutable)
             {
                 if (description.Content == IntPtr.Zero || description.Size <= 0)
                 {
@@ -57,53 +57,41 @@ namespace Sokol
                 }
             }
 
-            _handle = sg_make_buffer(ref description.desc);
-        }
-        
-        ~SgBuffer()
-        {
-            ReleaseUnmanagedResources();
-        }
-
-        protected override void ReleaseUnmanagedResources()
-        {
-            if (_handle.id == 0)
-            {
-                return;
-            }
-
-            sg_destroy_buffer(_handle);
-            _handle.id = 0;
+            CStruct = sg_make_buffer(ref description.CStruct);
         }
         
         public void Update<T>(Memory<T> data) where T : unmanaged
         {
-            if (Usage == SgUsage.Immutable)
-            {
-                throw new InvalidOperationException("Can not update an immutable buffer.");
-            }
-            
-            EnsureNotDisposed();
-            
-            var dataSize = Marshal.SizeOf<T>() * data.Length;
-            if (Size != dataSize)
-            {
-                throw new InvalidOperationException("Attempt to update a buffer with wrong data size.");
-            }
-            
             var dataHandle = data.Pin();
-
+            var dataSize = Marshal.SizeOf<T>() * data.Length;
+            
             unsafe
             {
-                sg_update_buffer(_handle, dataHandle.Pointer, dataSize);   
+                sg_update_buffer(CStruct, dataHandle.Pointer, dataSize);   
             }
             
             dataHandle.Dispose();
         }
         
+        public void Destroy()
+        {
+            if (CStruct.id == 0)
+            {
+                return;
+            }
+
+            sg_destroy_buffer(CStruct);
+            CStruct.id = 0;
+        }
+        
         public static implicit operator sg_buffer(SgBuffer buffer)
         {
-            return buffer._handle;
+            return buffer.CStruct;
+        }
+        
+        public static implicit operator SgBuffer(sg_buffer buffer)
+        {
+            return new SgBuffer(buffer);
         }
     }
 }

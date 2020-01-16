@@ -26,34 +26,26 @@ using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public struct SgVertexAttributeDescription
+    public ref struct SgVertexAttributeDescription
     {
-        internal sg_vertex_attr_desc desc;
+        public sg_vertex_attr_desc CStruct;
 
         public int BufferIndex
         {
-            get => desc.buffer_index;
-            set => desc.buffer_index = value;
+            readonly get => CStruct.buffer_index;
+            set => CStruct.buffer_index = value;
         }
 
         public int Offset
         {
-            get => desc.offset;
-            set => desc.offset = value;
+            readonly get => CStruct.offset;
+            set => CStruct.offset = value;
         }
 
         public SgVertexFormat Format
         {
-            get => (SgVertexFormat) desc.format;
-            set => desc.format = (sg_vertex_format) value;
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_vertex_attr_desc GetCStruct(this ref SgVertexAttributeDescription description) 
-        {
-            return ref description.desc;
+            readonly get => (SgVertexFormat) CStruct.format;
+            set => CStruct.format = (sg_vertex_format) value;
         }
     }
 }

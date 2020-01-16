@@ -25,32 +25,31 @@ SOFTWARE.
 using System.Runtime.CompilerServices;
 using static Sokol.sokol_gfx;
 
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnassignedField.Global
+
 namespace Sokol
 {
-    public struct SgVertexLayoutDescription
+    public ref struct SgVertexLayoutDescription
     {
-        internal sg_layout_desc desc;
+        public sg_layout_desc CStruct;
         
         public unsafe ref SgVertexBufferLayoutDescription Buffer(int index)
         {
-            ref var layout = ref desc.buffer(index);
-            var pointer = Unsafe.AsPointer(ref layout);
-            return ref Unsafe.AsRef<SgVertexBufferLayoutDescription>(pointer);
+            ref var @ref = ref CStruct.buffer(index);
+            fixed (sg_buffer_layout_desc* ptr = &@ref)
+            {
+                return ref *(SgVertexBufferLayoutDescription*) ptr;
+            }
         }
         
         public unsafe ref SgVertexAttributeDescription Attribute(int index)
         {
-            ref var layout = ref desc.attr(index);
-            var pointer = Unsafe.AsPointer(ref layout);
-            return ref Unsafe.AsRef<SgVertexAttributeDescription>(pointer);
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_layout_desc GetCStruct(this ref SgVertexLayoutDescription description) 
-        {
-            return ref description.desc;
+            ref var @ref = ref CStruct.attr(index);
+            fixed (sg_vertex_attr_desc* ptr = &@ref)
+            {
+                return ref *(SgVertexAttributeDescription*) ptr;
+            }
         }
     }
 }

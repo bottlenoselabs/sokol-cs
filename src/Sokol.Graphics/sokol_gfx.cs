@@ -22,12 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System;
 using System.ComponentModel;
-using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 
 // ReSharper disable UnusedType.Global
 // ReSharper disable InconsistentNaming
@@ -43,7 +39,7 @@ namespace Sokol
     public static unsafe class sokol_gfx
     {
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-        public struct sg_buffer : IEquatable<uint>
+        public struct sg_buffer
         {
             [FieldOffset(0)] public uint id;
             
@@ -59,15 +55,10 @@ namespace Sokol
             {
                 return buffer.id;
             }
-
-            public bool Equals(uint other)
-            {
-                return id.Equals(other);
-            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-        public struct sg_image : IEquatable<uint>
+        public struct sg_image
         {
             [FieldOffset(0)] public uint id;
 
@@ -83,15 +74,10 @@ namespace Sokol
             {
                 return image.id;
             }
-            
-            public bool Equals(uint other)
-            {
-                return id.Equals(other);
-            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-        public struct sg_shader : IEquatable<uint>
+        public struct sg_shader
         {
             [FieldOffset(0)] public uint id;
             
@@ -107,15 +93,10 @@ namespace Sokol
             {
                 return image.id;
             }
-            
-            public bool Equals(uint other)
-            {
-                return id.Equals(other);
-            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-        public struct sg_pipeline : IEquatable<uint>
+        public struct sg_pipeline
         {
             [FieldOffset(0)] public uint id;
             
@@ -131,15 +112,10 @@ namespace Sokol
             {
                 return pipeline.id;
             }
-            
-            public bool Equals(uint other)
-            {
-                return id.Equals(other);
-            }
         }
         
         [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-        public struct sg_pass : IEquatable<uint>
+        public struct sg_pass
         {
             [FieldOffset(0)] public uint id;
             
@@ -154,11 +130,6 @@ namespace Sokol
             public static implicit operator uint(sg_pass pass)
             {
                 return pass.id;
-            }
-            
-            public bool Equals(uint other)
-            {
-                return id.Equals(other);
             }
         }
         
@@ -595,9 +566,8 @@ namespace Sokol
             {
                 fixed (sg_pass_action* pass_action = &this)
                 {
-                    var pointerBase = (sg_color_attachment_action*) &pass_action->_colors[0];
-                    var pointerOffset = index;
-                    return ref Unsafe.AsRef<sg_color_attachment_action>(pointerBase + pointerOffset);
+                    var ptr = (sg_color_attachment_action*) &pass_action->_colors[0];
+                    return ref *(ptr + index);
                 }
             }
 
@@ -640,9 +610,8 @@ namespace Sokol
             {
                 fixed (sg_bindings* bindings = &this)
                 {
-                    var pointerBase = (sg_buffer*) &bindings->_vertex_buffers[0];
-                    var pointerOffset = index;
-                    return ref Unsafe.AsRef<sg_buffer>(pointerBase + pointerOffset);
+                    var ptr = (sg_buffer*) &bindings->_vertex_buffers[0];
+                    return ref *(ptr + index);
                 }
             }
             
@@ -655,9 +624,8 @@ namespace Sokol
             {
                 fixed (sg_bindings* bindings = &this)
                 {
-                    var pointerBase = (sg_image*) &bindings->_vs_images[0];
-                    var pointerOffset = index;
-                    return ref Unsafe.AsRef<sg_image>(pointerBase + pointerOffset);
+                    var ptr = (sg_image*) &bindings->_vs_images[0];
+                    return ref *(ptr + index);
                 }
             }
             
@@ -665,9 +633,8 @@ namespace Sokol
             {
                 fixed (sg_bindings* bindings = &this)
                 {
-                    var pointerBase = (sg_image*) &bindings->_fs_images[0];
-                    var pointerOffset = index;
-                    return ref Unsafe.AsRef<sg_image>(pointerBase + pointerOffset);
+                    var ptr = (sg_image*) &bindings->_fs_images[0];
+                    return ref *(ptr + index);
                 }
             }
         }
@@ -712,9 +679,9 @@ namespace Sokol
             {
                 fixed (sg_image_content* image_content = &this)
                 {
-                    var pointerBase = (sg_subimage_content*) &image_content->_subimage[0];
+                    var ptr = (sg_subimage_content*) &image_content->_subimage[0];
                     var pointerOffset = cubeFaceIndex * (int) sg_cube_face.SG_CUBEFACE_NUM + mipMapIndex;
-                    return ref Unsafe.AsRef<sg_subimage_content>(pointerBase + pointerOffset);
+                    return ref *(ptr + pointerOffset);
                 }
             }
         }
@@ -749,7 +716,7 @@ namespace Sokol
             [FieldOffset(1648)] public void* d3d11_texture;
             [FieldOffset(1656)] public uint _end_canary;
 
-            public void* GetMTLTextures()
+            public void* mtlTextures()
             {
                 fixed (sg_image_desc* image_desc = &this)
                 {
@@ -784,9 +751,8 @@ namespace Sokol
             {
                 fixed (sg_shader_uniform_block_desc* shader_uniform_block_desc = &this)
                 {
-                    var pointerBase = &shader_uniform_block_desc->_uniforms[0];
-                    var pointerOffset = index;
-                    return ref Unsafe.AsRef<sg_shader_uniform_desc>(pointerBase + pointerOffset);
+                    var ptr = (sg_shader_uniform_desc*) &shader_uniform_block_desc->_uniforms[0];
+                    return ref * (ptr + index);
                 }
             }
         }
@@ -813,9 +779,8 @@ namespace Sokol
             {
                 fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
                 {
-                    var pointerBase = &sg_shader_stage_desc->_uniform_blocks[0];
-                    var pointerOffset = index;
-                    return ref Unsafe.AsRef<sg_shader_uniform_block_desc>(pointerBase + pointerOffset);
+                    var ptr = (sg_shader_uniform_block_desc*)&sg_shader_stage_desc->_uniform_blocks[0];
+                    return ref *(ptr + index);
                 }
             }
 
@@ -823,9 +788,8 @@ namespace Sokol
             {
                 fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
                 {
-                    var pointerBase = &sg_shader_stage_desc->_images[0];
-                    var pointerOffset = index;
-                    return ref Unsafe.AsRef<sg_shader_image_desc>(pointerBase + pointerOffset);
+                    var ptr = (sg_shader_image_desc*) &sg_shader_stage_desc->_images[0];
+                    return ref *(ptr + index);
                 }
             }
         }
@@ -844,9 +808,8 @@ namespace Sokol
             {
                 fixed (sg_shader_desc* sg_shader_stage_desc = &this)
                 {
-                    var pointerBase = &sg_shader_stage_desc->_attrs[0];
-                    var pointerIndex = index;
-                    return ref Unsafe.AsRef<sg_shader_attr_desc>(pointerBase + pointerIndex);
+                    var ptr = (sg_shader_attr_desc*) &sg_shader_stage_desc->_attrs[0];
+                    return ref *(ptr + index);
                 }
             }
         }
@@ -877,9 +840,8 @@ namespace Sokol
             {
                 fixed (sg_layout_desc* layout_desc = &this)
                 {
-                    var pointerBase = (sg_buffer_layout_desc*) &layout_desc->_buffers[0];
-                    var pointerOffset = index;
-                    return ref Unsafe.AsRef<sg_buffer_layout_desc>(pointerBase + pointerOffset);
+                    var ptr = (sg_buffer_layout_desc*) &layout_desc->_buffers[0];
+                    return ref *(ptr + index);
                 }
             }
 
@@ -887,9 +849,8 @@ namespace Sokol
             {
                 fixed (sg_layout_desc* layout_desc = &this)
                 {
-                    var pointerBase = (sg_buffer_layout_desc*) &layout_desc->_attrs[0];
-                    var pointerOffset = index;
-                    return ref Unsafe.AsRef<sg_vertex_attr_desc>(pointerBase + pointerOffset);
+                    var ptr = (sg_vertex_attr_desc*) &layout_desc->_attrs[0];
+                    return ref *(ptr + index);
                 }
             }
         }
@@ -983,9 +944,8 @@ namespace Sokol
             {
                 fixed (sg_pass_desc* pass_desc = &this)
                 {
-                    var pointerBase = (sg_attachment_desc*) &pass_desc->_color_attachments[0];
-                    var pointerOffset = index;
-                    return ref Unsafe.AsRef<sg_attachment_desc>(pointerBase + pointerOffset);
+                    var ptr = (sg_attachment_desc*) &pass_desc->_color_attachments[0];
+                    return ref *(ptr + index);
                 }
             }
         }

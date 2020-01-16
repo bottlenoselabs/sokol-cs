@@ -23,30 +23,32 @@ SOFTWARE.
  */
 
 using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public struct SgShaderDescription
+    public ref struct SgShaderDescription
     {
-        internal sg_shader_desc desc;
+        public sg_shader_desc CStruct;
 
         public unsafe ref SgShaderAttributeDescription Attribute(int index)
         {
-            ref var layout = ref desc.attr(index);
-            var pointer = Unsafe.AsPointer(ref layout);
-            return ref Unsafe.AsRef<SgShaderAttributeDescription>(pointer);
+            ref var @ref = ref CStruct.attr(index);
+            fixed (sg_shader_attr_desc* ptr = &@ref)
+            {
+                return ref *(SgShaderAttributeDescription*) ptr;
+            }
         }
 
         public unsafe ref SgShaderStageDescription VertexShader
         {
             get
             {
-                ref var shaderStageDesc = ref desc.vs;
-                var pointer = Unsafe.AsPointer(ref shaderStageDesc);
-                return ref Unsafe.AsRef<SgShaderStageDescription>(pointer);
+                ref var @ref = ref CStruct.vs;
+                fixed (sg_shader_stage_desc* ptr = &@ref)
+                {
+                    return ref *(SgShaderStageDescription*) ptr;
+                }
             }
         }
         
@@ -54,24 +56,18 @@ namespace Sokol
         {
             get
             {
-                ref var shaderStageDesc = ref desc.fs;
-                var pointer = Unsafe.AsPointer(ref shaderStageDesc);
-                return ref Unsafe.AsRef<SgShaderStageDescription>(pointer);
+                ref var @ref = ref CStruct.fs;
+                fixed (sg_shader_stage_desc* ptr = &@ref)
+                {
+                    return ref *(SgShaderStageDescription*) ptr;
+                }
             }
         }
 
         public unsafe IntPtr Label
         {
-            get => (IntPtr) desc.label;
-            set => desc.label = (byte*) value;
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_shader_desc GetCStruct(this ref SgShaderDescription description) 
-        {
-            return ref description.desc;
+            readonly get => (IntPtr) CStruct.label;
+            set => CStruct.label = (byte*) value;
         }
     }
 }

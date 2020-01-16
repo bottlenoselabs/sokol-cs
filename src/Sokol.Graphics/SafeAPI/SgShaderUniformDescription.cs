@@ -27,34 +27,26 @@ using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public struct SgShaderUniformDescription
+    public ref struct SgShaderUniformDescription
     {
-        internal sg_shader_uniform_desc desc;
+        public sg_shader_uniform_desc CStruct;
 
         public unsafe IntPtr Name
         {
-            get => (IntPtr) desc.name;
-            set => desc.name = (byte*) value;
+            readonly get => (IntPtr) CStruct.name;
+            set => CStruct.name = (byte*) value;
         }
 
         public SgShaderUniformType Type
         {
-            get => (SgShaderUniformType) desc.type;
-            set => desc.type = (sg_uniform_type) value;
+            readonly get => (SgShaderUniformType) CStruct.type;
+            set => CStruct.type = (sg_uniform_type) value;
         }
 
         public int ArrayCount
         {
-            get => desc.array_count;
-            set => desc.array_count = value;
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_shader_uniform_desc GetCStruct(this ref SgShaderUniformDescription description) 
-        {
-            return ref description.desc;
+            readonly get => CStruct.array_count;
+            set => CStruct.array_count = value;
         }
     }
 }

@@ -22,45 +22,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System.Runtime.CompilerServices;
 using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public struct SgStencilState
+    public ref struct SgStencilState
     {
-        internal sg_stencil_state state;
+        public sg_stencil_state CStruct;
 
         public SgStencilOperation FailOperation
         {
-            get => (SgStencilOperation) state.fail_op;
-            set => state.fail_op = (sg_stencil_op) value;
+            readonly get => (SgStencilOperation) CStruct.fail_op;
+            set => CStruct.fail_op = (sg_stencil_op) value;
         }
         
         public SgStencilOperation DepthFailOperation
         {
-            get => (SgStencilOperation) state.depth_fail_op;
-            set => state.fail_op = (sg_stencil_op) value;
+            readonly get => (SgStencilOperation) CStruct.depth_fail_op;
+            set => CStruct.fail_op = (sg_stencil_op) value;
         }
         
         public SgStencilOperation PassOperation
         {
-            get => (SgStencilOperation) state.pass_op;
-            set => state.pass_op = (sg_stencil_op) value;
+            readonly get => (SgStencilOperation) CStruct.pass_op;
+            set => CStruct.pass_op = (sg_stencil_op) value;
         }
 
         public SgCompareFunction CompareFunction
         {
-            get => (SgCompareFunction) state.compare_func;
-            set => state.compare_func = (sg_compare_func) value;
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_stencil_state GetCStruct(this ref SgStencilState state) 
-        {
-            return ref state.state;
+            readonly get => (SgCompareFunction) CStruct.compare_func;
+            set => CStruct.compare_func = (sg_compare_func) value;
         }
     }
 }

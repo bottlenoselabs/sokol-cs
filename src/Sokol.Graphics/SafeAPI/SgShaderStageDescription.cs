@@ -23,52 +23,51 @@ SOFTWARE.
  */
 
 using System;
-using System.Runtime.CompilerServices;
 using static Sokol.sokol_gfx;
+
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable ValueParameterNotUsed
+// ReSharper disable UnusedMember.Global
+
+#pragma warning disable 1717
 
 namespace Sokol
 {
-    public struct SgShaderStageDescription
+    public ref struct SgShaderStageDescription
     {
-        internal sg_shader_stage_desc desc;
+        public sg_shader_stage_desc CStruct;
 
         public unsafe IntPtr Source
         {
-            get => (IntPtr) desc.source;
-            set => desc.source = (byte*) value;
+            readonly get => (IntPtr) CStruct.source;
+            set => CStruct.source = (byte*) value;
         }
 
         public unsafe IntPtr ByteCode
         {
-            get => (IntPtr) desc.byte_code;
-            set => desc.byte_code = desc.byte_code;
+            readonly get => (IntPtr) CStruct.byte_code;
+            set => CStruct.byte_code = CStruct.byte_code;
         }
 
         public int ByteCodeSize
         {
-            get => desc.byte_code_size;
-            set => desc.byte_code_size = value;
+            readonly get => CStruct.byte_code_size;
+            set => CStruct.byte_code_size = value;
         }
 
         public unsafe IntPtr Entry
         {
-            get => (IntPtr) desc.entry;
-            set => desc.entry = (byte*) value;
+            readonly get => (IntPtr) CStruct.entry;
+            set => CStruct.entry = (byte*) value;
         }
         
         public unsafe ref SgShaderUniformBlockDescription UniformBlock(int index)
         {
-            ref var uniformBlockDesc = ref desc.uniformBlock(index);
-            var pointer = Unsafe.AsPointer(ref uniformBlockDesc);
-            return ref Unsafe.AsRef<SgShaderUniformBlockDescription>(pointer);
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_shader_stage_desc GetCStruct(this ref SgShaderStageDescription description) 
-        {
-            return ref description.desc;
+            ref var @ref = ref CStruct.uniformBlock(index);
+            fixed (sg_shader_uniform_block_desc* ptr = &@ref)
+            {
+                return ref *(SgShaderUniformBlockDescription*) ptr;
+            }
         }
     }
 }

@@ -29,25 +29,25 @@ using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public struct SgBufferDescription
+    public ref struct SgBufferDescription
     {
-        internal sg_buffer_desc desc;
+        public sg_buffer_desc CStruct;
 
         public SgBufferType Type
         {
-            get => (SgBufferType) desc.type;
-            set => desc.type = (sg_buffer_type) value;
+            readonly get => (SgBufferType) CStruct.type;
+            set => CStruct.type = (sg_buffer_type) value;
         }
 
         public SgUsage Usage
         {
-            get => (SgUsage) desc.usage;
-            set => desc.usage = (sg_usage) value;
+            readonly get => (SgUsage) CStruct.usage;
+            set => CStruct.usage = (sg_usage) value;
         }
 
         public int Size
         {
-            get => desc.size;
+            readonly get => CStruct.size;
             set
             {
                 if (value <= 0)
@@ -55,28 +55,20 @@ namespace Sokol
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
                 }
                 
-                desc.size = value;
+                CStruct.size = value;
             }
         }
 
         public unsafe IntPtr Content
         {
-            get => (IntPtr) desc.content;
-            set => desc.content = (void*) value;
+            readonly get => (IntPtr) CStruct.content;
+            set => CStruct.content = (void*) value;
         }
 
         public unsafe IntPtr Label
         {
-            get => (IntPtr) desc.label;
-            set => desc.label = (byte*) value;
-        }
-    }
-
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_buffer_desc GetCStruct(this ref SgBufferDescription description) 
-        {
-            return ref description.desc;
+            readonly get => (IntPtr) CStruct.label;
+            set => CStruct.label = (byte*) value;
         }
     }
 }

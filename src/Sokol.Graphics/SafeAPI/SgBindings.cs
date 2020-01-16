@@ -25,49 +25,39 @@ SOFTWARE.
 using System;
 using static Sokol.sokol_gfx;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol
 {
     public struct SgBindings
     {
-        // ReSharper disable once InconsistentNaming
-        internal sg_bindings _bindings;
+        public sg_bindings CStruct;
 
-        public void Set(ref SgBuffer buffer, int bufferIndex = 0, int bufferOffset = 0)
+        public void SetVertexBuffer(ref SgBuffer buffer, int bufferIndex = 0, int bufferOffset = 0)
         {
-            if (buffer.Type == SgBufferType.Index && bufferIndex > 0 || bufferIndex > SG_MAX_SHADERSTAGE_BUFFERS)
+            if (!buffer.IsValid)
             {
-                throw new ArgumentOutOfRangeException(nameof(bufferIndex), bufferIndex, null);
+                throw new ArgumentException(nameof(buffer));
             }
             
+            CStruct.vertex_buffer(bufferIndex) = buffer;
+            CStruct.vertex_buffer_offset(bufferIndex) = bufferOffset;   
+        }
+        
+        public void SetIndexBuffer(ref SgBuffer buffer, int bufferOffset = 0)
+        {
             if (!buffer.IsValid)
             {
                 throw new ArgumentException(nameof(buffer));
             }
 
-            if (buffer.Type == SgBufferType.Index)
-            {
-                _bindings.index_buffer = buffer;
-                _bindings.index_buffer_offset = bufferOffset;
-            }
-            else
-            {
-                _bindings.vertex_buffer(bufferIndex) = buffer;
-                _bindings.vertex_buffer_offset(bufferIndex) = bufferOffset;
-            }
+            CStruct.index_buffer = buffer;
+            CStruct.index_buffer_offset = bufferOffset;
         }
 
         public void Apply()
         {
-            sg_apply_bindings(ref _bindings);
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        // ReSharper disable once InconsistentNaming
-        public static ref sg_bindings GetCStruct(this ref SgBindings bindings) 
-        {
-            return ref bindings._bindings;
+            sg_apply_bindings(ref CStruct);
         }
     }
 }

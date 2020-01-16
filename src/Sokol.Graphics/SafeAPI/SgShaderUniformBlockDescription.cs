@@ -22,34 +22,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System.Runtime.CompilerServices;
 using static Sokol.sokol_gfx;
+
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol
 {
-    public struct SgShaderUniformBlockDescription
+    public ref struct SgShaderUniformBlockDescription
     {
-        internal sg_shader_uniform_block_desc desc;
+        public sg_shader_uniform_block_desc CStruct;
 
         public int Size
         {
-            get => desc.size;
-            set => desc.size = value;
+            readonly get => CStruct.size;
+            set => CStruct.size = value;
         }
         
         public unsafe ref SgShaderUniformDescription Uniform(int index)
         {
-            ref var uniformDesc = ref desc.uniform(index);
-            var pointer = Unsafe.AsPointer(ref uniformDesc);
-            return ref Unsafe.AsRef<SgShaderUniformDescription>(pointer);
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_shader_uniform_block_desc GetCStruct(this ref SgShaderUniformBlockDescription description) 
-        {
-            return ref description.desc;
+            ref var @ref = ref CStruct.uniform(index);
+            fixed (sg_shader_uniform_desc* ptr = &@ref)
+            {
+                return ref *(SgShaderUniformDescription*) ptr;
+            }
         }
     }
 }

@@ -22,22 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System.Runtime.CompilerServices;
 using static Sokol.sokol_gfx;
+
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol
 {
-    public struct SgDepthStencilState
+    public ref struct SgDepthStencilState
     {
-        internal sg_depth_stencil_state state;
+        public sg_depth_stencil_state CStruct;
 
         public unsafe ref SgStencilState StencilFront
         {
             get
             {
-                ref var stencilState = ref state.stencil_front;
-                var pointer = Unsafe.AsPointer(ref stencilState);
-                return ref Unsafe.AsRef<SgStencilState>(pointer);
+                ref var @ref = ref CStruct.stencil_front;
+                fixed (sg_stencil_state* ptr = &@ref)
+                {
+                    return ref *(SgStencilState*) ptr;
+                }
             }
         }
         
@@ -45,54 +48,48 @@ namespace Sokol
         {
             get
             {
-                ref var stencilState = ref state.stencil_back;
-                var pointer = Unsafe.AsPointer(ref stencilState);
-                return ref Unsafe.AsRef<SgStencilState>(pointer);
+                ref var @ref = ref CStruct.stencil_back;
+                fixed (sg_stencil_state* ptr = &@ref)
+                {
+                    return ref *(SgStencilState*) ptr;
+                }
             }
         }
 
         public SgCompareFunction DepthCompareFunction
         {
-            get => (SgCompareFunction) state.depth_compare_func;
-            set => state.depth_compare_func = (sg_compare_func) value;
+            readonly get => (SgCompareFunction) CStruct.depth_compare_func;
+            set => CStruct.depth_compare_func = (sg_compare_func) value;
         }
 
         public bool DepthWriteEnabled
         {
-            get => state.depth_write_enabled;
-            set => state.depth_write_enabled = value;
+            readonly get => CStruct.depth_write_enabled;
+            set => CStruct.depth_write_enabled = value;
         }
 
         public bool StencilEnabled
         {
-            get => state.stencil_enabled;
-            set => state.stencil_enabled = value;
+            readonly get => CStruct.stencil_enabled;
+            set => CStruct.stencil_enabled = value;
         }
 
         public byte StencilReadMask
         {
-            get => state.stencil_read_mask;
-            set => state.stencil_read_mask = value;
+            readonly get => CStruct.stencil_read_mask;
+            set => CStruct.stencil_read_mask = value;
         }
 
         public byte StencilWriteMask
         {
-            get => state.stencil_write_mask;
-            set => state.stencil_write_mask = value;
+            readonly get => CStruct.stencil_write_mask;
+            set => CStruct.stencil_write_mask = value;
         }
         
         public byte StencilReference
         {
-            get => state.stencil_ref;
-            set => state.stencil_ref = value;
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_depth_stencil_state GetCStruct(this ref SgDepthStencilState state) 
-        {
-            return ref state.state;
+            readonly get => CStruct.stencil_ref;
+            set => CStruct.stencil_ref = value;
         }
     }
 }

@@ -23,50 +23,53 @@ SOFTWARE.
  */
 
 using System;
-using System.Runtime.CompilerServices;
 using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public struct SgPipelineDescription
+    public ref struct SgPipelineDescription
     {
-        internal sg_pipeline_desc desc;
+        public sg_pipeline_desc CStruct;
 
         public sg_shader Shader
         {
-            get => desc.shader;
-            set => desc.shader = value;
+            readonly get => CStruct.shader;
+            set => CStruct.shader = value;
         }
 
         public unsafe ref SgVertexLayoutDescription Layout
         {
             get
             {
-                ref var layout = ref desc.layout;
-                var pointer = Unsafe.AsPointer(ref layout);
-                return ref Unsafe.AsRef<SgVertexLayoutDescription>(pointer);
+                ref var @ref = ref CStruct.layout;
+                fixed (void* ptr = &@ref)
+                {
+                    return ref *(SgVertexLayoutDescription*) ptr;
+                }
             }
         }
 
         public SgPrimitiveType PrimitiveType
         {
-            get => (SgPrimitiveType) desc.primitive_type;
-            set => desc.primitive_type = (sg_primitive_type) value;
+            readonly get => (SgPrimitiveType) CStruct.primitive_type;
+            set => CStruct.primitive_type = (sg_primitive_type) value;
         }
 
         public SgIndexType IndexType
         {
-            get => (SgIndexType) desc.index_type;
-            set => desc.index_type = (sg_index_type) value;
+            readonly get => (SgIndexType) CStruct.index_type;
+            set => CStruct.index_type = (sg_index_type) value;
         }
 
         public unsafe ref SgDepthStencilState DepthStencil
         {
             get
             {
-                ref var depthStencilState = ref desc.depth_stencil;
-                var pointer = Unsafe.AsPointer(ref depthStencilState);
-                return ref Unsafe.AsRef<SgDepthStencilState>(pointer);
+                ref var @ref = ref CStruct.depth_stencil;
+                fixed (sg_depth_stencil_state* ptr = &@ref)
+                {
+                    return ref *(SgDepthStencilState*) ptr;
+                }
             }
         }
         
@@ -74,9 +77,11 @@ namespace Sokol
         {
             get
             {
-                ref var blendState = ref desc.blend;
-                var pointer = Unsafe.AsPointer(ref blendState);
-                return ref Unsafe.AsRef<SgBlendState>(pointer);
+                // ref var blendState = ref desc.blend;
+                fixed (sg_blend_state* blendState = &CStruct.blend)
+                {
+                    return ref *(SgBlendState*) blendState;
+                }
             }
         }
 
@@ -84,24 +89,18 @@ namespace Sokol
         {
             get
             {
-                ref var rasterizerState = ref desc.rasterizer;
-                var pointer = Unsafe.AsPointer(ref rasterizerState);
-                return ref Unsafe.AsRef<SgRasterizerState>(pointer);
+                ref var @ref = ref CStruct.rasterizer;
+                fixed (sg_rasterizer_state* ptr = &@ref)
+                {
+                    return ref *(SgRasterizerState*) ptr;
+                }
             }
         }
         
         public unsafe IntPtr Label
         {
-            get => (IntPtr) desc.label;
-            set => desc.label = (byte*) value;
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_pipeline_desc GetCStruct(this ref SgPipelineDescription description) 
-        {
-            return ref description.desc;
+            readonly get => (IntPtr) CStruct.label;
+            set => CStruct.label = (byte*) value;
         }
     }
 }

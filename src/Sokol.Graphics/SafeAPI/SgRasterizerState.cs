@@ -24,60 +24,54 @@ SOFTWARE.
 
 using static Sokol.sokol_gfx;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol
 {
-    public struct SgRasterizerState
+    public ref struct SgRasterizerState
     {
-        internal sg_rasterizer_state state;
+        public sg_rasterizer_state CStruct;
 
         public bool AlphaToCoverageEnabled
         {
-            get => state.alpha_to_coverage_enabled;
-            set => state.alpha_to_coverage_enabled = value;
+            readonly get => CStruct.alpha_to_coverage_enabled;
+            set => CStruct.alpha_to_coverage_enabled = value;
         }
 
         public SgCullMode CullMode
         {
-            get => (SgCullMode) state.cull_mode;
-            set => state.cull_mode = (sg_cull_mode) value;
+            readonly get => (SgCullMode) CStruct.cull_mode;
+            set => CStruct.cull_mode = (sg_cull_mode) value;
         }
 
         public SgFaceWinding FaceWinding
         {
-            get => (SgFaceWinding) state.face_winding;
-            set => state.face_winding = (sg_face_winding) value;
+            readonly get => (SgFaceWinding) CStruct.face_winding;
+            set => CStruct.face_winding = (sg_face_winding) value;
         }
 
         public int SampleCount
         {
-            get => state.sample_count;
-            set => state.sample_count = value;
+            readonly get => CStruct.sample_count;
+            set => CStruct.sample_count = value;
         }
 
         public float DepthBias
         {
-            get => state.depth_bias;
-            set => state.depth_bias = value;
+            readonly get => CStruct.depth_bias;
+            set => CStruct.depth_bias = value;
         }
 
         public float DepthBiasSlopeScale
         {
-            get => state.depth_bias_slope_scale;
-            set => state.depth_bias_slope_scale = value;
+            readonly get => CStruct.depth_bias_slope_scale;
+            set => CStruct.depth_bias_slope_scale = value;
         }
         
         public float DepthBiasClamp
         {
-            get => state.depth_bias_clamp;
-            set => state.depth_bias_clamp = value;
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_rasterizer_state GetCStruct(this ref SgRasterizerState state) 
-        {
-            return ref state.state;
+            readonly get => CStruct.depth_bias_clamp;
+            set => CStruct.depth_bias_clamp = value;
         }
     }
 }

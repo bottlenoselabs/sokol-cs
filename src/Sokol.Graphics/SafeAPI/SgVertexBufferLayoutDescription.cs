@@ -26,34 +26,26 @@ using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public struct SgVertexBufferLayoutDescription
+    public ref struct SgVertexBufferLayoutDescription
     {
-        internal sg_buffer_layout_desc desc;
+        public sg_buffer_layout_desc CStruct;
 
         public int Stride
         {
-            get => desc.stride;
-            set => desc.stride = value;
+            readonly get => CStruct.stride;
+            set => CStruct.stride = value;
         }
 
         public SgVertexStepFunction StepFunction
         {
-            get => (SgVertexStepFunction) desc.step_func;
-            set => desc.step_func = (sg_vertex_step) value;
+            readonly get => (SgVertexStepFunction) CStruct.step_func;
+            set => CStruct.step_func = (sg_vertex_step) value;
         }
 
         public int StepRate
         {
-            get => desc.step_rate;
-            set => desc.step_rate = value;
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_buffer_layout_desc GetCStruct(this ref SgVertexBufferLayoutDescription description) 
-        {
-            return ref description.desc;
+            readonly get => CStruct.step_rate;
+            set => CStruct.step_rate = value;
         }
     }
 }

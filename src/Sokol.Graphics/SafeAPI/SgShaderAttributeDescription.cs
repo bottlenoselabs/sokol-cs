@@ -25,36 +25,30 @@ SOFTWARE.
 using System;
 using static Sokol.sokol_gfx;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol
 {
-    public struct SgShaderAttributeDescription
+    public ref struct SgShaderAttributeDescription
     {
-        internal sg_shader_attr_desc desc;
-
+        public sg_shader_attr_desc CStruct;
+        
         public unsafe IntPtr Name
         {
-            get => (IntPtr) desc.name;
-            set => desc.name = (byte*) value;
+            get => (IntPtr) CStruct.name;
+            set => CStruct.name = (byte*) value;
         }
 
         public unsafe IntPtr SemanticName
         {
-            get => (IntPtr) desc.sem_name;
-            set => desc.sem_name = (byte*) value;
+            get => (IntPtr) CStruct.sem_name;
+            set => CStruct.sem_name = (byte*) value;
         }
         
         public int SemanticIndex
         {
-            get => desc.sem_index;
-            set => desc.sem_index = value;
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_shader_attr_desc GetCStruct(this ref SgShaderAttributeDescription description) 
-        {
-            return ref description.desc;
+            get => CStruct.sem_index;
+            set => CStruct.sem_index = value;
         }
     }
 }

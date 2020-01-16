@@ -24,90 +24,84 @@ SOFTWARE.
 
 using static Sokol.sokol_gfx;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol
 {
-    public struct SgBlendState
+    public ref struct SgBlendState
     {
-        internal sg_blend_state state;
+        public sg_blend_state CStruct;
 
         public bool Enabled
         {
-            get => state.enabled;
-            set => state.enabled = value;
+            readonly get => CStruct.enabled;
+            set => CStruct.enabled = value;
         }
 
         public SgBlendFactor SourceFactorRgb
         {
-            get => (SgBlendFactor) state.src_factor_rgb;
-            set => state.src_factor_rgb = (sg_blend_factor) value;
+            readonly get => (SgBlendFactor) CStruct.src_factor_rgb;
+            set => CStruct.src_factor_rgb = (sg_blend_factor) value;
         }
         
         public SgBlendFactor DestinationFactorRgb
         {
-            get => (SgBlendFactor) state.dst_factor_rgb;
-            set => state.dst_factor_rgb = (sg_blend_factor) value;
+            readonly get => (SgBlendFactor) CStruct.dst_factor_rgb;
+            set => CStruct.dst_factor_rgb = (sg_blend_factor) value;
         }
 
         public SgBlendOperation OperationRgb
         {
-            get => (SgBlendOperation) state.op_rgb;
-            set => state.op_rgb = (sg_blend_op) value;
+            get => (SgBlendOperation) CStruct.op_rgb;
+            set => CStruct.op_rgb = (sg_blend_op) value;
         }
         
         public SgBlendFactor SourceFactorAlpha
         {
-            get => (SgBlendFactor) state.src_factor_alpha;
-            set => state.src_factor_alpha = (sg_blend_factor) value;
+            readonly get => (SgBlendFactor) CStruct.src_factor_alpha;
+            set => CStruct.src_factor_alpha = (sg_blend_factor) value;
         }
         
         public SgBlendFactor DestinationFactorAlpha
         {
-            get => (SgBlendFactor) state.dst_factor_alpha;
-            set => state.dst_factor_alpha = (sg_blend_factor) value;
+            readonly get => (SgBlendFactor) CStruct.dst_factor_alpha;
+            set => CStruct.dst_factor_alpha = (sg_blend_factor) value;
         }
         
         public SgBlendOperation OperationAlpha
         {
-            get => (SgBlendOperation) state.op_alpha;
-            set => state.op_alpha = (sg_blend_op) value;
+            readonly get => (SgBlendOperation) CStruct.op_alpha;
+            set => CStruct.op_alpha = (sg_blend_op) value;
         }
 
         public byte ColorWriteMask
         {
-            get => state.color_write_mask;
-            set => state.color_write_mask = value;
+            readonly get => CStruct.color_write_mask;
+            set => CStruct.color_write_mask = value;
         }
 
         public int ColorAttachmentCount
         {
-            get => state.color_attachment_count;
-            set => state.color_attachment_count = value;
+            readonly get => CStruct.color_attachment_count;
+            set => CStruct.color_attachment_count = value;
         }
 
         public SgPixelFormat ColorFormat
         {
-            get => (SgPixelFormat) state.color_format;
-            set => state.color_format = (sg_pixel_format) value;
+            readonly get => (SgPixelFormat) CStruct.color_format;
+            set => CStruct.color_format = (sg_pixel_format) value;
         }
         
         public SgPixelFormat DepthFormat
         {
-            get => (SgPixelFormat) state.depth_format;
-            set => state.depth_format = (sg_pixel_format) value;
+            readonly get => (SgPixelFormat) CStruct.depth_format;
+            set => CStruct.depth_format = (sg_pixel_format) value;
         }
 
         public RgbaFloat BlendColor
         {
-            get => state.blend_color;
-            set => state.blend_color = value;
-        }
-    }
-    
-    public static partial class SgSafeExtensions
-    {
-        public static ref sg_blend_state GetCStruct(this ref SgBlendState state) 
-        {
-            return ref state.state;
+            readonly get => CStruct.blend_color;
+            set => CStruct.blend_color = value;
         }
     }
 }
