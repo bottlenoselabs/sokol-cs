@@ -24,7 +24,7 @@ namespace Sokol.Samples.Offscreen
         private SgBuffer _indexBuffer;
         private SgImage _renderTargetColorImage;
         private SgImage _renderTargetDepthImage;
-        private sg_pass _offscreenRenderPass; 
+        private SgPass _offscreenRenderPass; 
         private SgBindings _frameBufferBindings;
         private SgBindings _offscreenBindings;
         private SgShader _offscreenShader;
@@ -190,12 +190,12 @@ namespace Sokol.Samples.Offscreen
             _renderTargetDepthImage = new SgImage(ref offscreenImageDesc);
             
             // describe the offscreen render pass
-            var passDesc = new sg_pass_desc();
-            passDesc.color_attachment(0).image = _renderTargetColorImage;
-            passDesc.depth_stencil_attachment.image = _renderTargetDepthImage;
+            var passDesc = new SgPassDescription();
+            passDesc.ColorAttachment(0).Image = _renderTargetColorImage;
+            passDesc.DepthStencilAttachment.Image = _renderTargetDepthImage;
             
             // create offscreen render pass from description
-            _offscreenRenderPass = sg_make_pass(ref passDesc);
+            _offscreenRenderPass = new SgPass(ref passDesc);
 
             // describe the bindings for rendering a non-textured cube into the render target (not applied yet!)
             _offscreenBindings.VertexBuffer(0) = _vertexBuffer;
@@ -314,10 +314,10 @@ namespace Sokol.Samples.Offscreen
             
             // begin the offscreen render pass
             var offscreenPassAction = sg_pass_action.clear(RgbaFloat.Black);
-            sg_begin_pass(_offscreenRenderPass, ref offscreenPassAction);
+            _offscreenRenderPass.Begin(ref offscreenPassAction);
 
             // apply the render pipeline and bindings for the offscreen render pass
-            sg_apply_pipeline(_offscreenPipeline);
+            _offscreenPipeline.Apply();
             _offscreenBindings.Apply();
 
             // rotate cube and create vertex shader mvp matrix
@@ -336,14 +336,14 @@ namespace Sokol.Samples.Offscreen
             sg_draw(0, 36, 1);
             
             // end the offscreen render pass
-            sg_end_pass();
+            _offscreenRenderPass.End();
             
             // begin a framebuffer render pass
             var frameBufferPassAction = sg_pass_action.clear(0x0040FFFF);
             sg_begin_default_pass(ref frameBufferPassAction, width, height);
             
             // apply the render pipeline and bindings for the framebuffer render pass
-            sg_apply_pipeline(_frameBufferPipeline);
+            _frameBufferPipeline.Apply();
             _frameBufferBindings.Apply();
 
             // apply the mvp matrix to the framebuffer vertex shader
