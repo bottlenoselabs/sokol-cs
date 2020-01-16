@@ -209,7 +209,7 @@ namespace Sokol.Samples.Blend
 
                     // apply the quad render pipeline and bindings for the render pass
                     var pipelineIndex = dst + src * NUM_BLEND_FACTORS;
-                    sg_apply_pipeline(_quadPipelines[pipelineIndex]);
+                    _quadPipelines[pipelineIndex].Apply();
                     _bindings.Apply();
                     
                     // apply the mvp matrix to the vertex shader
