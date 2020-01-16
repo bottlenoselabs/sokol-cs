@@ -25,6 +25,8 @@ SOFTWARE.
 using System;
 using static Sokol.sokol_gfx;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol
 {
     public ref struct SgShaderUniformDescription
