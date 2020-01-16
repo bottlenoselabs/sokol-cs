@@ -22,15 +22,15 @@ namespace Sokol.Samples.Offscreen
         
         private SgBuffer _vertexBuffer;
         private SgBuffer _indexBuffer;
-        private sg_image _renderTargetColorImage;
-        private sg_image _renderTargetDepthImage;
+        private SgImage _renderTargetColorImage;
+        private SgImage _renderTargetDepthImage;
         private sg_pass _offscreenRenderPass; 
         private SgBindings _frameBufferBindings;
         private SgBindings _offscreenBindings;
-        private sg_shader _offscreenShader;
-        private sg_shader _frameBufferShader;
-        private sg_pipeline _frameBufferPipeline;
-        private sg_pipeline _offscreenPipeline;
+        private SgShader _offscreenShader;
+        private SgShader _frameBufferShader;
+        private SgPipeline _frameBufferPipeline;
+        private SgPipeline _offscreenPipeline;
 
         private float _rotationX;
         private float _rotationY;
@@ -169,25 +169,25 @@ namespace Sokol.Samples.Offscreen
             _indexBuffer = new SgBuffer(ref indexBufferDesc);
 
             // describe a 2d texture render target
-            var offscreenImageDesc = new sg_image_desc();
-            offscreenImageDesc.usage = sg_usage.SG_USAGE_IMMUTABLE;
-            offscreenImageDesc.type = sg_image_type.SG_IMAGETYPE_2D;
-            offscreenImageDesc.render_target = true;
-            offscreenImageDesc.width = 512;
-            offscreenImageDesc.height = 512;
-            offscreenImageDesc.depth = 1;
-            offscreenImageDesc.num_mipmaps = 1;
-            offscreenImageDesc.pixel_format = sg_pixel_format.SG_PIXELFORMAT_RGBA8;
-            offscreenImageDesc.min_filter = sg_filter.SG_FILTER_LINEAR;
-            offscreenImageDesc.mag_filter = sg_filter.SG_FILTER_LINEAR;
-            offscreenImageDesc.sample_count = sg_query_features().msaa_render_targets ? 4 : 1;
+            var offscreenImageDesc = new SgImageDescription();
+            offscreenImageDesc.Usage = SgUsage.Immutable;
+            offscreenImageDesc.Type = SgImageType.Texture2D;
+            offscreenImageDesc.IsRenderTarget = true;
+            offscreenImageDesc.Width = 512;
+            offscreenImageDesc.Height = 512;
+            offscreenImageDesc.Depth = 1;
+            offscreenImageDesc.MipmapsCount = 1;
+            offscreenImageDesc.PixelFormat = SgPixelFormat.RGBA8;
+            offscreenImageDesc.MinificationFilter = SgTextureFilter.Linear;
+            offscreenImageDesc.MagnificationFilter = SgTextureFilter.Linear;
+            offscreenImageDesc.SampleCount = sg_query_features().msaa_render_targets ? 4 : 1;
      
             // create the color render target image from the description
-            _renderTargetColorImage = sg_make_image(ref offscreenImageDesc);
+            _renderTargetColorImage = new SgImage(ref offscreenImageDesc);
             
             // create the depth render target image from the description
-            offscreenImageDesc.pixel_format = sg_pixel_format.SG_PIXELFORMAT_DEPTH;
-            _renderTargetDepthImage = sg_make_image(ref offscreenImageDesc);
+            offscreenImageDesc.PixelFormat = SgPixelFormat.Depth;
+            _renderTargetDepthImage = new SgImage(ref offscreenImageDesc);
             
             // describe the offscreen render pass
             var passDesc = new sg_pass_desc();
@@ -198,13 +198,13 @@ namespace Sokol.Samples.Offscreen
             _offscreenRenderPass = sg_make_pass(ref passDesc);
 
             // describe the bindings for rendering a non-textured cube into the render target (not applied yet!)
-            _offscreenBindings.SetVertexBuffer(ref _vertexBuffer);
-            _offscreenBindings.SetIndexBuffer(ref _indexBuffer);
+            _offscreenBindings.VertexBuffer(0) = _vertexBuffer;
+            _offscreenBindings.IndexBuffer = _indexBuffer;
 
             // describe the bindings for using the offscreen render target as the sampled texture (not applied yet!)
-            _frameBufferBindings.SetVertexBuffer(ref _vertexBuffer);
-            _frameBufferBindings.SetIndexBuffer(ref _indexBuffer);
-            _frameBufferBindings.CStruct.fs_image(0) = _renderTargetColorImage;
+            _frameBufferBindings.VertexBuffer(0) = _vertexBuffer;
+            _frameBufferBindings.IndexBuffer = _indexBuffer;
+            _frameBufferBindings.FragmentImage(0) = _renderTargetColorImage;
             
             // describe the offscreen shader program
             var offscreenShaderDesc = new sg_shader_desc();

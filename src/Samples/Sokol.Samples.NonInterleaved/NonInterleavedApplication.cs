@@ -127,9 +127,10 @@ namespace Sokol.Samples.NonInterleaved
             _indexBuffer = new SgBuffer(ref indexBufferDescription);
 
             // describe the binding of the vertex and index buffers (not applied yet!)
-            _bindings.SetVertexBuffer(ref _vertexBuffer, 0, 0);
-            _bindings.SetVertexBuffer(ref _vertexBuffer, 1, 12 * 6 * sizeof(float));
-            _bindings.SetIndexBuffer(ref _indexBuffer);
+            _bindings.VertexBuffer(0) = _vertexBuffer;
+            _bindings.VertexBuffer(1) = _vertexBuffer;
+            _bindings.VertexBufferOffset(1) = 12 * 6 * sizeof(float);
+            _bindings.IndexBuffer = _indexBuffer;
  
             // describe the shader program
             var shaderDesc = new SgShaderDescription();
@@ -173,7 +174,7 @@ namespace Sokol.Samples.NonInterleaved
             pipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
             pipelineDesc.DepthStencil.DepthWriteEnabled = true;
             pipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
-            pipelineDesc.Rasterizer.SampleCount = 4;
+            pipelineDesc.Rasterizer.SampleCount = sg_query_features().msaa_render_targets ? 4 : 1;
 
             // create the pipeline resource from the description
             _pipeline = new SgPipeline(ref pipelineDesc);

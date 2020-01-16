@@ -29,26 +29,20 @@ using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public ref struct SgShaderAttributeDescription
+    public struct SgShaderImageDescription
     {
-        public sg_shader_attr_desc CStruct;
-        
+        public sg_shader_image_desc CStruct;
+
         public unsafe IntPtr Name
         {
             readonly get => (IntPtr) CStruct.name;
             set => CStruct.name = (byte*) value;
         }
 
-        public unsafe IntPtr SemanticName
+        public SgImageType Type
         {
-            readonly get => (IntPtr) CStruct.sem_name;
-            set => CStruct.sem_name = (byte*) value;
-        }
-        
-        public int SemanticIndex
-        {
-            readonly get => CStruct.sem_index;
-            set => CStruct.sem_index = value;
+            readonly get => (SgImageType) CStruct.type;
+            set => CStruct.type = (sg_image_type) value;
         }
     }
 }

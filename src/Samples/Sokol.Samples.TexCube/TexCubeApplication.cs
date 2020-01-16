@@ -22,7 +22,7 @@ namespace Sokol.Samples.TexCube
         
         private SgBuffer _vertexBuffer;
         private SgBuffer _indexBuffer;
-        private sg_image _image;
+        private SgImage _image;
         private SgBindings _bindings;
         private SgPipeline _pipeline;
         private SgShader _shader;
@@ -169,26 +169,26 @@ namespace Sokol.Samples.TexCube
             };
 
             // describe an immutable 2d texture
-            var imageDescription = new sg_image_desc();
-            imageDescription.usage = sg_usage.SG_USAGE_IMMUTABLE;
-            imageDescription.type = sg_image_type.SG_IMAGETYPE_2D;
-            imageDescription.width = 4;
-            imageDescription.height = 4;
-            imageDescription.depth = 1;
-            imageDescription.num_mipmaps = 1;
-            imageDescription.pixel_format = sg_pixel_format.SG_PIXELFORMAT_RGBA8;
-            ref var subImage = ref imageDescription.content.subimage(0, 0);
-            subImage.ptr = texturePixels;
-            subImage.size = 4 * 4 * Marshal.SizeOf<float>();
+            var imageDescription = new SgImageDescription();
+            imageDescription.Usage = SgUsage.Immutable;
+            imageDescription.Type = SgImageType.Texture2D;
+            imageDescription.Width = 4;
+            imageDescription.Height = 4;
+            imageDescription.Depth = 1;
+            imageDescription.MipmapsCount = 1;
+            imageDescription.PixelFormat = SgPixelFormat.RGBA8;
+            ref var subImage = ref imageDescription.Content.SubImage(0, 0);
+            subImage.Pointer = (IntPtr) texturePixels;
+            subImage.Size = 4 * 4 * Marshal.SizeOf<float>();
 
             // create the image from the description
             // note: for immutable images this "uploads" the data to the GPU
-            _image = sg_make_image(ref imageDescription);
+            _image = new SgImage(ref imageDescription);
  
             // describe the binding of the vertex and index buffer (not applied yet!)
-            _bindings.SetVertexBuffer(ref _vertexBuffer);
-            _bindings.SetIndexBuffer(ref _indexBuffer);
-            _bindings.CStruct.fs_image(0) = _image;
+            _bindings.VertexBuffer(0) = _vertexBuffer;
+            _bindings.IndexBuffer = _indexBuffer;
+            _bindings.FragmentImage(0) = _image;
 
             // describe the shader program
             var shaderDesc = new SgShaderDescription();
@@ -196,7 +196,7 @@ namespace Sokol.Samples.TexCube
             ref var mvpUniform = ref shaderDesc.VertexShader.UniformBlock(0).Uniform(0);
             mvpUniform.Name = Marshal.StringToHGlobalAnsi("mvp");
             mvpUniform.Type = SgShaderUniformType.Matrix4x4;
-            shaderDesc.FragmentShader.CStruct.image(0).type = sg_image_type.SG_IMAGETYPE_2D;
+            shaderDesc.FragmentShader.Image(0).Type = SgImageType.Texture2D;
             // specify shader stage source code for each graphics backend
             string vertexShaderStageSourceCode;
             string fragmentShaderStageSourceCode;
@@ -231,7 +231,7 @@ namespace Sokol.Samples.TexCube
             pipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
             pipelineDesc.DepthStencil.DepthWriteEnabled = true;
             pipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
-            pipelineDesc.Rasterizer.SampleCount = 4;
+            pipelineDesc.Rasterizer.SampleCount = sg_query_features().msaa_render_targets ? 4 : 1;
 
             // create the pipeline resource from the description
             _pipeline = new SgPipeline(ref pipelineDesc);

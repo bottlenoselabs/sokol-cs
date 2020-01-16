@@ -52,7 +52,7 @@ namespace Sokol.Samples.Triangle
             _vertexBuffer = new SgBuffer(ref vertexBufferDesc);
 
             // describe the binding of the vertex buffer (not applied yet!)
-            _bindings.SetVertexBuffer(ref _vertexBuffer);
+            _bindings.VertexBuffer(0) = _vertexBuffer;
 
             // describe the shader program
             var shaderDesc = new SgShaderDescription();

@@ -69,5 +69,14 @@ namespace Sokol
                 return ref *(SgShaderUniformBlockDescription*) ptr;
             }
         }
+        
+        public unsafe ref SgShaderImageDescription Image(int index)
+        {
+            ref var @ref = ref CStruct.image(index);
+            fixed (sg_shader_image_desc* ptr = &@ref)
+            {
+                return ref *(SgShaderImageDescription*) ptr;
+            }
+        }
     }
 }

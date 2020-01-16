@@ -22,53 +22,47 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading;
+using static Sokol.sokol_gfx;
 
-// ReSharper disable UnassignedField.Global
-// ReSharper disable InconsistentNaming
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class SgResource<T> : IDisposable where T : IEquatable<uint>
+    public struct SgImage
     {
-        protected T _handle;
-        private int _disposedState;
+        public sg_image CStruct;
+
+        public bool IsValid => CStruct.id != 0;
+
+        public SgImage(sg_image image)
+        {
+            CStruct = image;
+        }
         
-        public T Handle => _handle;
-
-        public bool IsValid => !_handle.Equals(0U);
-
-        public bool IsDisposed => _disposedState != 0;
-
-        protected internal SgResource()
+        public SgImage(ref SgImageDescription description)
         {
+            CStruct = sg_make_image(ref description.CStruct);
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void EnsureNotDisposed()
+        
+        public void Destroy()
         {
-            if (IsDisposed)
-            {
-                throw new ObjectDisposedException(GetType().Name);
-            }
-        }
-
-        protected abstract void ReleaseUnmanagedResources();
-
-        public void Dispose()
-        {
-            var disposedState = Interlocked.CompareExchange(ref _disposedState, 1, 0);
-            if (disposedState != 0)
+            if (CStruct.id == 0)
             {
                 return;
             }
 
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
+            sg_destroy_image(CStruct);
+            CStruct.id = 0;
+        }
+        
+        public static implicit operator sg_image(SgImage image)
+        {
+            return image.CStruct;
+        }
+        
+        public static implicit operator SgImage(sg_image image)
+        {
+            return new SgImage(image);
         }
     }
 }

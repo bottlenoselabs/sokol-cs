@@ -32,27 +32,65 @@ namespace Sokol
     public struct SgBindings
     {
         public sg_bindings CStruct;
-
-        public void SetVertexBuffer(ref SgBuffer buffer, int bufferIndex = 0, int bufferOffset = 0)
+        
+        public unsafe ref SgBuffer VertexBuffer(int index)
         {
-            if (!buffer.IsValid)
+            ref var @ref = ref CStruct.vertex_buffer(index);
+            fixed (sg_buffer* ptr = &@ref)
             {
-                throw new ArgumentException(nameof(buffer));
+                return ref *(SgBuffer*) ptr;
             }
-            
-            CStruct.vertex_buffer(bufferIndex) = buffer;
-            CStruct.vertex_buffer_offset(bufferIndex) = bufferOffset;   
         }
         
-        public void SetIndexBuffer(ref SgBuffer buffer, int bufferOffset = 0)
+        public unsafe ref int VertexBufferOffset(int index)
         {
-            if (!buffer.IsValid)
+            ref var @ref = ref CStruct.vertex_buffer_offset(index);
+            fixed (int* ptr = &@ref)
             {
-                throw new ArgumentException(nameof(buffer));
+                return ref *ptr;
             }
-
-            CStruct.index_buffer = buffer;
-            CStruct.index_buffer_offset = bufferOffset;
+        }
+        
+        public unsafe ref SgBuffer IndexBuffer
+        {
+            get
+            {
+                ref var @ref = ref CStruct.index_buffer;
+                fixed (sg_buffer* ptr = &@ref)
+                {
+                    return ref *(SgBuffer*) ptr;
+                }   
+            }
+        }
+        
+        public unsafe ref int IndexBufferOffset
+        {
+            get
+            {
+                ref var @ref = ref CStruct.index_buffer_offset;
+                fixed (int* ptr = &@ref)
+                {
+                    return ref *ptr;
+                }   
+            }
+        }
+        
+        public unsafe ref SgImage VertexImage(int index)
+        {
+            ref var @ref = ref CStruct.vs_image(index);
+            fixed (sg_image* ptr = &@ref)
+            {
+                return ref *(SgImage*) ptr;
+            }
+        }
+        
+        public unsafe ref SgImage FragmentImage(int index)
+        {
+            ref var @ref = ref CStruct.fs_image(index);
+            fixed (sg_image* ptr = &@ref)
+            {
+                return ref *(SgImage*) ptr;
+            }
         }
 
         public void Apply()

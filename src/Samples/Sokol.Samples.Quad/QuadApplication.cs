@@ -73,8 +73,8 @@ namespace Sokol.Samples.Quad
             _indexBuffer = new SgBuffer(ref indexBufferDesc);
             
             // describe the binding of the vertex and index buffer (not applied yet!)
-            _bindings.SetVertexBuffer(ref _vertexBuffer);
-            _bindings.SetIndexBuffer(ref _indexBuffer);
+            _bindings.VertexBuffer(0) = _vertexBuffer;
+            _bindings.IndexBuffer = _indexBuffer;
 
             // describe the shader program
             var shaderDesc = new SgShaderDescription();

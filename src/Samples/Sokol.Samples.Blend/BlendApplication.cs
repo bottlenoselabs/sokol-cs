@@ -64,7 +64,7 @@ namespace Sokol.Samples.Blend
             _vertexBuffer = new SgBuffer(ref vertexBufferDesc);
             
             // describe the binding of the vertex (not applied yet!)
-            _bindings.SetVertexBuffer(ref _vertexBuffer);
+            _bindings.VertexBuffer(0) = _vertexBuffer;
 
             // describe the background shader program
             var backgroundShaderDesc = new SgShaderDescription();

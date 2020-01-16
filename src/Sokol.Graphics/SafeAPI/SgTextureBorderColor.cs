@@ -22,33 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-using System;
-using static Sokol.sokol_gfx;
-
-// ReSharper disable MemberCanBePrivate.Global
-
 namespace Sokol
 {
-    public ref struct SgShaderAttributeDescription
+    public enum SgTextureBorderColor
     {
-        public sg_shader_attr_desc CStruct;
-        
-        public unsafe IntPtr Name
-        {
-            readonly get => (IntPtr) CStruct.name;
-            set => CStruct.name = (byte*) value;
-        }
-
-        public unsafe IntPtr SemanticName
-        {
-            readonly get => (IntPtr) CStruct.sem_name;
-            set => CStruct.sem_name = (byte*) value;
-        }
-        
-        public int SemanticIndex
-        {
-            readonly get => CStruct.sem_index;
-            set => CStruct.sem_index = value;
-        }
+        Default,
+        TransparentBlack,
+        OpaqueBlack,
+        OpaqueWhite
     }
 }
