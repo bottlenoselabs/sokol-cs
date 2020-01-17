@@ -45,15 +45,15 @@ To learn how to use the C API, check out the [official C samples](https://github
 
 ## "Safe" API
 
-The .NET API is just wrappers over the C API for .NET idioms, convenience, and ease of use. The `unsafe` keyword is not required. All the "safe" types have some prefix such as `Sg` for "Sokol Graphics". This API targets .NET Standard 2.1 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
+The .NET API is just wrappers over the C API for .NET idioms, convenience, and ease of use. The `unsafe` keyword is not required nor is importing the module `Sokol.sokol_gfx`. All the "safe" types have some prefix such as `Sg` for "Sokol Graphics". This API targets .NET Standard 2.1 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small,highly performant, and easy to use without re-inventing the wheel.
 
-All the "safe" types are mutable, [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other high performance applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code). All the "safe" structs can access the underlying "unsafe" P/Invoke struct anytime by accessing the field `CStruct`. Also, any "safe" enum can be directly casted to/from the corresponding P/Invoke enum. This allows to mix the "unsafe" and "safe" API at any time without errors or performance problems.
+All the "safe" types are mutable, [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other high performance applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code). All the "safe" structs can access the underlying "unsafe" P/Invoke struct anytime by accessing the field `CStruct`. Also, any "safe" enum can be directly casted to/from the corresponding P/Invoke enum. This allows to mix the "unsafe" and "safe" API at any time without problems.
 
 In the "unsafe" and "safe" API, string management is still on you. To convert .NET strings (UTF16) to C strings (ASCII) use [`Marshal.StringToHGlobalAnsi`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.stringtohglobalansi). This method will allocate on the unmanaged heap and you are responsible for freeing the memory with [`Marshal.FreeHGlobal`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.freehglobal).
 
 ### Samples
 
-To learn how to use the .NET API, check out the [.NET Core samples](https://github.com/lithiumtoast/sokol-csharp/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
+To learn how to use the "safe" API, check out the [.NET Core samples](https://github.com/lithiumtoast/sokol-csharp/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
 
 ## Supported Platforms
 
