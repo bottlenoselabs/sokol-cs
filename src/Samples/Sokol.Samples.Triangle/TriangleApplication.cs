@@ -23,6 +23,7 @@ namespace Sokol.Samples.Triangle
         private SgBindings _bindings;
         private SgShader _shader;
         private SgPipeline _pipeline;
+        private SgPassAction _frameBufferPassAction;
 
         public unsafe TriangleApplication()
         {
@@ -91,14 +92,16 @@ namespace Sokol.Samples.Triangle
 
             // create the pipeline resource from the description
             _pipeline = new SgPipeline(ref pipelineDesc);
+            
+            // set the frame buffer render pass action
+            _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Black);
         }
 
         protected override void Draw(int width, int height)
         {
             // begin a framebuffer render pass
-            var frameBufferPassAction = sg_pass_action.clear(RgbaFloat.Black);
-            sg_begin_default_pass(ref frameBufferPassAction, width, height);
-            
+            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
+
             // apply the render pipeline and bindings for the render pass
             _pipeline.Apply();
             _bindings.Apply();
@@ -107,7 +110,7 @@ namespace Sokol.Samples.Triangle
             sg_draw(0, 3, 1);
             
             // end the framebuffer render pass
-            sg_end_pass();
+            SgDefaultPass.End();
         }
     }
 }

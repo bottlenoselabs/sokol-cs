@@ -24,55 +24,18 @@ SOFTWARE.
 
 using static Sokol.sokol_gfx;
 
-// ReSharper disable MemberCanBePrivate.Global
-
 namespace Sokol
 {
-    public struct SgPass
+    public static class SgDefaultPass
     {
-        public sg_pass CStruct;
-
-        public bool IsValid => CStruct.id != 0;
-
-        public SgPass(sg_pass pass)
+        public static void Begin(ref SgPassAction passAction, int width, int height)
         {
-            CStruct = pass;
-        }
-        
-        public SgPass(ref SgPassDescription description)
-        {
-            CStruct = sg_make_pass(ref description.CStruct);
+            sg_begin_default_pass(ref passAction.CStruct, width, height);
         }
 
-        public void Begin(ref SgPassAction action)
-        {
-            sg_begin_pass(CStruct, ref action.CStruct);
-        }
-
-        public void End()
+        public static void End()
         {
             sg_end_pass();
-        }
-
-        public void Destroy()
-        {
-            if (CStruct.id == 0)
-            {
-                return;
-            }
-
-            sg_destroy_pass(CStruct);
-            CStruct.id = 0;
-        }
-        
-        public static implicit operator sg_pass(SgPass pass)
-        {
-            return pass.CStruct;
-        }
-        
-        public static implicit operator SgPass(sg_pass pass)
-        {
-            return new SgPass(pass);
         }
     }
 }

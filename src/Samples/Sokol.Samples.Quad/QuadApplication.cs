@@ -21,6 +21,7 @@ namespace Sokol.Samples.Quad
         private SgBindings _bindings;
         private SgShader _shader;
         private SgPipeline _pipeline;
+        private SgPassAction _frameBufferPassAction;
 
         public unsafe QuadApplication()
         {
@@ -110,13 +111,15 @@ namespace Sokol.Samples.Quad
             
             // create the pipeline resource from the description
             _pipeline = new SgPipeline(ref pipelineDesc);
+            
+            // set the frame buffer render pass action
+            _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Black);
         }
         
         protected override void Draw(int width, int height)
         {
             // begin a framebuffer render pass
-            var frameBufferPassAction = sg_pass_action.clear(RgbaFloat.Black);
-            sg_begin_default_pass(ref frameBufferPassAction, width, height);
+            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
             
             // apply the render pipeline and bindings for the render pass
             _pipeline.Apply();
@@ -126,7 +129,7 @@ namespace Sokol.Samples.Quad
             sg_draw(0, 6, 1);
             
             // end framebuffer render pass
-            sg_end_pass();
+            SgDefaultPass.End();
         }
     }
 }

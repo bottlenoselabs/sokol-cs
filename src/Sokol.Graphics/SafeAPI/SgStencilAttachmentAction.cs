@@ -28,51 +28,20 @@ using static Sokol.sokol_gfx;
 
 namespace Sokol
 {
-    public struct SgPass
+    public struct SgStencilAttachmentAction
     {
-        public sg_pass CStruct;
-
-        public bool IsValid => CStruct.id != 0;
-
-        public SgPass(sg_pass pass)
-        {
-            CStruct = pass;
-        }
+        public sg_stencil_attachment_action CStruct;
         
-        public SgPass(ref SgPassDescription description)
+        public SgAction Action
         {
-            CStruct = sg_make_pass(ref description.CStruct);
+            readonly get => (SgAction) CStruct.action;
+            set => CStruct.action = (sg_action) value;
         }
 
-        public void Begin(ref SgPassAction action)
+        public byte Value
         {
-            sg_begin_pass(CStruct, ref action.CStruct);
-        }
-
-        public void End()
-        {
-            sg_end_pass();
-        }
-
-        public void Destroy()
-        {
-            if (CStruct.id == 0)
-            {
-                return;
-            }
-
-            sg_destroy_pass(CStruct);
-            CStruct.id = 0;
-        }
-        
-        public static implicit operator sg_pass(SgPass pass)
-        {
-            return pass.CStruct;
-        }
-        
-        public static implicit operator SgPass(sg_pass pass)
-        {
-            return new SgPass(pass);
+            readonly get => CStruct.val;
+            set => CStruct.val = value;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Sokol
     {
         public sg_pipeline_desc CStruct;
 
-        public sg_shader Shader
+        public SgShader Shader
         {
             readonly get => CStruct.shader;
             set => CStruct.shader = value;

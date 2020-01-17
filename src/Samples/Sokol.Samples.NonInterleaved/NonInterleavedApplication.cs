@@ -3,7 +3,6 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static Sokol.sokol_gfx;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
@@ -16,6 +15,7 @@ namespace Sokol.Samples.NonInterleaved
         private SgBindings _bindings;
         private SgPipeline _pipeline;
         private SgShader _shader;
+        private SgPassAction _frameBufferPassAction;
 
         private float _rotationX;
         private float _rotationY;
@@ -174,10 +174,13 @@ namespace Sokol.Samples.NonInterleaved
             pipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
             pipelineDesc.DepthStencil.DepthWriteEnabled = true;
             pipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
-            pipelineDesc.Rasterizer.SampleCount = sg_query_features().msaa_render_targets ? 4 : 1;
+            pipelineDesc.Rasterizer.SampleCount = sokol_gfx.sg_query_features().msaa_render_targets ? 4 : 1;
 
             // create the pipeline resource from the description
             _pipeline = new SgPipeline(ref pipelineDesc);
+            
+            // set the frame buffer pass action
+            _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Gray);
         }
         
         protected override unsafe void Draw(int width, int height)
@@ -191,9 +194,8 @@ namespace Sokol.Samples.NonInterleaved
             var viewProjectionMatrix = viewMatrix * projectionMatrix;
 
             // begin a framebuffer render pass
-            var frameBufferPassAction = sg_pass_action.clear(RgbaFloat.Gray);
-            sg_begin_default_pass(ref frameBufferPassAction, width, height);
-            
+            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
+
             // apply the render pipeline and bindings for the render pass
             _pipeline.Apply();
             _bindings.Apply();
@@ -208,13 +210,13 @@ namespace Sokol.Samples.NonInterleaved
             
             // apply the mvp matrix to the vertex shader
             var modelViewProjectionMatrixPointer = Unsafe.AsPointer(ref modelViewProjectionMatrix);
-            sg_apply_uniforms(sg_shader_stage.SG_SHADERSTAGE_VS, 0, modelViewProjectionMatrixPointer, Marshal.SizeOf<Matrix4x4>());
+            sokol_gfx.sg_apply_uniforms(sokol_gfx.sg_shader_stage.SG_SHADERSTAGE_VS, 0, modelViewProjectionMatrixPointer, Marshal.SizeOf<Matrix4x4>());
 
             // draw the cube into the target of the render pass
-            sg_draw(0, 36, 1);
+            sokol_gfx.sg_draw(0, 36, 1);
             
             // end the framebuffer render pass
-            sg_end_pass();
+            SgDefaultPass.End();
         }
     }
 }

@@ -3,7 +3,6 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static Sokol.sokol_gfx;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
@@ -24,6 +23,7 @@ namespace Sokol.Samples.Blend
         private SgPipeline _backgroundPipeline;
         private SgShader _quadShader;
         private SgPipeline[] _quadPipelines;
+        private SgPassAction _frameBufferPassAction;
 
         private float _tick;
         private float _rotation;
@@ -31,7 +31,7 @@ namespace Sokol.Samples.Blend
         private const int NUM_BLEND_FACTORS = 15;
 
         public unsafe BlendApplication()
-            : base(desc: new sg_desc()
+            : base(desc: new sokol_gfx.sg_desc()
             {
                 pipeline_pool_size = NUM_BLEND_FACTORS * NUM_BLEND_FACTORS + 1
             })
@@ -166,6 +166,9 @@ namespace Sokol.Samples.Blend
                     pipeline = new SgPipeline(ref quadPipelineDesc);
                 }
             }
+
+            // set the frame buffer render pass action
+            _frameBufferPassAction = SgPassAction.DontCare;
         }
 
         protected override unsafe void Draw(int width, int height)
@@ -179,8 +182,7 @@ namespace Sokol.Samples.Blend
             var viewProjectionMatrix = viewMatrix * projectionMatrix;
 
             // begin a framebuffer render pass
-            var frameBufferPassAction = sg_pass_action.dontCare();
-            sg_begin_default_pass(ref frameBufferPassAction, width, height);
+            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
             
             // apply the background render pipeline and bindings for the render pass
             _backgroundPipeline.Apply();
@@ -188,10 +190,10 @@ namespace Sokol.Samples.Blend
 
             // apply the background tick uniform to the background fragment shader
             var tickPointer = Unsafe.AsPointer(ref _tick);
-            sg_apply_uniforms(sg_shader_stage.SG_SHADERSTAGE_FS, 0, tickPointer, Marshal.SizeOf<float>());
+            sokol_gfx.sg_apply_uniforms(sokol_gfx.sg_shader_stage.SG_SHADERSTAGE_FS, 0, tickPointer, Marshal.SizeOf<float>());
             
             // draw the background quad into the target of the render pass
-            sg_draw(0, 4, 1);
+            sokol_gfx.sg_draw(0, 4, 1);
 
             // for every type of blend factor (each one is a different render pipeline)...
             var rotationForBlendFactor = _rotation;
@@ -214,15 +216,15 @@ namespace Sokol.Samples.Blend
                     
                     // apply the mvp matrix to the vertex shader
                     var mvpMatrix = Unsafe.AsPointer(ref modelViewProjectionMatrix);
-                    sg_apply_uniforms(sg_shader_stage.SG_SHADERSTAGE_VS, 0, mvpMatrix, Marshal.SizeOf<Matrix4x4>());
+                    sokol_gfx.sg_apply_uniforms(sokol_gfx.sg_shader_stage.SG_SHADERSTAGE_VS, 0, mvpMatrix, Marshal.SizeOf<Matrix4x4>());
        
                     // draw the quad into the target of the render pass
-                    sg_draw(0, 4, 1);
+                    sokol_gfx.sg_draw(0, 4, 1);
                 }
             }
             
             // end the framebuffer render pass
-            sg_end_pass();
+            SgDefaultPass.End();
             
             // update rotation and tick values for next frame
             _rotation += 0.6f * 0.20f;

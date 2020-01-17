@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using static SDL2.SDL;
-using static Sokol.sokol_gfx;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
@@ -24,6 +22,7 @@ namespace Sokol.Samples.BufferOffsets
         private SgBindings _bindings;
         private SgShader _shader;
         private SgPipeline _pipeline;
+        private SgPassAction _frameBufferPassAction;
 
         public unsafe BufferOffsetsApplication()
         {
@@ -122,13 +121,15 @@ namespace Sokol.Samples.BufferOffsets
             
             // create the pipeline resource from the description
             _pipeline = new SgPipeline(ref pipelineDesc);
+            
+            // set the frame buffer render pass action
+            _frameBufferPassAction = SgPassAction.Clear(0x8080FFFF);
         }
         
         protected override void Draw(int width, int height)
         {
             // begin a framebuffer render pass
-            var frameBufferPassAction = sg_pass_action.clear(0x8080FFFF);
-            sg_begin_default_pass(ref frameBufferPassAction, width, height);
+            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
 
             // apply the render pipeline for the render pass
             _pipeline.Apply();
@@ -141,7 +142,7 @@ namespace Sokol.Samples.BufferOffsets
             _bindings.Apply();
 
             // draw the triangle into the target of the render pass
-            sg_draw(0, 3, 1);
+            sokol_gfx.sg_draw(0, 3, 1);
             
             // set and apply the bindings necessary to render the quad for the render pass
             _bindings.VertexBuffer(0) = _vertexBuffer;
@@ -151,10 +152,10 @@ namespace Sokol.Samples.BufferOffsets
             _bindings.Apply();
 
             // draw the quad into the target of the render pass
-            sg_draw(0, 6, 1);
+            sokol_gfx.sg_draw(0, 6, 1);
 
             // end the framebuffer render pass
-            sg_end_pass();
+            SgDefaultPass.End();
         }
     }
 }

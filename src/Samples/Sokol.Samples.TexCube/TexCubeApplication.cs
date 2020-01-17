@@ -26,6 +26,7 @@ namespace Sokol.Samples.TexCube
         private SgBindings _bindings;
         private SgPipeline _pipeline;
         private SgShader _shader;
+        private SgPassAction _frameBufferPassAction;
 
         private float _rotationX;
         private float _rotationY;
@@ -235,6 +236,9 @@ namespace Sokol.Samples.TexCube
 
             // create the pipeline resource from the description
             _pipeline = new SgPipeline(ref pipelineDesc);
+            
+            // set the frame buffer render pass action
+            _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Gray);
         }
 
         protected override unsafe void Draw(int width, int height)
@@ -248,8 +252,7 @@ namespace Sokol.Samples.TexCube
             var viewProjectionMatrix = viewMatrix * projectionMatrix;
 
             // begin a framebuffer render pass
-            var frameBufferPassAction = sg_pass_action.clear(RgbaFloat.Gray);
-            sg_begin_default_pass(ref frameBufferPassAction, width, height);
+            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
             
             // apply the render pipeline and bindings for the render pass
             _pipeline.Apply();
@@ -271,7 +274,7 @@ namespace Sokol.Samples.TexCube
             sg_draw(0, 36, 1);
             
             // end the framebuffer render pass
-            sg_end_pass();
+            SgDefaultPass.End();
         }
     }
 }
