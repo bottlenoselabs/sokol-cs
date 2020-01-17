@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using static Sokol.sokol_gfx;
-using static SDL2.SDL;
 
 namespace Sokol.Samples.Quad
 {
@@ -126,7 +124,7 @@ namespace Sokol.Samples.Quad
             _bindings.Apply();
             
             // draw the quad into the target of the render pass
-            sg_draw(0, 6, 1);
+            sokol_gfx.sg_draw(0, 6, 1);
             
             // end framebuffer render pass
             SgDefaultPass.End();

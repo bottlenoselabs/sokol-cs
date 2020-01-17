@@ -3,7 +3,6 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static Sokol.sokol_gfx;
 
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 // ReSharper disable FieldCanBeMadeReadOnly.Local
@@ -232,7 +231,7 @@ namespace Sokol.Samples.TexCube
             pipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
             pipelineDesc.DepthStencil.DepthWriteEnabled = true;
             pipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
-            pipelineDesc.Rasterizer.SampleCount = sg_query_features().msaa_render_targets ? 4 : 1;
+            pipelineDesc.Rasterizer.SampleCount = sokol_gfx.sg_query_features().msaa_render_targets ? 4 : 1;
 
             // create the pipeline resource from the description
             _pipeline = new SgPipeline(ref pipelineDesc);
@@ -268,10 +267,10 @@ namespace Sokol.Samples.TexCube
             
             // apply the mvp matrix to the vertex shader
             var mvpMatrix = Unsafe.AsPointer(ref modelViewProjectionMatrix);
-            sg_apply_uniforms(sg_shader_stage.SG_SHADERSTAGE_VS, 0, mvpMatrix, Marshal.SizeOf<Matrix4x4>());
+            sokol_gfx.sg_apply_uniforms(sokol_gfx.sg_shader_stage.SG_SHADERSTAGE_VS, 0, mvpMatrix, Marshal.SizeOf<Matrix4x4>());
 
             // draw the cube into the target of the render pass
-            sg_draw(0, 36, 1);
+            sokol_gfx.sg_draw(0, 36, 1);
             
             // end the framebuffer render pass
             SgDefaultPass.End();

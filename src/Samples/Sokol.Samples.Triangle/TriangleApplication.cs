@@ -1,10 +1,7 @@
 using System;
 using System.IO;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static SDL2.SDL;
-using static Sokol.sokol_gfx;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
@@ -107,7 +104,7 @@ namespace Sokol.Samples.Triangle
             _bindings.Apply();
             
             // draw the triangle into the target of the render pass
-            sg_draw(0, 3, 1);
+            sokol_gfx.sg_draw(0, 3, 1);
             
             // end the framebuffer render pass
             SgDefaultPass.End();
