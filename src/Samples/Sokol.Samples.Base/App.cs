@@ -40,7 +40,7 @@ namespace Sokol.Samples
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 //TODO: Use DirectX
-                return GraphicsBackend.Direct3D11;
+                return GraphicsBackend.OpenGL;
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
