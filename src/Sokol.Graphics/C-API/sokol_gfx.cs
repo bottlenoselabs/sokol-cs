@@ -25,6 +25,7 @@ SOFTWARE.
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
+// ReSharper disable CheckNamespace
 // ReSharper disable UnusedType.Global
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
@@ -1027,7 +1028,7 @@ namespace Sokol
             [FieldOffset(96)] public uint _end_canary;
         }
 
-        private const string SokolGfxLibraryName = "sokol_gfx";
+        internal const string SokolGfxLibraryName = "sokol_gfx";
 
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_setup([In] ref sg_desc desc);
@@ -1169,19 +1170,19 @@ namespace Sokol
         public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern sg_buffer_desc sg_query_buffer_defaults(sg_buffer_desc* desc);
+        public static extern sg_buffer_desc sg_query_buffer_defaults([In] ref sg_buffer_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern sg_image_desc sg_query_image_defaults(sg_image_desc* desc);
+        public static extern sg_image_desc sg_query_image_defaults([In] ref sg_image_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern sg_shader_desc sg_query_shader_defaults(sg_shader_desc* desc);
+        public static extern sg_shader_desc sg_query_shader_defaults([In] ref sg_shader_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern sg_pipeline_desc sg_query_pipeline_defaults(sg_pipeline_desc* desc);
+        public static extern sg_pipeline_desc sg_query_pipeline_defaults([In] ref sg_pipeline_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern sg_pass_desc sg_query_pass_defaults(sg_pass_desc* desc);
+        public static extern sg_pass_desc sg_query_pass_defaults([In] ref sg_pass_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
         public static extern sg_buffer sg_alloc_buffer();
@@ -1199,19 +1200,19 @@ namespace Sokol
         public static extern sg_pass sg_alloc_pass();
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern void sg_init_buffer(sg_buffer buf_id, sg_buffer_desc* desc);
+        public static extern void sg_init_buffer(sg_buffer buf_id, [In] ref sg_buffer_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern void sg_init_image(sg_image img_id, sg_image_desc* desc);
+        public static extern void sg_init_image(sg_image img_id, [In] ref sg_image_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern void sg_init_shader(sg_shader shd_id, sg_shader_desc* desc);
+        public static extern void sg_init_shader(sg_shader shd_id, [In] ref sg_shader_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern void sg_init_pipeline(sg_pipeline pip_id, sg_pipeline_desc* desc);
+        public static extern void sg_init_pipeline(sg_pipeline pip_id, [In] ref sg_pipeline_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
-        public static extern void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc);
+        public static extern void sg_init_pass(sg_pass pass_id, [In] ref sg_pass_desc desc);
 
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_fail_buffer(sg_buffer buf_id);
