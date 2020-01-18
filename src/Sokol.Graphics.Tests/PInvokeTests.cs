@@ -328,7 +328,7 @@ namespace Sokol.Graphics.Tests
             sg_setup(ref setupDesc);
 
             var bufferDesc = new sg_buffer_desc();
-            var desc = sg_query_buffer_defaults(&bufferDesc);
+            var desc = sg_query_buffer_defaults(ref bufferDesc);
 
             Assert.True(desc.type == sg_buffer_type.SG_BUFFERTYPE_VERTEXBUFFER);
             Assert.True(desc.usage == sg_usage.SG_USAGE_IMMUTABLE);
@@ -337,7 +337,7 @@ namespace Sokol.Graphics.Tests
             {
                 type = sg_buffer_type.SG_BUFFERTYPE_INDEXBUFFER
             };
-            desc = sg_query_buffer_defaults(&bufferDesc);
+            desc = sg_query_buffer_defaults(ref bufferDesc);
 
             Assert.True(desc.type == sg_buffer_type.SG_BUFFERTYPE_INDEXBUFFER);
             Assert.True(desc.usage == sg_usage.SG_USAGE_IMMUTABLE);
@@ -346,7 +346,7 @@ namespace Sokol.Graphics.Tests
             {
                 usage = sg_usage.SG_USAGE_DYNAMIC
             };
-            desc = sg_query_buffer_defaults(&bufferDesc);
+            desc = sg_query_buffer_defaults(ref bufferDesc);
 
             Assert.True(desc.type == sg_buffer_type.SG_BUFFERTYPE_VERTEXBUFFER);
             Assert.True(desc.usage == sg_usage.SG_USAGE_DYNAMIC);
@@ -361,7 +361,7 @@ namespace Sokol.Graphics.Tests
             sg_setup(ref setupDesc);
 
             var desc = new sg_image_desc();
-            desc = sg_query_image_defaults(&desc);
+            desc = sg_query_image_defaults(ref desc);
 
             Assert.True(desc.type == sg_image_type.SG_IMAGETYPE_2D);
             Assert.True(!desc.render_target);
@@ -387,7 +387,7 @@ namespace Sokol.Graphics.Tests
             sg_setup(ref setupDesc);
 
             var desc = new sg_shader_desc();
-            desc = sg_query_shader_defaults(&desc);
+            desc = sg_query_shader_defaults(ref desc);
 
             var vertexShaderEntry = Marshal.PtrToStringAnsi((IntPtr) desc.vs.entry);
             Assert.True(vertexShaderEntry == "main");
@@ -409,7 +409,7 @@ namespace Sokol.Graphics.Tests
             attr0.format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT3;
             ref var attr1 = ref desc.layout.attr(1);
             attr1.format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT4;
-            desc = sg_query_pipeline_defaults(&desc);
+            desc = sg_query_pipeline_defaults(ref desc);
 
             ref var buffer0 = ref desc.layout.buffer(0);
             Assert.True(buffer0.stride == 28);
@@ -468,7 +468,7 @@ namespace Sokol.Graphics.Tests
             sg_setup(ref setupDesc);
             
             var desc = new sg_pass_desc();
-            desc = sg_query_pass_defaults(&desc);
+            desc = sg_query_pass_defaults(ref desc);
 
             ref var colorAttachment0 = ref desc.color_attachment(0);
             Assert.True(colorAttachment0.image.id == SG_INVALID_ID);
