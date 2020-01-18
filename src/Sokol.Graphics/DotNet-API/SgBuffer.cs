@@ -1,4 +1,4 @@
-/*
+/* 
 MIT License
 
 Copyright (c) 2020 Lucas Girouard-Stranks
@@ -20,24 +20,45 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+ */
 
 using System;
 using System.Runtime.InteropServices;
+using static Sokol.sokol_gfx;
+using static Sokol.Sg;
 
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
 
 namespace Sokol
 {
-    public enum GraphicsBackend
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct SgBuffer
     {
-        OpenGL_Core,
-        OpenGL_ES2,
-        OpenGL_ES3,
-        Direct3D_11,
-        Metal_iOS,
-        Metal_macOS,
-        Metal_Simulator,
-        Dummy
+        [FieldOffset(0)] public uint Identifier;
+
+        public void Update<T>(Memory<T> data) where T : unmanaged
+        {
+            var dataHandle = data.Pin();
+            var dataSize = Marshal.SizeOf<T>() * data.Length;
+            
+            unsafe
+            {
+                UpdateBuffer(this, (IntPtr) dataHandle.Pointer, dataSize);
+            }
+            
+            dataHandle.Dispose();
+        }
+        
+        public void Destroy()
+        {
+            if (Identifier == 0)
+            {
+                return;
+            }
+
+            DestroyBuffer(this);
+            Identifier = 0;
+        }
     }
 }

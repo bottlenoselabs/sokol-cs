@@ -1,4 +1,4 @@
-/*
+/* 
 MIT License
 
 Copyright (c) 2020 Lucas Girouard-Stranks
@@ -20,24 +20,29 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+ */
 
-using System;
 using System.Runtime.InteropServices;
 
-// ReSharper disable InconsistentNaming
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol
 {
-    public enum GraphicsBackend
+    [StructLayout(LayoutKind.Explicit, Size = 60, Pack = 4)]
+    public struct SgBlendState
     {
-        OpenGL_Core,
-        OpenGL_ES2,
-        OpenGL_ES3,
-        Direct3D_11,
-        Metal_iOS,
-        Metal_macOS,
-        Metal_Simulator,
-        Dummy
+        [FieldOffset(0)] public BlittableBoolean IsEnabled;
+        [FieldOffset(4)] public SgBlendFactor SourceFactorRgb;
+        [FieldOffset(8)] public SgBlendFactor DestinationFactorRgb;
+        [FieldOffset(12)] public SgBlendOperation OperationRgb;
+        [FieldOffset(16)] public SgBlendFactor SourceFactorAlpha;
+        [FieldOffset(20)] public SgBlendFactor DestinationFactorAlpha;
+        [FieldOffset(24)] public SgBlendOperation OperationAlpha;
+        [FieldOffset(28)] public byte ColorWriteMask;
+        [FieldOffset(32)] public int ColorAttachmentCount;
+        [FieldOffset(36)] public SgPixelFormat ColorFormat;
+        [FieldOffset(40)] public SgPixelFormat DepthFormat;
+        [FieldOffset(44)] public RgbaFloat BlendColor;
     }
 }

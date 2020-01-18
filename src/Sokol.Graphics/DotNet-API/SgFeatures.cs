@@ -1,4 +1,4 @@
-/*
+/* 
 MIT License
 
 Copyright (c) 2020 Lucas Girouard-Stranks
@@ -20,24 +20,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+ */
 
-using System;
 using System.Runtime.InteropServices;
 
-// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol
 {
-    public enum GraphicsBackend
+    [StructLayout(LayoutKind.Explicit, Size = 7, Pack = 1)]
+    public struct SgFeatures
     {
-        OpenGL_Core,
-        OpenGL_ES2,
-        OpenGL_ES3,
-        Direct3D_11,
-        Metal_iOS,
-        Metal_macOS,
-        Metal_Simulator,
-        Dummy
+        [FieldOffset(0)] public BlittableBoolean Instancing;
+        [FieldOffset(1)] public BlittableBoolean OriginTopLeft;
+        [FieldOffset(2)] public BlittableBoolean MultipleRenderTargets;
+        [FieldOffset(3)] public BlittableBoolean MSAARenderTargets;
+        [FieldOffset(4)] public BlittableBoolean ImageType3D;
+        [FieldOffset(5)] public BlittableBoolean ImageTypeArray;
+        [FieldOffset(6)] public BlittableBoolean ImageClampToBorder;
     }
 }

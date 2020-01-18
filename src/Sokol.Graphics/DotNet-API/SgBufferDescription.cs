@@ -1,4 +1,4 @@
-/*
+/* 
 MIT License
 
 Copyright (c) 2020 Lucas Girouard-Stranks
@@ -20,24 +20,31 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+ */
 
 using System;
 using System.Runtime.InteropServices;
+using static Sokol.sokol_gfx;
 
-// ReSharper disable InconsistentNaming
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+
+#pragma warning disable 649
 
 namespace Sokol
 {
-    public enum GraphicsBackend
+    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8, CharSet = CharSet.Ansi)]
+    public unsafe struct SgBufferDescription
     {
-        OpenGL_Core,
-        OpenGL_ES2,
-        OpenGL_ES3,
-        Direct3D_11,
-        Metal_iOS,
-        Metal_macOS,
-        Metal_Simulator,
-        Dummy
+        [FieldOffset(0)] internal uint _startCanary;
+        [FieldOffset(4)] public int Size;
+        [FieldOffset(8)] public SgBufferType Type;
+        [FieldOffset(12)] public SgUsage Usage;
+        [FieldOffset(16)] public IntPtr Content;
+        [FieldOffset(24)] public IntPtr Label;
+        [FieldOffset(32)] internal fixed uint gl_buffers[SG_NUM_INFLIGHT_FRAMES];
+        [FieldOffset(40)] internal fixed ulong _mtl_buffers[SG_NUM_INFLIGHT_FRAMES];
+        [FieldOffset(56)] internal IntPtr d3d11_buffer;
+        [FieldOffset(64)] internal uint _end_canary;
     }
 }

@@ -1,4 +1,4 @@
-/*
+/* 
 MIT License
 
 Copyright (c) 2020 Lucas Girouard-Stranks
@@ -20,24 +20,25 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+ */
 
-using System;
 using System.Runtime.InteropServices;
+using static Sokol.sokol_gfx;
 
-// ReSharper disable InconsistentNaming
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol
 {
-    public enum GraphicsBackend
+    [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
+    public struct SgRasterizerState
     {
-        OpenGL_Core,
-        OpenGL_ES2,
-        OpenGL_ES3,
-        Direct3D_11,
-        Metal_iOS,
-        Metal_macOS,
-        Metal_Simulator,
-        Dummy
+        [FieldOffset(0)] public BlittableBoolean AlphaToCoverageIsEnabled;
+        [FieldOffset(4)] public SgCullMode CullMode;
+        [FieldOffset(8)] public sg_face_winding FaceWinding;
+        [FieldOffset(12)] public int SampleCount;
+        [FieldOffset(16)] public float DepthBias;
+        [FieldOffset(20)] public float DepthBiasSlopeScale;
+        [FieldOffset(24)] public float DepthBiasClamp;
     }
 }

@@ -1,4 +1,4 @@
-/*
+/* 
 MIT License
 
 Copyright (c) 2020 Lucas Girouard-Stranks
@@ -20,24 +20,39 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+ */
 
-using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using static Sokol.sokol_gfx;
 
-// ReSharper disable InconsistentNaming
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnassignedField.Global
 
 namespace Sokol
 {
-    public enum GraphicsBackend
+    [StructLayout(LayoutKind.Explicit, Size = 288, Pack = 4)]
+    public unsafe struct SgVertexLayoutDescription
     {
-        OpenGL_Core,
-        OpenGL_ES2,
-        OpenGL_ES3,
-        Direct3D_11,
-        Metal_iOS,
-        Metal_macOS,
-        Metal_Simulator,
-        Dummy
+        [FieldOffset(0)] public fixed int _buffers[12 * SG_MAX_SHADERSTAGE_BUFFERS / 4];
+        [FieldOffset(96)] public fixed int _attrs[12 * SG_MAX_VERTEX_ATTRIBUTES / 4];
+        
+        public ref SgVertexBufferLayoutDescription Buffer(int index)
+        {
+            fixed (SgVertexLayoutDescription* layoutDescription = &this)
+            {
+                var ptr = (SgVertexBufferLayoutDescription*) &layoutDescription->_buffers[0];
+                return ref *(ptr + index);
+            }
+        }
+
+        public ref SgVertexAttributeDescription Attribute(int index)
+        {
+            fixed (SgVertexLayoutDescription* layoutDescription = &this)
+            {
+                var ptr = (SgVertexAttributeDescription*) &layoutDescription->_attrs[0];
+                return ref *(ptr + index);
+            }
+        }
     }
 }

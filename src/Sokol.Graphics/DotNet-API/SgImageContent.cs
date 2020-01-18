@@ -1,4 +1,4 @@
-/*
+/* 
 MIT License
 
 Copyright (c) 2020 Lucas Girouard-Stranks
@@ -20,24 +20,30 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+ */
 
-using System;
 using System.Runtime.InteropServices;
+using static Sokol.sokol_gfx;
 
-// ReSharper disable InconsistentNaming
+// ReSharper disable UnassignedField.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol
 {
-    public enum GraphicsBackend
+    [StructLayout(LayoutKind.Explicit, Size = 1536, Pack = 8)]
+    public unsafe struct SgImageContent
     {
-        OpenGL_Core,
-        OpenGL_ES2,
-        OpenGL_ES3,
-        Direct3D_11,
-        Metal_iOS,
-        Metal_macOS,
-        Metal_Simulator,
-        Dummy
+        [FieldOffset(0)]
+        public fixed ulong _subImage[16 * (int) sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS / 8];
+
+        public ref SgSubImageContent SubImage(int cubeFaceIndex, int mipMapIndex)
+        {
+            fixed (SgImageContent* imageContent = &this)
+            {
+                var ptr = (SgSubImageContent*) &imageContent->_subImage[0];
+                var pointerOffset = cubeFaceIndex * (int) sg_cube_face.SG_CUBEFACE_NUM + mipMapIndex;
+                return ref *(ptr + pointerOffset);
+            }
+        }
     }
 }

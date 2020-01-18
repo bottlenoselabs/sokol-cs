@@ -1,4 +1,4 @@
-/*
+/* 
 MIT License
 
 Copyright (c) 2020 Lucas Girouard-Stranks
@@ -20,24 +20,28 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+ */
 
 using System;
 using System.Runtime.InteropServices;
 
-// ReSharper disable InconsistentNaming
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
 
 namespace Sokol
 {
-    public enum GraphicsBackend
+    [StructLayout(LayoutKind.Explicit, Size = 456, Pack = 8, CharSet = CharSet.Ansi)]
+    public struct SgPipelineDescription
     {
-        OpenGL_Core,
-        OpenGL_ES2,
-        OpenGL_ES3,
-        Direct3D_11,
-        Metal_iOS,
-        Metal_macOS,
-        Metal_Simulator,
-        Dummy
+        [FieldOffset(0)] internal uint _startCanary;
+        [FieldOffset(4)] public SgVertexLayoutDescription Layout;
+        [FieldOffset(292)] public SgShader Shader;
+        [FieldOffset(296)] public SgPrimitiveType PrimitiveType;
+        [FieldOffset(300)] public SgIndexType IndexType;
+        [FieldOffset(304)] public SgDepthStencilState DepthStencil;
+        [FieldOffset(348)] public SgBlendState Blend;
+        [FieldOffset(408)] public SgRasterizerState Rasterizer;
+        [FieldOffset(440)] public IntPtr Label;
+        [FieldOffset(448)] internal uint _endCanary;
     }
 }

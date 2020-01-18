@@ -1,4 +1,4 @@
-/*
+/* 
 MIT License
 
 Copyright (c) 2020 Lucas Girouard-Stranks
@@ -20,24 +20,34 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+ */
 
 using System;
 using System.Runtime.InteropServices;
+using static Sokol.sokol_gfx;
 
-// ReSharper disable InconsistentNaming
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
 
 namespace Sokol
 {
-    public enum GraphicsBackend
+    [StructLayout(LayoutKind.Explicit, Size = 2968, Pack = 8, CharSet = CharSet.Ansi)]
+    public unsafe struct SgShaderDescription
     {
-        OpenGL_Core,
-        OpenGL_ES2,
-        OpenGL_ES3,
-        Direct3D_11,
-        Metal_iOS,
-        Metal_macOS,
-        Metal_Simulator,
-        Dummy
+        [FieldOffset(0)] internal uint _startCanary;
+        [FieldOffset(8)] internal fixed ulong _attributes[24 * SG_MAX_VERTEX_ATTRIBUTES / 8];
+        [FieldOffset(392)] public SgShaderStageDescription VertexShader;
+        [FieldOffset(1672)] public SgShaderStageDescription FragmentShader;
+        [FieldOffset(2952)] public IntPtr Label;
+        [FieldOffset(2960)] internal uint _endCanary;
+        
+        public ref SgShaderAttributeDescription Attribute(int index)
+        {
+            fixed (SgShaderDescription* shaderDescription = &this)
+            {
+                var ptr = (SgShaderAttributeDescription*) &shaderDescription->_attributes[0];
+                return ref *(ptr + index);
+            }
+        }
     }
 }

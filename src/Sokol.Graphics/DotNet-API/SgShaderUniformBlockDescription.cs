@@ -1,4 +1,4 @@
-/*
+/* 
 MIT License
 
 Copyright (c) 2020 Lucas Girouard-Stranks
@@ -20,24 +20,28 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+ */
 
-using System;
 using System.Runtime.InteropServices;
+using static Sokol.sokol_gfx;
 
-// ReSharper disable InconsistentNaming
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol
 {
-    public enum GraphicsBackend
+    [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
+    public unsafe struct SgShaderUniformBlockDescription
     {
-        OpenGL_Core,
-        OpenGL_ES2,
-        OpenGL_ES3,
-        Direct3D_11,
-        Metal_iOS,
-        Metal_macOS,
-        Metal_Simulator,
-        Dummy
+        [FieldOffset(0)] public int Size;
+        [FieldOffset(8)] public fixed ulong _uniforms[16 * SG_MAX_UB_MEMBERS / 8];
+
+        public ref SgShaderUniformDescription Uniform(int index)
+        {
+            fixed (SgShaderUniformBlockDescription* uniformBlockDescription = &this)
+            {
+                var ptr = (SgShaderUniformDescription*) &uniformBlockDescription->_uniforms[0];
+                return ref * (ptr + index);
+            }
+        }
     }
 }
