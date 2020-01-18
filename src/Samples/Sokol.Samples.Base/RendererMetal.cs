@@ -28,7 +28,7 @@ namespace Sokol.Samples
             set => _metalLayer.displaySyncEnabled = value;
         }
 
-        public unsafe RendererMetal(ref sg_desc desc, IntPtr windowHandle) 
+        public unsafe RendererMetal(ref SgDescription description, IntPtr windowHandle) 
             : base(windowHandle)
         {
             EnsureIsNotAlreadyInitialized();
@@ -64,9 +64,9 @@ namespace Sokol.Samples
             _getMetalRenderPassDescriptorGCHandle = GCHandle.Alloc(getMetalRenderPassDescriptor);
             _getMetalDrawableGCHandle = GCHandle.Alloc(getMetalDrawable);
 
-            desc.mtl_device = (void*) _metalLayer.device.Handle;
-            desc.mtl_renderpass_descriptor_cb = (void*) Marshal.GetFunctionPointerForDelegate(getMetalRenderPassDescriptor);
-            desc.mtl_drawable_cb = (void*) Marshal.GetFunctionPointerForDelegate(getMetalDrawable);
+            description.MTLDevice = _metalLayer.device.Handle;
+            description.MTLRenderPassDescriptorCallback = Marshal.GetFunctionPointerForDelegate(getMetalRenderPassDescriptor);
+            description.MTLDrawableCallback = Marshal.GetFunctionPointerForDelegate(getMetalDrawable);
             
             NativeLibrary.SetDllImportResolver(typeof(sokol_gfx).Assembly, ResolveLibrary);
         }

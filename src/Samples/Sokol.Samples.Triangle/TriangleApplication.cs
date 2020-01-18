@@ -47,7 +47,7 @@ namespace Sokol.Samples.Triangle
 
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _vertexBuffer = new SgBuffer(ref vertexBufferDesc);
+            _vertexBuffer = Sg.MakeBuffer(ref vertexBufferDesc);
 
             // describe the binding of the vertex buffer (not applied yet!)
             _bindings.VertexBuffer(0) = _vertexBuffer;
@@ -59,27 +59,31 @@ namespace Sokol.Samples.Triangle
             // specify shader stage source code for each graphics backend
             string vertexShaderStageSourceCode;
             string fragmentShaderStageSourceCode;
-            if (GraphicsBackend == GraphicsBackend.Metal)
+            if (GraphicsBackend.IsMetal())
             {
                 vertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                 fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
             }
-            else
+            else if (GraphicsBackend.IsOpenGL())
             {
                 vertexShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
                 fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
             }
+            else
+            {
+                throw new NotImplementedException();
+            }
             // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            shaderDesc.VertexShader.Source = Marshal.StringToHGlobalAnsi(vertexShaderStageSourceCode);
-            shaderDesc.FragmentShader.Source = Marshal.StringToHGlobalAnsi(fragmentShaderStageSourceCode);
+            shaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(vertexShaderStageSourceCode);
+            shaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(fragmentShaderStageSourceCode);
 
             // create the shader resource from the description
-            _shader = new SgShader(ref shaderDesc);
+            _shader = Sg.MakeShader(ref shaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
             Marshal.FreeHGlobal(shaderDesc.Attribute(0).Name);
             Marshal.FreeHGlobal(shaderDesc.Attribute(1).Name);
-            Marshal.FreeHGlobal(shaderDesc.VertexShader.Source);
-            Marshal.FreeHGlobal(shaderDesc.FragmentShader.Source);
+            Marshal.FreeHGlobal(shaderDesc.VertexShader.SourceCode);
+            Marshal.FreeHGlobal(shaderDesc.FragmentShader.SourceCode);
             
             // describe the render pipeline
             var pipelineDesc = new SgPipelineDescription();
@@ -88,7 +92,7 @@ namespace Sokol.Samples.Triangle
             pipelineDesc.Layout.Attribute(1).Format = SgVertexFormat.Float4;
 
             // create the pipeline resource from the description
-            _pipeline = new SgPipeline(ref pipelineDesc);
+            _pipeline = Sg.MakePipeline(ref pipelineDesc);
             
             // set the frame buffer render pass action
             _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Black);
@@ -97,17 +101,17 @@ namespace Sokol.Samples.Triangle
         protected override void Draw(int width, int height)
         {
             // begin a framebuffer render pass
-            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
+            Sg.BeginDefaultPass(ref _frameBufferPassAction, width, height);
 
             // apply the render pipeline and bindings for the render pass
-            _pipeline.Apply();
-            _bindings.Apply();
+            Sg.ApplyPipeline(_pipeline);
+            Sg.ApplyBindings(ref _bindings);
             
             // draw the triangle into the target of the render pass
-            sokol_gfx.sg_draw(0, 3, 1);
+            Sg.Draw(0, 3, 1);
             
             // end the framebuffer render pass
-            SgDefaultPass.End();
+            Sg.EndPass();
         }
     }
 }

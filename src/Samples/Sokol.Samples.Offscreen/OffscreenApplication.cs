@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
@@ -127,7 +126,7 @@ namespace Sokol.Samples.Offscreen
             vertices[23].TextureCoordinate = new Vector2(0.0f, 1.0f);
 
             // describe an immutable vertex buffer
-            var vertexBufferDescription = new SgBufferDescription
+            var vertexBufferDesc = new SgBufferDescription
             {
                 Usage = SgUsage.Immutable,
                 Type = SgBufferType.Vertex,
@@ -138,7 +137,7 @@ namespace Sokol.Samples.Offscreen
 
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _vertexBuffer = new SgBuffer(ref vertexBufferDescription);
+            _vertexBuffer = Sg.MakeBuffer(ref vertexBufferDesc);
             
             // use memory from the thread's stack to create the cube indices
             var indices = stackalloc ushort[]
@@ -163,7 +162,7 @@ namespace Sokol.Samples.Offscreen
 
             // create the index buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _indexBuffer = new SgBuffer(ref indexBufferDesc);
+            _indexBuffer = Sg.MakeBuffer(ref indexBufferDesc);
 
             // describe a 2d texture render target
             var offscreenImageDesc = new SgImageDescription();
@@ -173,18 +172,18 @@ namespace Sokol.Samples.Offscreen
             offscreenImageDesc.Width = 512;
             offscreenImageDesc.Height = 512;
             offscreenImageDesc.Depth = 1;
-            offscreenImageDesc.MipmapsCount = 1;
+            offscreenImageDesc.MipmapCount = 1;
             offscreenImageDesc.PixelFormat = SgPixelFormat.RGBA8;
             offscreenImageDesc.MinificationFilter = SgTextureFilter.Linear;
             offscreenImageDesc.MagnificationFilter = SgTextureFilter.Linear;
-            offscreenImageDesc.SampleCount = sokol_gfx.sg_query_features().msaa_render_targets ? 4 : 1;
+            offscreenImageDesc.SampleCount = Sg.QueryFeatures().MSAARenderTargets ? 4 : 1;
      
             // create the color render target image from the description
-            _renderTargetColorImage = new SgImage(ref offscreenImageDesc);
+            _renderTargetColorImage = Sg.MakeImage(ref offscreenImageDesc);
             
             // create the depth render target image from the description
             offscreenImageDesc.PixelFormat = SgPixelFormat.Depth;
-            _renderTargetDepthImage = new SgImage(ref offscreenImageDesc);
+            _renderTargetDepthImage = Sg.MakeImage(ref offscreenImageDesc);
             
             // describe the offscreen render pass
             var passDesc = new SgPassDescription();
@@ -192,7 +191,7 @@ namespace Sokol.Samples.Offscreen
             passDesc.DepthStencilAttachment.Image = _renderTargetDepthImage;
             
             // create offscreen render pass from description
-            _offscreenRenderPass = new SgPass(ref passDesc);
+            _offscreenRenderPass = Sg.MakePass(ref passDesc);
 
             // describe the bindings for rendering a non-textured cube into the render target (not applied yet!)
             _offscreenBindings.VertexBuffer(0) = _vertexBuffer;
@@ -201,7 +200,7 @@ namespace Sokol.Samples.Offscreen
             // describe the bindings for using the offscreen render target as the sampled texture (not applied yet!)
             _frameBufferBindings.VertexBuffer(0) = _vertexBuffer;
             _frameBufferBindings.IndexBuffer = _indexBuffer;
-            _frameBufferBindings.FragmentImage(0) = _renderTargetColorImage;
+            _frameBufferBindings.FragmentShaderImage(0) = _renderTargetColorImage;
             
             // describe the offscreen shader program
             var offscreenShaderDesc = new SgShaderDescription();
@@ -212,26 +211,30 @@ namespace Sokol.Samples.Offscreen
             // specify shader stage source code for each graphics backend
             string offscreenVertexShaderStageSourceCode;
             string offscreenFragmentShaderStageSourceCode;
-            if (GraphicsBackend == GraphicsBackend.Metal)
+            if (GraphicsBackend == GraphicsBackend.Metal_macOS)
             {
                 offscreenVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/offscreenVert.metal");
                 offscreenFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/offscreenFrag.metal");
             }
-            else
+            else if (GraphicsBackend == GraphicsBackend.OpenGL_Core)
             {
                 offscreenVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.vert");
                 offscreenFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.frag");
             }
+            else
+            {
+                throw new NotImplementedException();
+            }
             // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            offscreenShaderDesc.VertexShader.Source = Marshal.StringToHGlobalAnsi(offscreenVertexShaderStageSourceCode);
-            offscreenShaderDesc.FragmentShader.Source = Marshal.StringToHGlobalAnsi(offscreenFragmentShaderStageSourceCode);
+            offscreenShaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(offscreenVertexShaderStageSourceCode);
+            offscreenShaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(offscreenFragmentShaderStageSourceCode);
             
             // create the offscreen shader resource from the description
-            _offscreenShader = new SgShader(ref offscreenShaderDesc);
+            _offscreenShader = Sg.MakeShader(ref offscreenShaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
             Marshal.FreeHGlobal(offscreenShaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
-            Marshal.FreeHGlobal(offscreenShaderDesc.VertexShader.Source);
-            Marshal.FreeHGlobal(offscreenShaderDesc.FragmentShader.Source);
+            Marshal.FreeHGlobal(offscreenShaderDesc.VertexShader.SourceCode);
+            Marshal.FreeHGlobal(offscreenShaderDesc.FragmentShader.SourceCode);
             
             var frameBufferShaderDesc = new SgShaderDescription();
             frameBufferShaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
@@ -243,27 +246,31 @@ namespace Sokol.Samples.Offscreen
             // specify shader stage source code for each graphics backend
             string frameBufferVertexShaderStageSourceCode;
             string frameBufferFragmentShaderStageSourceCode;
-            if (GraphicsBackend == GraphicsBackend.Metal)
+            if (GraphicsBackend == GraphicsBackend.Metal_macOS)
             {
                 frameBufferVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                 frameBufferFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
             }
-            else
+            else if (GraphicsBackend == GraphicsBackend.Metal_macOS)
             {
                 frameBufferVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
                 frameBufferFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
             }
+            else
+            {
+                throw new NotImplementedException();
+            }
             // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            frameBufferShaderDesc.VertexShader.Source = Marshal.StringToHGlobalAnsi(frameBufferVertexShaderStageSourceCode);
-            frameBufferShaderDesc.FragmentShader.Source = Marshal.StringToHGlobalAnsi(frameBufferFragmentShaderStageSourceCode);
+            frameBufferShaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(frameBufferVertexShaderStageSourceCode);
+            frameBufferShaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(frameBufferFragmentShaderStageSourceCode);
             
             // create the shader resource from the description
-            _frameBufferShader = new SgShader(ref frameBufferShaderDesc);
+            _frameBufferShader = Sg.MakeShader(ref frameBufferShaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
             Marshal.FreeHGlobal(frameBufferShaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
             Marshal.FreeHGlobal(frameBufferShaderDesc.FragmentShader.Image(0).Name);
-            Marshal.FreeHGlobal(frameBufferShaderDesc.VertexShader.Source);
-            Marshal.FreeHGlobal(frameBufferShaderDesc.FragmentShader.Source);
+            Marshal.FreeHGlobal(frameBufferShaderDesc.VertexShader.SourceCode);
+            Marshal.FreeHGlobal(frameBufferShaderDesc.FragmentShader.SourceCode);
             
             // describe the offscreen render pipeline
             var offscreenPipelineDesc = new SgPipelineDescription();
@@ -274,14 +281,14 @@ namespace Sokol.Samples.Offscreen
             offscreenPipelineDesc.Shader = _offscreenShader;
             offscreenPipelineDesc.IndexType = SgIndexType.UInt16;
             offscreenPipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
-            offscreenPipelineDesc.DepthStencil.DepthWriteEnabled = true;
+            offscreenPipelineDesc.DepthStencil.DepthWriteIsEnabled = true;
             offscreenPipelineDesc.Blend.ColorFormat = SgPixelFormat.RGBA8;
             offscreenPipelineDesc.Blend.DepthFormat = SgPixelFormat.Depth;
             offscreenPipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
-            offscreenPipelineDesc.Rasterizer.SampleCount = sokol_gfx.sg_query_features().msaa_render_targets ? 4 : 1;
+            offscreenPipelineDesc.Rasterizer.SampleCount = Sg.QueryFeatures().MSAARenderTargets ? 4 : 1;
 
             // create the offscreen pipeline resource from the description
-            _offscreenPipeline = new SgPipeline(ref offscreenPipelineDesc);
+            _offscreenPipeline = Sg.MakePipeline(ref offscreenPipelineDesc);
             
             // describe the framebuffer render pipeline
             var frameBufferPipelineDesc = new SgPipelineDescription();
@@ -291,12 +298,12 @@ namespace Sokol.Samples.Offscreen
             frameBufferPipelineDesc.Shader = _frameBufferShader;
             frameBufferPipelineDesc.IndexType = SgIndexType.UInt16;
             frameBufferPipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
-            frameBufferPipelineDesc.DepthStencil.DepthWriteEnabled = true;
+            frameBufferPipelineDesc.DepthStencil.DepthWriteIsEnabled = true;
             frameBufferPipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
-            frameBufferPipelineDesc.Rasterizer.SampleCount = sokol_gfx.sg_query_features().msaa_render_targets ? 4 : 1;
+            frameBufferPipelineDesc.Rasterizer.SampleCount = Sg.QueryFeatures().MSAARenderTargets ? 4 : 1;
 
             // create the framebuffer pipeline resource from the description
-            _frameBufferPipeline = new SgPipeline(ref frameBufferPipelineDesc);
+            _frameBufferPipeline = Sg.MakePipeline(ref frameBufferPipelineDesc);
             
             // set the frame buffer render pass action
             _frameBufferPassAction = SgPassAction.Clear(0x0040FFFF);
@@ -316,11 +323,11 @@ namespace Sokol.Samples.Offscreen
             var viewProjectionMatrix = viewMatrix * projectionMatrix;
             
             // begin the offscreen render pass
-            _offscreenRenderPass.Begin(ref _offscreenPassAction);
+            Sg.BeginPass(_offscreenRenderPass, ref _offscreenPassAction);
 
             // apply the render pipeline and bindings for the offscreen render pass
-            _offscreenPipeline.Apply();
-            _offscreenBindings.Apply();
+            Sg.ApplyPipeline(_offscreenPipeline);
+            Sg.ApplyBindings(ref _offscreenBindings);
 
             // rotate cube and create vertex shader mvp matrix
             _rotationX += 1.0f * 0.020f;
@@ -331,31 +338,29 @@ namespace Sokol.Samples.Offscreen
             var modelViewProjectionMatrix = modelMatrix * viewProjectionMatrix;
             
             // apply the mvp matrix to the offscreen vertex shader
-            var mvpMatrix = Unsafe.AsPointer(ref modelViewProjectionMatrix);
-            sokol_gfx.sg_apply_uniforms(sokol_gfx.sg_shader_stage.SG_SHADERSTAGE_VS, 0, mvpMatrix, Marshal.SizeOf<Matrix4x4>());
+            Sg.ApplyUniforms(SgShaderStageType.VertexShader, 0, ref modelViewProjectionMatrix);
             
             // draw the non-textured cube into the target of the offscreen render pass
-            sokol_gfx.sg_draw(0, 36, 1);
+            Sg.Draw(0, 36, 1);
             
             // end the offscreen render pass
-            _offscreenRenderPass.End();
+            Sg.EndPass();
             
             // begin a framebuffer render pass
-            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
+            Sg.BeginDefaultPass(ref _frameBufferPassAction, width, height);
             
             // apply the render pipeline and bindings for the framebuffer render pass
-            _frameBufferPipeline.Apply();
-            _frameBufferBindings.Apply();
+            Sg.ApplyPipeline(_frameBufferPipeline);
+            Sg.ApplyBindings(ref _frameBufferBindings);
 
             // apply the mvp matrix to the framebuffer vertex shader
-            var mvpMatrix2 = Unsafe.AsPointer(ref modelViewProjectionMatrix);
-            sokol_gfx.sg_apply_uniforms(sokol_gfx.sg_shader_stage.SG_SHADERSTAGE_VS, 0, mvpMatrix2, Marshal.SizeOf<Matrix4x4>());
+            Sg.ApplyUniforms(SgShaderStageType.VertexShader, 0, ref modelViewProjectionMatrix);
             
             // draw the textured cube into the target of the framebuffer render pass
-            sokol_gfx.sg_draw(0, 36, 1);
+            Sg.Draw(0, 36, 1);
             
             // end the framebuffer render pass
-            SgDefaultPass.End();
+            Sg.EndPass();
         }
     }
 }

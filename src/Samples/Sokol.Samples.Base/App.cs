@@ -14,17 +14,17 @@ namespace Sokol.Samples
         private bool _isExiting;
         private readonly IntPtr _windowHandle;
 
-        protected App(GraphicsBackend? graphicsBackend = null, sg_desc? desc = null)
+        protected App(GraphicsBackend? graphicsBackend = null, SgDescription? desc = null)
         {
             Ensure64BitArchitecture();
             SDL_Init(SDL_INIT_VIDEO);
             GraphicsBackend = graphicsBackend ?? GetDefaultGraphicsBackend();
-            var description = desc ?? new sg_desc();
+            var description = desc ?? new SgDescription();
 
             _windowHandle = CreateWindow(GraphicsBackend);
             _renderer = CreateRenderer(GraphicsBackend, ref description, _windowHandle);
             
-            sg_setup(ref description);
+            Sg.Setup(ref description);
         }
 
         public GraphicsBackend GraphicsBackend { get; }
@@ -40,22 +40,22 @@ namespace Sokol.Samples
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 //TODO: Use DirectX
-                return GraphicsBackend.OpenGL;
+                return GraphicsBackend.OpenGL_Core;
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return GraphicsBackend.Metal;
+                return GraphicsBackend.Metal_macOS;
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                return GraphicsBackend.OpenGL;
+                return GraphicsBackend.OpenGL_Core;
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
             {
-                return GraphicsBackend.OpenGL;
+                return GraphicsBackend.OpenGL_Core;
             }
 
-            return GraphicsBackend.OpenGL;
+            return GraphicsBackend.OpenGL_Core;
         }
         
         private static void Ensure64BitArchitecture()
@@ -67,17 +67,25 @@ namespace Sokol.Samples
             }
         }
         
-        private static Renderer CreateRenderer(GraphicsBackend graphicsBackend, ref sg_desc deviceDescription, IntPtr windowHandle)
+        private static Renderer CreateRenderer(GraphicsBackend graphicsBackend, ref SgDescription description, IntPtr windowHandle)
         {
-            return graphicsBackend switch
+            // ReSharper disable once ConvertSwitchStatementToSwitchExpression
+            switch (graphicsBackend)
             {
-                GraphicsBackend.OpenGL => new RendererOpenGL(windowHandle),
-                GraphicsBackend.Metal => new RendererMetal(ref deviceDescription, windowHandle),
-                GraphicsBackend.OpenGLES2 => throw new NotImplementedException(),
-                GraphicsBackend.OpenGLES3 => throw new NotImplementedException(),
-                GraphicsBackend.Direct3D11 => throw new NotImplementedException(),
-                _ => throw new ArgumentOutOfRangeException(nameof(graphicsBackend), graphicsBackend, null),
-            };
+                case GraphicsBackend.OpenGL_Core:
+                    return new RendererOpenGL(windowHandle);
+                case GraphicsBackend.OpenGL_ES2:
+                case GraphicsBackend.OpenGL_ES3:
+                    throw new NotImplementedException();
+                case GraphicsBackend.Metal_macOS:
+                case GraphicsBackend.Metal_iOS:
+                case GraphicsBackend.Metal_Simulator:
+                    return new RendererMetal(ref description, windowHandle);
+                case GraphicsBackend.Direct3D_11:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(graphicsBackend), graphicsBackend, null);
+            }
         }
 
         private static IntPtr CreateWindow(GraphicsBackend graphicsBackend)
@@ -86,7 +94,7 @@ namespace Sokol.Samples
                               SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI |
                               SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
 
-            if (graphicsBackend == GraphicsBackend.OpenGL)
+            if (graphicsBackend.IsOpenGL())
             {
                 windowFlags |= SDL_WindowFlags.SDL_WINDOW_OPENGL;
             }

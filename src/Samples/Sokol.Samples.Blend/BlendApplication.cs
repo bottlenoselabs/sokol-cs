@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
@@ -31,9 +30,9 @@ namespace Sokol.Samples.Blend
         private const int NUM_BLEND_FACTORS = 15;
 
         public unsafe BlendApplication()
-            : base(desc: new sokol_gfx.sg_desc()
+            : base(desc: new SgDescription
             {
-                pipeline_pool_size = NUM_BLEND_FACTORS * NUM_BLEND_FACTORS + 1
+                PipelinePoolSize = NUM_BLEND_FACTORS * NUM_BLEND_FACTORS + 1
             })
         {
             // use memory from the thread's stack for the triangle vertices
@@ -61,7 +60,7 @@ namespace Sokol.Samples.Blend
   
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _vertexBuffer = new SgBuffer(ref vertexBufferDesc);
+            _vertexBuffer = Sg.MakeBuffer(ref vertexBufferDesc);
             
             // describe the binding of the vertex (not applied yet!)
             _bindings.VertexBuffer(0) = _vertexBuffer;
@@ -75,26 +74,30 @@ namespace Sokol.Samples.Blend
             // specify shader stage source code for each graphics backend
             string backgroundVertexShaderStageSourceCode;
             string backgroundFragmentShaderStageSourceCode;
-            if (GraphicsBackend == GraphicsBackend.Metal)
+            if (GraphicsBackend.IsMetal())
             {
                 backgroundVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/backgroundVert.metal");
                 backgroundFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/backgroundFrag.metal");
             }
-            else
+            else if (GraphicsBackend.IsOpenGL())
             {
                 backgroundVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/background.vert");
                 backgroundFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/background.frag");
             }
+            else
+            {
+                throw new NotImplementedException();
+            }
             // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            backgroundShaderDesc.VertexShader.Source = Marshal.StringToHGlobalAnsi(backgroundVertexShaderStageSourceCode);
-            backgroundShaderDesc.FragmentShader.Source = Marshal.StringToHGlobalAnsi(backgroundFragmentShaderStageSourceCode);
+            backgroundShaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(backgroundVertexShaderStageSourceCode);
+            backgroundShaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(backgroundFragmentShaderStageSourceCode);
             
             // create the background shader resource from the description
-            _backgroundShader = new SgShader(ref backgroundShaderDesc);
+            _backgroundShader = Sg.MakeShader(ref backgroundShaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
             Marshal.FreeHGlobal(backgroundShaderDesc.FragmentShader.UniformBlock(0).Uniform(0).Name);
-            Marshal.FreeHGlobal(backgroundShaderDesc.VertexShader.Source);
-            Marshal.FreeHGlobal(backgroundShaderDesc.FragmentShader.Source);
+            Marshal.FreeHGlobal(backgroundShaderDesc.VertexShader.SourceCode);
+            Marshal.FreeHGlobal(backgroundShaderDesc.FragmentShader.SourceCode);
 
             // describe the background render pipeline
             var backgroundPipelineDesc = new SgPipelineDescription();
@@ -106,7 +109,7 @@ namespace Sokol.Samples.Blend
             backgroundPipelineDesc.Rasterizer.SampleCount = 4;
             
             // create the background pipeline resource from the description
-            _backgroundPipeline = new SgPipeline(ref backgroundPipelineDesc);
+            _backgroundPipeline = Sg.MakePipeline(ref backgroundPipelineDesc);
             
             // describe the quad shader program
             var quadShaderDesc = new SgShaderDescription();
@@ -117,7 +120,7 @@ namespace Sokol.Samples.Blend
             // specify shader stage source code for each graphics backend
             string quadVertexShaderStageSourceCode;
             string quadFragmentShaderStageSourceCode;
-            if (GraphicsBackend == GraphicsBackend.Metal)
+            if (GraphicsBackend.IsMetal())
             {
                 quadVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/quadVert.metal");
                 quadFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/quadFrag.metal");
@@ -128,15 +131,15 @@ namespace Sokol.Samples.Blend
                 quadFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/quad.frag");
             }
             // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            quadShaderDesc.VertexShader.Source = Marshal.StringToHGlobalAnsi(quadVertexShaderStageSourceCode);
-            quadShaderDesc.FragmentShader.Source = Marshal.StringToHGlobalAnsi(quadFragmentShaderStageSourceCode);
+            quadShaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(quadVertexShaderStageSourceCode);
+            quadShaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(quadFragmentShaderStageSourceCode);
             
             // create the quad shader resource from the description
-            _quadShader = new SgShader(ref quadShaderDesc);
+            _quadShader = Sg.MakeShader(ref quadShaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
             Marshal.FreeHGlobal(quadShaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
-            Marshal.FreeHGlobal(quadShaderDesc.VertexShader.Source);
-            Marshal.FreeHGlobal(quadShaderDesc.FragmentShader.Source);
+            Marshal.FreeHGlobal(quadShaderDesc.VertexShader.SourceCode);
+            Marshal.FreeHGlobal(quadShaderDesc.FragmentShader.SourceCode);
             
             // describe the quad render pipelines
             var quadPipelineDesc = new SgPipelineDescription();
@@ -144,7 +147,7 @@ namespace Sokol.Samples.Blend
             quadPipelineDesc.Layout.Attribute(1).Format = SgVertexFormat.Float4;
             quadPipelineDesc.Shader = _quadShader;
             quadPipelineDesc.PrimitiveType = SgPrimitiveType.TriangleStrip;
-            quadPipelineDesc.Blend.Enabled = true;
+            quadPipelineDesc.Blend.IsEnabled = true;
             quadPipelineDesc.Blend.BlendColor = RgbaFloat.Red;
             quadPipelineDesc.Rasterizer.SampleCount = 4;
             
@@ -163,7 +166,7 @@ namespace Sokol.Samples.Blend
 
                     var index = dst + src * NUM_BLEND_FACTORS;
                     ref var pipeline = ref _quadPipelines[index];
-                    pipeline = new SgPipeline(ref quadPipelineDesc);
+                    pipeline = Sg.MakePipeline(ref quadPipelineDesc);
                 }
             }
 
@@ -171,7 +174,7 @@ namespace Sokol.Samples.Blend
             _frameBufferPassAction = SgPassAction.DontCare;
         }
 
-        protected override unsafe void Draw(int width, int height)
+        protected override void Draw(int width, int height)
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float) (90.0f * Math.PI / 180), (float)width / height,
@@ -182,18 +185,17 @@ namespace Sokol.Samples.Blend
             var viewProjectionMatrix = viewMatrix * projectionMatrix;
 
             // begin a framebuffer render pass
-            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
+            Sg.BeginDefaultPass(ref _frameBufferPassAction, width, height);
             
             // apply the background render pipeline and bindings for the render pass
-            _backgroundPipeline.Apply();
-            _bindings.Apply();
+            Sg.ApplyPipeline(_backgroundPipeline);
+            Sg.ApplyBindings(ref _bindings);
 
             // apply the background tick uniform to the background fragment shader
-            var tickPointer = Unsafe.AsPointer(ref _tick);
-            sokol_gfx.sg_apply_uniforms(sokol_gfx.sg_shader_stage.SG_SHADERSTAGE_FS, 0, tickPointer, Marshal.SizeOf<float>());
-            
+            Sg.ApplyUniforms(SgShaderStageType.FragmentShader, 0, ref _tick);
+
             // draw the background quad into the target of the render pass
-            sokol_gfx.sg_draw(0, 4, 1);
+            Sg.Draw(0, 4, 1);
 
             // for every type of blend factor (each one is a different render pipeline)...
             var rotationForBlendFactor = _rotation;
@@ -211,20 +213,19 @@ namespace Sokol.Samples.Blend
 
                     // apply the quad render pipeline and bindings for the render pass
                     var pipelineIndex = dst + src * NUM_BLEND_FACTORS;
-                    _quadPipelines[pipelineIndex].Apply();
-                    _bindings.Apply();
-                    
+                    Sg.ApplyPipeline(_quadPipelines[pipelineIndex]);
+                    Sg.ApplyBindings(ref _bindings);
+
                     // apply the mvp matrix to the vertex shader
-                    var mvpMatrix = Unsafe.AsPointer(ref modelViewProjectionMatrix);
-                    sokol_gfx.sg_apply_uniforms(sokol_gfx.sg_shader_stage.SG_SHADERSTAGE_VS, 0, mvpMatrix, Marshal.SizeOf<Matrix4x4>());
+                    Sg.ApplyUniforms(SgShaderStageType.VertexShader, 0, ref modelViewProjectionMatrix);
        
                     // draw the quad into the target of the render pass
-                    sokol_gfx.sg_draw(0, 4, 1);
+                    Sg.Draw(0, 4, 1);
                 }
             }
             
             // end the framebuffer render pass
-            SgDefaultPass.End();
+            Sg.EndPass();
             
             // update rotation and tick values for next frame
             _rotation += 0.6f * 0.20f;

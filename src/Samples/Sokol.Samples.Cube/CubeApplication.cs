@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
@@ -106,7 +105,7 @@ namespace Sokol.Samples.Cube
 
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _vertexBuffer = new SgBuffer(ref vertexBufferDesc);
+            _vertexBuffer = Sg.MakeBuffer(ref vertexBufferDesc);
             
             // use memory from the thread's stack to create the cube indices
             var indices = stackalloc ushort[]
@@ -131,7 +130,7 @@ namespace Sokol.Samples.Cube
 
             // create the index buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _indexBuffer = new SgBuffer(ref indexBufferDesc);
+            _indexBuffer = Sg.MakeBuffer(ref indexBufferDesc);
             
             // describe the binding of the vertex and index buffer (not applied yet!)
             _bindings.VertexBuffer(0) = _vertexBuffer;
@@ -146,26 +145,30 @@ namespace Sokol.Samples.Cube
             // specify shader stage source code for each graphics backend
             string vertexShaderStageSourceCode;
             string fragmentShaderStageSourceCode;
-            if (GraphicsBackend == GraphicsBackend.Metal)
+            if (GraphicsBackend.IsMetal())
             {
                 vertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                 fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
             }
-            else
+            else if (GraphicsBackend.IsOpenGL())
             {
                 vertexShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
                 fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
             }
+            else
+            {
+                throw new NotImplementedException();
+            }
             // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            shaderDesc.VertexShader.Source = Marshal.StringToHGlobalAnsi(vertexShaderStageSourceCode);
-            shaderDesc.FragmentShader.Source = Marshal.StringToHGlobalAnsi(fragmentShaderStageSourceCode);
+            shaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(vertexShaderStageSourceCode);
+            shaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(fragmentShaderStageSourceCode);
             
             // create the shader resource from the description
-            _shader = new SgShader(ref shaderDesc);
+            _shader = Sg.MakeShader(ref shaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
             Marshal.FreeHGlobal(shaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
-            Marshal.FreeHGlobal(shaderDesc.VertexShader.Source);
-            Marshal.FreeHGlobal(shaderDesc.FragmentShader.Source);
+            Marshal.FreeHGlobal(shaderDesc.VertexShader.SourceCode);
+            Marshal.FreeHGlobal(shaderDesc.FragmentShader.SourceCode);
 
             // describe the render pipeline
             var pipelineDesc = new SgPipelineDescription();
@@ -175,12 +178,11 @@ namespace Sokol.Samples.Cube
             pipelineDesc.Shader = _shader;
             pipelineDesc.IndexType = SgIndexType.UInt16;
             pipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
-            pipelineDesc.DepthStencil.DepthWriteEnabled = true;
+            pipelineDesc.DepthStencil.DepthWriteIsEnabled = true;
             pipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
-            pipelineDesc.Rasterizer.SampleCount = sokol_gfx.sg_query_features().msaa_render_targets ? 4 : 1;
 
             // create the pipeline resource from the description
-            _pipeline = new SgPipeline(ref pipelineDesc);
+            _pipeline = Sg.MakePipeline(ref pipelineDesc);
             
             // set the frame buffer render pass action
             _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Gray);
@@ -197,11 +199,11 @@ namespace Sokol.Samples.Cube
             var viewProjectionMatrix = viewMatrix * projectionMatrix;
 
             // begin a framebuffer render pass
-            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
+            Sg.BeginDefaultPass(ref _frameBufferPassAction, width, height);
             
             // apply the render pipeline and bindings for the render pass
-            _pipeline.Apply();
-            _bindings.Apply();
+            Sg.ApplyPipeline(_pipeline);
+            Sg.ApplyBindings(ref _bindings);
 
             // rotate cube and create vertex shader mvp matrix
             _rotationX += 1.0f * 0.020f;
@@ -212,14 +214,13 @@ namespace Sokol.Samples.Cube
             var modelViewProjectionMatrix = modelMatrix * viewProjectionMatrix;
             
             // apply the mvp matrix to the vertex shader
-            var mvpMatrix = Unsafe.AsPointer(ref modelViewProjectionMatrix);
-            sokol_gfx.sg_apply_uniforms(sokol_gfx.sg_shader_stage.SG_SHADERSTAGE_VS, 0, mvpMatrix, Marshal.SizeOf<Matrix4x4>());
+            Sg.ApplyUniforms(SgShaderStageType.VertexShader, 0, ref modelViewProjectionMatrix);
 
             // draw the cube into the target of the render pass
-            sokol_gfx.sg_draw(0, 36, 1);
+            Sg.Draw(0, 36, 1);
             
             // end the framebuffer render pass
-            SgDefaultPass.End();
+            Sg.EndPass();
         }
     }
 }

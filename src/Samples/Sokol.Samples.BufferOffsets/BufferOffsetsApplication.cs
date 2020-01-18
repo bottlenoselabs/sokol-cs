@@ -59,7 +59,7 @@ namespace Sokol.Samples.BufferOffsets
 
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _vertexBuffer = new SgBuffer(ref vertexBufferDesc);
+            _vertexBuffer = Sg.MakeBuffer(ref vertexBufferDesc);
             
             // use memory from the thread's stack to create the quad indices
             var indices = stackalloc ushort[]
@@ -81,7 +81,7 @@ namespace Sokol.Samples.BufferOffsets
             
             // create the index buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _indexBuffer = new SgBuffer(ref indexBufferDesc);
+            _indexBuffer = Sg.MakeBuffer(ref indexBufferDesc);
             
             // describe the binding of the vertex and index buffer (not applied yet!)
             _bindings.VertexBuffer(0) = _vertexBuffer;
@@ -92,25 +92,29 @@ namespace Sokol.Samples.BufferOffsets
             string vertexShaderStageSourceCode;
             string fragmentShaderStageSourceCode;
             // specify shader stage source code for each graphics backend
-            if (GraphicsBackend == GraphicsBackend.Metal)
+            if (GraphicsBackend.IsMetal())
             {
                 vertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                 fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
             }
-            else
+            else if (GraphicsBackend.IsOpenGL())
             {
                 vertexShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
                 fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
             }
+            else
+            {
+                throw new NotImplementedException();
+            }
             // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            shaderDesc.VertexShader.Source = Marshal.StringToHGlobalAnsi(vertexShaderStageSourceCode);
-            shaderDesc.FragmentShader.Source = Marshal.StringToHGlobalAnsi(fragmentShaderStageSourceCode);
+            shaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(vertexShaderStageSourceCode);
+            shaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(fragmentShaderStageSourceCode);
             
             // create the shader resource from the description
-            _shader = new SgShader(ref shaderDesc);
+            _shader = Sg.MakeShader(ref shaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(shaderDesc.VertexShader.Source);
-            Marshal.FreeHGlobal(shaderDesc.FragmentShader.Source);
+            Marshal.FreeHGlobal(shaderDesc.VertexShader.SourceCode);
+            Marshal.FreeHGlobal(shaderDesc.FragmentShader.SourceCode);
             
             // describe the render pipeline
             var pipelineDesc = new SgPipelineDescription();
@@ -120,7 +124,7 @@ namespace Sokol.Samples.BufferOffsets
             pipelineDesc.IndexType = SgIndexType.UInt16;
             
             // create the pipeline resource from the description
-            _pipeline = new SgPipeline(ref pipelineDesc);
+            _pipeline = Sg.MakePipeline(ref pipelineDesc);
             
             // set the frame buffer render pass action
             _frameBufferPassAction = SgPassAction.Clear(0x8080FFFF);
@@ -129,33 +133,33 @@ namespace Sokol.Samples.BufferOffsets
         protected override void Draw(int width, int height)
         {
             // begin a framebuffer render pass
-            SgDefaultPass.Begin(ref _frameBufferPassAction, width, height);
+            Sg.BeginDefaultPass(ref _frameBufferPassAction, width, height);
 
             // apply the render pipeline for the render pass
-            _pipeline.Apply();
+            Sg.ApplyPipeline(_pipeline);
 
             // set and apply the bindings necessary to render the triangle for the render pass
             _bindings.VertexBuffer(0) = _vertexBuffer;
             _bindings.VertexBufferOffset(0) = 0;
             _bindings.IndexBuffer = _indexBuffer;
             _bindings.IndexBufferOffset = 0;
-            _bindings.Apply();
+            Sg.ApplyBindings(ref _bindings);
 
             // draw the triangle into the target of the render pass
-            sokol_gfx.sg_draw(0, 3, 1);
+            Sg.Draw(0, 3, 1);
             
             // set and apply the bindings necessary to render the quad for the render pass
             _bindings.VertexBuffer(0) = _vertexBuffer;
             _bindings.VertexBufferOffset(0) = 3 * Marshal.SizeOf<Vertex>();
             _bindings.IndexBuffer = _indexBuffer;
             _bindings.IndexBufferOffset = 3 * Marshal.SizeOf<ushort>();
-            _bindings.Apply();
+            Sg.ApplyBindings(ref _bindings);
 
             // draw the quad into the target of the render pass
-            sokol_gfx.sg_draw(0, 6, 1);
+            Sg.Draw(0, 6, 1);
 
             // end the framebuffer render pass
-            SgDefaultPass.End();
+            Sg.EndPass();
         }
     }
 }
