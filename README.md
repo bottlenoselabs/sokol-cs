@@ -23,17 +23,17 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 - 2019/11/03: Added Azure Pipelines for builds and tests.
 - 2019/11/02: .NET Core samples working with Windows.
 - 2019/10/25: .NET Core samples working with macOS.
-- 2019/10/23: "Unsafe" `sokol_gfx` API finished.
+- 2019/10/23: `sokol_gfx` C API finished.
 - 2019/10/15: Initial project creation.
 
-## "Unsafe" API
+## C API
 
 The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/framework/interop/consuming-unmanaged-dll-functions) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained.
 
 The C structs in C# are:
 
 - Blittable: [Same memory layout as C structs](https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types). This allows the structures to be passed by value (copy of data) or reference (copy of pointer) from the managed world of .NET to the unmanaged world of C [as is, improving performance.](https://docs.microsoft.com/en-us/dotnet/framework/interop/copying-and-pinning#formatted-blittable-classes).
-- Usually passed by reference: Often, the [`ref` keyword is used to pass the struct by reference](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/ref#passing-an-argument-by-reference) (copy of pointer) to avoid passing by value (copy of the data) for performance reasons. The general rule of thumb is if size of a struct is bigger than the size of a pointer (64-bits, or 8 bytes, on a 64-bit machine), then [it should probably be passed by reference](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code).
+- Usually passed by reference: Often, the [`ref` keyword is used to pass the struct by reference](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/ref#passing-an-argument-by-reference) (copy of pointer) to avoid passing by value (copy of the data) for performance reasons. The general rule of thumb is if the struct size is bigger than the size of a pointer (64-bits, or 8 bytes, on a 64-bit machine), then [it should probably be passed by reference](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code).
 
 In .NET, the `unsafe` keyword will most often be necessary for using the C structs and calling the C functions. Also, for practicality, it's recommended to import the module with all the bindings, structs, and enums like so:
 
@@ -43,17 +43,17 @@ using static Sokol.sokol_gfx;
 
 To learn how to use the C API, check out the [official C samples](https://github.com/floooh/sokol-samples). You can also find the same examples that run in [your browser](https://floooh.github.io/sokol-html5/index.html). The comments in the [`sokol_gfx.h`](https://github.com/floooh/sokol/blob/master/sokol_gfx.h) file are also a good reference.
 
-## "Safe" API
+## .NET API
 
-The .NET API is just wrappers over the C API for .NET idioms, convenience, and ease of use. The `unsafe` keyword is not required nor is importing the module `Sokol.sokol_gfx`. All the "safe" types have some prefix such as `Sg` for "Sokol Graphics". This API targets .NET Standard 2.1 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small,highly performant, and easy to use without re-inventing the wheel.
+The .NET API is just wrappers over the C API for .NET idioms, convenience, and ease of use. The `unsafe` keyword is not required, nor is importing the module `Sokol.sokol_gfx`. All the types have some prefix such as `Sg` for "Sokol Graphics". This API targets .NET Standard 2.1 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
 
-All the "safe" types are mutable, [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other high performance applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code). All the "safe" structs can access the underlying "unsafe" P/Invoke struct anytime by accessing the field `CStruct`. Also, any "safe" enum can be directly casted to/from the corresponding P/Invoke enum. This allows to mix the "unsafe" and "safe" API at any time without problems.
+All the types are mutable, [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other high performance applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code).
 
-In the "unsafe" and "safe" API, string management is still on you. To convert .NET strings (UTF16) to C strings (ASCII) use [`Marshal.StringToHGlobalAnsi`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.stringtohglobalansi). This method will allocate on the unmanaged heap and you are responsible for freeing the memory with [`Marshal.FreeHGlobal`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.freehglobal).
+In the C and .NET API, string management is still on you. To convert a [.NET `string`](https://docs.microsoft.com/en-us/dotnet/api/system.string) (UTF16) to C strings (ASCII) use [`Marshal.StringToHGlobalAnsi`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.stringtohglobalansi). This method will allocate on the unmanaged heap and you are responsible for freeing the memory with [`Marshal.FreeHGlobal`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.freehglobal).
 
 ### Samples
 
-To learn how to use the "safe" API, check out the [.NET Core samples](https://github.com/lithiumtoast/sokol-csharp/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
+To learn how to use the .NET API, check out the [.NET Core samples](https://github.com/lithiumtoast/sokol-csharp/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
 
 ## Supported Platforms
 
