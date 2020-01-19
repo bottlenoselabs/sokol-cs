@@ -33,7 +33,7 @@ namespace Sokol
     public unsafe struct SgShaderUniformBlockDescription
     {
         [FieldOffset(0)] public int Size;
-        [FieldOffset(8)] public fixed ulong _uniforms[16 * SG_MAX_UB_MEMBERS / 8];
+        [FieldOffset(8)] internal fixed ulong _uniforms[16 * SG_MAX_UB_MEMBERS / 8];
 
         public ref SgShaderUniformDescription Uniform(int index)
         {

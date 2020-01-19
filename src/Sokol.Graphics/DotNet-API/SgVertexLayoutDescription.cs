@@ -34,8 +34,8 @@ namespace Sokol
     [StructLayout(LayoutKind.Explicit, Size = 288, Pack = 4)]
     public unsafe struct SgVertexLayoutDescription
     {
-        [FieldOffset(0)] public fixed int _buffers[12 * SG_MAX_SHADERSTAGE_BUFFERS / 4];
-        [FieldOffset(96)] public fixed int _attrs[12 * SG_MAX_VERTEX_ATTRIBUTES / 4];
+        [FieldOffset(0)] internal fixed int _buffers[12 * SG_MAX_SHADERSTAGE_BUFFERS / 4];
+        [FieldOffset(96)] internal fixed int _attrs[12 * SG_MAX_VERTEX_ATTRIBUTES / 4];
         
         public ref SgVertexBufferLayoutDescription Buffer(int index)
         {
