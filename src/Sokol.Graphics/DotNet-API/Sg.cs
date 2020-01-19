@@ -90,6 +90,17 @@ namespace Sokol
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_update_buffer")]
         public static extern void UpdateBuffer(SgBuffer buffer, IntPtr dataPointer, int dataSize);
 
+        public static unsafe void UpdateBuffer<T>(SgBuffer buffer, Memory<T> data, int? count = null) where T : unmanaged
+        {
+            var dataHandle = data.Pin();
+            var dataLength = count ?? data.Length;
+            var dataSize =  Marshal.SizeOf<T>() * dataLength;
+            
+            UpdateBuffer(buffer, (IntPtr) dataHandle.Pointer, dataSize);
+            
+            dataHandle.Dispose();
+        }
+
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_update_image")]
         public static extern void UpdateImage(SgImage image, ref SgImageContent data);
 

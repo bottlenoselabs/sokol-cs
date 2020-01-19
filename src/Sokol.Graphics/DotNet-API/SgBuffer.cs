@@ -36,29 +36,5 @@ namespace Sokol
     public struct SgBuffer
     {
         [FieldOffset(0)] public uint Identifier;
-
-        public void Update<T>(Memory<T> data) where T : unmanaged
-        {
-            var dataHandle = data.Pin();
-            var dataSize = Marshal.SizeOf<T>() * data.Length;
-            
-            unsafe
-            {
-                UpdateBuffer(this, (IntPtr) dataHandle.Pointer, dataSize);
-            }
-            
-            dataHandle.Dispose();
-        }
-        
-        public void Destroy()
-        {
-            if (Identifier == 0)
-            {
-                return;
-            }
-
-            DestroyBuffer(this);
-            Identifier = 0;
-        }
     }
 }
