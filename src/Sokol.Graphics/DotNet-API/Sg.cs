@@ -25,7 +25,6 @@ SOFTWARE.
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static Sokol.sokol_gfx;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
@@ -35,6 +34,8 @@ namespace Sokol
 {
     public static class Sg
     {
+        private const string SokolGfxLibraryName = "sokol_gfx";
+        
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_setup")]
         public static extern void Setup([In] ref SgDescription desc);
 
@@ -49,7 +50,7 @@ namespace Sokol
         public static extern void ResetStateCache();
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_install_trace_hooks")]
-        public static extern sg_trace_hooks InstallTraceHooks(ref sg_trace_hooks traceHooks);
+        public static extern SgTraceHooks InstallTraceHooks(ref SgTraceHooks traceHooks);
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_push_debug_group")]
         public static extern void PushDebugGroup(IntPtr name);
@@ -253,36 +254,12 @@ namespace Sokol
         public static extern void FailPass(SgPass pass);
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_setup_context")]
-        public static extern sg_context SetupContext();
+        public static extern SgContext SetupContext();
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_activate_context")]
-        public static extern void ActivateContext(sg_context context);
+        public static extern void ActivateContext(SgContext context);
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_discard_context")]
-        public static extern void DiscardContext(sg_context context);
-    }
-
-    public static class SgExtensions
-    {
-        public static bool IsOpenGL(this GraphicsBackend backend)
-        {
-            return backend == GraphicsBackend.OpenGL_Core;
-        }
-        
-        public static bool IsOpenGLES(this GraphicsBackend backend)
-        {
-            return backend == GraphicsBackend.OpenGL_ES2 || backend == GraphicsBackend.OpenGL_ES3;
-        }
-        
-        public static bool IsDirect3D(this GraphicsBackend backend)
-        {
-            return backend == GraphicsBackend.Direct3D_11;
-        }
-
-        public static bool IsMetal(this GraphicsBackend backend)
-        {
-            return backend == GraphicsBackend.Metal_macOS || backend == GraphicsBackend.Metal_iOS ||
-                   backend == GraphicsBackend.Metal_Simulator;
-        }
+        public static extern void DiscardContext(SgContext context);
     }
 }

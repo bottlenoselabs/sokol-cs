@@ -1028,7 +1028,7 @@ namespace Sokol
             [FieldOffset(96)] public uint _end_canary;
         }
 
-        internal const string SokolGfxLibraryName = "sokol_gfx";
+        private const string SokolGfxLibraryName = "sokol_gfx";
 
         [DllImport(SokolGfxLibraryName)]
         public static extern void sg_setup([In] ref sg_desc desc);
