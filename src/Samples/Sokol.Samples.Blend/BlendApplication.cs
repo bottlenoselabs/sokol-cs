@@ -9,8 +9,7 @@ namespace Sokol.Samples.Blend
 {
     public class BlendApplication : App
     {
-        // The interleaved vertex data structure
-        private struct Vertex
+        private struct QuadVertex
         {
             public Vector3 Position;
             public RgbaFloat Color;
@@ -29,14 +28,143 @@ namespace Sokol.Samples.Blend
 
         private const int NUM_BLEND_FACTORS = 15;
 
-        public unsafe BlendApplication()
+        public BlendApplication()
             : base(desc: new SgDescription
             {
                 PipelinePoolSize = NUM_BLEND_FACTORS * NUM_BLEND_FACTORS + 1
             })
         {
+            CreateVertexBuffer();
+            
+            CreateBackgroundShader();
+            CreateBackgroundPipeline();
+            
+            CreateQuadShader();
+            CreateQuadPipelines();
+            
+            SetBindings();
+            SetFrameBufferPassAction();
+        }
+
+        private void SetFrameBufferPassAction()
+        {
+            // set the frame buffer render pass action
+            _frameBufferPassAction = SgPassAction.DontCare;
+        }
+
+        private void SetBindings()
+        {
+            // describe the binding of the vertex (not applied yet!)
+            _bindings.VertexBuffer(0) = _vertexBuffer;
+        }
+
+        private void CreateQuadPipelines()
+        {
+            // describe the quad render pipelines
+            var pipelineDesc = new SgPipelineDescription();
+            pipelineDesc.Layout.Attribute(0).Format = SgVertexFormat.Float3;
+            pipelineDesc.Layout.Attribute(1).Format = SgVertexFormat.Float4;
+            pipelineDesc.Shader = _quadShader;
+            pipelineDesc.PrimitiveType = SgPrimitiveType.TriangleStrip;
+            pipelineDesc.Blend.IsEnabled = true;
+            pipelineDesc.Blend.BlendColor = RgbaFloat.Red;
+            pipelineDesc.Rasterizer.SampleCount = 4;
+
+            _quadPipelines = new SgPipeline[NUM_BLEND_FACTORS * NUM_BLEND_FACTORS];
+            for (var src = 0; src < NUM_BLEND_FACTORS; src++)
+            {
+                for (var dst = 0; dst < NUM_BLEND_FACTORS; dst++)
+                {
+                    var srcBlend = (SgBlendFactor) (src + 1);
+                    var dstBlend = (SgBlendFactor) (dst + 1);
+
+                    pipelineDesc.Blend.SourceFactorRgb = srcBlend;
+                    pipelineDesc.Blend.DestinationFactorRgb = dstBlend;
+                    pipelineDesc.Blend.SourceFactorAlpha = SgBlendFactor.One;
+                    pipelineDesc.Blend.DestinationFactorAlpha = SgBlendFactor.Zero;
+
+                    var index = dst + src * NUM_BLEND_FACTORS;
+                    ref var pipeline = ref _quadPipelines[index];
+                    pipeline = Sg.MakePipeline(ref pipelineDesc);
+                }
+            }
+        }
+
+        private void CreateQuadShader()
+        {
+            // describe the quad shader program
+            var shaderDesc = new SgShaderDescription();
+            shaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
+            ref var mvpUniform = ref shaderDesc.VertexShader.UniformBlock(0).Uniform(0);
+            mvpUniform.Name = new AsciiString16("mvp");
+            mvpUniform.Type = SgShaderUniformType.Matrix4x4;
+            // specify shader stage source code for each graphics backend
+            string vertexShaderSourceCode;
+            string fragmentShaderSourceCode;
+            if (GraphicsBackend.IsMetal())
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/metal/quadVert.metal");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/metal/quadFrag.metal");
+            }
+            else
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/opengl/quad.vert");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/opengl/quad.frag");
+            }
+
+            // create the quad shader resource from the description
+            _quadShader = Sg.MakeShader(ref shaderDesc, vertexShaderSourceCode, fragmentShaderSourceCode);
+        }
+
+        private void CreateBackgroundPipeline()
+        {
+            // describe the background render pipeline
+            var pipelineDesc = new SgPipelineDescription();
+            // note: reusing the vertices of the 3D quads, but only using the first two floats from the position
+            pipelineDesc.Layout.Buffer(0).Stride = 28;
+            pipelineDesc.Layout.Attribute(0).Format = SgVertexFormat.Float2;
+            pipelineDesc.Shader = _backgroundShader;
+            pipelineDesc.PrimitiveType = SgPrimitiveType.TriangleStrip;
+            pipelineDesc.Rasterizer.SampleCount = 4;
+
+            // create the background pipeline resource from the description
+            _backgroundPipeline = Sg.MakePipeline(ref pipelineDesc);
+        }
+
+        private void CreateBackgroundShader()
+        {
+            // describe the background shader program
+            var shaderDesc = new SgShaderDescription();
+            shaderDesc.FragmentShader.UniformBlock(0).Size = Marshal.SizeOf<float>();
+            ref var tickUniform = ref shaderDesc.FragmentShader.UniformBlock(0).Uniform(0);
+            tickUniform.Name = new AsciiString16("tick");
+            tickUniform.Type = SgShaderUniformType.Float;
+            // specify shader stage source code for each graphics backend
+            string vertexShaderSourceCode;
+            string fragmentShaderSourceCode;
+            if (GraphicsBackend.IsMetal())
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/metal/backgroundVert.metal");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/metal/backgroundFrag.metal");
+            }
+            else if (GraphicsBackend.IsOpenGL())
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/opengl/background.vert");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/opengl/background.frag");
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+            
+            // create the background shader resource from the description
+            _backgroundShader = Sg.MakeShader(ref shaderDesc, vertexShaderSourceCode, fragmentShaderSourceCode);
+        }
+
+        private unsafe void CreateVertexBuffer()
+        {
             // use memory from the thread's stack for the triangle vertices
-            var vertices = stackalloc Vertex[4];
+            var vertices = stackalloc QuadVertex[4];
 
             // describe the vertices of the quad
             vertices[0].Position = new Vector3(-1.0f, -1.0f, 0.0f);
@@ -47,7 +175,7 @@ namespace Sokol.Samples.Blend
             vertices[2].Color = new RgbaFloat(0.0f, 0.0f, 1.0f, 0.5f);
             vertices[3].Position = new Vector3(+1.0f, +1.0f, 0.0f);
             vertices[3].Color = new RgbaFloat(1.0f, 1.0f, 0.0f, 0.5f);
-            
+
             // describe an immutable vertex buffer
             var vertexBufferDesc = new SgBufferDescription
             {
@@ -55,121 +183,12 @@ namespace Sokol.Samples.Blend
                 Type = SgBufferType.Vertex,
                 Content = (IntPtr) vertices,
                 // immutable buffers need to specify the data/size in the description
-                Size = Marshal.SizeOf<Vertex>() * 4
+                Size = Marshal.SizeOf<QuadVertex>() * 4
             };
-  
+
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
             _vertexBuffer = Sg.MakeBuffer(ref vertexBufferDesc);
-            
-            // describe the binding of the vertex (not applied yet!)
-            _bindings.VertexBuffer(0) = _vertexBuffer;
-
-            // describe the background shader program
-            var backgroundShaderDesc = new SgShaderDescription();
-            backgroundShaderDesc.FragmentShader.UniformBlock(0).Size = Marshal.SizeOf<float>();
-            ref var tickUniform = ref backgroundShaderDesc.FragmentShader.UniformBlock(0).Uniform(0);
-            tickUniform.Name = new AsciiString16("tick");
-            tickUniform.Type = SgShaderUniformType.Float;
-            // specify shader stage source code for each graphics backend
-            string backgroundVertexShaderStageSourceCode;
-            string backgroundFragmentShaderStageSourceCode;
-            if (GraphicsBackend.IsMetal())
-            {
-                backgroundVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/backgroundVert.metal");
-                backgroundFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/backgroundFrag.metal");
-            }
-            else if (GraphicsBackend.IsOpenGL())
-            {
-                backgroundVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/background.vert");
-                backgroundFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/background.frag");
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-            // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            backgroundShaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(backgroundVertexShaderStageSourceCode);
-            backgroundShaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(backgroundFragmentShaderStageSourceCode);
-            
-            // create the background shader resource from the description
-            _backgroundShader = Sg.MakeShader(ref backgroundShaderDesc);
-            // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(backgroundShaderDesc.VertexShader.SourceCode);
-            Marshal.FreeHGlobal(backgroundShaderDesc.FragmentShader.SourceCode);
-
-            // describe the background render pipeline
-            var backgroundPipelineDesc = new SgPipelineDescription();
-            // note: reusing the vertices of the 3D quads, but only using the first two floats from the position
-            backgroundPipelineDesc.Layout.Buffer(0).Stride = 28;
-            backgroundPipelineDesc.Layout.Attribute(0).Format = SgVertexFormat.Float2;
-            backgroundPipelineDesc.Shader = _backgroundShader;
-            backgroundPipelineDesc.PrimitiveType = SgPrimitiveType.TriangleStrip;
-            backgroundPipelineDesc.Rasterizer.SampleCount = 4;
-            
-            // create the background pipeline resource from the description
-            _backgroundPipeline = Sg.MakePipeline(ref backgroundPipelineDesc);
-            
-            // describe the quad shader program
-            var quadShaderDesc = new SgShaderDescription();
-            quadShaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref quadShaderDesc.VertexShader.UniformBlock(0).Uniform(0);
-            mvpUniform.Name = new AsciiString16("mvp");
-            mvpUniform.Type = SgShaderUniformType.Matrix4x4;
-            // specify shader stage source code for each graphics backend
-            string quadVertexShaderStageSourceCode;
-            string quadFragmentShaderStageSourceCode;
-            if (GraphicsBackend.IsMetal())
-            {
-                quadVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/quadVert.metal");
-                quadFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/quadFrag.metal");
-            }
-            else
-            {
-                quadVertexShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/quad.vert");
-                quadFragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/quad.frag");
-            }
-            // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            quadShaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(quadVertexShaderStageSourceCode);
-            quadShaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(quadFragmentShaderStageSourceCode);
-            
-            // create the quad shader resource from the description
-            _quadShader = Sg.MakeShader(ref quadShaderDesc);
-            // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(quadShaderDesc.VertexShader.SourceCode);
-            Marshal.FreeHGlobal(quadShaderDesc.FragmentShader.SourceCode);
-            
-            // describe the quad render pipelines
-            var quadPipelineDesc = new SgPipelineDescription();
-            quadPipelineDesc.Layout.Attribute(0).Format = SgVertexFormat.Float3;
-            quadPipelineDesc.Layout.Attribute(1).Format = SgVertexFormat.Float4;
-            quadPipelineDesc.Shader = _quadShader;
-            quadPipelineDesc.PrimitiveType = SgPrimitiveType.TriangleStrip;
-            quadPipelineDesc.Blend.IsEnabled = true;
-            quadPipelineDesc.Blend.BlendColor = RgbaFloat.Red;
-            quadPipelineDesc.Rasterizer.SampleCount = 4;
-            
-            _quadPipelines = new SgPipeline[NUM_BLEND_FACTORS * NUM_BLEND_FACTORS];
-            for (var src = 0; src < NUM_BLEND_FACTORS; src++)
-            {
-                for (var dst = 0; dst < NUM_BLEND_FACTORS; dst++)
-                {
-                    var srcBlend = (SgBlendFactor) (src + 1);
-                    var dstBlend = (SgBlendFactor) (dst + 1);
-                    
-                    quadPipelineDesc.Blend.SourceFactorRgb = srcBlend;
-                    quadPipelineDesc.Blend.DestinationFactorRgb = dstBlend;
-                    quadPipelineDesc.Blend.SourceFactorAlpha = SgBlendFactor.One;
-                    quadPipelineDesc.Blend.DestinationFactorAlpha = SgBlendFactor.Zero;
-
-                    var index = dst + src * NUM_BLEND_FACTORS;
-                    ref var pipeline = ref _quadPipelines[index];
-                    pipeline = Sg.MakePipeline(ref quadPipelineDesc);
-                }
-            }
-
-            // set the frame buffer render pass action
-            _frameBufferPassAction = SgPassAction.DontCare;
         }
 
         protected override void Draw(int width, int height)
@@ -190,7 +209,7 @@ namespace Sokol.Samples.Blend
             Sg.ApplyBindings(ref _bindings);
 
             // apply the background tick uniform to the background fragment shader
-            Sg.ApplyUniforms(SgShaderStageType.FragmentShader, 0, ref _tick);
+            Sg.ApplyUniforms(SgShaderStageType.Fragment, 0, ref _tick);
 
             // draw the background quad into the target of the render pass
             Sg.Draw(0, 4, 1);
@@ -215,7 +234,7 @@ namespace Sokol.Samples.Blend
                     Sg.ApplyBindings(ref _bindings);
 
                     // apply the mvp matrix to the vertex shader
-                    Sg.ApplyUniforms(SgShaderStageType.VertexShader, 0, ref modelViewProjectionMatrix);
+                    Sg.ApplyUniforms(SgShaderStageType.Vertex, 0, ref modelViewProjectionMatrix);
        
                     // draw the quad into the target of the render pass
                     Sg.Draw(0, 4, 1);

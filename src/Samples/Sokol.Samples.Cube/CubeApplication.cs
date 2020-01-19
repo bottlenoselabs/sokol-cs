@@ -9,16 +9,15 @@ namespace Sokol.Samples.Cube
 {
     public class CubeApplication : App
     {
-        // The interleaved vertex data structure
-        private struct Vertex
+        private struct CubeVertex
         {
             public Vector3 Position;
             public RgbaFloat Color;
         }
         
-        private SgBuffer _vertexBuffer;
-        private SgBuffer _indexBuffer;
-        private SgBindings _bindings;
+        private SgBuffer _cubeVertexBuffer;
+        private SgBuffer _cubeIndexBuffer;
+        private SgBindings _cubeBindings;
         private SgPipeline _pipeline;
         private SgShader _shader;
         private SgPassAction _frameBufferPassAction;
@@ -26,10 +25,109 @@ namespace Sokol.Samples.Cube
         private float _rotationX;
         private float _rotationY;
 
-        public unsafe CubeApplication()
+        public CubeApplication()
+        {
+            CreateCubeVertexBuffer();
+            CreateCubeIndexBuffer();
+            CreateShader();
+            CreatePipeline();
+
+            SetCubeBindings();
+            SetFrameBufferPassAction();
+        }
+
+        private void SetFrameBufferPassAction()
+        {
+            // set the frame buffer render pass action
+            _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Gray);
+        }
+
+        private void SetCubeBindings()
+        {
+            // describe the binding of the vertex and index buffer (not applied yet!)
+            _cubeBindings.VertexBuffer(0) = _cubeVertexBuffer;
+            _cubeBindings.IndexBuffer = _cubeIndexBuffer;
+        }
+
+        private void CreatePipeline()
+        {
+            // describe the render pipeline
+            var pipelineDesc = new SgPipelineDescription();
+            pipelineDesc.Layout.Buffer(0).Stride = 28;
+            pipelineDesc.Layout.Attribute(0).Format = SgVertexFormat.Float3;
+            pipelineDesc.Layout.Attribute(1).Format = SgVertexFormat.Float4;
+            pipelineDesc.Shader = _shader;
+            pipelineDesc.IndexType = SgIndexType.UInt16;
+            pipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
+            pipelineDesc.DepthStencil.DepthWriteIsEnabled = true;
+            pipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
+
+            // create the pipeline resource from the description
+            _pipeline = Sg.MakePipeline(ref pipelineDesc);
+        }
+
+        private void CreateShader()
+        {
+            // describe the shader program
+            var shaderDesc = new SgShaderDescription();
+            shaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
+            ref var mvpUniform = ref shaderDesc.VertexShader.UniformBlock(0).Uniform(0);
+            mvpUniform.Name = new AsciiString16("mvp");
+            mvpUniform.Type = SgShaderUniformType.Matrix4x4;
+            // specify shader stage source code for each graphics backend
+            string vertexShaderSourceCode;
+            string fragmentShaderSourceCode;
+            if (GraphicsBackend.IsMetal())
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+            }
+            else if (GraphicsBackend.IsOpenGL())
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+            
+            // create the shader resource from the description
+            _shader = Sg.MakeShader(ref shaderDesc, vertexShaderSourceCode, fragmentShaderSourceCode);
+        }
+
+        private unsafe void CreateCubeIndexBuffer()
+        {
+            // use memory from the thread's stack to create the cube indices
+            var indices = stackalloc ushort[]
+            {
+                0, 1, 2, 0, 2, 3, // quad 1 of cube
+                6, 5, 4, 7, 6, 4, // quad 2 of cube
+                8, 9, 10, 8, 10, 11, // quad 3 of cube
+                14, 13, 12, 15, 14, 12, // quad 4 of cube
+                16, 17, 18, 16, 18, 19, // quad 5 of cube
+                22, 21, 20, 23, 22, 20 // quad 6 of cube
+            };
+
+            // describe an immutable index buffer
+            var bufferDesc = new SgBufferDescription
+            {
+                Usage = SgUsage.Immutable,
+                Type = SgBufferType.Index,
+                // immutable buffers need to specify the data/size in the description
+                Content = (IntPtr) indices,
+                Size = Marshal.SizeOf<ushort>() * 6 * 6
+            };
+
+            // create the index buffer resource from the description
+            // note: for immutable buffers, this "uploads" the data to the GPU
+            _cubeIndexBuffer = Sg.MakeBuffer(ref bufferDesc);
+        }
+
+        private unsafe void CreateCubeVertexBuffer()
         {
             // use memory from the thread's stack for the quad vertices
-            var vertices = stackalloc Vertex[24];
+            var vertices = stackalloc CubeVertex[24];
 
             // describe the vertices of the cube
             // quad 1
@@ -92,102 +190,23 @@ namespace Sokol.Samples.Cube
             vertices[22].Color = color6;
             vertices[23].Position = new Vector3(1.0f, 1.0f, -1.0f);
             vertices[23].Color = color6;
-            
+
             // describe an immutable vertex buffer
-            var vertexBufferDesc = new SgBufferDescription
+            var bufferDesc = new SgBufferDescription
             {
                 Usage = SgUsage.Immutable,
                 Type = SgBufferType.Vertex,
                 // immutable buffers need to specify the data/size in the description
                 Content = (IntPtr) vertices,
-                Size = Marshal.SizeOf<Vertex>() * 6 * 4
+                Size = Marshal.SizeOf<CubeVertex>() * 6 * 4
             };
 
             // create the vertex buffer resource from the description
             // note: for immutable buffers, this "uploads" the data to the GPU
-            _vertexBuffer = Sg.MakeBuffer(ref vertexBufferDesc);
-            
-            // use memory from the thread's stack to create the cube indices
-            var indices = stackalloc ushort[]
-            {
-                0, 1, 2,  0, 2, 3, // quad 1 of cube
-                6, 5, 4,  7, 6, 4, // quad 2 of cube
-                8, 9, 10,  8, 10, 11, // quad 3 of cube
-                14, 13, 12,  15, 14, 12, // quad 4 of cube
-                16, 17, 18,  16, 18, 19, // quad 5 of cube
-                22, 21, 20,  23, 22, 20 // quad 6 of cube
-            };
-            
-            // describe an immutable index buffer
-            var indexBufferDesc = new SgBufferDescription
-            {
-                Usage = SgUsage.Immutable,
-                Type = SgBufferType.Index,
-                // immutable buffers need to specify the data/size in the description
-                Content = (IntPtr) indices,
-                Size = Marshal.SizeOf<ushort>() * 6 * 6
-            };
-
-            // create the index buffer resource from the description
-            // note: for immutable buffers, this "uploads" the data to the GPU
-            _indexBuffer = Sg.MakeBuffer(ref indexBufferDesc);
-            
-            // describe the binding of the vertex and index buffer (not applied yet!)
-            _bindings.VertexBuffer(0) = _vertexBuffer;
-            _bindings.IndexBuffer = _indexBuffer;
-
-            // describe the shader program
-            var shaderDesc = new SgShaderDescription();
-            shaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexShader.UniformBlock(0).Uniform(0);
-            mvpUniform.Name = new AsciiString16("mvp");
-            mvpUniform.Type = SgShaderUniformType.Matrix4x4;
-            // specify shader stage source code for each graphics backend
-            string vertexShaderStageSourceCode;
-            string fragmentShaderStageSourceCode;
-            if (GraphicsBackend.IsMetal())
-            {
-                vertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
-            }
-            else if (GraphicsBackend.IsOpenGL())
-            {
-                vertexShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-            // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            shaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(vertexShaderStageSourceCode);
-            shaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(fragmentShaderStageSourceCode);
-            
-            // create the shader resource from the description
-            _shader = Sg.MakeShader(ref shaderDesc);
-            // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(shaderDesc.VertexShader.SourceCode);
-            Marshal.FreeHGlobal(shaderDesc.FragmentShader.SourceCode);
-
-            // describe the render pipeline
-            var pipelineDesc = new SgPipelineDescription();
-            pipelineDesc.Layout.Buffer(0).Stride = 28;
-            pipelineDesc.Layout.Attribute(0).Format = SgVertexFormat.Float3;
-            pipelineDesc.Layout.Attribute(1).Format = SgVertexFormat.Float4;
-            pipelineDesc.Shader = _shader;
-            pipelineDesc.IndexType = SgIndexType.UInt16;
-            pipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
-            pipelineDesc.DepthStencil.DepthWriteIsEnabled = true;
-            pipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
-
-            // create the pipeline resource from the description
-            _pipeline = Sg.MakePipeline(ref pipelineDesc);
-            
-            // set the frame buffer render pass action
-            _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Gray);
+            _cubeVertexBuffer = Sg.MakeBuffer(ref bufferDesc);
         }
-        
-        protected override unsafe void Draw(int width, int height)
+
+        protected override void Draw(int width, int height)
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float) (60.0f * Math.PI / 180), (float)width / height,
@@ -202,7 +221,7 @@ namespace Sokol.Samples.Cube
             
             // apply the render pipeline and bindings for the render pass
             Sg.ApplyPipeline(_pipeline);
-            Sg.ApplyBindings(ref _bindings);
+            Sg.ApplyBindings(ref _cubeBindings);
 
             // rotate cube and create vertex shader mvp matrix
             _rotationX += 1.0f * 0.020f;
@@ -213,7 +232,7 @@ namespace Sokol.Samples.Cube
             var modelViewProjectionMatrix = modelMatrix * viewProjectionMatrix;
             
             // apply the mvp matrix to the vertex shader
-            Sg.ApplyUniforms(SgShaderStageType.VertexShader, 0, ref modelViewProjectionMatrix);
+            Sg.ApplyUniforms(SgShaderStageType.Vertex, 0, ref modelViewProjectionMatrix);
 
             // draw the cube into the target of the render pass
             Sg.Draw(0, 36, 1);

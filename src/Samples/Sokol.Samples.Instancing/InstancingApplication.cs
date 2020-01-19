@@ -12,17 +12,16 @@ namespace Sokol.Samples.Instancing
         private const int NUM_PARTICLES_EMITTED_PER_FRAME = 10;
         private const float FRAME_TIME = 1.0f / 60.0f;
         
-        // The interleaved vertex data structure
-        private struct Vertex
+        private struct ParticleVertex
         {
             public Vector3 Position;
             public RgbaFloat Color;
         }
         
-        private SgBuffer _geometryVertexBuffer;
-        private SgBuffer _geometryIndexBuffer;
-        private SgBuffer _instanceVertexBuffer;
-        private SgBindings _bindings;
+        private SgBuffer _particleGeometryVertexBuffer;
+        private SgBuffer _particleGeometryIndexBuffer;
+        private SgBuffer _particleInstanceVertexBuffer;
+        private SgBindings _particleBindings;
         private SgShader _shader;
         private SgPipeline _pipeline;
         private SgPassAction _frameBufferPassAction;
@@ -33,107 +32,37 @@ namespace Sokol.Samples.Instancing
         private readonly Vector3[] _positions = new Vector3[MAX_PARTICLES];
         private readonly Vector3[] _velocities = new Vector3[MAX_PARTICLES];
 
-        public unsafe InstancingApplication()
+        public InstancingApplication()
         {
             Debug.Assert(Sg.IsValid());
             Debug.Assert(Sg.QueryFeatures().Instancing);
 
-            // use memory from the thread's stack for the static geometry vertices
-            var vertices = stackalloc Vertex[6];
-            
-            const float r = 0.05f;
-            // describe the vertices of the quad
-            vertices[0].Position = new Vector3(0, -r, 0);
-            vertices[0].Color = RgbaFloat.Red;
-            vertices[1].Position = new Vector3(r, 0, r);
-            vertices[1].Color = RgbaFloat.Green;
-            vertices[2].Position = new Vector3(r, 0, -r);
-            vertices[2].Color = RgbaFloat.Blue;
-            vertices[3].Position = new Vector3(-r, 0, -r); 
-            vertices[3].Color = RgbaFloat.Yellow;
-            vertices[4].Position = new Vector3(-r, 0, r);
-            vertices[4].Color = RgbaFloat.Cyan;
-            vertices[5].Position = new Vector3(0, r, 0);
-            vertices[5].Color = RgbaFloat.Magenta;
+            CreateParticleGeometryVertexBuffer();
+            CreateParticleGeometryIndexBuffer();
+            CreateParticleInstanceVertexBuffer();
+            CreateShader();
+            CreatePipeline();
 
-            // describe an immutable vertex buffer for the static geometry
-            var geometryVertexBufferDesc = new SgBufferDescription();
-            geometryVertexBufferDesc.Usage = SgUsage.Immutable;
-            geometryVertexBufferDesc.Type = SgBufferType.Vertex;
-            // immutable buffers need to specify the data/size in the description
-            geometryVertexBufferDesc.Content = (IntPtr) vertices;
-            geometryVertexBufferDesc.Size = Marshal.SizeOf<Vertex>() * 6;
+            SetParticleBindings();
+            SetFrameBufferPassAction();
+        }
 
-            // create the vertex buffer resource from the description
-            // note: for immutable buffers, this "uploads" the data to the GPU
-            _geometryVertexBuffer = Sg.MakeBuffer(ref geometryVertexBufferDesc);
-            
-            // use memory from the thread's stack to create the static geometry indices
-            var indices = stackalloc ushort[]
-            {
-                0, 1, 2,    0, 2, 3,    0, 3, 4,    0, 4, 1,
-                5, 1, 2,    5, 2, 3,    5, 3, 4,    5, 4, 1
-            };
-            
-            // describe an immutable index buffer for static geometry
-            var geometryIndexBufferDesc = new SgBufferDescription();
-            geometryIndexBufferDesc.Usage = SgUsage.Immutable;
-            geometryIndexBufferDesc.Type = SgBufferType.Index;
-            // immutable buffers need to specify the data/size in the description
-            geometryIndexBufferDesc.Content = (IntPtr) indices;
-            geometryIndexBufferDesc.Size = Marshal.SizeOf<ushort>() * 24;
-            
-            // create the index buffer resource from the description
-            // note: for immutable buffers, this "uploads" the data to the GPU
-            _geometryIndexBuffer = Sg.MakeBuffer(ref geometryIndexBufferDesc);
-            
-            // describe a stream vertex buffer for the instance data
-            var instanceVertexBufferDesc = new SgBufferDescription();
-            instanceVertexBufferDesc.Usage = SgUsage.Stream;
-            instanceVertexBufferDesc.Type = SgBufferType.Vertex;
-            instanceVertexBufferDesc.Size = Marshal.SizeOf<Vector3>() * MAX_PARTICLES;
-            // create the vertex buffer resource from the description
-            _instanceVertexBuffer = Sg.MakeBuffer(ref instanceVertexBufferDesc);
-            
+        private void SetFrameBufferPassAction()
+        {
+            // set the frame buffer render pass action
+            _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Grey);
+        }
+
+        private void SetParticleBindings()
+        {
             // describe the binding of the buffers (not applied yet!)
-            _bindings.VertexBuffer(0) = _geometryVertexBuffer;
-            _bindings.VertexBuffer(1) = _instanceVertexBuffer;
-            _bindings.IndexBuffer = _geometryIndexBuffer;
+            _particleBindings.VertexBuffer(0) = _particleGeometryVertexBuffer;
+            _particleBindings.VertexBuffer(1) = _particleInstanceVertexBuffer;
+            _particleBindings.IndexBuffer = _particleGeometryIndexBuffer;
+        }
 
-            // describe the shader program
-            var shaderDesc = new SgShaderDescription();
-            shaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexShader.UniformBlock(0).Uniform(0);
-            mvpUniform.Name = Marshal.StringToHGlobalAnsi("mvp");
-            mvpUniform.Type = SgShaderUniformType.Matrix4x4;
-            string vertexShaderStageSourceCode;
-            string fragmentShaderStageSourceCode;
-            // specify shader stage source code for each graphics backend
-            if (GraphicsBackend.IsMetal())
-            {
-                vertexShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
-            }
-            else if (GraphicsBackend.IsOpenGL())
-            {
-                vertexShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                fragmentShaderStageSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-            // copy each shader stage source code to unmanaged memory and set it to the shader program desc
-            shaderDesc.VertexShader.SourceCode = Marshal.StringToHGlobalAnsi(vertexShaderStageSourceCode);
-            shaderDesc.FragmentShader.SourceCode = Marshal.StringToHGlobalAnsi(fragmentShaderStageSourceCode);
-            
-            // create the shader resource from the description
-            _shader = Sg.MakeShader(ref shaderDesc);
-            // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(shaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
-            Marshal.FreeHGlobal(shaderDesc.VertexShader.SourceCode);
-            Marshal.FreeHGlobal(shaderDesc.FragmentShader.SourceCode);
-            
+        private void CreatePipeline()
+        {
             // describe the render pipeline
             var pipelineDesc = new SgPipelineDescription();
             pipelineDesc.Layout.Buffer(0).Stride = 28;
@@ -158,11 +87,104 @@ namespace Sokol.Samples.Instancing
             pipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
             // create the pipeline resource from the description
             _pipeline = Sg.MakePipeline(ref pipelineDesc);
-            
-            // set the frame buffer render pass action
-            _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Grey);
         }
-        
+
+        private void CreateShader()
+        {
+            // describe the shader program
+            var shaderDesc = new SgShaderDescription();
+            shaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
+            ref var mvpUniform = ref shaderDesc.VertexShader.UniformBlock(0).Uniform(0);
+            mvpUniform.Name = new AsciiString16("mvp");
+            mvpUniform.Type = SgShaderUniformType.Matrix4x4;
+            string vertexShaderSourceCode;
+            string fragmentShaderSourceCode;
+            // specify shader stage source code for each graphics backend
+            if (GraphicsBackend.IsMetal())
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+            }
+            else if (GraphicsBackend.IsOpenGL())
+            {
+                vertexShaderSourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                fragmentShaderSourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+            
+            // create the shader resource from the description
+            _shader = Sg.MakeShader(ref shaderDesc, vertexShaderSourceCode, fragmentShaderSourceCode);
+        }
+
+        private void CreateParticleInstanceVertexBuffer()
+        {
+            // describe a stream vertex buffer for the instance data
+            var instanceVertexBufferDesc = new SgBufferDescription();
+            instanceVertexBufferDesc.Usage = SgUsage.Stream;
+            instanceVertexBufferDesc.Type = SgBufferType.Vertex;
+            instanceVertexBufferDesc.Size = Marshal.SizeOf<Vector3>() * MAX_PARTICLES;
+            // create the vertex buffer resource from the description
+            _particleInstanceVertexBuffer = Sg.MakeBuffer(ref instanceVertexBufferDesc);
+        }
+
+        private unsafe void CreateParticleGeometryIndexBuffer()
+        {
+            // use memory from the thread's stack to create the static geometry indices
+            var indices = stackalloc ushort[]
+            {
+                0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 1,
+                5, 1, 2, 5, 2, 3, 5, 3, 4, 5, 4, 1
+            };
+
+            // describe an immutable index buffer for static geometry
+            var bufferDesc = new SgBufferDescription();
+            bufferDesc.Usage = SgUsage.Immutable;
+            bufferDesc.Type = SgBufferType.Index;
+            // immutable buffers need to specify the data/size in the description
+            bufferDesc.Content = (IntPtr) indices;
+            bufferDesc.Size = Marshal.SizeOf<ushort>() * 24;
+
+            // create the index buffer resource from the description
+            // note: for immutable buffers, this "uploads" the data to the GPU
+            _particleGeometryIndexBuffer = Sg.MakeBuffer(ref bufferDesc);
+        }
+
+        private unsafe void CreateParticleGeometryVertexBuffer()
+        {
+            // use memory from the thread's stack for the static geometry vertices
+            var vertices = stackalloc ParticleVertex[6];
+
+            const float r = 0.05f;
+            // describe the vertices of the quad
+            vertices[0].Position = new Vector3(0, -r, 0);
+            vertices[0].Color = RgbaFloat.Red;
+            vertices[1].Position = new Vector3(r, 0, r);
+            vertices[1].Color = RgbaFloat.Green;
+            vertices[2].Position = new Vector3(r, 0, -r);
+            vertices[2].Color = RgbaFloat.Blue;
+            vertices[3].Position = new Vector3(-r, 0, -r);
+            vertices[3].Color = RgbaFloat.Yellow;
+            vertices[4].Position = new Vector3(-r, 0, r);
+            vertices[4].Color = RgbaFloat.Cyan;
+            vertices[5].Position = new Vector3(0, r, 0);
+            vertices[5].Color = RgbaFloat.Magenta;
+
+            // describe an immutable vertex buffer for the static geometry
+            var bufferDesc = new SgBufferDescription();
+            bufferDesc.Usage = SgUsage.Immutable;
+            bufferDesc.Type = SgBufferType.Vertex;
+            // immutable buffers need to specify the data/size in the description
+            bufferDesc.Content = (IntPtr) vertices;
+            bufferDesc.Size = Marshal.SizeOf<ParticleVertex>() * 6;
+
+            // create the vertex buffer resource from the description
+            // note: for immutable buffers, this "uploads" the data to the GPU
+            _particleGeometryVertexBuffer = Sg.MakeBuffer(ref bufferDesc);
+        }
+
         protected override void Draw(int width, int height)
         {
             // emit new particles
@@ -202,7 +224,7 @@ namespace Sokol.Samples.Instancing
             }
             
             // update instance data
-            Sg.UpdateBuffer(_instanceVertexBuffer, _positions.AsMemory(), _currentParticleCount);
+            Sg.UpdateBuffer(_particleInstanceVertexBuffer, _positions.AsMemory(), _currentParticleCount);
 
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float) (45.0f * Math.PI / 180), (float)width / height,
@@ -223,10 +245,10 @@ namespace Sokol.Samples.Instancing
             
             // apply the render pipeline and bindings for the render pass
             Sg.ApplyPipeline(_pipeline);
-            Sg.ApplyBindings(ref _bindings);
+            Sg.ApplyBindings(ref _particleBindings);
             
             // apply the mvp matrix to the vertex shader
-            Sg.ApplyUniforms(SgShaderStageType.VertexShader, 0, ref modelViewProjectionMatrix);
+            Sg.ApplyUniforms(SgShaderStageType.Vertex, 0, ref modelViewProjectionMatrix);
             
             // draw the particles into the target of the render pass
             Sg.Draw(0, 24, _currentParticleCount);
