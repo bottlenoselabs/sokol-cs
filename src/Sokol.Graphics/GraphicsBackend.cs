@@ -40,4 +40,28 @@ namespace Sokol
         Metal_Simulator,
         Dummy
     }
+    
+    public static class GraphicsBackendExtensions
+    {
+        public static bool IsOpenGL(this GraphicsBackend backend)
+        {
+            return backend == GraphicsBackend.OpenGL_Core;
+        }
+        
+        public static bool IsOpenGLES(this GraphicsBackend backend)
+        {
+            return backend == GraphicsBackend.OpenGL_ES2 || backend == GraphicsBackend.OpenGL_ES3;
+        }
+        
+        public static bool IsDirect3D(this GraphicsBackend backend)
+        {
+            return backend == GraphicsBackend.Direct3D_11;
+        }
+
+        public static bool IsMetal(this GraphicsBackend backend)
+        {
+            return backend == GraphicsBackend.Metal_macOS || backend == GraphicsBackend.Metal_iOS ||
+                   backend == GraphicsBackend.Metal_Simulator;
+        }
+    }
 }
