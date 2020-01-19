@@ -66,6 +66,18 @@ namespace Sokol
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_make_shader")]
         public static extern SgShader MakeShader([In] ref SgShaderDescription description);
+
+        public static SgShader MakeShader([In] ref SgShaderDescription description, string vertexShaderSourceCode, string fragmentShaderSourceCode)
+        {
+            var vertexSourceCodePointer = Marshal.StringToHGlobalAnsi(vertexShaderSourceCode);
+            var fragmentSourceCodePointer = Marshal.StringToHGlobalAnsi(fragmentShaderSourceCode);
+
+            description.VertexShader.SourceCode = vertexSourceCodePointer;
+            description.FragmentShader.SourceCode = fragmentSourceCodePointer;
+
+            var shader = MakeShader(ref description);
+            return shader;
+        }
         
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_make_pipeline")]
         public static extern SgPipeline MakePipeline([In] ref SgPipelineDescription description);
