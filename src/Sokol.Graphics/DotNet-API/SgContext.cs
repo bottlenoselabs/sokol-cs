@@ -34,5 +34,10 @@ namespace Sokol
     public struct SgContext
     {
         [FieldOffset(0)] public uint Identifier;
+        
+        public override string ToString()
+        {
+            return $"{Identifier}";
+        }
     }
 }

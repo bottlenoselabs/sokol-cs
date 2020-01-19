@@ -33,5 +33,10 @@ namespace Sokol
     public struct SgShader
     {
         [FieldOffset(0)] public uint Identifier;
+        
+        public override string ToString()
+        {
+            return $"{Identifier}";
+        }
     }
 }
