@@ -26,7 +26,7 @@ namespace Sokol
 {
     public enum SgShaderStageType
     {
-        VertexShader,
-        FragmentShader
+        Vertex,
+        Fragment
     }
 }
