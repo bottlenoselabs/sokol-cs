@@ -23,29 +23,17 @@ SOFTWARE.
  */
 
 using System.Runtime.InteropServices;
-using static Sokol.sokol_gfx;
 
-// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Sokol
 {
-    [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8, CharSet = CharSet.Ansi)]
-    public unsafe struct SgPassDescription
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct SgResourceSlotInfo
     {
-        [FieldOffset(0)] internal uint _startCanary;
-        [FieldOffset(4)] internal fixed int _color_attachments[12 * SG_MAX_COLOR_ATTACHMENTS / 4];
-        [FieldOffset(52)] public SgAttachmentDescription DepthStencilAttachment;
-        [FieldOffset(64)] public byte* Label;
-        [FieldOffset(72)] internal uint _endCanary;
-        
-        public ref SgAttachmentDescription ColorAttachment(int index)
-        {
-            fixed (SgPassDescription* passDescription = &this)
-            {
-                var ptr = (SgAttachmentDescription*) &passDescription->_color_attachments[0];
-                return ref *(ptr + index);
-            }
-        }
+        [FieldOffset(0)] public SgResourceState State;
+        [FieldOffset(4)] public uint Resource;
+        [FieldOffset(8)] public uint Context;
     }
 }

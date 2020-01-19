@@ -27,6 +27,7 @@ using System.Runtime.InteropServices;
 using static Sokol.sokol_gfx;
 using static Sokol.Sg;
 
+// ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
 

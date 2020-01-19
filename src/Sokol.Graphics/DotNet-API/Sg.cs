@@ -160,7 +160,7 @@ namespace Sokol
         public static extern SgLimits QueryLimits();
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_query_pixelformat")]
-        public static extern sg_pixelformat_info QueryPixelFormat(SgPixelFormat format);
+        public static extern SgPixelFormatInfo QueryPixelFormat(SgPixelFormat format);
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_query_buffer_state")]
         public static extern SgResourceState QueryBufferState(SgBuffer buffer);
@@ -178,19 +178,19 @@ namespace Sokol
         public static extern SgResourceState QueryPassState(SgPass pass);
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_query_buffer_info")]
-        public static extern sg_buffer_info QueryBufferInfo(SgBuffer buffer);
+        public static extern SgBufferInfo QueryBufferInfo(SgBuffer buffer);
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_query_image_info")]
-        public static extern sg_image_info QueryImageInfo(SgImage image);
+        public static extern SgImageInfo QueryImageInfo(SgImage image);
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_query_shader_info")]
-        public static extern sg_shader_info QueryShaderInfo(SgShader shader);
+        public static extern SgShaderInfo QueryShaderInfo(SgShader shader);
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_query_pipeline_info")]
-        public static extern sg_pipeline_info QueryPipelineInfo(SgPipeline pipeline);
+        public static extern SgPipelineInfo QueryPipelineInfo(SgPipeline pipeline);
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_query_pass_info")]
-        public static extern sg_pass_info QueryPassInfo(SgPass pass);
+        public static extern SgPassInfo QueryPassInfo(SgPass pass);
 
         [DllImport(SokolGfxLibraryName, EntryPoint = "sg_query_buffer_defaults")]
         public static extern SgBufferDescription QueryBufferDefaults([In] ref SgBufferDescription description);

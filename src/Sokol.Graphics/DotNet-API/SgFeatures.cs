@@ -35,7 +35,7 @@ namespace Sokol
         [FieldOffset(0)] public BlittableBoolean Instancing;
         [FieldOffset(1)] public BlittableBoolean OriginTopLeft;
         [FieldOffset(2)] public BlittableBoolean MultipleRenderTargets;
-        [FieldOffset(3)] public BlittableBoolean MSAARenderTargets;
+        [FieldOffset(3)] public BlittableBoolean MsaaRenderTargets;
         [FieldOffset(4)] public BlittableBoolean ImageType3D;
         [FieldOffset(5)] public BlittableBoolean ImageTypeArray;
         [FieldOffset(6)] public BlittableBoolean ImageClampToBorder;
