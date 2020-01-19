@@ -1,8 +1,11 @@
 #version 330
-layout(location=0) in vec4 position;
+uniform mat4 mvp;
+layout(location=0) in vec3 position;
 layout(location=1) in vec4 color0;
+layout(location=2) in vec3 instance_pos;
 out vec4 color;
 void main() {
-  gl_Position = position;
+  vec4 pos = vec4(position + instance_pos, 1.0);
+  gl_Position = mvp * pos;
   color = color0;
 }
