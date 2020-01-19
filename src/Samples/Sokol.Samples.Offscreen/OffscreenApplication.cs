@@ -176,7 +176,7 @@ namespace Sokol.Samples.Offscreen
             offscreenImageDesc.PixelFormat = SgPixelFormat.RGBA8;
             offscreenImageDesc.MinificationFilter = SgTextureFilter.Linear;
             offscreenImageDesc.MagnificationFilter = SgTextureFilter.Linear;
-            offscreenImageDesc.SampleCount = Sg.QueryFeatures().MSAARenderTargets ? 4 : 1;
+            offscreenImageDesc.SampleCount = Sg.QueryFeatures().MsaaRenderTargets ? 4 : 1;
      
             // create the color render target image from the description
             _renderTargetColorImage = Sg.MakeImage(ref offscreenImageDesc);
@@ -285,7 +285,7 @@ namespace Sokol.Samples.Offscreen
             offscreenPipelineDesc.Blend.ColorFormat = SgPixelFormat.RGBA8;
             offscreenPipelineDesc.Blend.DepthFormat = SgPixelFormat.Depth;
             offscreenPipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
-            offscreenPipelineDesc.Rasterizer.SampleCount = Sg.QueryFeatures().MSAARenderTargets ? 4 : 1;
+            offscreenPipelineDesc.Rasterizer.SampleCount = Sg.QueryFeatures().MsaaRenderTargets ? 4 : 1;
 
             // create the offscreen pipeline resource from the description
             _offscreenPipeline = Sg.MakePipeline(ref offscreenPipelineDesc);
@@ -300,7 +300,7 @@ namespace Sokol.Samples.Offscreen
             frameBufferPipelineDesc.DepthStencil.DepthCompareFunction = SgCompareFunction.LessEqual;
             frameBufferPipelineDesc.DepthStencil.DepthWriteIsEnabled = true;
             frameBufferPipelineDesc.Rasterizer.CullMode = SgCullMode.Back;
-            frameBufferPipelineDesc.Rasterizer.SampleCount = Sg.QueryFeatures().MSAARenderTargets ? 4 : 1;
+            frameBufferPipelineDesc.Rasterizer.SampleCount = Sg.QueryFeatures().MsaaRenderTargets ? 4 : 1;
 
             // create the framebuffer pipeline resource from the description
             _frameBufferPipeline = Sg.MakePipeline(ref frameBufferPipelineDesc);
