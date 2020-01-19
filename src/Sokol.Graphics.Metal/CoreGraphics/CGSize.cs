@@ -28,7 +28,7 @@ SOFTWARE.
 /* 
 MIT License
 
-Copyright (c) 2019 Lucas Girouard-Stranks
+Copyright (c) 2020 Lucas Girouard-Stranks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -58,10 +58,10 @@ namespace Sokol.CoreGraphics
 {
     public struct CGSize
     {
-        public double width;
-        public double height;
+        public CGFloat width;
+        public CGFloat height;
 
-        public CGSize(double width, double height)
+        public CGSize(CGFloat width, CGFloat height)
         {
             this.width = width;
             this.height = height;

@@ -1,7 +1,7 @@
 /* 
 MIT License
 
-Copyright (c) 2019 Lucas Girouard-Stranks
+Copyright (c) 2020 Lucas Girouard-Stranks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ using static Sokol.ObjCRuntime.Messaging;
 
 namespace Sokol.ObjCRuntime
 {
-    public static class NSArray
+    internal static class NSArray
     {
         public static unsafe T objectAtIndexedSubscript<T>(IntPtr receiver, UIntPtr index) where T : unmanaged
         {

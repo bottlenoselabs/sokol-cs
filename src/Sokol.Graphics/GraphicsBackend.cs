@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2019 Lucas Girouard-Stranks
+Copyright (c) 2020 Lucas Girouard-Stranks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,15 +22,46 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+using System.Runtime.InteropServices;
+
+// ReSharper disable InconsistentNaming
+
 namespace Sokol
 {
     public enum GraphicsBackend
     {
-        Default,
-        OpenGL, // Core 3.3
-        OpenGLES2,
-        OpenGLES3,
-        Direct3D11,
-        Metal
+        OpenGL_Core,
+        OpenGL_ES2,
+        OpenGL_ES3,
+        Direct3D_11,
+        Metal_iOS,
+        Metal_macOS,
+        Metal_Simulator,
+        Dummy
+    }
+    
+    public static class GraphicsBackendExtensions
+    {
+        public static bool IsOpenGL(this GraphicsBackend backend)
+        {
+            return backend == GraphicsBackend.OpenGL_Core;
+        }
+        
+        public static bool IsOpenGLES(this GraphicsBackend backend)
+        {
+            return backend == GraphicsBackend.OpenGL_ES2 || backend == GraphicsBackend.OpenGL_ES3;
+        }
+        
+        public static bool IsDirect3D(this GraphicsBackend backend)
+        {
+            return backend == GraphicsBackend.Direct3D_11;
+        }
+
+        public static bool IsMetal(this GraphicsBackend backend)
+        {
+            return backend == GraphicsBackend.Metal_macOS || backend == GraphicsBackend.Metal_iOS ||
+                   backend == GraphicsBackend.Metal_Simulator;
+        }
     }
 }

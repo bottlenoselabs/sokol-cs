@@ -57,6 +57,9 @@ namespace Sokol.Samples
             {
                 throw new ApplicationException("Failed to initialize GLEW.");
             }
+
+            // Enable vertical sync by default
+            SDL_GL_SetSwapInterval(1);
         }
 
         private static void SetSDL2Attributes()

@@ -28,7 +28,7 @@ SOFTWARE.
 /* 
 MIT License
 
-Copyright (c) 2019 Lucas Girouard-Stranks
+Copyright (c) 2020 Lucas Girouard-Stranks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -66,8 +66,8 @@ namespace Sokol.Metal
         
         public readonly IntPtr Handle;
         
-        public static MTLRenderPassDescriptor New() => _class.AllocInit<MTLRenderPassDescriptor>();
-        
+        public static MTLRenderPassDescriptor New() => _class.New<MTLRenderPassDescriptor>();
+
         public MTLRenderPassColorAttachmentDescriptorArray colorAttachments
             => t_objc_msgSend<MTLRenderPassColorAttachmentDescriptorArray>(Handle, sel_colorAttachments);
         

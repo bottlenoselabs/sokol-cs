@@ -28,7 +28,7 @@ SOFTWARE.
 /* 
 MIT License
 
-Copyright (c) 2019 Lucas Girouard-Stranks
+Copyright (c) 2020 Lucas Girouard-Stranks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -66,41 +66,26 @@ namespace Sokol.CoreAnimation
     public struct CAMetalLayer
     {
         public readonly IntPtr Handle;
-        
-        public MTLDevice device
+
+        public CAMetalLayer(IntPtr handle)
         {
-            get => t_objc_msgSend<MTLDevice>(Handle, sel_device);
-            set => void_objc_msgSend_intptr(Handle, sel_setDevice, value);
+            Handle = handle;
         }
         
-        public MTLPixelFormat pixelFormat
-        {
-            get => (MTLPixelFormat)uint_objc_msgSend(Handle, sel_pixelFormat);
-            set => void_objc_msgSend_uint(Handle, sel_setPixelFormat, (uint)value);
-        }
-        
+        public MTLDevice device => t_objc_msgSend<MTLDevice>(Handle, sel_device);
+
         public BlittableBoolean framebufferOnly
         {
             get => bool_objc_msgSend(Handle, sel_framebufferOnly);
             set => void_objc_msgSend_bool(Handle, sel_setFramebufferOnly, value);
         }
         
-        public CGSize drawableSize
-        {
-            get => cgsize_objc_msgSend(Handle, sel_drawableSize);
-            set => void_objc_msgSend_cgsize(Handle, sel_setDrawableSize, value);
-        }
+        public CGSize drawableSize => cgsize_objc_msgSend(Handle, sel_drawableSize);
 
         public BlittableBoolean displaySyncEnabled
         {
             get => bool_objc_msgSend(Handle, sel_displaySyncEnabled);
             set => void_objc_msgSend_bool(Handle, sel_setDisplaySyncEnabled, value);
-        }
-        
-        public static CAMetalLayer New()
-        {
-            var cls = new Class("CAMetalLayer");
-            return cls.AllocInit<CAMetalLayer>();
         }
 
         public CAMetalDrawable nextDrawable()
@@ -114,13 +99,9 @@ namespace Sokol.CoreAnimation
         }
         
         private static readonly Selector sel_device = "device";
-        private static readonly Selector sel_setDevice = "setDevice:";
-        private static readonly Selector sel_pixelFormat = "pixelFormat";
-        private static readonly Selector sel_setPixelFormat = "setPixelFormat:";
         private static readonly Selector sel_framebufferOnly = "framebufferOnly";
         private static readonly Selector sel_setFramebufferOnly = "setFramebufferOnly:";
         private static readonly Selector sel_drawableSize = "drawableSize";
-        private static readonly Selector sel_setDrawableSize = "setDrawableSize:";
         private static readonly Selector sel_displaySyncEnabled = "displaySyncEnabled";
         private static readonly Selector sel_setDisplaySyncEnabled = "setDisplaySyncEnabled:";
         private static readonly Selector sel_nextDrawable = "nextDrawable";

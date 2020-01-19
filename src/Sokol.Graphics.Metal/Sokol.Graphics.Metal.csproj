@@ -10,7 +10,7 @@
         <Authors>Lucas Girouard-Stranks</Authors>
         <RootNamespace>Sokol</RootNamespace>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Copyright>Copyright © 2019 Lucas Girouard-Stranks</Copyright>
+        <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
         <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
         <License>MIT</License>
         <RepositoryUrl>https://github.com/lithiumtoast/sokol-csharp</RepositoryUrl>
@@ -23,7 +23,15 @@
       <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
     </ItemGroup>
     
-    <ItemGroup>
+    <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
+        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\metal\debug\libsokol_gfx.dylib">
+            <Link>libsokol_gfx-metal.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/osx-x64/native</PackagePath>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release' ">
         <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\metal\release\libsokol_gfx.dylib">
             <Link>libsokol_gfx-metal.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

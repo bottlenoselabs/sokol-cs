@@ -1,7 +1,7 @@
 /* 
 MIT License
 
-Copyright (c) 2019 Lucas Girouard-Stranks
+Copyright (c) 2020 Lucas Girouard-Stranks
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,13 +35,7 @@ namespace Sokol.ObjCRuntime
         {
             void_objc_msgSend(receiver, sel_release);
         }
-        
-        public static void retain(IntPtr receiver)
-        {
-            void_objc_msgSend(receiver, sel_retain);
-        }
 
         private static readonly Selector sel_release = "release";
-        private static readonly Selector sel_retain = "retain";
     }
 }
