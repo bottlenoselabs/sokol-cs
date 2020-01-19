@@ -16,6 +16,7 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 ## News
 
+- 2020/01/18: .NET API fairly well finished. All samples now use the .NET API.
 - 2019/12/23: Metal graphics backend working with samples. Added NuGet package `Sokol.Graphics.Metal` for Metal specific code and packaging any `sokol` Metal native shared libraries.
 - 2019/11/16: Added NuGet package `Sokol.Graphics.OpenGL` for OpenGL specific code and packaging all the necessary OpenGL native shared libraries.
 - 2019/11/11: [`v0.1`](https://github.com/lithiumtoast/sokol-csharp/releases/tag/v0.1) released: `Sokol.Graphics` available as NuGet package (does not include shared library binaries).
@@ -30,10 +31,7 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/framework/interop/consuming-unmanaged-dll-functions) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained.
 
-The C structs in C# are:
-
-- Blittable: [Same memory layout as C structs](https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types). This allows the structures to be passed by value (copy of data) or reference (copy of pointer) from the managed world of .NET to the unmanaged world of C [as is, improving performance.](https://docs.microsoft.com/en-us/dotnet/framework/interop/copying-and-pinning#formatted-blittable-classes).
-- Usually passed by reference: Often, the [`ref` keyword is used to pass the struct by reference](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/ref#passing-an-argument-by-reference) (copy of pointer) to avoid passing by value (copy of the data) for performance reasons. The general rule of thumb is if the struct size is bigger than the size of a pointer (64-bits, or 8 bytes, on a 64-bit machine), then [it should probably be passed by reference](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code).
+The C structs in C# are blittable, meaning they have the [same memory layout as C structs](https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types). This allows the structures to be passed by value (copy of data) or reference (akin to copy of pointer) from the managed world of .NET to the unmanaged world of C [as is, improving performance.](https://docs.microsoft.com/en-us/dotnet/framework/interop/copying-and-pinning#formatted-blittable-classes).
 
 In .NET, the `unsafe` keyword will most often be necessary for using the C structs and calling the C functions. Also, for practicality, it's recommended to import the module with all the bindings, structs, and enums like so:
 
@@ -45,15 +43,23 @@ To learn how to use the C API, check out the [official C samples](https://github
 
 ## .NET API
 
-The .NET API is just wrappers over the C API for .NET idioms, convenience, and ease of use. The `unsafe` keyword is not required, nor is importing the module `Sokol.sokol_gfx`. All the types have some prefix such as `Sg` for "Sokol Graphics". This API targets .NET Standard 2.1 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
+The .NET API is just wrappers over the C API for .NET idioms, convenience, and ease of use. The `unsafe` keyword is not required. All the types have some prefix such as `Sg` for "Sokol Graphics". The API targets .NET Standard 2.1 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
 
 All the types are mutable, [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other high performance applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code).
 
-In the C and .NET API, string management is still on you. To convert a [.NET `string`](https://docs.microsoft.com/en-us/dotnet/api/system.string) (UTF16) to C strings (ASCII) use [`Marshal.StringToHGlobalAnsi`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.stringtohglobalansi). This method will allocate on the unmanaged heap and you are responsible for freeing the memory with [`Marshal.FreeHGlobal`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.freehglobal).
+For practicality, it's recommended to import the module with all the bindings like so:
+
+```cs
+using static Sokol.Sg;
+```
 
 ### Samples
 
 To learn how to use the .NET API, check out the [.NET Core samples](https://github.com/lithiumtoast/sokol-csharp/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
+
+## Strings
+
+In the C and .NET API, string management is still on you. To convert a [.NET `string`](https://docs.microsoft.com/en-us/dotnet/api/system.string) (UTF16) to a C string (ASCII) use [`Marshal.StringToHGlobalAnsi`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.stringtohglobalansi). This method will allocate on the unmanaged heap and you are responsible for freeing the memory with [`Marshal.FreeHGlobal`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.freehglobal).
 
 ## Supported Platforms
 
