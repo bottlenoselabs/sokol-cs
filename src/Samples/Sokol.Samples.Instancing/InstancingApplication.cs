@@ -229,7 +229,7 @@ namespace Sokol.Samples.Instancing
             // apply the mvp matrix to the vertex shader
             Sg.ApplyUniforms(SgShaderStageType.VertexShader, 0, ref modelViewProjectionMatrix);
             
-            // draw the quad into the target of the render pass
+            // draw the particles into the target of the render pass
             Sg.Draw(0, 24, _currentParticleCount);
             
             // end framebuffer render pass
