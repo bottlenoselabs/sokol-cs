@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
@@ -54,8 +55,8 @@ namespace Sokol.Samples.Triangle
 
             // describe the shader program
             var shaderDesc = new SgShaderDescription();
-            shaderDesc.Attribute(0).Name = Marshal.StringToHGlobalAnsi("position");
-            shaderDesc.Attribute(1).Name = Marshal.StringToHGlobalAnsi("color0");
+            shaderDesc.Attribute(0).Name = new AsciiString16("position");
+            shaderDesc.Attribute(1).Name = new AsciiString16("color0");
             // specify shader stage source code for each graphics backend
             string vertexShaderStageSourceCode;
             string fragmentShaderStageSourceCode;
@@ -80,8 +81,6 @@ namespace Sokol.Samples.Triangle
             // create the shader resource from the description
             _shader = Sg.MakeShader(ref shaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(shaderDesc.Attribute(0).Name);
-            Marshal.FreeHGlobal(shaderDesc.Attribute(1).Name);
             Marshal.FreeHGlobal(shaderDesc.VertexShader.SourceCode);
             Marshal.FreeHGlobal(shaderDesc.FragmentShader.SourceCode);
             

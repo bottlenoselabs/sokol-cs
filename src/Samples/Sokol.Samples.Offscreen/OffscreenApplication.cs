@@ -206,7 +206,7 @@ namespace Sokol.Samples.Offscreen
             var offscreenShaderDesc = new SgShaderDescription();
             offscreenShaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
             ref var offscreenMvpUniform = ref offscreenShaderDesc.VertexShader.UniformBlock(0).Uniform(0);
-            offscreenMvpUniform.Name = Marshal.StringToHGlobalAnsi("mvp");
+            offscreenMvpUniform.Name = new AsciiString16("mvp");
             offscreenMvpUniform.Type = SgShaderUniformType.Matrix4x4;
             // specify shader stage source code for each graphics backend
             string offscreenVertexShaderStageSourceCode;
@@ -232,16 +232,15 @@ namespace Sokol.Samples.Offscreen
             // create the offscreen shader resource from the description
             _offscreenShader = Sg.MakeShader(ref offscreenShaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(offscreenShaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
             Marshal.FreeHGlobal(offscreenShaderDesc.VertexShader.SourceCode);
             Marshal.FreeHGlobal(offscreenShaderDesc.FragmentShader.SourceCode);
             
             var frameBufferShaderDesc = new SgShaderDescription();
             frameBufferShaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
             ref var frameBufferMvpUniform = ref frameBufferShaderDesc.VertexShader.UniformBlock(0).Uniform(0);
-            frameBufferMvpUniform.Name = Marshal.StringToHGlobalAnsi("mvp");
+            frameBufferMvpUniform.Name = new AsciiString16("mvp");
             frameBufferMvpUniform.Type = SgShaderUniformType.Matrix4x4;
-            frameBufferShaderDesc.FragmentShader.Image(0).Name = Marshal.StringToHGlobalAnsi("tex");
+            frameBufferShaderDesc.FragmentShader.Image(0).Name = new AsciiString16("tex");
             frameBufferShaderDesc.FragmentShader.Image(0).Type = SgImageType.Texture2D;
             // specify shader stage source code for each graphics backend
             string frameBufferVertexShaderStageSourceCode;
@@ -267,8 +266,6 @@ namespace Sokol.Samples.Offscreen
             // create the shader resource from the description
             _frameBufferShader = Sg.MakeShader(ref frameBufferShaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(frameBufferShaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
-            Marshal.FreeHGlobal(frameBufferShaderDesc.FragmentShader.Image(0).Name);
             Marshal.FreeHGlobal(frameBufferShaderDesc.VertexShader.SourceCode);
             Marshal.FreeHGlobal(frameBufferShaderDesc.FragmentShader.SourceCode);
             

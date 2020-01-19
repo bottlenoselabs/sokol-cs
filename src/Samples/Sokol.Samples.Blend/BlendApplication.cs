@@ -69,7 +69,7 @@ namespace Sokol.Samples.Blend
             var backgroundShaderDesc = new SgShaderDescription();
             backgroundShaderDesc.FragmentShader.UniformBlock(0).Size = Marshal.SizeOf<float>();
             ref var tickUniform = ref backgroundShaderDesc.FragmentShader.UniformBlock(0).Uniform(0);
-            tickUniform.Name = Marshal.StringToHGlobalAnsi("tick");
+            tickUniform.Name = new AsciiString16("tick");
             tickUniform.Type = SgShaderUniformType.Float;
             // specify shader stage source code for each graphics backend
             string backgroundVertexShaderStageSourceCode;
@@ -95,7 +95,6 @@ namespace Sokol.Samples.Blend
             // create the background shader resource from the description
             _backgroundShader = Sg.MakeShader(ref backgroundShaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(backgroundShaderDesc.FragmentShader.UniformBlock(0).Uniform(0).Name);
             Marshal.FreeHGlobal(backgroundShaderDesc.VertexShader.SourceCode);
             Marshal.FreeHGlobal(backgroundShaderDesc.FragmentShader.SourceCode);
 
@@ -115,7 +114,7 @@ namespace Sokol.Samples.Blend
             var quadShaderDesc = new SgShaderDescription();
             quadShaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
             ref var mvpUniform = ref quadShaderDesc.VertexShader.UniformBlock(0).Uniform(0);
-            mvpUniform.Name = Marshal.StringToHGlobalAnsi("mvp");
+            mvpUniform.Name = new AsciiString16("mvp");
             mvpUniform.Type = SgShaderUniformType.Matrix4x4;
             // specify shader stage source code for each graphics backend
             string quadVertexShaderStageSourceCode;
@@ -137,7 +136,6 @@ namespace Sokol.Samples.Blend
             // create the quad shader resource from the description
             _quadShader = Sg.MakeShader(ref quadShaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(quadShaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
             Marshal.FreeHGlobal(quadShaderDesc.VertexShader.SourceCode);
             Marshal.FreeHGlobal(quadShaderDesc.FragmentShader.SourceCode);
             

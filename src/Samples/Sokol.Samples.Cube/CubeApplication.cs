@@ -140,7 +140,7 @@ namespace Sokol.Samples.Cube
             var shaderDesc = new SgShaderDescription();
             shaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
             ref var mvpUniform = ref shaderDesc.VertexShader.UniformBlock(0).Uniform(0);
-            mvpUniform.Name = Marshal.StringToHGlobalAnsi("mvp");
+            mvpUniform.Name = new AsciiString16("mvp");
             mvpUniform.Type = SgShaderUniformType.Matrix4x4;
             // specify shader stage source code for each graphics backend
             string vertexShaderStageSourceCode;
@@ -166,7 +166,6 @@ namespace Sokol.Samples.Cube
             // create the shader resource from the description
             _shader = Sg.MakeShader(ref shaderDesc);
             // after creating the shader we can free any allocs we had to make for the shader
-            Marshal.FreeHGlobal(shaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
             Marshal.FreeHGlobal(shaderDesc.VertexShader.SourceCode);
             Marshal.FreeHGlobal(shaderDesc.FragmentShader.SourceCode);
 
