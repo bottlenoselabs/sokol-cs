@@ -81,8 +81,8 @@ Console PlayStation 4|✅|❌|❌|❌|❌|❓
 - ⭕ means the graphics API is supported on the platform but not by `sokol`.
 - OpenGL is deprecated for macOS; recommended to only use Metal for macOS if hardware supports it. All Apple platforms support Metal and are supported with .NET using [Xamarin](https://dotnet.microsoft.com/apps/xamarin).
 - Android is supported with .NET using [Xamarin](https://dotnet.microsoft.com/apps/xamarin).
-- As of Q4 2019, WebAssembly is made possible with .NET using [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor). I have not tried to get Sokol working with Blazor yet.
-- As of Q4 2019, consoles are made possible with .NET using [BRUTE](http://brute.rocks). However, the tool is not yet released to the general public. Also, SDK licenses are required for each console.
+- As of Q4 2018, WebAssembly is made possible with .NET using [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor). I have not tried to get Sokol working with Blazor yet.
+- As of writing in Q1 2020, consoles are made possible with .NET using [BRUTE](http://brute.rocks). However, the tool is not yet released to the general public. Also, SDK licenses are required for each console. You can read more about the plans for this technology in [this MonoGame GitHub issue](https://github.com/MonoGame/MonoGame/issues/7003#issuecomment-581481032).
 - As of Q2 2019, [.NET 5 has been accounced as the next .NET Core that will unify desktop, mobile, browser, consoles, and other platforms](https://devblogs.microsoft.com/dotnet/introducing-net-5/). Thus, adopting .NET Core *now* is future proofing.
 
 ## Contributing
