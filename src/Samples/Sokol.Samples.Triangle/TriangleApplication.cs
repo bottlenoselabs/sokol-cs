@@ -34,7 +34,7 @@ namespace Sokol.Samples.Triangle
         private void SetFrameBufferPassAction()
         {
             // set the frame buffer render pass action
-            _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Black);
+            _frameBufferPassAction = SgPassAction.Clear(RgbaFloat.Red);
         }
 
         private void SetTriangleBindings()
@@ -45,9 +45,10 @@ namespace Sokol.Samples.Triangle
 
         private unsafe void CreateTriangleVertexBuffer()
         {
-            // use memory from the thread's stack for the triangle vertices
-            var vertices = stackalloc TriangleVertex[3];
-
+            // create some memory for the triangle vertices
+            var vertices = new TriangleVertex[3];
+            using var verticesMemoryHandle = vertices.AsMemory().Pin();
+            
             // describe the vertices of the triangle
             vertices[0].Position = new Vector3(0.0f, 0.5f, 0.5f);
             vertices[0].Color = RgbaFloat.Red;
@@ -62,7 +63,7 @@ namespace Sokol.Samples.Triangle
                 Usage = SgUsage.Immutable,
                 Type = SgBufferType.Vertex,
                 // immutable buffers need to specify the data/size in the description
-                Content = (IntPtr) vertices,
+                Content = (IntPtr) verticesMemoryHandle.Pointer,
                 Size = Marshal.SizeOf<TriangleVertex>() * 3
             };
 
@@ -74,8 +75,10 @@ namespace Sokol.Samples.Triangle
         private void CreatePipeline()
         {
             // describe the render pipeline
-            var pipelineDesc = new SgPipelineDescription();
-            pipelineDesc.Shader = _shader;
+            var pipelineDesc = new SgPipelineDescription
+            {
+                Shader = _shader
+            };
             pipelineDesc.Layout.Attribute(0).Format = SgVertexFormat.Float3;
             pipelineDesc.Layout.Attribute(1).Format = SgVertexFormat.Float4;
 
@@ -87,8 +90,11 @@ namespace Sokol.Samples.Triangle
         {
             // describe the shader program
             var shaderDesc = new SgShaderDescription();
-            shaderDesc.Attribute(0).Name = new AsciiString16("position");
-            shaderDesc.Attribute(1).Name = new AsciiString16("color0");
+            
+            // allocate some memory on the unmanaged heap for the attribute names
+            shaderDesc.Attribute(0).Name = Marshal.StringToHGlobalAnsi("position");
+            shaderDesc.Attribute(1).Name = Marshal.StringToHGlobalAnsi("color0");
+
             // specify shader stage source code for each graphics backend
             string vertexShaderStageSourceCode;
             string fragmentShaderStageSourceCode;
@@ -109,11 +115,15 @@ namespace Sokol.Samples.Triangle
 
             // create the shader resource from the description
             _shader = Sg.MakeShader(ref shaderDesc, vertexShaderStageSourceCode, fragmentShaderStageSourceCode);
+            
+            // after we create the shader, release any allocations we had to make
+            Marshal.FreeHGlobal(shaderDesc.Attribute(0).Name);
+            Marshal.FreeHGlobal(shaderDesc.Attribute(1).Name);
         }
 
         protected override void Draw(int width, int height)
         {
-            // begin a framebuffer render pass
+            // begin a frame buffer render pass
             Sg.BeginDefaultPass(ref _frameBufferPassAction, width, height);
 
             // apply the render pipeline and bindings for the render pass
@@ -123,7 +133,7 @@ namespace Sokol.Samples.Triangle
             // draw the triangle into the target of the render pass
             Sg.Draw(0, 3, 1);
             
-            // end the framebuffer render pass
+            // end the frame buffer render pass
             Sg.EndPass();
         }
     }

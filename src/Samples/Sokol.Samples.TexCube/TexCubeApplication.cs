@@ -3,6 +3,7 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.X86;
 
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 // ReSharper disable FieldCanBeMadeReadOnly.Local
@@ -28,6 +29,8 @@ namespace Sokol.Samples.TexCube
 
         private float _rotationX;
         private float _rotationY;
+        
+        delegate void X();
 
         public TexCubeApplication()
         {
@@ -78,7 +81,7 @@ namespace Sokol.Samples.TexCube
             var shaderDesc = new SgShaderDescription();
             shaderDesc.VertexShader.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
             ref var mvpUniform = ref shaderDesc.VertexShader.UniformBlock(0).Uniform(0);
-            mvpUniform.Name = new AsciiString16("mvp");
+            mvpUniform.Name = Marshal.StringToHGlobalAnsi("mvp");
             mvpUniform.Type = SgShaderUniformType.Matrix4x4;
             shaderDesc.FragmentShader.Image(0).Type = SgImageType.Texture2D;
             // specify shader stage source code for each graphics backend
@@ -101,6 +104,9 @@ namespace Sokol.Samples.TexCube
 
             // create the shader resource from the description
             _shader = Sg.MakeShader(ref shaderDesc, vertexShaderSourceCode, fragmentShaderSourceCode);
+            
+            // after we create the shader, release any allocations we had to make
+            Marshal.FreeHGlobal(shaderDesc.VertexShader.UniformBlock(0).Uniform(0).Name);
         }
 
         private unsafe void CreateTexture()
@@ -114,17 +120,30 @@ namespace Sokol.Samples.TexCube
                 Rgba8UInt.Black, Rgba8UInt.White, Rgba8UInt.Black, Rgba8UInt.White,
             };
 
+            
+            var x = new uint[] {
+                0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+                0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+                0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+                0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+            };
+            using var y = x.AsMemory().Pin();
+            
             // describe an immutable 2d texture
-            var imageDescription = new SgImageDescription();
-            imageDescription.Usage = SgUsage.Immutable;
-            imageDescription.Type = SgImageType.Texture2D;
-            imageDescription.Width = 4;
-            imageDescription.Height = 4;
-            imageDescription.Depth = 1;
-            imageDescription.MipmapCount = 1;
-            imageDescription.PixelFormat = SgPixelFormat.RGBA8;
+            var imageDescription = new SgImageDescription
+            {
+                Usage = SgUsage.Immutable,
+                Type = SgImageType.Texture2D,
+                Width = 4,
+                Height = 4,
+                PixelFormat = SgPixelFormat.RGBA8
+            };
+
+            imageDescription.MinificationFilter = SgTextureFilter.Linear;
+            imageDescription.MagnificationFilter = SgTextureFilter.Linear;
+            
             ref var subImage = ref imageDescription.Content.SubImage(0, 0);
-            subImage.Pointer = (IntPtr) texturePixels;
+            subImage.Pointer = (IntPtr) y.Pointer;
             subImage.Size = 4 * 4 * Marshal.SizeOf<float>();
 
             // create the image from the description

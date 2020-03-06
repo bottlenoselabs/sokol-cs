@@ -1,12 +1,10 @@
 using System;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Sokol.CoreAnimation;
 using Sokol.Metal;
 using Sokol.ObjCRuntime;
 using static SDL2.SDL;
-using static Sokol.sokol_gfx;
 
 namespace Sokol.Samples
 {
@@ -68,7 +66,7 @@ namespace Sokol.Samples
             description.MTLRenderPassDescriptorCallback = Marshal.GetFunctionPointerForDelegate(getMetalRenderPassDescriptor);
             description.MTLDrawableCallback = Marshal.GetFunctionPointerForDelegate(getMetalDrawable);
             
-            NativeLibrary.SetDllImportResolver(typeof(sokol_gfx).Assembly, ResolveLibrary);
+            //NativeLibrary.SetDllImportResolver(typeof(sokol_gfx).Assembly, ResolveLibrary);
         }
         
         private static void EnsureIsNotAlreadyInitialized()
@@ -146,17 +144,6 @@ namespace Sokol.Samples
             {
                 _getMetalDrawableGCHandle.Free();
             }
-        }
-        
-        private static IntPtr ResolveLibrary(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
-        {
-            libraryName = libraryName.ToLower() switch
-            {
-                "sokol_gfx" => "sokol_gfx-metal",
-                _ => libraryName
-            };
-
-            return NativeLibrary.Load(libraryName, assembly, searchPath);
         }
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <Description>A .NET wrapper for Sokol; minimal cross-platform standalone C headers.</Description>
@@ -33,35 +33,40 @@
 
     <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
         <Content Include="..\..\lib\libsokol_gfx-2019.10.08\linux-x64\opengl\debug\libsokol_gfx.so">
-            <Link>libsokol_gfx-opengl.so</Link>
+            <Link>libsokol_gfx.so</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/linux-x64/native</PackagePath>
         </Content>
         <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\opengl\debug\libsokol_gfx.dylib">
-            <Link>libsokol_gfx-opengl.dylib</Link>
+            <Link>libsokol_gfx.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/osx-x64/native</PackagePath>
         </Content>
         <Content Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\opengl\debug\sokol_gfx.dll">
-            <Link>sokol_gfx-opengl.dll</Link>
+            <Link>sokol_gfx.dll</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/win-x64/native</PackagePath>
         </Content>
+        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\opengl\debug\sokol_gfx.pdb">
+          <Link>sokol_gfx.pdb</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <PackagePath>runtimes/win-x64/native</PackagePath>
+      </Content>
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)' == 'Release' ">
         <Content Include="..\..\lib\libsokol_gfx-2019.10.08\linux-x64\opengl\release\libsokol_gfx.so">
-            <Link>libsokol_gfx-opengl.so</Link>
+            <Link>libsokol_gfx.so</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/linux-x64/native</PackagePath>
         </Content>
         <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\opengl\release\libsokol_gfx.dylib">
-            <Link>libsokol_gfx-opengl.dylib</Link>
+            <Link>libsokol_gfx.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/osx-x64/native</PackagePath>
         </Content>
         <Content Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\opengl\release\sokol_gfx.dll">
-            <Link>sokol_gfx-opengl.dll</Link>
+            <Link>sokol_gfx.dll</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/win-x64/native</PackagePath>
         </Content>

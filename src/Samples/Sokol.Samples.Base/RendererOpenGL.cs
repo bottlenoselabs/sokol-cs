@@ -105,9 +105,6 @@ namespace Sokol.Samples
                     }
                     break;
                 }
-                case "sokol_gfx":
-                    libraryName = "sokol_gfx-opengl";
-                    break;
             }
 
             return NativeLibrary.Load(libraryName, assembly, searchPath);
