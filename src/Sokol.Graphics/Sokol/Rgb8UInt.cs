@@ -39,7 +39,7 @@ namespace Sokol
         public readonly byte B;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rgb8UInt"/> structure using byte values.
+        ///     Initializes a new instance of the <see cref="Rgb8UInt" /> structure using byte values.
         /// </summary>
         /// <param name="r">The red component value.</param>
         /// <param name="g">The green component value.</param>
@@ -51,13 +51,13 @@ namespace Sokol
             B = b;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"R:{R}, G:{G}, B:{B}";
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
