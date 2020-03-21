@@ -26,32 +26,32 @@ namespace Sokol
         public int BufferPoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="SgImage" /> objects for the life-time of a `sokol_gfx` application.
+        ///     The number of available <see cref="Image" /> objects for the life-time of a `sokol_gfx` application.
         /// </summary>
         [FieldOffset(8)]
         public int ImagePoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="SgShader" /> objects for the life-time of a `sokol_gfx` application.
+        ///     The number of available <see cref="Shader" /> objects for the life-time of a `sokol_gfx` application.
         /// </summary>
         [FieldOffset(12)]
         public int ShaderPoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="SgPipeline" /> objects for the life-time of a `sokol_gfx`
+        ///     The number of available <see cref="Pipeline" /> objects for the life-time of a `sokol_gfx`
         ///     application.
         /// </summary>
         [FieldOffset(16)]
         public int PipelinePoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="SgPass" /> objects for the life-time of a `sokol_gfx` application.
+        ///     The number of available <see cref="Pass" /> objects for the life-time of a `sokol_gfx` application.
         /// </summary>
         [FieldOffset(20)]
         public int PassPoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="SgContext" /> objects for the life-time of a `sokol_gfx` application.
+        ///     The number of available <see cref="Context" /> objects for the life-time of a `sokol_gfx` application.
         /// </summary>
         [FieldOffset(24)]
         public int ContextPoolSize;
