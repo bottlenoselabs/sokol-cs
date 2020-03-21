@@ -12,7 +12,11 @@ namespace Sokol
     ///     Represents associated shaders, vertex-layouts, and render states as a single GPU resource.
     /// </summary>
     /// <remarks>
-    ///    <para>
+    ///     <para>
+    ///         A <see cref="Pipeline" /> must only be used or destroyed with the same active <see cref="Context" /> that
+    ///         was also active when the resource was created.
+    ///     </para>
+    ///     <para>
     ///         <see cref="Pipeline" /> is blittable to the C `sg_pipeline` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
@@ -20,12 +24,12 @@ namespace Sokol
     public struct Pipeline
     {
         /// <summary>
-        ///     A number which uniquely identifies this <see cref="Pipeline"/>.
+        ///     A number which uniquely identifies this <see cref="Pipeline" />.
         /// </summary>
         [FieldOffset(0)]
         public uint Identifier;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"{Identifier}";

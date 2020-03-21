@@ -12,7 +12,11 @@ namespace Sokol
     ///     Represents a texture or render target GPU resource.
     /// </summary>
     /// <remarks>
-    ///    <para>
+    ///     <para>
+    ///         A <see cref="Image" /> must only be used or destroyed with the same active <see cref="Context" /> that was
+    ///         also active when the resource was created.
+    ///     </para>
+    ///     <para>
     ///         <see cref="Image" /> is blittable to the C `sg_image` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
@@ -20,12 +24,12 @@ namespace Sokol
     public readonly struct Image
     {
         /// <summary>
-        ///     A number which uniquely identifies this <see cref="Image"/>.
+        ///     A number which uniquely identifies this <see cref="Image" />.
         /// </summary>
         [FieldOffset(0)]
         public readonly uint Identifier;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"{Identifier}";

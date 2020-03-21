@@ -12,7 +12,11 @@ namespace Sokol
     ///     Represents a vertex shader, a fragment shader, and uniform blocks as a single GPU resource.
     /// </summary>
     /// <remarks>
-    ///    <para>
+    ///     <para>
+    ///         A <see cref="Shader" /> must only be used or destroyed with the same active <see cref="Context" /> that
+    ///         was also active when the resource was created.
+    ///     </para>
+    ///     <para>
     ///         <see cref="Shader" /> is blittable to the C `sg_shader` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
@@ -20,12 +24,12 @@ namespace Sokol
     public struct Shader
     {
         /// <summary>
-        ///     A number which uniquely identifies this <see cref="Shader"/>.
+        ///     A number which uniquely identifies this <see cref="Shader" />.
         /// </summary>
         [FieldOffset(0)]
         public uint Identifier;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"{Identifier}";

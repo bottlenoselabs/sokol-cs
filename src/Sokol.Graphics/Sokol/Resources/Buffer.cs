@@ -13,7 +13,11 @@ namespace Sokol
     ///     Represents a vertex or index buffer GPU resource.
     /// </summary>
     /// <remarks>
-    ///    <para>
+    ///     <para>
+    ///         A <see cref="Buffer" /> must only be used or destroyed with the same active <see cref="Context" /> that
+    ///         was also active when the resource was created.
+    ///     </para>
+    ///     <para>
     ///         <see cref="Buffer" /> is blittable to the C `sg_buffer` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
@@ -21,12 +25,12 @@ namespace Sokol
     public readonly struct Buffer
     {
         /// <summary>
-        ///     A number which uniquely identifies this <see cref="Buffer"/>.
+        ///     A number which uniquely identifies this <see cref="Buffer" />.
         /// </summary>
         [FieldOffset(0)]
         public readonly uint Identifier;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"{Identifier}";

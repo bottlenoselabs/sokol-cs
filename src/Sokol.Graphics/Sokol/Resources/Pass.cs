@@ -12,7 +12,11 @@ namespace Sokol
     ///     Represents a bundle of render target GPU resources and the actions on them.
     /// </summary>
     /// <remarks>
-    ///    <para>
+    ///     <para>
+    ///         A <see cref="Pass" /> must only be used or destroyed with the same active <see cref="Context" /> that was
+    ///         also active when the resource was created.
+    ///     </para>
+    ///     <para>
     ///         <see cref="Pass" /> is blittable to the C `sg_pass` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
@@ -20,12 +24,12 @@ namespace Sokol
     public struct Pass
     {
         /// <summary>
-        ///     A number which uniquely identifies this <see cref="Pass"/>.
+        ///     A number which uniquely identifies this <see cref="Pass" />.
         /// </summary>
         [FieldOffset(0)]
         public uint Identifier;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"{Identifier}";
