@@ -6,15 +6,17 @@ using System;
 namespace Sokol
 {
     /// <summary>
-    ///     A boolean value type with the same memory layout as a <see cref="byte"/> in both managed and unmanaged code.
+    ///     A boolean value type with the same memory layout as a <see cref="byte" /> in both managed and unmanaged
+    ///     code.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         Blittable types are data types in software applications which have a unique characteristic. Data are
-    ///         often represented in memory differently in managed and unmanaged code in the world of .NET. However,
-    ///         blittable types are defined as having an identical presentation in memory for both environments, and can
-    ///         be directly shared. Understanding the difference between blittable and non-blittable types can aid in
-    ///         using P/Invoke, a technique for interoperability with unmanaged code in .NET applications.
+    ///         <see cref="BlittableBoolean" /> is blittable. Blittable types are data types in software applications
+    ///         which have a unique characteristic. Data are often represented in memory differently in managed and
+    ///         unmanaged code in the world of .NET. However, blittable types are defined as having an identical
+    ///         presentation in memory for both environments, and can be directly shared. Understanding the difference
+    ///         between blittable and non-blittable types can aid in using P/Invoke, a technique for interoperability
+    ///         with unmanaged code in .NET applications.
     ///     </para>
     /// </remarks>
     public struct BlittableBoolean
@@ -36,7 +38,7 @@ namespace Sokol
             return Convert.ToBoolean(value._value);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return _value.ToString();
