@@ -14,13 +14,15 @@ namespace Sokol
         OpenGL = 0,
 
         /// <summary>
-        ///     The OpenGL for Embedded Systems 2.0 back-end. Used mostly for Android applications.
+        ///     The OpenGL for Embedded Systems 2.0 back-end. If targeting the web, this value is re-used for the
+        ///     WebGL 1.0 back-end. Used mostly for Android and Web applications.
         /// </summary>
         // ReSharper disable once InconsistentNaming
         OpenGLES2 = 1,
 
         /// <summary>
-        ///     The OpenGL for Embedded Systems 3.0 back-end. Used mostly for Android applications.
+        ///     The OpenGL for Embedded Systems 3.0 back-end. If targeting the web, this value is re-used for the
+        ///     WebGL 2.0 back-end. Used mostly for Android and Web applications.
         /// </summary>
         // ReSharper disable once InconsistentNaming
         OpenGLES3 = 2,
