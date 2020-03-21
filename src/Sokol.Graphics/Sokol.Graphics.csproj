@@ -7,22 +7,49 @@
         <PackageVersion>0.1.0</PackageVersion>
         <Title>Sokol.Graphics</Title>
         <Authors>Lucas Girouard-Stranks</Authors>
-        <RootNamespace>Sokol</RootNamespace>
+        <RootNamespace />
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Copyright>Copyright © 2019 Lucas Girouard-Stranks</Copyright>
         <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
         <License>MIT</License>
         <RepositoryUrl>https://github.com/lithiumtoast/sokol-csharp</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageTags>sokol sokol_gfx c# csharp pinvoke .netstandard windows linux macos</PackageTags>
+        <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
       <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Sokol.Graphics.csproj.DotSettings" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\StyleCop.ruleset">
+            <Link>StyleCop.ruleset</Link>
+        </Content>
+        <AdditionalFiles Include="..\StyleCop.json">
+            <Link>StyleCop.json</Link>
+        </AdditionalFiles>
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Sokol\PixelFormats\Rgba32F.Colors.cs">
+        <DependentUpon>Rgba32F.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Sokol\PixelFormats\Rgb32F.Colors.cs">
+        <DependentUpon>Rgb32F.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Sokol\PixelFormats\Rgb8U.Colors.cs">
+        <DependentUpon>Rgb8U.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Sokol\PixelFormats\Rgba8U.Colors.cs">
+        <DependentUpon>Rgba8U.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>
