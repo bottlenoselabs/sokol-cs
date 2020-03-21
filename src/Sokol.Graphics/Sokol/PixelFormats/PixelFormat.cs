@@ -12,7 +12,7 @@ namespace Sokol
     /// <summary>
     ///     <para>
     ///         Defines the available formats for how pixel information is encoded and organized in an
-    ///         <see cref="SgImage" />.
+    ///         <see cref="Image" />.
     ///     </para>
     ///     <para>
     ///         The name of a <see cref="PixelFormat" /> usually consists of three parts which are read from left to
