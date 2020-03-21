@@ -19,7 +19,7 @@ namespace Sokol
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="Rgba32F"/> is mutable on purpose for easier use when working with the components directly.
+    ///         <see cref="Rgba32F" /> is mutable on purpose for easier use when working with the components directly.
     ///     </para>
     ///     <para>
     ///         <see cref="Rgba32F" /> is blittable. Blittable types are data types in software applications
@@ -68,7 +68,7 @@ namespace Sokol
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Rgba32F" /> structure using a <see cref="Vector4"/>
+        ///     Initializes a new instance of the <see cref="Rgba32F" /> structure using a <see cref="Vector4" />
         ///     interpreted as a RGBA pixel color.
         /// </summary>
         /// <param name="vector4">The vector value.</param>
@@ -80,14 +80,14 @@ namespace Sokol
             A = vector4.W;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
             return HashCode.Combine(R.GetHashCode(), G.GetHashCode(), B.GetHashCode(), A.GetHashCode());
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"R:{R}, G:{G}, B:{B}, A:{A}";

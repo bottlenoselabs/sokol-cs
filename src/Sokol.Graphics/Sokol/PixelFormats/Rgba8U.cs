@@ -17,7 +17,7 @@ namespace Sokol
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="Rgb8U"/> is mutable on purpose for easier use when working with the components directly.
+    ///         <see cref="Rgb8U" /> is mutable on purpose for easier use when working with the components directly.
     ///     </para>
     ///     <para>
     ///         <see cref="Rgba8U" /> is blittable. Blittable types are data types in software applications

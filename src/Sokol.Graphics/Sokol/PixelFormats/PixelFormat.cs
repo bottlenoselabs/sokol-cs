@@ -12,7 +12,7 @@ namespace Sokol
     /// <summary>
     ///     <para>
     ///         Defines the available formats for how pixel information is encoded and organized in an
-    ///         <see cref="SgImage"/>.
+    ///         <see cref="SgImage" />.
     ///     </para>
     ///     <para>
     ///         The name of a <see cref="PixelFormat" /> usually consists of three parts which are read from left to
@@ -332,14 +332,14 @@ namespace Sokol
         ///         without alpha.
         ///     </para>
         ///     <para>
-        ///         The pixel format <see cref="BC1_RGBA"/> is used in practice for color maps, cutout color maps
+        ///         The pixel format <see cref="BC1_RGBA" /> is used in practice for color maps, cutout color maps
         ///         (1-bit alpha), or normal maps when memory is tight.
         ///     </para>
         /// </remarks>
         BC1_RGBA,
 
         /// <summary>
-        ///     A lossy compressed 128-bit color pixel format. 16 pixels are encoded using the <see cref="BC1_RGBA"/>
+        ///     A lossy compressed 128-bit color pixel format. 16 pixels are encoded using the <see cref="BC1_RGBA" />
         ///     scheme for the RGB components and explicitly 4-bits per pixel for the alpha component.
         /// </summary>
         /// <remarks>
@@ -355,8 +355,8 @@ namespace Sokol
         BC2_RGBA,
 
         /// <summary>
-        ///     A lossy compressed 128-bit color pixel format. 16 pixels are encoded using the <see cref="BC1_RGBA"/>
-        ///     scheme for the RGB components and the <see cref="BC4_R"/> scheme for the alpha component.
+        ///     A lossy compressed 128-bit color pixel format. 16 pixels are encoded using the <see cref="BC1_RGBA" />
+        ///     scheme for the RGB components and the <see cref="BC4_R" /> scheme for the alpha component.
         /// </summary>
         BC3_RGBA,
 
@@ -370,11 +370,11 @@ namespace Sokol
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         The pixel format <see cref="BC4_R"/> is used in practice for height maps, gloss maps, and any other
+        ///         The pixel format <see cref="BC4_R" /> is used in practice for height maps, gloss maps, and any other
         ///         kind of grayscale texture.
         ///     </para>
         ///     <para>
-        ///         The pixel format <see cref="BC4_R"/> stores the single color component as the red component but this
+        ///         The pixel format <see cref="BC4_R" /> stores the single color component as the red component but this
         ///         does not necessarily mean it is red.
         ///     </para>
         /// </remarks>
@@ -390,11 +390,11 @@ namespace Sokol
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         The pixel format <see cref="BC4_R"/> is used in practice for height maps, gloss maps, and any other
+        ///         The pixel format <see cref="BC4_R" /> is used in practice for height maps, gloss maps, and any other
         ///         kind of grayscale texture.
         ///     </para>
         ///     <para>
-        ///         The pixel format <see cref="BC4_R"/> stores the single color component as the red component but
+        ///         The pixel format <see cref="BC4_R" /> stores the single color component as the red component but
         ///         this does not necessarily mean it is red.
         ///     </para>
         /// </remarks>
@@ -403,18 +403,18 @@ namespace Sokol
         /// <summary>
         ///     <para>
         ///         A lossy compressed 128-bit two color un-signed components pixel format. 16 pixels are encoded using
-        ///         the <see cref="BC4_R"/> scheme for each of the two color components.
+        ///         the <see cref="BC4_R" /> scheme for each of the two color components.
         ///     </para>
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         The pixel format <see cref="BC5_RG"/> is used in practice for height maps, gloss maps, and any other
-        ///         kind of grayscale texture. Compared to <see cref="BC4_R"/>, <see cref="BC5_RG"/> is used in practice
+        ///         The pixel format <see cref="BC5_RG" /> is used in practice for height maps, gloss maps, and any other
+        ///         kind of grayscale texture. Compared to <see cref="BC4_R" />, <see cref="BC5_RG" /> is used in practice
         ///         when the two components are doing independent things and should be kept separate for an increase in
         ///         quality at the price of double the memory size.
         ///     </para>
         ///     <para>
-        ///         The pixel format <see cref="BC5_RG"/> stores the two color components as the red and green component,
+        ///         The pixel format <see cref="BC5_RG" /> stores the two color components as the red and green component,
         ///         respectively, but this does not necessarily mean it is red nor green.
         ///     </para>
         /// </remarks>
@@ -423,18 +423,18 @@ namespace Sokol
         /// <summary>
         ///     <para>
         ///         A lossy compressed 128-bit two color signed components pixel format. 16 pixels are encoded using
-        ///         the <see cref="BC4_R"/> scheme for each of the two color components.
+        ///         the <see cref="BC4_R" /> scheme for each of the two color components.
         ///     </para>
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         The pixel format <see cref="BC5_RG"/> is used in practice for height maps, gloss maps, and any other
-        ///         kind of grayscale texture. Compared to <see cref="BC4_R"/>, <see cref="BC5_RG"/> is used in practice
+        ///         The pixel format <see cref="BC5_RG" /> is used in practice for height maps, gloss maps, and any other
+        ///         kind of grayscale texture. Compared to <see cref="BC4_R" />, <see cref="BC5_RG" /> is used in practice
         ///         when the two components are doing independent things and should be kept separate for an increase in
         ///         quality at the price of double the memory size.
         ///     </para>
         ///     <para>
-        ///         The pixel format <see cref="BC5_RG"/> stores the two color components as the red and green component,
+        ///         The pixel format <see cref="BC5_RG" /> stores the two color components as the red and green component,
         ///         respectively, but this does not necessarily mean it is red nor green.
         ///     </para>
         /// </remarks>
