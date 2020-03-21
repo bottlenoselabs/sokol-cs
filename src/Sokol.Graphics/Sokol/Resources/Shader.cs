@@ -5,17 +5,22 @@ using System.Runtime.InteropServices;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable InconsistentNaming
+// ReSharper disable once CheckNamespace
 namespace Sokol
 {
     /// <summary>
-    ///     Represents a vertex or index buffer GPU resource.
+    ///     Represents a vertex shader, a fragment shader, and uniform blocks as a single GPU resource.
     /// </summary>
+    /// <remarks>
+    ///    <para>
+    ///         <see cref="Shader" /> is blittable to the C `sg_shader` struct found in `sokol_gfx`.
+    ///     </para>
+    /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct Buffer
+    public struct Shader
     {
         /// <summary>
-        ///     A 32-bit number which uniquely identifies the GPU resource.
+        ///     A number which uniquely identifies this <see cref="Shader"/>.
         /// </summary>
         [FieldOffset(0)]
         public uint Identifier;
