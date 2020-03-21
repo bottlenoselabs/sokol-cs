@@ -28,7 +28,7 @@ namespace Sokol
         OpenGLES3 = 2,
 
         /// <summary>
-        ///     The Direct3D 11 back-end. Used for desktop applications on Windows.
+        ///     The Direct3D 11 back-end. Used for Windows applications.
         /// </summary>
         Direct3D11 = 3,
 
