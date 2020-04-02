@@ -9,6 +9,11 @@ namespace Sokol.Graphics
     /// <summary>
     ///     Parameters for constructing a <see cref="Buffer" />.
     /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         <see cref="BufferDescription" /> is blittable to the C `sg_buffer_desc` struct found in `sokol_gfx`.
+    ///     </para>
+    /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8, CharSet = CharSet.Ansi)]
     public unsafe struct BufferDescription
     {
