@@ -4,6 +4,8 @@
 using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -18,19 +20,19 @@ namespace Sokol.Graphics
     public unsafe struct BufferDescription
     {
         /// <summary>
-        ///     The size in byte. Must be set.
+        ///     The size of the buffer in bytes. Must be set. Can't be <c>0</c> or negative.
         /// </summary>
         [FieldOffset(4)]
         public int Size;
 
         /// <summary>
-        ///     The <see cref="BufferType" />. Default is <see cref="BufferType.Vertex" />.
+        ///     The <see cref="BufferType" /> of the buffer. Default is <see cref="BufferType.Vertex" />.
         /// </summary>
         [FieldOffset(8)]
         public BufferType Type;
 
         /// <summary>
-        ///     The <see cref="ResourceUsage" />. Default is <see cref="ResourceUsage.Immutable" />.
+        ///     The <see cref="ResourceUsage" /> of the buffer. Default is <see cref="ResourceUsage.Immutable" />.
         /// </summary>
         [FieldOffset(12)]
         public ResourceUsage Usage;
@@ -44,7 +46,7 @@ namespace Sokol.Graphics
         [FieldOffset(16)]
         public IntPtr Data;
 
-        // TODO: Trace hooks
+        // TODO: Trace hooks.
         [FieldOffset(24)]
         internal IntPtr Label;
 
