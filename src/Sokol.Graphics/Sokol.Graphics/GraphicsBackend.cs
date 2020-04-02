@@ -1,7 +1,7 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace Sokol
+namespace Sokol.Graphics
 {
     /// <summary>
     ///     Specifies the possible graphics API back-ends of Sokol.
@@ -38,7 +38,8 @@ namespace Sokol
         Metal = 4,
 
         /// <summary>
-        ///     The dummy back-end. Used for testing and other applications which don't want an implementation of a back-end.
+        ///     The dummy back-end. Used for testing and other applications which don't want a real implementation of a
+        ///     back-end.
         /// </summary>
         Dummy = 5
     }
