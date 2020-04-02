@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
-namespace Sokol
+namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Represents a configuration for initializing `sokol_gfx`.
+    ///     Parameters for initializing `sokol_gfx`.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -20,38 +20,38 @@ namespace Sokol
     public struct InitializeDescription
     {
         /// <summary>
-        ///     The number of available <see cref="Buffer" /> objects for the life-time of a `sokol_gfx` application.
+        ///     The number of available <see cref="Buffer" /> instances for the life-time of a `sokol_gfx` application.
         /// </summary>
         [FieldOffset(4)]
         public int BufferPoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="Image" /> objects for the life-time of a `sokol_gfx` application.
+        ///     The number of available <see cref="Image" /> instances for the life-time of a `sokol_gfx` application.
         /// </summary>
         [FieldOffset(8)]
         public int ImagePoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="Shader" /> objects for the life-time of a `sokol_gfx` application.
+        ///     The number of available <see cref="Shader" /> instances for the life-time of a `sokol_gfx` application.
         /// </summary>
         [FieldOffset(12)]
         public int ShaderPoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="Pipeline" /> objects for the life-time of a `sokol_gfx`
+        ///     The number of available <see cref="Pipeline" /> instances for the life-time of a `sokol_gfx`
         ///     application.
         /// </summary>
         [FieldOffset(16)]
         public int PipelinePoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="Pass" /> objects for the life-time of a `sokol_gfx` application.
+        ///     The number of available <see cref="Pass" /> instances for the life-time of a `sokol_gfx` application.
         /// </summary>
         [FieldOffset(20)]
         public int PassPoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="Context" /> objects for the life-time of a `sokol_gfx` application.
+        ///     The number of available <see cref="Context" /> instances for the life-time of a `sokol_gfx` application.
         /// </summary>
         [FieldOffset(24)]
         public int ContextPoolSize;
