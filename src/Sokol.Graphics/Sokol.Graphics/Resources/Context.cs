@@ -6,8 +6,7 @@ using System.Runtime.InteropServices;
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
-// ReSharper disable once CheckNamespace
-namespace Sokol
+namespace Sokol.Graphics
 {
     /// <summary>
     ///     Represents a <see cref="GraphicsBackend" /> viewable surface, such as a window in an application, and all
@@ -40,13 +39,35 @@ namespace Sokol
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public readonly struct Context
+    public readonly partial struct Context
     {
         /// <summary>
-        ///     A number which uniquely identifies this <see cref="Context" />.
+        ///     A number which uniquely identifies the <see cref="Context" />.
         /// </summary>
         [FieldOffset(0)]
         public readonly uint Identifier;
+
+        /// <summary>
+        ///     Activates the <see cref="Context" />. Must be called after making a different GL context active.
+        /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///         Calling <see cref="Activate" /> will internally call <see cref="Sg.ResetStateCache" />.
+        ///     </para>
+        /// </remarks>
+        public void Activate()
+        {
+            Activate(this);
+        }
+
+        /// <summary>
+        ///     Destroys the <see cref="Context"/> and all the resources belonging to it. Must be called right before a
+        ///     GL context is destroyed.
+        /// </summary>
+        public void Destroy()
+        {
+            Destroy(this);
+        }
 
         /// <inheritdoc />
         public override string ToString()
