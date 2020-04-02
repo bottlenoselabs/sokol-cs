@@ -3,15 +3,14 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-// ReSharper disable once CheckNamespace
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
 // ReSharper disable IdentifierTypo
-namespace Sokol
+namespace Sokol.Graphics
 {
     /// <summary>
     ///     <para>
-    ///         Defines the available formats for how pixel information is encoded and organized in an
+    ///         Defines the available formats for how information is encoded and organized in an
     ///         <see cref="Image" />.
     ///     </para>
     ///     <para>

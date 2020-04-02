@@ -5,7 +5,7 @@
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 // ReSharper disable once CheckNamespace
-namespace Sokol
+namespace Sokol.Graphics
 {
     // ReSharper disable once SA1601
     public partial struct Rgba8U
