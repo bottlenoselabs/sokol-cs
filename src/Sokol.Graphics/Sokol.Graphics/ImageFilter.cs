@@ -4,9 +4,9 @@
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Defines the different strategies for how texels of an <see cref="Image" /> are mapped into pixels when
-    ///     rendering with a <see cref="Shader" />, also known as sampling. Depending on the strategy chosen the pixels
-    ///     will show a varying degree of blurriness, detail, and aliasing.
+    ///     Defines the different strategies for how texels of a texture <see cref="Image" /> are mapped into pixels
+    ///     when rendering with a <see cref="Shader" />, also known as sampling. Depending on the strategy chosen the
+    ///     pixels will show a varying degree of blurriness, detail, and aliasing.
     /// </summary>
     /// <remarks>
     ///     <para>
