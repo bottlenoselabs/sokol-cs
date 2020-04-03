@@ -38,7 +38,8 @@ namespace Sokol.Graphics
         ClampToEdge,
 
         /// <summary>
-        ///     The texture coordinate will be given a specified color when it is outside the normal range.
+        ///     The texture coordinate will be given a color specified by <see cref="ImageBorderColor" /> when the
+        ///     coordinate is outside the normal range.
         /// </summary>
         ClampToBorder,
 
