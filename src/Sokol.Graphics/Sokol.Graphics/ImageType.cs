@@ -11,7 +11,7 @@ namespace Sokol.Graphics
     ///     <para>
     ///         For <see cref="GraphicsBackend.OpenGLES2" />, <see cref="Texture3D" /> and <see cref="TextureArray" />
     ///         are not always supported. To check if they are supported call <see cref="Sg.QueryFeatures" /> and
-    ///         inspect the results for <see cref="Features.ImageType3D" /> and <see cref="Features.ImageTypeArray" />.
+    ///         inspect the values for <see cref="Features.ImageType3D" /> and <see cref="Features.ImageTypeArray" />.
     ///     </para>
     ///     <para>
     ///         <see cref="ImageType" /> is blittable to the C `sg_image_type` enum found in `sokol_gfx`.
