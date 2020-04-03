@@ -12,7 +12,8 @@ namespace Sokol.Graphics
     ///     <para>
     ///         <see cref="ClampToBorder" /> is not supported on all <see cref="GraphicsBackend" /> implementations.
     ///         To check if <see cref="ClampToBorder" /> is supported call <see cref="Sg.QueryFeatures" /> and
-    ///         inspect the value of <see cref="Features.ImageClampToBorder" />.
+    ///         inspect the value of <see cref="Features.ImageClampToBorder" />. <see cref="ClampToBorder" /> will
+    ///         fallback to <see cref="ClampToEdge" /> on unsupported <see cref="GraphicsBackend" /> implementations.
     ///     </para>
     ///     <para>
     ///         <see cref="ImageWrap" /> is blittable to the C `sg_wrap` enum found in `sokol_gfx`.
@@ -42,7 +43,7 @@ namespace Sokol.Graphics
         ClampToBorder,
 
         /// <summary>
-        ///     Same as <see cref="Repeat"/> but the texture coordinate will be mirrored across it's axis when the
+        ///     Same as <see cref="Repeat" /> but the texture coordinate will be mirrored across it's axis when the
         ///     integer part is odd.
         /// </summary>
         MirroredRepeat
