@@ -26,7 +26,7 @@ namespace Sokol.Graphics
     ///         <see cref="Image.Create" /> or <see cref="Image.Init" />.
     ///     </para>
     ///     <para>
-    ///         A set of optimized images for a progressively lower resolutions of an image known as mipmaps can
+    ///         A set of optimized images for progressively lower resolutions of an image known as mipmaps can
     ///         significantly increase the detail, reduce aliasing, and in some cases even improve performance when
     ///         filtering an <see cref="Image" /> with minification. Mipmapping is not used for magnification. Using
     ///         mipmapping means selecting between multiple images of different sizes for sampling based on the angle
