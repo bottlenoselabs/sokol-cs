@@ -4,8 +4,16 @@
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Specifies the possible graphics API back-ends of Sokol.
+    ///     Defines the possible 3D graphics API back-ends of `sokol_gfx`.
     /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         In `sokol_gfx`, the `sg_backend` struct is highly coupled to the platform for which the 3D graphics API
+    ///         is available. Since .NET is multi-platform, this makes it awkward to have an idiomatic C# wrapper.
+    ///         Sokol# goes with idea that <see cref="GraphicsBackend"/> defines strictly the available APIs and does
+    ///         not know about which platform the API is running on.
+    ///     </para>
+    /// </remarks>
     public enum GraphicsBackend
     {
         /// <summary>
