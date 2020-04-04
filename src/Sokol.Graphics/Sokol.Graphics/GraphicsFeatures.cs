@@ -8,15 +8,16 @@ using System.Runtime.InteropServices;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Runtime information about available optional features.
+    ///     Runtime information about available optional features supported by hardware for the
+    ///     <see cref="GraphicsBackend" />.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="Features" /> is blittable to the C `sg_features` struct found in `sokol_gfx`.
+    ///         <see cref="GraphicsFeatures" /> is blittable to the C `sg_features` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 7, Pack = 1)]
-    public readonly struct Features
+    public readonly struct GraphicsFeatures
     {
         /// <summary>
         ///     Hardware instancing is supported.
@@ -43,13 +44,13 @@ namespace Sokol.Graphics
         public readonly BlittableBoolean MsaaRenderTargets;
 
         /// <summary>
-        ///     Creation of <see cref="ImageType.Texture3D" /> <see cref="Image"/> resources is supported.
+        ///     Creation of <see cref="ImageType.Texture3D" /> <see cref="Image" /> resources is supported.
         /// </summary>
         [FieldOffset(4)]
         public readonly BlittableBoolean ImageType3D;
 
         /// <summary>
-        ///     Creation of <see cref="ImageType.TextureArray" /> <see cref="Image"/> resources is supported.
+        ///     Creation of <see cref="ImageType.TextureArray" /> <see cref="Image" /> resources is supported.
         /// </summary>
         [FieldOffset(5)]
         public readonly BlittableBoolean ImageTypeArray;

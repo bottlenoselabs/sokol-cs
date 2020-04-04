@@ -6,15 +6,15 @@ using System.Runtime.InteropServices;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Runtime information about hardware limitations.
+    ///     Runtime information about hardware limitations for the <see cref="GraphicsBackend" />.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="Limits" /> is blittable to the C `sg_limits` struct found in `sokol_gfx`.
+    ///         <see cref="GraphicsLimits" /> is blittable to the C `sg_limits` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
-    public struct Limits
+    public struct GraphicsLimits
     {
         /// <summary>
         ///     The maximum width or height of an <see cref="ImageType.Texture2D" /> <see cref="Image" />.

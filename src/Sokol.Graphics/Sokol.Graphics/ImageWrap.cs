@@ -12,7 +12,7 @@ namespace Sokol.Graphics
     ///     <para>
     ///         <see cref="ClampToBorder" /> is not supported on all <see cref="GraphicsBackend" /> implementations.
     ///         To check if <see cref="ClampToBorder" /> is supported call <see cref="Sg.QueryFeatures" /> and
-    ///         inspect the value of <see cref="Features.ImageClampToBorder" />. <see cref="ClampToBorder" /> will
+    ///         inspect the value of <see cref="GraphicsFeatures.ImageClampToBorder" />. <see cref="ClampToBorder" /> will
     ///         fallback to <see cref="ClampToEdge" /> on unsupported <see cref="GraphicsBackend" /> implementations.
     ///     </para>
     ///     <para>
