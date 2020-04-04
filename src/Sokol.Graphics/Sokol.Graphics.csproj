@@ -74,6 +74,9 @@
       <Compile Update="Sokol.Graphics\Resources\Context.PInvoke.cs">
         <DependentUpon>Context.cs</DependentUpon>
       </Compile>
+      <Compile Update="Sokol.Graphics\Resources\Shader.PInvoke.cs">
+        <DependentUpon>Shader.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>
