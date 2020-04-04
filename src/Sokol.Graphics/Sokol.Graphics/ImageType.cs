@@ -5,7 +5,7 @@
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Defines the types of <see cref="Image"/> resources.
+    ///     Defines the types of <see cref="Image" /> resources.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -26,26 +26,26 @@ namespace Sokol.Graphics
         Default,
 
         /// <summary>
-        ///     The <see cref="Image"/> resource has one sub-image with 2 dimensions: width and height. Mipmaps may
-        ///     be used.
+        ///     The <see cref="Image" /> has one sub-image with 2 dimensions: width and height. The sub-image may have
+        ///     mipmap levels.
         /// </summary>
         Texture2D,
 
         /// <summary>
-        ///     The <see cref="Image"/> resource has six <see cref="Texture2D"/> sub-images which must be square that
-        ///     represent the faces of a cube. Mipmaps may be used.
+        ///     The <see cref="Image" /> has six <see cref="Texture2D" /> sub-images which must be square that represent
+        ///     the faces of a cube. Each face may have mipmap levels.
         /// </summary>
         TextureCube,
 
         /// <summary>
-        ///     The <see cref="Image"/> resource has one sub-image with 3 dimensions: width, height, and depth. Mipmaps
-        ///     may be used.
+        ///     The <see cref="Image" /> has one sub-image with 3 dimensions: width, height, and depth. The sub-image may
+        ///     have mipmap levels.
         /// </summary>
         Texture3D,
 
         /// <summary>
-        ///     The <see cref="Image"/> resource is one or many <see cref="Image"/> instances. Mipmaps may be used but
-        ///     each <see cref="Image"/> must have the same number of mipmaps.
+        ///     The <see cref="Image" /> is one or many sub-images. Each sub-image may have mipmap levels but the number
+        ///     of mipmap levels for each sub-image must all be the same.
         /// </summary>
         TextureArray
     }

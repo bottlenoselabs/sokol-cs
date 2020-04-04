@@ -46,7 +46,7 @@ namespace Sokol.Graphics
 
         /// <summary>
         ///     The size of the block of bytes as data containing the compiled source code. Must be set if
-        ///     <see cref="ByteCode" /> is set. Must be greater than or equal to <c>0</c>.
+        ///     <see cref="ByteCode" /> is set. Can't be negative.
         /// </summary>
         [FieldOffset(16)]
         public int ByteCodeSize;

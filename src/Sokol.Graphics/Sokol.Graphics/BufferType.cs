@@ -4,7 +4,7 @@
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Defines the types of data a <see cref="Buffer"/> can contain.
+    ///     Defines the types of data a <see cref="Buffer" /> can contain.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -20,12 +20,12 @@ namespace Sokol.Graphics
         Default = 0,
 
         /// <summary>
-        ///     A <see cref="Buffer"/> contains vertex data.
+        ///     The <see cref="Buffer" /> contains vertex data.
         /// </summary>
         Vertex = 1,
 
         /// <summary>
-        ///     A <see cref="Buffer"/> contains index data.
+        ///     The <see cref="Buffer" /> contains index data.
         /// </summary>
         Index = 2
     }

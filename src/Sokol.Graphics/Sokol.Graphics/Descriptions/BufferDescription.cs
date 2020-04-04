@@ -62,9 +62,15 @@ namespace Sokol.Graphics
         [FieldOffset(56)]
         internal IntPtr _d3d11_buffer;
 
+        /// <summary>
+        ///     A guard against garbage data; used to know if the structure has been initialized correctly.
+        /// </summary>
         [FieldOffset(0)]
         internal uint _startCanary;
 
+        /// <summary>
+        ///     A guard against garbage data; used to know if the structure has been initialized correctly.
+        /// </summary>
         [FieldOffset(64)]
         internal uint _end_canary;
     }

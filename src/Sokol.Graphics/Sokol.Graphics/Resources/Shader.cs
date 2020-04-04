@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     A graphics resource that holds the programmable "per-vertex processing" and "per-fragment processing" stages
+    ///     A GPU resource that holds the programmable "per-vertex processing" and "per-fragment processing" stages
     ///     of a <see cref="Pipeline" /> and the variables used in those stages known as uniform blocks.
     /// </summary>
     /// <remarks>

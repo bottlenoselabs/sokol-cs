@@ -4,8 +4,8 @@
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Defines the different strategies for how texture coordinates outside the normal range of <c>0</c> to
-    ///     <c>1</c>, inclusively, are handled when texels of an <see cref="Image" /> are mapped into pixels when
+    ///     Defines the different strategies for how texture coordinates outside the normal range (<c>0.0f</c> to
+    ///     <c>1.0f</c> inclusively) are handled when texels of an <see cref="Image" /> are mapped into pixels when
     ///     rendering with a <see cref="Shader" />, also known as sampling.
     /// </summary>
     /// <remarks>
@@ -33,7 +33,7 @@ namespace Sokol.Graphics
         Repeat,
 
         /// <summary>
-        ///     The texture coordinate is clamped between <c>0</c> and <c>1</c>.
+        ///     The texture coordinate is clamped between <c>0.0f</c> and <c>1.0f</c>.
         /// </summary>
         ClampToEdge,
 
@@ -45,7 +45,7 @@ namespace Sokol.Graphics
 
         /// <summary>
         ///     Same as <see cref="Repeat" /> but the texture coordinate will be mirrored across it's axis when the
-        ///     integer part is odd.
+        ///     integer part is odd, creating a mirrored repeating pattern.
         /// </summary>
         MirroredRepeat
     }

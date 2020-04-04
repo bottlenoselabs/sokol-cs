@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     A graphics resource that holds vertex or index data to be used as input to a <see cref="Shader" />.
+    ///     A GPU resource that holds vertex or index data to be used as input to a <see cref="Shader" />.
     /// </summary>
     /// <remarks>
     ///     <para>

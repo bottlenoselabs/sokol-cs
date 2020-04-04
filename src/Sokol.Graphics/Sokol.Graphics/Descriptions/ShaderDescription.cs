@@ -36,9 +36,15 @@ namespace Sokol.Graphics
         [FieldOffset(2952)]
         internal IntPtr Label;
 
+        /// <summary>
+        ///     A guard against garbage data; used to know if the structure has been initialized correctly.
+        /// </summary>
         [FieldOffset(0)]
         internal uint _startCanary;
 
+        /// <summary>
+        ///     A guard against garbage data; used to know if the structure has been initialized correctly.
+        /// </summary>
         [FieldOffset(2960)]
         internal uint _endCanary;
 

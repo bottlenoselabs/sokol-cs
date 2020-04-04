@@ -20,38 +20,43 @@ namespace Sokol.Graphics
     public struct InitializeDescription
     {
         /// <summary>
-        ///     The number of available <see cref="Buffer" /> instances for the life-time of a `sokol_gfx` application.
+        ///     The maximum number of available <see cref="Buffer" /> instances for the life-time of a `sokol_gfx`
+        ///     application.
         /// </summary>
         [FieldOffset(4)]
         public int BufferPoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="Image" /> instances for the life-time of a `sokol_gfx` application.
+        ///     The maximum number of available <see cref="Image" /> instances for the life-time of a `sokol_gfx`
+        ///     application.
         /// </summary>
         [FieldOffset(8)]
         public int ImagePoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="Shader" /> instances for the life-time of a `sokol_gfx` application.
+        ///     The maximum number of available <see cref="Shader" /> instances for the life-time of a `sokol_gfx`
+        ///     application.
         /// </summary>
         [FieldOffset(12)]
         public int ShaderPoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="Pipeline" /> instances for the life-time of a `sokol_gfx`
+        ///     The maximum number of available <see cref="Pipeline" /> instances for the life-time of a `sokol_gfx`
         ///     application.
         /// </summary>
         [FieldOffset(16)]
         public int PipelinePoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="Pass" /> instances for the life-time of a `sokol_gfx` application.
+        ///     The maximum number of available <see cref="Pass" /> instances for the life-time of a `sokol_gfx`
+        ///     application.
         /// </summary>
         [FieldOffset(20)]
         public int PassPoolSize;
 
         /// <summary>
-        ///     The number of available <see cref="Context" /> instances for the life-time of a `sokol_gfx` application.
+        ///     The maximum number of available <see cref="Context" /> instances for the life-time of a `sokol_gfx`
+        ///     application.
         /// </summary>
         [FieldOffset(24)]
         public int ContextPoolSize;
@@ -62,7 +67,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         It is useful to set a <c>true</c> when a browser doesn't support a WebGL 2.0 context,
+        ///         It is useful to set as <c>true</c> when a browser doesn't support a WebGL 2.0 context,
         ///         allowing `sokol_gfx` to fall back to using a WebGL 1.0 context.
         ///     </para>
         /// </remarks>

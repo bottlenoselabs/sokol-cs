@@ -21,11 +21,11 @@ namespace Sokol.Graphics
         private fixed ulong _subImage[16 * (int)sokol_gfx.sg_cube_face.SG_CUBEFACE_NUM * sokol_gfx.SG_MAX_MIPMAPS / 8];
 
         /// <summary>
-        ///     Gets the <see cref="ImageSubContent" /> of the <see cref="ImageContent" /> given the specified cube-face
-        ///     index and mipmap level index.
+        ///     Gets the <see cref="ImageSubContent" /> by reference given the specified cube-face index and mipmap
+        ///     level index.
         /// </summary>
         /// <param name="cubeFaceIndex">The cube-face index.</param>
-        /// <param name="mipMapIndex">The mipmap level index.</param>
+        /// <param name="mipMapIndex">The zero-based mipmap level index.</param>
         /// <returns>A <see cref="ImageSubContent" />.</returns>
         public ref ImageSubContent SubImage(CubeFaceIndex cubeFaceIndex, int mipMapIndex)
         {
@@ -38,10 +38,9 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Gets the <see cref="ImageSubContent" /> of the <see cref="ImageContent" /> given the specified mipmap
-        ///     level index.
+        ///     Gets the <see cref="ImageSubContent" /> by reference given the specified mipmap level index.
         /// </summary>
-        /// <param name="mipMapIndex">The mipmap level index.</param>
+        /// <param name="mipMapIndex">The zero-based mipmap level index.</param>
         /// <returns>A <see cref="ImageSubContent" />.</returns>
         public ref ImageSubContent SubImage(int mipMapIndex)
         {

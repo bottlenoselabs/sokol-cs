@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     A graphics resource that holds one or many layers of structured texture elements, called texels, and the
+    ///     A GPU resource that holds one or many layers of structured texture elements, called texels, and the
     ///     related information such as how many elements there are and how they are encoded and organized.
     /// </summary>
     /// <remarks>

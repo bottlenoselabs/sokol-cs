@@ -27,8 +27,7 @@ namespace Sokol.Graphics
         public ImageType Type;
 
         /// <summary>
-        ///     The <see cref="bool" /> indicating whether the image is a render target. Default is <c>false</c>. If
-        ///     <c>false</c> the image is a texture.
+        ///     The <see cref="bool" /> indicating whether the image is a render target. Default is <c>false</c>.
         /// </summary>
         [FieldOffset(8)]
         public BlittableBoolean IsRenderTarget;
@@ -78,7 +77,7 @@ namespace Sokol.Graphics
 
         /// <summary>
         ///     The number of samples to be used for the render target when multi-sample anti-aliasing (MSAA) is
-        ///     available. Does not apply to textures. To check if MSAA is supported call
+        ///     available. Only applies to render targets. To check if MSAA is supported call
         ///     <see cref="Sg.QueryFeatures" /> and inspect the value of <see cref="Features.MsaaRenderTargets" />.
         ///     Default is <c>1</c>.
         /// </summary>
@@ -173,9 +172,15 @@ namespace Sokol.Graphics
         [FieldOffset(1648)]
         internal IntPtr D3D11Texture;
 
+        /// <summary>
+        ///     A guard against garbage data; used to know if the structure has been initialized correctly.
+        /// </summary>
         [FieldOffset(0)]
         internal uint _startCanary;
 
+        /// <summary>
+        ///     A guard against garbage data; used to know if the structure has been initialized correctly.
+        /// </summary>
         [FieldOffset(1656)]
         internal uint _endCanary;
     }
