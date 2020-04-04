@@ -8,8 +8,7 @@ using System.Runtime.InteropServices;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Represents a graphics resource that stores vertex or index data. A <see cref="Buffer" /> is often used to
-    ///     pass data to a <see cref="Shader" /> as part of a <see cref="Pipeline" />.
+    ///     A graphics resource that holds vertex or index data to be used as input to a <see cref="Shader" />.
     /// </summary>
     /// <remarks>
     ///     <para>

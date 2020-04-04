@@ -9,9 +9,9 @@ using System.Runtime.InteropServices;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Represents a <see cref="GraphicsBackend" /> viewable surface, such as a window in an application, and all
-    ///     <see cref="Buffer" />, <see cref="Image" />, <see cref="Pass" />, <see cref="Pipeline" />, and
-    ///     <see cref="Shader" /> resources associated with the viewable surface.
+    ///     A graphics resource that holds a <see cref="GraphicsBackend" /> viewable surface, such as a window in an
+    ///     application, and all <see cref="Buffer" />, <see cref="Image" />, <see cref="Pass" />,
+    ///     <see cref="Pipeline" />, and <see cref="Shader" /> resources associated with the viewable surface.
     /// </summary>
     /// <remarks>
     ///     <para>
