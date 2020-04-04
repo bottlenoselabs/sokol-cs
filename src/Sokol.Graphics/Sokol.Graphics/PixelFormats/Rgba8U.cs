@@ -20,12 +20,7 @@ namespace Sokol.Graphics
     ///         <see cref="Rgb8U" /> is mutable on purpose for easier use when working with the components directly.
     ///     </para>
     ///     <para>
-    ///         <see cref="Rgba8U" /> is blittable. Blittable types are data types in software applications
-    ///         which have a unique characteristic. Data are often represented in memory differently in managed and
-    ///         unmanaged code in the world of .NET. However, blittable types are defined as having an identical
-    ///         presentation in memory for both environments, and can be directly shared. Understanding the difference
-    ///         between blittable and non-blittable types can aid in using P/Invoke, a technique for interoperability
-    ///         with unmanaged code in .NET applications.
+    ///         <see cref="Rgba8U" /> is blittable.
     ///     </para>
     /// </remarks>
     public partial struct Rgba8U
