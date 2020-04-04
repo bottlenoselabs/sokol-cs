@@ -8,6 +8,11 @@ namespace Sokol.Graphics
     /// <summary>
     ///     Runtime information about hardware limitations.
     /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         <see cref="Limits" /> is blittable to the C `sg_limits` struct found in `sokol_gfx`.
+    ///     </para>
+    /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
     public struct Limits
     {
