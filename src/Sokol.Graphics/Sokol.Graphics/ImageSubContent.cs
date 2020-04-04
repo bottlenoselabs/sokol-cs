@@ -10,10 +10,10 @@ namespace Sokol.Graphics
     ///     Pointer to and the size of the data for an <see cref="Image" /> layer.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct SubImageContent
+    public struct ImageSubContent
     {
         /// <summary>
-        ///     The memory address to the starting address of the block of bytes as data.
+        ///     The pointer to the starting address of the block of bytes as data.
         /// </summary>
         [FieldOffset(0)]
         public IntPtr Pointer;

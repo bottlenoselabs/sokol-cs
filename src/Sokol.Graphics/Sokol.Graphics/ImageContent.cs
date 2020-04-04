@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     The contents of an <see cref="Image" /> as a two-dimensional array of <see cref="SubImageContent" /> members.
+    ///     The contents of an <see cref="Image" /> as a two-dimensional array of <see cref="ImageSubContent" /> members.
     ///     The first array dimension is the cube-map faces and the second array dimension is the mipmap levels.
     /// </summary>
     /// <remarks>
@@ -21,33 +21,33 @@ namespace Sokol.Graphics
         private fixed ulong _subImage[16 * (int)sokol_gfx.sg_cube_face.SG_CUBEFACE_NUM * sokol_gfx.SG_MAX_MIPMAPS / 8];
 
         /// <summary>
-        ///     Gets the <see cref="SubImageContent" /> of the <see cref="ImageContent" /> given the specified cube-face
+        ///     Gets the <see cref="ImageSubContent" /> of the <see cref="ImageContent" /> given the specified cube-face
         ///     index and mipmap level index.
         /// </summary>
         /// <param name="cubeFaceIndex">The cube-face index.</param>
         /// <param name="mipMapIndex">The mipmap level index.</param>
-        /// <returns>A <see cref="SubImageContent" />.</returns>
-        public ref SubImageContent SubImage(CubeFaceIndex cubeFaceIndex, int mipMapIndex)
+        /// <returns>A <see cref="ImageSubContent" />.</returns>
+        public ref ImageSubContent SubImage(CubeFaceIndex cubeFaceIndex, int mipMapIndex)
         {
             fixed (ImageContent* imageContent = &this)
             {
-                var ptr = (SubImageContent*)&imageContent->_subImage[0];
+                var ptr = (ImageSubContent*)&imageContent->_subImage[0];
                 var pointerOffset = ((int)cubeFaceIndex * (int)sokol_gfx.sg_cube_face.SG_CUBEFACE_NUM) + mipMapIndex;
                 return ref *(ptr + pointerOffset);
             }
         }
 
         /// <summary>
-        ///     Gets the <see cref="SubImageContent" /> of the <see cref="ImageContent" /> given the specified mipmap
+        ///     Gets the <see cref="ImageSubContent" /> of the <see cref="ImageContent" /> given the specified mipmap
         ///     level index.
         /// </summary>
         /// <param name="mipMapIndex">The mipmap level index.</param>
-        /// <returns>A <see cref="SubImageContent" />.</returns>
-        public ref SubImageContent SubImage(int mipMapIndex)
+        /// <returns>A <see cref="ImageSubContent" />.</returns>
+        public ref ImageSubContent SubImage(int mipMapIndex)
         {
             fixed (ImageContent* imageContent = &this)
             {
-                var ptr = (SubImageContent*)&imageContent->_subImage[0];
+                var ptr = (ImageSubContent*)&imageContent->_subImage[0];
                 var pointerOffset = mipMapIndex;
                 return ref *(ptr + pointerOffset);
             }
