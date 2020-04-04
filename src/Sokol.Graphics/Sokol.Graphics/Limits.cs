@@ -17,7 +17,7 @@ namespace Sokol.Graphics
     public struct Limits
     {
         /// <summary>
-        ///     The maximum width or height of a <see cref="ImageType.Texture2D" /> <see cref="Image" />.
+        ///     The maximum width or height of an <see cref="ImageType.Texture2D" /> <see cref="Image" />.
         /// </summary>
         [FieldOffset(0)]
         public uint MaximumImageSize2D;
