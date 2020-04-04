@@ -78,7 +78,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     The number of samples to be used for the render target when multi-sample anti-aliasing (MSAA) is
         ///     available. Only applies to render targets. To check if MSAA is supported call
-        ///     <see cref="Sg.QueryFeatures" /> and inspect the value of <see cref="Features.MsaaRenderTargets" />.
+        ///     <see cref="Sg.QueryFeatures" /> and inspect the value of <see cref="GraphicsFeatures.MsaaRenderTargets" />.
         ///     Default is <c>1</c>.
         /// </summary>
         [FieldOffset(36)]
