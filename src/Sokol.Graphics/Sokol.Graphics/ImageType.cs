@@ -44,8 +44,8 @@ namespace Sokol.Graphics
         Texture3D,
 
         /// <summary>
-        ///     The <see cref="Image"/> resource has one or many sub-images. Mipmaps may be used but each mipmap has
-        ///     the same number of levels.
+        ///     The <see cref="Image"/> resource is one or many <see cref="Image"/> instances. Mipmaps may be used but
+        ///     each <see cref="Image"/> must have the same number of mipmaps.
         /// </summary>
         TextureArray
     }

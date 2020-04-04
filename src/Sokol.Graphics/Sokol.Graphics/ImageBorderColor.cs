@@ -4,8 +4,8 @@
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Defines the different border colors that can be used when texels of a texture <see cref="Image" /> are
-    ///     mapped into pixels when rendering with a <see cref="Shader" />, also known as sampling.
+    ///     Defines the different border colors that can be used when texels of an <see cref="Image" /> are mapped into
+    ///     pixels when rendering with a <see cref="Shader" />, also known as sampling.
     /// </summary>
     /// <remarks>
     ///     <para>
