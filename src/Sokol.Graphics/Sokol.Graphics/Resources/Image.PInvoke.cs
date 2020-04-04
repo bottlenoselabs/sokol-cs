@@ -9,11 +9,11 @@ namespace Sokol.Graphics
     public readonly partial struct Image
     {
         /// <summary>
-        ///     Fill any zero-initialized members of a <see cref="ImageDescription"/> with their explicit default
+        ///     Fill any zero-initialized members of an <see cref="ImageDescription" /> with their explicit default
         ///     values.
         /// </summary>
         /// <param name="description">The parameters for creating an image.</param>
-        /// <returns>A <see cref="ImageDescription"/> with any zero-initialized members set to default values.</returns>
+        /// <returns>An <see cref="ImageDescription" /> with any zero-initialized members set to default values.</returns>
         [DllImport(Sg.LibraryName, EntryPoint = "sg_query_image_defaults")]
         public static extern ImageDescription QueryImageDefaults([In] ref ImageDescription description);
 
@@ -26,7 +26,7 @@ namespace Sokol.Graphics
         ///     Creates an <see cref="Image" /> from the specified <see cref="ImageDescription" />.
         /// </summary>
         /// <param name="description">The parameters for creating an image.</param>
-        /// <returns>A <see cref="Buffer" />.</returns>
+        /// <returns>An <see cref="Image" />.</returns>
         [DllImport(Sg.LibraryName, EntryPoint = "sg_make_image")]
         public static extern Image Create([In] ref ImageDescription description);
 

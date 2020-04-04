@@ -17,9 +17,8 @@ namespace Sokol.Graphics
     ///     <para>
     ///         An <see cref="Image" /> is either used as the input to a <see cref="Shader" /> or as the output of a
     ///         <see cref="Pass" />. When an <see cref="Image" /> is used as input, it is often referred to as a
-    ///         "texture". When it is used as an output it is often referred to as a "render target". Underlying APIs,
-    ///         such as OpenGL, will mean "texture" in general for an <see cref="Image" /> regardless if it is being
-    ///         referred to as input or output.
+    ///         "texture". When it is used as an output it is often referred to as a "render target". However, a render
+    ///         target is still a "texture" and can be used as input to another <see cref="Shader"/>.
     ///     </para>
     ///     <para>
     ///         An <see cref="Image" /> may have multiple layers called "sub images" which are most often used as
@@ -27,11 +26,11 @@ namespace Sokol.Graphics
     ///         for more information.
     ///     </para>
     ///     <para>
-    ///         The format, encoding, and organization of an <see cref="Image" /> never change. However, you can change
-    ///         the contents either by rendering to it or copying data into it.
+    ///         The type, format, encoding, and organization of an <see cref="Image" /> never change. However, you can
+    ///         change the contents either by rendering to it or copying data into it.
     ///     </para>
     ///     <para>
-    ///         A <see cref="Image" /> must only be used or destroyed with the same active <see cref="Context" /> that
+    ///         An <see cref="Image" /> must only be used or destroyed with the same active <see cref="Context" /> that
     ///         was also active when the resource was created.
     ///     </para>
     ///     <para>
