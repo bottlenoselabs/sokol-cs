@@ -7,6 +7,11 @@ namespace Sokol.Graphics
     ///     Defines the different border colors that can be used when texels of a texture <see cref="Image" /> are
     ///     mapped into pixels when rendering with a <see cref="Shader" />, also known as sampling.
     /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         <see cref="ImageBorderColor" /> is blittable to the C `sg_border_color` struct found in `sokol_gfx`.
+    ///     </para>
+    /// </remarks>
     public enum ImageBorderColor
     {
         /// <summary>
