@@ -38,10 +38,10 @@ namespace Sokol.Graphics
         public ResourceUsage Usage;
 
         /// <summary>
-        ///     The pointer to the block of bytes to copy as the data when constructing a <see cref="Buffer" />. Default
-        ///     is <see cref="IntPtr.Zero" />, a null pointer, which indicates to not copy data when constructing a
-        ///     <see cref="Buffer" />. Must not be <see cref="IntPtr.Zero" /> if <see cref="Usage" /> is
-        ///     <see cref="ResourceUsage.Immutable" />.
+        ///     The pointer to the starting address of the block of bytes to copy as the data when constructing a
+        ///     <see cref="Buffer" />. Default is <see cref="IntPtr.Zero" />, a null pointer, which indicates to not
+        ///     copy data when constructing a <see cref="Buffer" />. Must not be <see cref="IntPtr.Zero" /> if
+        ///     <see cref="Usage" /> is <see cref="ResourceUsage.Immutable" />.
         /// </summary>
         [FieldOffset(16)]
         public IntPtr Data;
@@ -52,11 +52,11 @@ namespace Sokol.Graphics
 
         // TODO: Native 3D Buffers.
         [FieldOffset(32)]
-        internal fixed uint _gl_buffers[Sg.InflightFramesCount];
+        internal fixed uint _gl_buffers[sokol_gfx.SG_NUM_INFLIGHT_FRAMES];
 
         // TODO: Native 3D Buffers.
         [FieldOffset(40)]
-        internal fixed ulong _mtl_buffers[Sg.InflightFramesCount];
+        internal fixed ulong _mtl_buffers[sokol_gfx.SG_NUM_INFLIGHT_FRAMES];
 
         // TODO: Native 3D Buffers.
         [FieldOffset(56)]
