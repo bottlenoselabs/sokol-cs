@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // ReSharper disable UnusedType.Global
@@ -18,7 +19,7 @@ namespace Sokol.Graphics
     ///         An <see cref="Image" /> is either used as the input to a <see cref="Shader" /> or as the output of a
     ///         <see cref="Pass" />. When an <see cref="Image" /> is used as input, it is often referred to as a
     ///         "texture". When it is used as an output it is often referred to as a "render target". However, a render
-    ///         target is still a "texture" and can be used as input to another <see cref="Shader"/>.
+    ///         target is still a texture and can be used as input to another <see cref="Shader"/>.
     ///     </para>
     ///     <para>
     ///         An <see cref="Image" /> may have multiple layers called "sub images" which are most often used as
@@ -38,8 +39,39 @@ namespace Sokol.Graphics
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public readonly partial struct Image
+    public readonly struct Image
     {
+        /// <summary>
+        ///     Fill any zero-initialized members of an <see cref="ImageDescription" /> with their explicit default
+        ///     values.
+        /// </summary>
+        /// <param name="description">The parameters for creating an image.</param>
+        /// <returns>An <see cref="ImageDescription" /> with any zero-initialized members set to default values.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ImageDescription QueryDefaults([In] ref ImageDescription description)
+        {
+            return ImagePInvoke.QueryDefaults(ref description);
+        }
+
+        // TODO: Document allocating an image
+        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Image Alloc()
+        {
+            return ImagePInvoke.Alloc();
+        }
+
+        /// <summary>
+        ///     Creates an <see cref="Image" /> from the specified <see cref="ImageDescription" />.
+        /// </summary>
+        /// <param name="description">The parameters for creating an image.</param>
+        /// <returns>An <see cref="Image" />.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Image Create([In] ref ImageDescription description)
+        {
+            return ImagePInvoke.Create(ref description);
+        }
+
         /// <summary>
         ///     A number which uniquely identifies the <see cref="Image" />.
         /// </summary>
@@ -48,32 +80,43 @@ namespace Sokol.Graphics
 
         // TODO: Document `BufferInfo`.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
-        public ImageInfo Info => QueryInfo(this);
+        public ImageInfo Info
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => ImagePInvoke.QueryInfo(this);
+        }
 
         // TODO: Document `ResourceState`.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
-        public ResourceState State => QueryState(this);
-
-        /// <summary>
-        ///     Destroys the <see cref="Image" />.
-        /// </summary>
-        public void Destroy()
+        public ResourceState State
         {
-            Destroy(this);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => ImagePInvoke.QueryState(this);
         }
 
         // TODO: Document manual initialization of an image.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Init([In] ref ImageDescription description)
         {
-            Init(this, ref description);
+            ImagePInvoke.Init(this, ref description);
+        }
+
+        /// <summary>
+        ///     Destroys the <see cref="Image" />.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Destroy()
+        {
+            ImagePInvoke.Destroy(this);
         }
 
         // TODO: Document failing an image.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Fail()
         {
-            Fail(this);
+            ImagePInvoke.Fail(this);
         }
 
         /// <summary>
@@ -82,9 +125,10 @@ namespace Sokol.Graphics
         ///     using <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
         /// </summary>
         /// <param name="data">The new contents of the image.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Update(ref ImageContent data)
         {
-            Update(this, ref data);
+            ImagePInvoke.Update(this, ref data);
         }
 
         /// <inheritdoc />

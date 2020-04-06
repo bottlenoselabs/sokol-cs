@@ -8,10 +8,10 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="CubeFaceIndex" /> is blittable to the C `sg_cube_face` enum found in `sokol_gfx`.
+    ///         <see cref="ImageCubeFaceIndex" /> is blittable to the C `sg_cube_face` enum found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
-    public enum CubeFaceIndex
+    public enum ImageCubeFaceIndex
     {
         /// <summary>
         ///     The first cube-face index, +X.

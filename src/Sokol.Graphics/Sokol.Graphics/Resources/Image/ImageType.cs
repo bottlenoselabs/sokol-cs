@@ -10,7 +10,7 @@ namespace Sokol.Graphics
     /// <remarks>
     ///     <para>
     ///         For <see cref="GraphicsBackend.OpenGLES2" />, <see cref="Texture3D" /> and <see cref="TextureArray" />
-    ///         are not always supported. To check if they are supported call <see cref="Sg.QueryFeatures" /> and
+    ///         are not always supported. To check if they are supported call <see cref="GraphicsDevice.QueryFeatures" /> and
     ///         inspect the values for <see cref="GraphicsFeatures.ImageType3D" /> and <see cref="GraphicsFeatures.ImageTypeArray" />.
     ///     </para>
     ///     <para>

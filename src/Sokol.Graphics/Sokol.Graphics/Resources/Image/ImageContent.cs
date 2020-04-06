@@ -27,7 +27,7 @@ namespace Sokol.Graphics
         /// <param name="cubeFaceIndex">The cube-face index.</param>
         /// <param name="mipMapIndex">The zero-based mipmap level index.</param>
         /// <returns>A <see cref="ImageSubContent" />.</returns>
-        public ref ImageSubContent SubImage(CubeFaceIndex cubeFaceIndex, int mipMapIndex)
+        public ref ImageSubContent SubImage(ImageCubeFaceIndex cubeFaceIndex, int mipMapIndex)
         {
             fixed (ImageContent* imageContent = &this)
             {
