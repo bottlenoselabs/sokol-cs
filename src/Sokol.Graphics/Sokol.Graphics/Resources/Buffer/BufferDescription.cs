@@ -26,10 +26,10 @@ namespace Sokol.Graphics
         public int Size;
 
         /// <summary>
-        ///     The <see cref="BufferType" /> of the buffer. Default is <see cref="BufferType.Vertex" />.
+        ///     The <see cref="BufferDataType" /> of the buffer. Default is <see cref="BufferDataType.Vertex" />.
         /// </summary>
         [FieldOffset(8)]
-        public BufferType Type;
+        public BufferDataType Type;
 
         /// <summary>
         ///     The <see cref="ResourceUsage" /> of the buffer. Default is <see cref="ResourceUsage.Immutable" />.
