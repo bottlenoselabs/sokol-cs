@@ -12,12 +12,12 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="ShaderAttributeDescription" /> is blittable to the C `sg_shader_attr_desc` struct found in
+    ///         <see cref="ShaderVertexAttributeDescription" /> is blittable to the C `sg_shader_attr_desc` struct found in
     ///         `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8, CharSet = CharSet.Ansi)]
-    public struct ShaderAttributeDescription
+    public struct ShaderVertexAttributeDescription
     {
         /// <summary>
         ///     The pointer to a C style string with the name of the GLSL or Metal vertex attribute. Required for

@@ -6,12 +6,18 @@ using System.Runtime.InteropServices;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     Reflection information about a set of parameters that are used in either the "per-vertex processing" stage
-    ///     or "per-fragment processing" stage. Apart of <see cref="ShaderDescription" />. Only required for
-    ///     <see cref="GraphicsBackend.OpenGL" />, <see cref="GraphicsBackend.OpenGLES2" />, and
-    ///     <see cref="GraphicsBackend.OpenGLES3" />.
+    ///     Reflection information about a set of global variables that are used in either the "per-vertex processing"
+    ///     stage or "per-fragment processing" stage. Apart of <see cref="ShaderDescription" />.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         Each global shader variable is traditionally called a "uniform" because they don't change for all GPU
+    ///         "threads" that process either vertices or fragments between drawing commands.
+    ///     </para>
+    ///     <para>
+    ///         Only required for <see cref="GraphicsBackend.OpenGL" />, <see cref="GraphicsBackend.OpenGLES2" />, and
+    ///         <see cref="GraphicsBackend.OpenGLES3" />.
+    ///     </para>
     ///     <para>
     ///         <see cref="ShaderUniformBlockDescription" /> is blittable to the C `sg_shader_uniform_block_desc` struct
     ///         found in `sokol_gfx`.

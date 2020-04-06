@@ -49,17 +49,17 @@ namespace Sokol.Graphics
         internal uint _endCanary;
 
         /// <summary>
-        ///     Gets the <see cref="ShaderAttributeDescription" /> by reference given the specified index. All vertex
+        ///     Gets the <see cref="ShaderVertexAttributeDescription" /> by reference given the specified index. All vertex
         ///     attributes must be configured for <see cref="GraphicsBackend.OpenGLES2" /> and
         ///     <see cref="GraphicsBackend.Direct3D11" />.
         /// </summary>
         /// <param name="index">The zero-based index.</param>
-        /// <returns>A <see cref="ShaderAttributeDescription" /> by reference.</returns>
-        public ref ShaderAttributeDescription Attribute(int index)
+        /// <returns>A <see cref="ShaderVertexAttributeDescription" /> by reference.</returns>
+        public ref ShaderVertexAttributeDescription Attribute(int index)
         {
             fixed (ShaderDescription* shaderDescription = &this)
             {
-                var ptr = (ShaderAttributeDescription*)&shaderDescription->_attributes[0];
+                var ptr = (ShaderVertexAttributeDescription*)&shaderDescription->_attributes[0];
                 return ref *(ptr + index);
             }
         }
