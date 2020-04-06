@@ -50,12 +50,6 @@
       <Compile Update="Sokol\PixelFormats\Rgba8U.Colors.cs">
         <DependentUpon>Rgba8U.cs</DependentUpon>
       </Compile>
-      <Compile Update="Sokol\Resources\Buffer.PInvoke.cs">
-        <DependentUpon>Buffer.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Sokol.Graphics\Resources\Buffer.PInvoke.cs">
-        <DependentUpon>Buffer.cs</DependentUpon>
-      </Compile>
       <Compile Update="Sokol.Graphics\PixelFormats\Rgb32F.Colors.cs">
         <DependentUpon>Rgb32F.cs</DependentUpon>
       </Compile>
@@ -67,15 +61,6 @@
       </Compile>
       <Compile Update="Sokol.Graphics\PixelFormats\Rgba8U.Colors.cs">
         <DependentUpon>Rgba8U.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Sokol.Graphics\Resources\Image.PInvoke.cs">
-        <DependentUpon>Image.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Sokol.Graphics\Resources\Context.PInvoke.cs">
-        <DependentUpon>Context.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Sokol.Graphics\Resources\Shader.PInvoke.cs">
-        <DependentUpon>Shader.cs</DependentUpon>
       </Compile>
     </ItemGroup>
 
