@@ -7,7 +7,7 @@ namespace Sokol.Graphics
 {
     /// <summary>
     ///     Runtime information about a <see cref="PixelFormat" />. Result of calling
-    ///     <see cref="Sg.QueryPixelFormat" />.
+    ///     <see cref="GraphicsDevice.QueryPixelFormat" />.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 6, Pack = 1)]
     public struct PixelFormatInfo

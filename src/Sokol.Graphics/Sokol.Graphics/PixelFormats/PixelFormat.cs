@@ -44,11 +44,11 @@ namespace Sokol.Graphics
     ///     </para>
     ///     <para>
     ///         Not every <see cref="PixelFormat" /> can be used with every <see cref="GraphicsBackend" />. Call
-    ///         <see cref="Sg.QueryPixelFormat" /> to inspect the capabilities of a given <see cref="PixelFormat" /> for
+    ///         <see cref="GraphicsDevice.QueryPixelFormat" /> to inspect the capabilities of a given <see cref="PixelFormat" /> for
     ///         the currently active <see cref="GraphicsBackend" />. When targeting
     ///         <see cref="GraphicsBackend.OpenGLES2" /> or <see cref="GraphicsBackend.OpenGLES3" />, only
     ///         <see cref="PixelFormat.R8" /> and <see cref="PixelFormat.RGBA8" /> are guaranteed to be safe; all others
-    ///         must be checked via <see cref="Sg.QueryPixelFormat" />.
+    ///         must be checked via <see cref="GraphicsDevice.QueryPixelFormat" />.
     ///     </para>
     ///     <para>
     ///         <see cref="PixelFormat" /> is blittable to the C `sg_pixel_format` enum found in `sokol_gfx`.
