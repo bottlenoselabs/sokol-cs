@@ -1,6 +1,7 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
@@ -25,7 +26,7 @@ namespace Sokol.Graphics
     ///     </para>
     ///     <para>
     ///         A default <see cref="Context" /> will be created and activated implicitly when calling
-    ///         <see cref="Sg.Setup" />, and destroyed when calling <see cref="Sg.Shutdown" />. This means for a typical
+    ///         <see cref="GraphicsDevice.Setup" />, and destroyed when calling <see cref="GraphicsDevice.Shutdown" />. This means for a typical
     ///         application which does not use multiple contexts, nothing changes, and calling the context functions
     ///         isn't necessary.
     ///     </para>
@@ -39,8 +40,19 @@ namespace Sokol.Graphics
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public readonly partial struct Context
+    public readonly struct Context
     {
+        /// <summary>
+        ///     Creates a <see cref="Context" />. Must be called once after a GL context has been created and made
+        ///     active.
+        /// </summary>
+        /// <returns>A <see cref="Context" />.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Context Create()
+        {
+            return ContextPInvoke.Create();
+        }
+
         /// <summary>
         ///     A number which uniquely identifies the <see cref="Context" />.
         /// </summary>
@@ -52,21 +64,23 @@ namespace Sokol.Graphics
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         Calling <see cref="Activate" /> will internally call <see cref="Sg.ResetStateCache" />.
+        ///         Calling <see cref="Activate" /> will internally call <see cref="GraphicsDevice.ResetStateCache" />.
         ///     </para>
         /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Activate()
         {
-            Activate(this);
+            ContextPInvoke.Activate(this);
         }
 
         /// <summary>
         ///     Destroys the <see cref="Context"/> and all the resources belonging to it. Must be called right before a
         ///     GL context is destroyed.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
-            Destroy(this);
+            ContextPInvoke.Destroy(this);
         }
 
         /// <inheritdoc />
