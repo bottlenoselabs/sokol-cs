@@ -6,7 +6,9 @@ A .NET wrapper for https://github.com/floooh/sokol.
 
 Includes the C style API precisely as it is and a .NET style API for convenience.
 
-`sokol_gfx` is a modern and simple 3D graphics API. To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post written by the owner of `sokol`. 
+[`sokol_gfx`](https://github.com/floooh/sokol#sokol_gfxh) is a modern and simple 3D graphics API. To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written by the owner of `sokol`. 
+
+[`sokol_gfx`](https://github.com/floooh/sokol#sokol_gfxh) converges old and modern graphics APIs to one simple and easy to use API. To learn more about the convergence of modern 3D graphics APIs (such as Metal, DirectX11/12, and WebGPU) and how they compare to legacy APIs (such as OpenGL), see *[A Comparison of Modern Graphics APIs](https://alain.xyz/blog/comparison-of-modern-graphics-apis)* blog written by Alain Galvan, a graphics software engineer.
 
 ## NuGet
 
@@ -53,37 +55,52 @@ All the types are [.NET value types](https://docs.microsoft.com/en-us/dotnet/csh
 
 ### Samples
 
-> :notebook: If you are new to or need a refresher on 3D rendering, it is highly recommended to read:
-https://github.com/patriciogonzalezvivo/thebookofshaders
-
-> :notebook: If are new to or need a refresher on vectors and matrices, it is highly recommended to read:
-http://immersivemath.com
-
 To learn how to use the .NET API, check out the [.NET Core samples](https://github.com/lithiumtoast/sokol-csharp/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
 
 ## Supported Platforms
 
 Since `sokol_gfx` is a C library technically any platform is possible. The following is a table of platforms that are known to work and their supported graphics API backends with `sokol_gfx`.
 
-Platform|OpenGL 3.x|OpenGLESX/WebGLX|Direct3D11|Direct3D12|Metal|Vulkan
----|---|---|---|---|---|---
-Desktop Windows|✅|❌|✅|⭕|❌|⭕
-Desktop macOS|❗|❌|❌|❌|✅|⭕
-Desktop Linux|✅|❌|❌|❌|❌|⭕
-Mobile iOS|❌|❌|❌|❌|✅|⭕
-Mobile Android|❌|✅|❌|❌|❌|⭕
-Browser WebAssembly|❌|✅|❌|❌|❌|❌
-Microconsole tvOS|❌|❌|❌|❌|✅|❌
-Console Nintendo Switch|✅|❌|❌|❌|❌|⭕
-Console Xbox One|❌|❌|✅|⭕|❌|❌
-Console PlayStation 4|✅|❌|❌|❌|❌|⭕
+Platform vs 3D API|OpenGL|OpenGLES/WebGL|Direct3D11|Direct3D12|Metal|Vulkan|WebGPU
+---|---|---|---|---|---|---|---
+Desktop Windows|✅|❌|✅|⭕|❌|⭕|❌
+Desktop macOS|❗|❌|❌|❌|✅|⭕|❌
+Desktop Linux|✅|❌|❌|❌|❌|⭕|❌
+Mobile iOS|❌|❌|❌|❌|✅|⭕|❌
+Mobile Android|❌|✅|❌|❌|❌|⭕|❌
+Browser WebAssembly|❌|✅|❌|❌|❌|❌|🚧
+Microconsole tvOS|❌|❌|❌|❌|✅|❌|❌
+Console Nintendo Switch|✅|❌|❌|❌|❌|⭕|❌
+Console Xbox One|❌|❌|✅|⭕|❌|❌|❌
+Console PlayStation 4|✅|❌|❌|❌|❌|⭕|❌
 
 - ⭕ means the graphics API is supported on the platform but not by `sokol_gfx`.
-- OpenGL is deprecated for macOS; recommended to only use Metal for macOS if hardware supports it. All Apple platforms support Metal and are supported with .NET using [Xamarin](https://dotnet.microsoft.com/apps/xamarin).
+- 🚧 means the graphics API will be supported by `sokol_gfx` but is currently under construction (from `sokol` side).
+- ❗ means the graphics API is deprecated on that platform but can still work with `sokol_gfx`. OpenGL is deprecated for macOS. It is recommended to only use Metal for macOS if hardware supports it. All Apple platforms support Metal and are supported with .NET using [Xamarin](https://dotnet.microsoft.com/apps/xamarin).
 - Android is supported with .NET using [Xamarin](https://dotnet.microsoft.com/apps/xamarin).
 - As of Q4 2018, WebAssembly is made possible with .NET using [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor).
 - As of writing in Q4 2019, consoles are made possible with .NET using [BRUTE](http://brute.rocks). However, the tool is not yet released to the general public. Also, SDK licenses are required for each console. You can read more about the plans for this technology in [this MonoGame GitHub issue](https://github.com/MonoGame/MonoGame/issues/7003#issuecomment-581481032).
 - As of Q2 2019, [.NET 5 has been accounced as the next .NET Core that will unify desktop, mobile, browser, consoles, and other platforms](https://devblogs.microsoft.com/dotnet/introducing-net-5/). Thus, adopting .NET Core *now* is future proofing.
+
+## General Learning Resources
+
+All the linked resources in this section are 100% free and easily accessible from a modern browser (some have interactive tutorials).
+
+### Know some programming but new to game development?
+
+- https://gameprogrammingpatterns.com/contents.html
+
+### New to or need a refresher on vectors and matrices?
+
+- http://immersivemath.com
+
+### Don't know what are "Model View Projection" matrices or how they work?
+
+- http://www.codinglabs.net/article_world_view_projection_matrix.aspx
+
+### Confused about fragment shaders or want to learn how to create cool shader effects?
+
+- https://thebookofshaders.com
 
 ## Contributing
 
