@@ -27,7 +27,7 @@ namespace Sokol.Graphics
         public ImageType Type;
 
         /// <summary>
-        ///     The <see cref="bool" /> indicating whether the image is a render target. Default is <c>false</c>.
+        ///     A <see cref="bool" /> value indicating whether the image is a render target. Default is <c>false</c>.
         /// </summary>
         [FieldOffset(8)]
         public BlittableBoolean IsRenderTarget;

@@ -156,7 +156,7 @@ namespace Sokol.Graphics
         /// <param name="dataSize">The number of bytes to copy.</param>
         /// <returns>
         ///     A byte offset to the start of the written data. This can be applied to
-        ///     <see cref="PipelineBindings.VertexBufferOffset" /> or <see cref="PipelineBindings.IndexBufferOffset" /> to render
+        ///     <see cref="PipelineResourceBindings.VertexBufferOffset" /> or <see cref="PipelineResourceBindings.IndexBufferOffset" /> to render
         ///     a portion of the buffer.
         /// </returns>
         /// <remarks>
@@ -188,7 +188,7 @@ namespace Sokol.Graphics
         /// <typeparam name="T">The type of elements to copy into the buffer.</typeparam>
         /// <returns>
         ///     A byte offset to the start of the written data. This can be applied to
-        ///     <see cref="PipelineBindings.VertexBufferOffset" /> or <see cref="PipelineBindings.IndexBufferOffset" /> to render
+        ///     <see cref="PipelineResourceBindings.VertexBufferOffset" /> or <see cref="PipelineResourceBindings.IndexBufferOffset" /> to render
         ///     a portion of the buffer.
         /// </returns>
         /// <remarks>

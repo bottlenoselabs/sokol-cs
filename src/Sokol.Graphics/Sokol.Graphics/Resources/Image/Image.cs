@@ -19,7 +19,7 @@ namespace Sokol.Graphics
     ///         An <see cref="Image" /> is either used as the input to a <see cref="Shader" /> or as the output of a
     ///         <see cref="Pass" />. When an <see cref="Image" /> is used as input, it is often referred to as a
     ///         "texture". When it is used as an output it is often referred to as a "render target". However, a render
-    ///         target is still a texture and can be used as input to another <see cref="Shader"/>.
+    ///         target is still a texture and can be used as input to another <see cref="Shader" />.
     ///     </para>
     ///     <para>
     ///         An <see cref="Image" /> may have multiple layers called "sub images" which are most often used as
