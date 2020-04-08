@@ -62,7 +62,7 @@ namespace Sokol.Graphics
         public int ContextPoolSize;
 
         /// <summary>
-        ///     The <see cref="bool" /> indicating whether the <see cref="GraphicsBackend.OpenGLES3" /> backend will
+        ///     A <see cref="bool" /> value indicating whether the <see cref="GraphicsBackend.OpenGLES3" /> backend will
         ///     fallback to <see cref="GraphicsBackend.OpenGLES2" />.
         /// </summary>
         /// <remarks>
