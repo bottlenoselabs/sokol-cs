@@ -32,6 +32,7 @@ using System.Runtime.InteropServices;
 [SuppressMessage("ReSharper", "SA1310", Justification = "C style code.")]
 [SuppressMessage("ReSharper", "SA1600", Justification = "C style code.")]
 [SuppressMessage("ReSharper", "SA1602", Justification = "C style code.")]
+[SuppressMessage("ReSharper", "CommentTypo", Justification = "C style code.")]
 public static unsafe class sokol_gfx
 {
     public enum sg_action : uint
@@ -107,7 +108,7 @@ public static unsafe class sokol_gfx
         _SG_BUFFERTYPE_FORCE_U32 = 0x7FFFFFFF
     }
 
-    public enum sg_color_mask : uint
+    public enum sg_color_mask : byte
     {
         _SG_COLORMASK_DEFAULT = 0,
         SG_COLORMASK_NONE = 0x10,
@@ -116,8 +117,8 @@ public static unsafe class sokol_gfx
         SG_COLORMASK_B = 1 << 2,
         SG_COLORMASK_A = 1 << 3,
         SG_COLORMASK_RGB = 0x7,
-        SG_COLORMASK_RGBA = 0xF,
-        _SG_COLORMASK_FORCE_U32 = 0x7FFFFFFF
+        SG_COLORMASK_RGBA = 0xF
+        // _SG_COLORMASK_FORCE_U32 = 0x7FFFFFFF
     }
 
     public enum sg_compare_func : uint
@@ -1240,7 +1241,7 @@ public static unsafe class sokol_gfx
         public sg_blend_op op_alpha;
 
         [FieldOffset(28)]
-        public byte color_write_mask;
+        public sg_color_mask color_write_mask;
 
         [FieldOffset(32)]
         public int color_attachment_count;
