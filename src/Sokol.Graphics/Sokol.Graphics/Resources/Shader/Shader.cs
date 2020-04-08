@@ -48,15 +48,15 @@ namespace Sokol.Graphics
     public readonly struct Shader
     {
         /// <summary>
-        ///     Fill any zero-initialized members of a <see cref="ShaderDescription" /> with their explicit default
+        ///     Fill any zero-initialized members of a <see cref="ShaderDescriptor" /> with their explicit default
         ///     values.
         /// </summary>
-        /// <param name="description">The parameters for creating a shader.</param>
-        /// <returns>A <see cref="ShaderDescription" /> with any zero-initialized members set to default values.</returns>
+        /// <param name="descriptor">The parameters for creating a shader.</param>
+        /// <returns>A <see cref="ShaderDescriptor" /> with any zero-initialized members set to default values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ShaderDescription QueryDefaults([In] ref ShaderDescription description)
+        public static ShaderDescriptor QueryDefaults([In] ref ShaderDescriptor descriptor)
         {
-            return ShaderPInvoke.QueryDefaults(ref description);
+            return ShaderPInvoke.QueryDefaults(ref descriptor);
         }
 
         // TODO: Document allocating a shader
@@ -68,37 +68,37 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Creates a <see cref="Shader" /> from the specified <see cref="ShaderDescription" />.
+        ///     Creates a <see cref="Shader" /> from the specified <see cref="ShaderDescriptor" />.
         /// </summary>
-        /// <param name="description">The parameters for creating a shader.</param>
+        /// <param name="descriptor">The parameters for creating a shader.</param>
         /// <returns>A <see cref="Shader" />.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Shader CreateShader([In] ref ShaderDescription description)
+        public static Shader CreateShader([In] ref ShaderDescriptor descriptor)
         {
-            return ShaderPInvoke.CreateShader(ref description);
+            return ShaderPInvoke.CreateShader(ref descriptor);
         }
 
         /// <summary>
-        ///     Creates a <see cref="Shader" /> from the specified <see cref="ShaderDescription" />. For convenience,
-        ///     fills in the <see cref="ShaderDescription" /> with specified vertex and fragment stage source code
+        ///     Creates a <see cref="Shader" /> from the specified <see cref="ShaderDescriptor" />. For convenience,
+        ///     fills in the <see cref="ShaderDescriptor" /> with specified vertex and fragment stage source code
         ///     before creating the <see cref="Shader" />.
         /// </summary>
-        /// <param name="description">The parameters for creating a shader.</param>
+        /// <param name="descriptor">The parameters for creating a shader.</param>
         /// <param name="vertexStageSourceCode">The "per-vertex processing" stage source code.</param>
         /// <param name="fragmentStageSourceCode">The "per-fragment processing" stage source code.</param>
         /// <returns>A <see cref="Shader" />.</returns>
         public static Shader CreateShader(
-            [In] ref ShaderDescription description,
+            [In] ref ShaderDescriptor descriptor,
             string vertexStageSourceCode,
             string fragmentStageSourceCode)
         {
             var vertexStageCodePointer = Marshal.StringToHGlobalAnsi(vertexStageSourceCode);
             var fragmentStageCodePointer = Marshal.StringToHGlobalAnsi(fragmentStageSourceCode);
 
-            description.VertexStage.SourceCode = vertexStageCodePointer;
-            description.FragmentStage.SourceCode = fragmentStageCodePointer;
+            descriptor.VertexStage.SourceCode = vertexStageCodePointer;
+            descriptor.FragmentStage.SourceCode = fragmentStageCodePointer;
 
-            var shader = CreateShader(ref description);
+            var shader = CreateShader(ref descriptor);
 
             Marshal.FreeHGlobal(vertexStageCodePointer);
             Marshal.FreeHGlobal(fragmentStageCodePointer);
@@ -131,9 +131,9 @@ namespace Sokol.Graphics
         // TODO: Document manual initialization of a shader.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Init([In] ref ShaderDescription description)
+        public void Init([In] ref ShaderDescriptor descriptor)
         {
-            ShaderPInvoke.Init(this, ref description);
+            ShaderPInvoke.Init(this, ref descriptor);
         }
 
         /// <summary>

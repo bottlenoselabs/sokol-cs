@@ -25,15 +25,15 @@ namespace Sokol.Graphics
     public readonly struct Buffer
     {
         /// <summary>
-        ///     Fill any zero-initialized members of a <see cref="BufferDescription"/> with their explicit default
+        ///     Fill any zero-initialized members of a <see cref="BufferDescriptor"/> with their explicit default
         ///     values.
         /// </summary>
-        /// <param name="description">The parameters for creating a buffer.</param>
-        /// <returns>A <see cref="BufferDescription"/> with any zero-initialized members set to default values.</returns>
+        /// <param name="descriptor">The parameters for creating a buffer.</param>
+        /// <returns>A <see cref="BufferDescriptor"/> with any zero-initialized members set to default values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static BufferDescription QueryDefaults([In] ref BufferDescription description)
+        public static BufferDescriptor QueryDefaults([In] ref BufferDescriptor descriptor)
         {
-            return BufferPInvoke.QueryDefaults(ref description);
+            return BufferPInvoke.QueryDefaults(ref descriptor);
         }
 
         // TODO: Document allocating a buffer
@@ -45,14 +45,14 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Creates a <see cref="Buffer" /> from the specified <see cref="BufferDescription" />.
+        ///     Creates a <see cref="Buffer" /> from the specified <see cref="BufferDescriptor" />.
         /// </summary>
-        /// <param name="description">The parameters for creating a buffer.</param>
+        /// <param name="descriptor">The parameters for creating a buffer.</param>
         /// <returns>A <see cref="Buffer" />.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Buffer Create([In] ref BufferDescription description)
+        public static Buffer Create([In] ref BufferDescriptor descriptor)
         {
-            return BufferPInvoke.Create(ref description);
+            return BufferPInvoke.Create(ref descriptor);
         }
 
         /// <summary>
@@ -94,9 +94,9 @@ namespace Sokol.Graphics
         // TODO: Document manual initialization of a buffer.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Init([In] ref BufferDescription description)
+        public void Init([In] ref BufferDescriptor descriptor)
         {
-            BufferPInvoke.Init(this, ref description);
+            BufferPInvoke.Init(this, ref descriptor);
         }
 
         /// <summary>

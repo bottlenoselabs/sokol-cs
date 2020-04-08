@@ -11,30 +11,30 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="PipelineDescription" /> specifies the rendering configuration state used during a rendering
+    ///         <see cref="PipelineDescriptor" /> specifies the rendering configuration state used during a rendering
     ///         <see cref="Pass" />, including rasterization (such as multi-sampling), visibility, blending, and
     ///         other graphics function state.
     ///     </para>
     ///     <para>
     ///         Use standard struct allocation and initialization techniques to create
-    ///         a <see cref="PipelineDescription" />.
+    ///         a <see cref="PipelineDescriptor" />.
     ///     </para>
     ///     <para>
     ///         To specify the vertex or fragment function in the rendering <see cref="Pipeline" />, set the
     ///         <see cref="Shader"/> property.
     ///     </para>
     ///     <para>
-    ///         <see cref="PipelineDescription" /> is blittable to the C `sg_pipeline_desc` struct found in `sokol_gfx`.
+    ///         <see cref="PipelineDescriptor" /> is blittable to the C `sg_pipeline_desc` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 456, Pack = 8, CharSet = CharSet.Ansi)]
-    public struct PipelineDescription
+    public struct PipelineDescriptor
     {
         /// <summary>
-        ///     The <see cref="PipelineVertexLayoutDescription" />.
+        ///     The <see cref="PipelineVertexLayoutDescriptor" />.
         /// </summary>
         [FieldOffset(4)]
-        public PipelineVertexLayoutDescription Layout;
+        public PipelineVertexLayoutDescriptor Layout;
 
         /// <summary>
         ///     The <see cref="Shader" /> resource.

@@ -22,7 +22,7 @@ namespace Sokol.Graphics
     ///                 <description>Each texel maps onto less than one pixel. This is known as minification.</description>
     ///             </item>
     ///         </list>
-    ///         Magnification and minification can be set in the <see cref="ImageDescription" /> when calling
+    ///         Magnification and minification can be set in the <see cref="ImageDescriptor" /> when calling
     ///         <see cref="Image.Create" /> or <see cref="Image.Init" />.
     ///     </para>
     ///     <para>
@@ -54,7 +54,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     Returns the weighted average of the four texture elements that are closest to the center of the pixel
         ///     being textured. These can include border texture elements, depending on the values of
-        ///     <see cref="ImageDescription.WrapU" /> and <see cref="ImageDescription.WrapV" />, and on the exact
+        ///     <see cref="ImageDescriptor.WrapU" /> and <see cref="ImageDescriptor.WrapV" />, and on the exact
         ///     mapping. Mipmapping is not used.
         /// </summary>
         Linear,

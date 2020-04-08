@@ -8,7 +8,7 @@ namespace Sokol.Graphics
 {
     /// <summary>
     ///     Reflection information about a global variable that is used in either the "per-vertex processing" stage or
-    ///     "per-fragment processing" stage. Apart of <see cref="ShaderDescription" />. Only required for
+    ///     "per-fragment processing" stage. Apart of <see cref="ShaderDescriptor" />. Only required for
     ///     <see cref="GraphicsBackend.OpenGL" />, <see cref="GraphicsBackend.OpenGLES2" />, and
     ///     <see cref="GraphicsBackend.OpenGLES3" />.
     /// </summary>
@@ -22,12 +22,12 @@ namespace Sokol.Graphics
     ///         <see cref="GraphicsBackend.OpenGLES3" />.
     ///     </para>
     ///     <para>
-    ///         <see cref="ShaderUniformDescription" /> is blittable to the C `sg_shader_uniform_desc` struct found in
+    ///         <see cref="ShaderUniformDescriptor" /> is blittable to the C `sg_shader_uniform_desc` struct found in
     ///         `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8, CharSet = CharSet.Ansi)]
-    public struct ShaderUniformDescription
+    public struct ShaderUniformDescriptor
     {
         /// <summary>
         ///     The pointer to a C style string containing the name of the uniform. Must be set for

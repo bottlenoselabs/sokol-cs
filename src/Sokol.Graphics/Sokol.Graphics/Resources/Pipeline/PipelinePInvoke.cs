@@ -11,16 +11,16 @@ namespace Sokol.Graphics
     public static class PipelinePInvoke
     {
         [DllImport(Sg.LibraryName, EntryPoint = "sg_query_pipeline_defaults")]
-        public static extern PipelineDescription QueryDefaults([In] ref PipelineDescription description);
+        public static extern PipelineDescriptor QueryDefaults([In] ref PipelineDescriptor descriptor);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_alloc_pipeline")]
         public static extern Pipeline Alloc();
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_make_pipeline")]
-        public static extern Pipeline Create([In] ref PipelineDescription description);
+        public static extern Pipeline Create([In] ref PipelineDescriptor descriptor);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_init_pipeline")]
-        public static extern void Init(Pipeline pipeline, [In] ref PipelineDescription desc);
+        public static extern void Init(Pipeline pipeline, [In] ref PipelineDescriptor desc);
 
         [DllImport(Sg.LibraryName, EntryPoint = "destroy_pipeline")]
         public static extern void Destroy(Pipeline pipeline);

@@ -42,15 +42,15 @@ namespace Sokol.Graphics
     public readonly struct Image
     {
         /// <summary>
-        ///     Fill any zero-initialized members of an <see cref="ImageDescription" /> with their explicit default
+        ///     Fill any zero-initialized members of an <see cref="ImageDescriptor" /> with their explicit default
         ///     values.
         /// </summary>
-        /// <param name="description">The parameters for creating an image.</param>
-        /// <returns>An <see cref="ImageDescription" /> with any zero-initialized members set to default values.</returns>
+        /// <param name="descriptor">The parameters for creating an image.</param>
+        /// <returns>An <see cref="ImageDescriptor" /> with any zero-initialized members set to default values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ImageDescription QueryDefaults([In] ref ImageDescription description)
+        public static ImageDescriptor QueryDefaults([In] ref ImageDescriptor descriptor)
         {
-            return ImagePInvoke.QueryDefaults(ref description);
+            return ImagePInvoke.QueryDefaults(ref descriptor);
         }
 
         // TODO: Document allocating an image
@@ -62,14 +62,14 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Creates an <see cref="Image" /> from the specified <see cref="ImageDescription" />.
+        ///     Creates an <see cref="Image" /> from the specified <see cref="ImageDescriptor" />.
         /// </summary>
-        /// <param name="description">The parameters for creating an image.</param>
+        /// <param name="descriptor">The parameters for creating an image.</param>
         /// <returns>An <see cref="Image" />.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Image Create([In] ref ImageDescription description)
+        public static Image Create([In] ref ImageDescriptor descriptor)
         {
-            return ImagePInvoke.Create(ref description);
+            return ImagePInvoke.Create(ref descriptor);
         }
 
         /// <summary>
@@ -97,9 +97,9 @@ namespace Sokol.Graphics
         // TODO: Document manual initialization of an image.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Init([In] ref ImageDescription description)
+        public void Init([In] ref ImageDescriptor descriptor)
         {
-            ImagePInvoke.Init(this, ref description);
+            ImagePInvoke.Init(this, ref descriptor);
         }
 
         /// <summary>

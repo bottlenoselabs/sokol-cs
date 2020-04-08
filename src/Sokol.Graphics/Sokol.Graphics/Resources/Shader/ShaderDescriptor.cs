@@ -11,23 +11,23 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="ShaderDescription" /> is blittable to the C `sg_shader_desc` struct found in `sokol_gfx`.
+    ///         <see cref="ShaderDescriptor" /> is blittable to the C `sg_shader_desc` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 2968, Pack = 8, CharSet = CharSet.Ansi)]
-    public unsafe struct ShaderDescription
+    public unsafe struct ShaderDescriptor
     {
         /// <summary>
-        ///     The <see cref="ShaderStageDescription" /> for the "per-vertex processing" stage. Must be set.
+        ///     The <see cref="ShaderStageDescriptor" /> for the "per-vertex processing" stage. Must be set.
         /// </summary>
         [FieldOffset(392)]
-        public ShaderStageDescription VertexStage;
+        public ShaderStageDescriptor VertexStage;
 
         /// <summary>
-        ///     The <see cref="ShaderStageDescription" /> for the "per-fragment processing" stage. Must be set.
+        ///     The <see cref="ShaderStageDescriptor" /> for the "per-fragment processing" stage. Must be set.
         /// </summary>
         [FieldOffset(1672)]
-        public ShaderStageDescription FragmentStage;
+        public ShaderStageDescriptor FragmentStage;
 
         [FieldOffset(8)]
         internal fixed ulong _attributes[24 * sokol_gfx.SG_MAX_VERTEX_ATTRIBUTES / 8];
@@ -49,17 +49,17 @@ namespace Sokol.Graphics
         internal uint _endCanary;
 
         /// <summary>
-        ///     Gets the <see cref="ShaderVertexAttributeDescription" /> by reference given the specified index. All vertex
+        ///     Gets the <see cref="ShaderVertexAttributeDescriptor" /> by reference given the specified index. All vertex
         ///     attributes must be configured for <see cref="GraphicsBackend.OpenGLES2" /> and
         ///     <see cref="GraphicsBackend.Direct3D11" />.
         /// </summary>
         /// <param name="index">The zero-based index.</param>
-        /// <returns>A <see cref="ShaderVertexAttributeDescription" /> by reference.</returns>
-        public ref ShaderVertexAttributeDescription Attribute(int index)
+        /// <returns>A <see cref="ShaderVertexAttributeDescriptor" /> by reference.</returns>
+        public ref ShaderVertexAttributeDescriptor Attribute(int index)
         {
-            fixed (ShaderDescription* shaderDescription = &this)
+            fixed (ShaderDescriptor* shaderDescription = &this)
             {
-                var ptr = (ShaderVertexAttributeDescription*)&shaderDescription->_attributes[0];
+                var ptr = (ShaderVertexAttributeDescriptor*)&shaderDescription->_attributes[0];
                 return ref *(ptr + index);
             }
         }

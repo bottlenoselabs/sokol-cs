@@ -13,11 +13,11 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="BufferDescription" /> is blittable to the C `sg_buffer_desc` struct found in `sokol_gfx`.
+    ///         <see cref="BufferDescriptor" /> is blittable to the C `sg_buffer_desc` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8, CharSet = CharSet.Ansi)]
-    public unsafe struct BufferDescription
+    public unsafe struct BufferDescriptor
     {
         /// <summary>
         ///     The size of the buffer in bytes. Must be set. Can't be <c>0</c> or negative.

@@ -14,11 +14,11 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="ImageDescription" /> is blittable to the C `sg_image_desc` struct found in `sokol_gfx`.
+    ///         <see cref="ImageDescriptor" /> is blittable to the C `sg_image_desc` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 1664, Pack = 8, CharSet = CharSet.Ansi)]
-    public unsafe struct ImageDescription
+    public unsafe struct ImageDescriptor
     {
         /// <summary>
         ///     The <see cref="ImageType" /> of the image. Default is <see cref="ImageType.Texture2D" />.

@@ -36,7 +36,7 @@ namespace Sokol.Graphics
     ///     </para>
     ///     <para>
     ///         To create a <see cref="Pipeline" />, call <see cref="Pipeline.Create" /> or <see cref="Pipeline.Init" />
-    ///         with a specified <see cref="PipelineDescription" />.
+    ///         with a specified <see cref="PipelineDescriptor" />.
     ///     </para>
     ///     <para>
     ///         To activate a <see cref="Pipeline" /> with all it's state and by consequence deactivate any other
@@ -54,15 +54,15 @@ namespace Sokol.Graphics
     public readonly struct Pipeline
     {
         /// <summary>
-        ///     Fill any zero-initialized members of an <see cref="ImageDescription" /> with their explicit default
+        ///     Fill any zero-initialized members of an <see cref="ImageDescriptor" /> with their explicit default
         ///     values.
         /// </summary>
-        /// <param name="description">The parameters for creating an image.</param>
-        /// <returns>An <see cref="ImageDescription" /> with any zero-initialized members set to default values.</returns>
+        /// <param name="descriptor">The parameters for creating an image.</param>
+        /// <returns>An <see cref="ImageDescriptor" /> with any zero-initialized members set to default values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static PipelineDescription QueryDefaults([In] ref PipelineDescription description)
+        public static PipelineDescriptor QueryDefaults([In] ref PipelineDescriptor descriptor)
         {
-            return PipelinePInvoke.QueryDefaults(ref description);
+            return PipelinePInvoke.QueryDefaults(ref descriptor);
         }
 
         // TODO: Document allocating a pipeline
@@ -74,14 +74,14 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Creates a <see cref="Pipeline" /> from the specified <see cref="PipelineDescription" />.
+        ///     Creates a <see cref="Pipeline" /> from the specified <see cref="PipelineDescriptor" />.
         /// </summary>
-        /// <param name="description">The parameters for creating a pipeline.</param>
+        /// <param name="descriptor">The parameters for creating a pipeline.</param>
         /// <returns>An <see cref="Image" />.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Pipeline Create([In] ref PipelineDescription description)
+        public static Pipeline Create([In] ref PipelineDescriptor descriptor)
         {
-            return PipelinePInvoke.Create(ref description);
+            return PipelinePInvoke.Create(ref descriptor);
         }
 
         /// <summary>
@@ -93,9 +93,9 @@ namespace Sokol.Graphics
         // TODO: Document manual initialization of a pipeline
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Init([In] ref PipelineDescription description)
+        public void Init([In] ref PipelineDescriptor descriptor)
         {
-            PipelinePInvoke.Init(this, ref description);
+            PipelinePInvoke.Init(this, ref descriptor);
         }
 
         /// <summary>

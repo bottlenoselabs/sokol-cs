@@ -7,7 +7,7 @@ namespace Sokol.Graphics
 {
     /// <summary>
     ///     Reflection information about a set of global variables that are used in either the "per-vertex processing"
-    ///     stage or "per-fragment processing" stage. Apart of <see cref="ShaderDescription" />.
+    ///     stage or "per-fragment processing" stage. Apart of <see cref="ShaderDescriptor" />.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -19,12 +19,12 @@ namespace Sokol.Graphics
     ///         <see cref="GraphicsBackend.OpenGLES3" />.
     ///     </para>
     ///     <para>
-    ///         <see cref="ShaderUniformBlockDescription" /> is blittable to the C `sg_shader_uniform_block_desc` struct
+    ///         <see cref="ShaderUniformBlockDescriptor" /> is blittable to the C `sg_shader_uniform_block_desc` struct
     ///         found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
-    public unsafe struct ShaderUniformBlockDescription
+    public unsafe struct ShaderUniformBlockDescriptor
     {
         /// <summary>
         ///     The size of the uniform block in bytes.
@@ -36,15 +36,15 @@ namespace Sokol.Graphics
         internal fixed ulong _uniforms[16 * sokol_gfx.SG_MAX_UB_MEMBERS / 8];
 
         /// <summary>
-        ///     Gets a <see cref="ShaderUniformBlockDescription" /> by reference given the specified index.
+        ///     Gets a <see cref="ShaderUniformBlockDescriptor" /> by reference given the specified index.
         /// </summary>
         /// <param name="index">The zero-based index.</param>
-        /// <returns>A <see cref="ShaderUniformBlockDescription" /> by reference.</returns>
-        public ref ShaderUniformDescription Uniform(int index)
+        /// <returns>A <see cref="ShaderUniformBlockDescriptor" /> by reference.</returns>
+        public ref ShaderUniformDescriptor Uniform(int index)
         {
-            fixed (ShaderUniformBlockDescription* uniformBlockDescription = &this)
+            fixed (ShaderUniformBlockDescriptor* uniformBlockDescription = &this)
             {
-                var ptr = (ShaderUniformDescription*)&uniformBlockDescription->_uniforms[0];
+                var ptr = (ShaderUniformDescriptor*)&uniformBlockDescription->_uniforms[0];
                 return ref *(ptr + index);
             }
         }

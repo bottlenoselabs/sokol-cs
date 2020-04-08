@@ -10,16 +10,16 @@ namespace Sokol.Graphics
     public static class ImagePInvoke
     {
         [DllImport(Sg.LibraryName, EntryPoint = "sg_query_image_defaults")]
-        public static extern ImageDescription QueryDefaults([In] ref ImageDescription description);
+        public static extern ImageDescriptor QueryDefaults([In] ref ImageDescriptor descriptor);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_alloc_image")]
         public static extern Image Alloc();
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_make_image")]
-        public static extern Image Create([In] ref ImageDescription description);
+        public static extern Image Create([In] ref ImageDescriptor descriptor);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_init_image")]
-        public static extern void Init(Image image, [In] ref ImageDescription description);
+        public static extern void Init(Image image, [In] ref ImageDescriptor descriptor);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_destroy_image")]
         public static extern void Destroy(Image image);

@@ -23,10 +23,10 @@ namespace Sokol.Graphics
     public static class GraphicsDevice
     {
         /// <summary>
-        ///     Gets the <see cref="InitializeDescription" /> of the `sokol_gfx` application.
+        ///     Gets the <see cref="InitializeDescriptor" /> of the `sokol_gfx` application.
         /// </summary>
-        /// <value>The <see cref="InitializeDescription" /> of the `sokol_gfx` application.</value>
-        public static InitializeDescription Description => QueryDescription();
+        /// <value>The <see cref="InitializeDescriptor" /> of the `sokol_gfx` application.</value>
+        public static InitializeDescriptor Descriptor => QueryDescriptor();
 
         /// <summary>
         ///     Gets the <see cref="GraphicsBackend" /> of the `sokol_gfx` application.
@@ -70,7 +70,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="desc">The configuration to use for initialize.</param>
         [DllImport(Sg.LibraryName, EntryPoint = "sg_setup")]
-        public static extern void Setup([In] ref InitializeDescription desc);
+        public static extern void Setup([In] ref InitializeDescriptor desc);
 
         /// <summary>
         ///     Destroys `sokol_gfx` for the life-time of an application. Should be called before an application exits
@@ -143,7 +143,7 @@ namespace Sokol.Graphics
         public static extern PixelFormatInfo QueryPixelFormat(PixelFormat format);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_query_desc")]
-        private static extern InitializeDescription QueryDescription();
+        private static extern InitializeDescriptor QueryDescriptor();
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_query_backend")]
         private static extern sokol_gfx.sg_backend QueryBackend();

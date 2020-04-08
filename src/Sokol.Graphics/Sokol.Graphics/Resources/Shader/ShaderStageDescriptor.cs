@@ -8,16 +8,16 @@ namespace Sokol.Graphics
 {
     /// <summary>
     ///     Parameters for constructing either a "per-vertex processing" stage or a "per-fragment processing" stage.
-    ///     Apart of <see cref="ShaderDescription" />.
+    ///     Apart of <see cref="ShaderDescriptor" />.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="ShaderStageDescription" /> is blittable to the C `sg_shader_stage_desc` struct found in
+    ///         <see cref="ShaderStageDescriptor" /> is blittable to the C `sg_shader_stage_desc` struct found in
     ///         `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 1280, Pack = 8, CharSet = CharSet.Ansi)]
-    public unsafe struct ShaderStageDescription
+    public unsafe struct ShaderStageDescriptor
     {
         /// <summary>
         ///     The pointer to the C style string containing the source code of the stage. Must be set for
@@ -64,33 +64,33 @@ namespace Sokol.Graphics
         internal fixed ulong _images[16 * sokol_gfx.SG_MAX_SHADERSTAGE_IMAGES / 8];
 
         /// <summary>
-        ///     Gets the <see cref="ShaderUniformBlockDescription" /> of the stage by reference given the specified
+        ///     Gets the <see cref="ShaderUniformBlockDescriptor" /> of the stage by reference given the specified
         ///     index. All uniform blocks must be configured for <see cref="GraphicsBackend.OpenGL" />,
         ///     <see cref="GraphicsBackend.OpenGLES2" />, and <see cref="GraphicsBackend.OpenGLES3" />. Optional for
         ///     every other <see cref="GraphicsBackend" /> implementation.
         /// </summary>
         /// <param name="index">The zero-based index.</param>
-        /// <returns>A <see cref="ShaderUniformBlockDescription" /> by reference.</returns>
-        public ref ShaderUniformBlockDescription UniformBlock(int index)
+        /// <returns>A <see cref="ShaderUniformBlockDescriptor" /> by reference.</returns>
+        public ref ShaderUniformBlockDescriptor UniformBlock(int index)
         {
-            fixed (ShaderStageDescription* shaderStageDescription = &this)
+            fixed (ShaderStageDescriptor* shaderStageDescription = &this)
             {
-                var ptr = (ShaderUniformBlockDescription*)&shaderStageDescription->_uniformBlocks[0];
+                var ptr = (ShaderUniformBlockDescriptor*)&shaderStageDescription->_uniformBlocks[0];
                 return ref *(ptr + index);
             }
         }
 
         /// <summary>
-        ///     Gets the <see cref="ShaderImageDescription" /> of the stage by reference given the specified index. All
+        ///     Gets the <see cref="ShaderImageDescriptor" /> of the stage by reference given the specified index. All
         ///     shader images must be configured for <see cref="GraphicsBackend.OpenGLES2" />.
         /// </summary>
         /// <param name="index">The zero-based index.</param>
-        /// <returns>A <see cref="ShaderImageDescription" /> by reference.</returns>
-        public ref ShaderImageDescription Image(int index)
+        /// <returns>A <see cref="ShaderImageDescriptor" /> by reference.</returns>
+        public ref ShaderImageDescriptor Image(int index)
         {
-            fixed (ShaderStageDescription* shaderStageDescription = &this)
+            fixed (ShaderStageDescriptor* shaderStageDescription = &this)
             {
-                var ptr = (ShaderImageDescription*)&shaderStageDescription->_images[0];
+                var ptr = (ShaderImageDescriptor*)&shaderStageDescription->_images[0];
                 return ref *(ptr + index);
             }
         }

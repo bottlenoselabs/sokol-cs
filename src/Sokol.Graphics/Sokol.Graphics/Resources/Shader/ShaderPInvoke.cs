@@ -12,16 +12,16 @@ namespace Sokol.Graphics
     public static class ShaderPInvoke
     {
         [DllImport(Sg.LibraryName, EntryPoint = "sg_query_shader_defaults")]
-        public static extern ShaderDescription QueryDefaults([In] ref ShaderDescription description);
+        public static extern ShaderDescriptor QueryDefaults([In] ref ShaderDescriptor descriptor);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_alloc_shader")]
         public static extern Shader AllocShader();
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_make_shader")]
-        public static extern Shader CreateShader([In] ref ShaderDescription description);
+        public static extern Shader CreateShader([In] ref ShaderDescriptor descriptor);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_init_shader")]
-        public static extern void Init(Shader shader, [In] ref ShaderDescription desc);
+        public static extern void Init(Shader shader, [In] ref ShaderDescriptor desc);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_destroy_shader")]
         public static extern void Destroy(Shader shader);

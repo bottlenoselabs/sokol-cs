@@ -11,21 +11,21 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         To apply the parameters, get a <see cref="PipelineVertexBufferLayoutDescription" /> by reference by
-    ///         calling the <see cref="PipelineVertexLayoutDescription.Buffer" /> method and set the result before
+    ///         To apply the parameters, get a <see cref="PipelineVertexBufferLayoutDescriptor" /> by reference by
+    ///         calling the <see cref="PipelineVertexLayoutDescriptor.Buffer" /> method and set the result before
     ///         creating a <see cref="Pipeline" />.
     ///     </para>
     ///     <para>
     ///         Use standard struct allocation and initialization techniques to create a
-    ///         <see cref="PipelineVertexBufferLayoutDescription" />.
+    ///         <see cref="PipelineVertexBufferLayoutDescriptor" />.
     ///     </para>
     ///     <para>
-    ///         <see cref="PipelineVertexBufferLayoutDescription" /> is blittable to the C `sg_vertex_attr_desc` struct
+    ///         <see cref="PipelineVertexBufferLayoutDescriptor" /> is blittable to the C `sg_vertex_attr_desc` struct
     ///         found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct PipelineVertexBufferLayoutDescription
+    public struct PipelineVertexBufferLayoutDescriptor
     {
         /// <summary>
         ///     The stride of each vertex. Default is <c>0</c>. If <c>0</c>, the stride will be automatically computed.

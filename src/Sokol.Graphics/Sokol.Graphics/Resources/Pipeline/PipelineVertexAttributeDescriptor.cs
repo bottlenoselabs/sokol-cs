@@ -11,21 +11,21 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         To apply the parameters, get a <see cref="PipelineVertexAttributeDescription"/> by reference by calling
-    ///         the <see cref="PipelineVertexLayoutDescription.Attribute" /> method and set the result before creating a
+    ///         To apply the parameters, get a <see cref="PipelineVertexAttributeDescriptor"/> by reference by calling
+    ///         the <see cref="PipelineVertexLayoutDescriptor.Attribute" /> method and set the result before creating a
     ///         <see cref="Pipeline" />.
     ///     </para>
     ///     <para>
     ///         Use standard struct allocation and initialization techniques to create
-    ///         a <see cref="PipelineVertexAttributeDescription" />.
+    ///         a <see cref="PipelineVertexAttributeDescriptor" />.
     ///     </para>
     ///     <para>
-    ///         <see cref="PipelineVertexAttributeDescription" /> is blittable to the C `sg_vertex_attr_desc` struct
+    ///         <see cref="PipelineVertexAttributeDescriptor" /> is blittable to the C `sg_vertex_attr_desc` struct
     ///         found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct PipelineVertexAttributeDescription
+    public struct PipelineVertexAttributeDescriptor
     {
         /// <summary>
         ///     The vertex <see cref="Buffer" /> slot or index to use. Default is <c>0</c>.

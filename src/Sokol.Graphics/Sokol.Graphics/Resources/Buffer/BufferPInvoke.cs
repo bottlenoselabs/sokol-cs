@@ -11,16 +11,16 @@ namespace Sokol.Graphics
     public static class BufferPInvoke
     {
         [DllImport(Sg.LibraryName, EntryPoint = "sg_query_buffer_defaults")]
-        public static extern BufferDescription QueryDefaults([In] ref BufferDescription description);
+        public static extern BufferDescriptor QueryDefaults([In] ref BufferDescriptor descriptor);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_alloc_buffer")]
         public static extern Buffer Alloc();
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_make_buffer")]
-        public static extern Buffer Create([In] ref BufferDescription description);
+        public static extern Buffer Create([In] ref BufferDescriptor descriptor);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_init_buffer")]
-        public static extern void Init(Buffer buffer, [In] ref BufferDescription description);
+        public static extern void Init(Buffer buffer, [In] ref BufferDescriptor descriptor);
 
         [DllImport(Sg.LibraryName, EntryPoint = "sg_destroy_buffer")]
         public static extern void Destroy(Buffer buffer);

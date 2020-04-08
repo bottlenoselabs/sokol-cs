@@ -8,16 +8,16 @@ namespace Sokol.Graphics
 {
     /// <summary>
     ///     Reflection information about an <see cref="Image" /> that will be as input to the
-    ///     <see cref="Shader" /> in the "per-fragment processing" stage. Apart of <see cref="ShaderDescription" />.
+    ///     <see cref="Shader" /> in the "per-fragment processing" stage. Apart of <see cref="ShaderDescriptor" />.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="ShaderImageDescription" /> is blittable to the C `sg_shader_image_desc` struct found in
+    ///         <see cref="ShaderImageDescriptor" /> is blittable to the C `sg_shader_image_desc` struct found in
     ///         `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8, CharSet = CharSet.Ansi)]
-    public struct ShaderImageDescription
+    public struct ShaderImageDescriptor
     {
         /// <summary>
         ///     The pointer to a C style string containing the name of the sampler in the "per-fragment processing"
