@@ -6,7 +6,7 @@ A .NET wrapper for https://github.com/floooh/sokol.
 
 Includes the C style API precisely as it is and a .NET style API for convenience.
 
-[`sokol_gfx`](https://github.com/floooh/sokol#sokol_gfxh) is a modern and simple 3D graphics API. To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written by the owner of `sokol`. 
+[`sokol_gfx`](https://github.com/floooh/sokol#sokol_gfxh) is a modern and simple 3D graphics API. To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written Andre Weissflog, the owner of `sokol`. 
 
 [`sokol_gfx`](https://github.com/floooh/sokol#sokol_gfxh) converges old and modern graphics APIs to one simple and easy to use API. To learn more about the convergence of modern 3D graphics APIs (such as Metal, DirectX11/12, and WebGPU) and how they compare to legacy APIs (such as OpenGL), see *[A Comparison of Modern Graphics APIs](https://alain.xyz/blog/comparison-of-modern-graphics-apis)* blog written by Alain Galvan, a graphics software engineer.
 
