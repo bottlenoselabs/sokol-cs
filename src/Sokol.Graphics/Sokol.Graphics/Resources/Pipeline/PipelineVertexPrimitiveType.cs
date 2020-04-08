@@ -5,27 +5,28 @@ namespace Sokol.Graphics
 {
     // ReSharper disable once CommentTypo
     /// <summary>
-    ///     Defines the types of 3D topology primitives which indicate how a <see cref="Pipeline" /> rasterizes vertex
-    ///     data.
+    ///     Defines the types of 3D topology primitives which are used by a <see cref="Pipeline" /> to fetch vertex data
+    ///     from a vertex <see cref="Buffer" /> for rasterization.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         When choosing which <see cref="PrimitiveType" /> to use, consider the memory size of each vertex,
-    ///         whether indexing is used or not, and the resulting bandwidth used to send the data to the GPU.
-    ///         <see cref="LineStrip" /> and <see cref="TriangleStrip" /> are more efficient in terms of memory usage
-    ///         but often are just as fast and sometimes even slower than <see cref="Lines" /> and
-    ///         <see cref="Triangles" /> when indexing is used. This is because modern GPUs have pre and post vertex
-    ///         caches for indexed vertex data.
+    ///         When choosing which <see cref="PipelineVertexPrimitiveType" /> to use, consider the memory size of each
+    ///         vertex, whether indexing is used or not (see <see cref="PipelineVertexIndexType" />), and the
+    ///         resulting bandwidth used to send the data to the GPU. <see cref="LineStrip" /> and
+    ///         <see cref="TriangleStrip" /> are more efficient in terms of memory usage but often are just as fast and
+    ///         sometimes even slower than <see cref="Lines" /> and <see cref="Triangles" /> when indexing is used. This
+    ///         is because modern GPUs have pre and post vertex caches for indexed vertex data.
     ///     </para>
     ///     <para>
-    ///         <see cref="PrimitiveType" /> is blittable to the C `sg_primitivetype` enum found in `sokol_gfx`.
+    ///         <see cref="PipelineVertexPrimitiveType" /> is blittable to the C `sg_primitivetype` enum found in
+    ///         `sokol_gfx`.
     ///     </para>
     /// </remarks>
-    public enum PrimitiveType
+    public enum PipelineVertexPrimitiveType
     {
         /// <summary>
         ///     This value is reserved for the default initialization of structures. The default
-        ///     <see cref="PrimitiveType" /> is <see cref="Triangles" />.
+        ///     <see cref="PipelineVertexPrimitiveType" /> is <see cref="Triangles" />.
         /// </summary>
         Default,
 
