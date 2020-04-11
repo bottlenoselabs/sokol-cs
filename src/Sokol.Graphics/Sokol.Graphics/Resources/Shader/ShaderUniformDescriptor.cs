@@ -14,6 +14,10 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
+    ///         Use standard struct allocation and initialization techniques to create
+    ///         a <see cref="ShaderUniformDescriptor" />.
+    ///     </para>
+    ///     <para>
     ///         Each global shader variable is traditionally called a "uniform" because they don't change for all GPU
     ///         "threads" that process either vertices or fragments between drawing commands.
     ///     </para>

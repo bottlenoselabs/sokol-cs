@@ -36,15 +36,18 @@ namespace Sokol.Graphics
     ///         The default <see cref="PixelFormat" /> for texture images is <see cref="PixelFormat.RGBA8" />.
     ///     </para>
     ///     <para>
-    ///         The default <see cref="PixelFormat" /> for render target images is <see cref="GraphicsBackend" />
-    ///         dependent. For <see cref="GraphicsBackend.Metal" /> and <see cref="GraphicsBackend.Direct3D11" />, it is
-    ///         <see cref="PixelFormat.BGRA8" />. For all others, it is <see cref="PixelFormat.RGBA8" />. The reason for
-    ///         this is to allow for more efficient frame flips for the the default frame buffer. However, for your own
-    ///         offscreen render target images, use any <see cref="PixelFormat" /> which is convenient.
+    ///         The default <see cref="PixelFormat" /> for a <see cref="Pass" />'s color attachment is
+    ///         <see cref="GraphicsBackend" /> dependent. For <see cref="GraphicsBackend.Metal" /> and
+    ///         <see cref="GraphicsBackend.Direct3D11" />, it is <see cref="PixelFormat.BGRA8" />. For all others, it is
+    ///         <see cref="PixelFormat.RGBA8" />. The reason for this is to allow for more efficient frame flips for the
+    ///         the default on-screen <see cref="Pass" />'s color attachment (framebuffer). However, for your own
+    ///         offscreen <see cref="Pass" /> color attachment(s), use any <see cref="PixelFormat" /> which is
+    ///         convenient.
     ///     </para>
     ///     <para>
     ///         Not every <see cref="PixelFormat" /> can be used with every <see cref="GraphicsBackend" />. Call
-    ///         <see cref="GraphicsDevice.QueryPixelFormat" /> to inspect the capabilities of a given <see cref="PixelFormat" /> for
+    ///         <see cref="GraphicsDevice.QueryPixelFormat" /> to inspect the capabilities of a given
+    ///         <see cref="PixelFormat" /> for
     ///         the currently active <see cref="GraphicsBackend" />. When targeting
     ///         <see cref="GraphicsBackend.OpenGLES2" /> or <see cref="GraphicsBackend.OpenGLES3" />, only
     ///         <see cref="PixelFormat.R8" /> and <see cref="PixelFormat.RGBA8" /> are guaranteed to be safe; all others

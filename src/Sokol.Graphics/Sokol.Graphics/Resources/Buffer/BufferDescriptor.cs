@@ -2,6 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Buffers;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -12,6 +14,10 @@ namespace Sokol.Graphics
     ///     Parameters for constructing a <see cref="Buffer" />.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         Use standard struct allocation and initialization techniques to create a
+    ///         <see cref="BufferDescriptor" />.
+    ///     </para>
     ///     <para>
     ///         <see cref="BufferDescriptor" /> is blittable to the C `sg_buffer_desc` struct found in `sokol_gfx`.
     ///     </para>
@@ -26,10 +32,10 @@ namespace Sokol.Graphics
         public int Size;
 
         /// <summary>
-        ///     The <see cref="BufferDataType" /> of the buffer. Default is <see cref="BufferDataType.Vertex" />.
+        ///     The <see cref="BufferType" /> of the buffer. Default is <see cref="BufferType.VertexBuffer" />.
         /// </summary>
         [FieldOffset(8)]
-        public BufferDataType Type;
+        public BufferType Type;
 
         /// <summary>
         ///     The <see cref="ResourceUsage" /> of the buffer. Default is <see cref="ResourceUsage.Immutable" />.
@@ -73,5 +79,30 @@ namespace Sokol.Graphics
         /// </summary>
         [FieldOffset(64)]
         internal uint _end_canary;
+
+        /// <summary>
+        ///     Sets the <see cref="Data" /> and <see cref="Size" /> fields of the <see cref="BufferDescriptor" /> given
+        ///     the specified <see cref="Memory{T}" /> struct. It is assumed that the <paramref name="data" /> is
+        ///     already unmanaged or externally pinned.
+        /// </summary>
+        /// <param name="data">The memory block.</param>
+        /// <typeparam name="T">The type of data in the memory block.</typeparam>
+        public void SetData<T>(Span<T> data)
+        {
+            ref var reference = ref MemoryMarshal.GetReference(data);
+            Data = (IntPtr)Unsafe.AsPointer(ref reference);
+            Size = Marshal.SizeOf<T>() * data.Length;
+        }
+
+        /// <summary>
+        ///     Sets the <see cref="Data" /> and <see cref="Size" /> fields of the <see cref="BufferDescriptor" /> given
+        ///     the specified <see cref="Memory{T}" /> struct.
+        /// </summary>
+        /// <param name="data">The memory block.</param>
+        /// <typeparam name="T">The type of data in the memory block.</typeparam>
+        public void SetData<T>(Memory<T> data)
+        {
+            SetData(data.Span);
+        }
     }
 }

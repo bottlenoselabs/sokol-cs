@@ -11,11 +11,11 @@ namespace Sokol.Graphics
         /// <summary>
         ///     The "per-vertex processing" shader stage.
         /// </summary>
-        Vertex,
+        VertexStage,
 
         /// <summary>
         ///     The "per-fragment processing" shader stage.
         /// </summary>
-        Fragment
+        FragmentStage
     }
 }

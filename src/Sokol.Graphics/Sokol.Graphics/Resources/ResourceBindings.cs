@@ -12,19 +12,19 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         To apply a <see cref="PipelineResourceBindings" />, call the <see cref="Pipeline.ApplyBindings" />
-    ///         method after a <see cref="Pipeline" /> is created.
+    ///         To apply a <see cref="ResourceBindings" />, call
+    ///         <see cref="Pass.Apply(ref ResourceBindings)" /> after a <see cref="Pipeline" /> is created.
     ///     </para>
     ///     <para>
     ///         Use standard struct allocation and initialization techniques to create
-    ///         a <see cref="PipelineResourceBindings" />.
+    ///         a <see cref="ResourceBindings" />.
     ///     </para>
     ///     <para>
-    ///         <see cref="PipelineResourceBindings" /> is blittable to the C `sg_bindings` struct found in `sokol_gfx`.
+    ///         <see cref="ResourceBindings" /> is blittable to the C `sg_bindings` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 176, Pack = 4)]
-    public unsafe struct PipelineResourceBindings
+    public unsafe struct ResourceBindings
     {
         /// <summary>
         ///     The vertex-index <see cref="Buffer" /> to use. Default is <c>default(Buffer)</c> which indicates to not
@@ -74,7 +74,7 @@ namespace Sokol.Graphics
         /// <returns>A vertex <see cref="Buffer" /> by reference.</returns>
         public ref Buffer VertexBuffer(int index = 0)
         {
-            fixed (PipelineResourceBindings* bindings = &this)
+            fixed (ResourceBindings* bindings = &this)
             {
                 var ptr = (Buffer*)&bindings->_vertexBuffers[0];
                 return ref *(ptr + index);
@@ -102,7 +102,7 @@ namespace Sokol.Graphics
         /// <returns>A <see cref="Image" />.</returns>
         public ref Image VertexStageImage(int index)
         {
-            fixed (PipelineResourceBindings* bindings = &this)
+            fixed (ResourceBindings* bindings = &this)
             {
                 var ptr = (Image*)&bindings->_vsImages[0];
                 return ref *(ptr + index);
@@ -119,7 +119,7 @@ namespace Sokol.Graphics
         /// <returns>A <see cref="Image" />.</returns>
         public ref Image FragmentStageImage(int index)
         {
-            fixed (PipelineResourceBindings* bindings = &this)
+            fixed (ResourceBindings* bindings = &this)
             {
                 var ptr = (Image*)&bindings->_fsImages[0];
                 return ref *(ptr + index);

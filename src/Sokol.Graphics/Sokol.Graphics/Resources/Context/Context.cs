@@ -31,6 +31,9 @@ namespace Sokol.Graphics
     ///         isn't necessary.
     ///     </para>
     ///     <para>
+    ///         To create a <see cref="Context" />, call <see cref="GraphicsDevice.CreateContext" />.
+    ///     </para>
+    ///     <para>
     ///         Currently, <see cref="GraphicsBackend.Metal" /> and <see cref="GraphicsBackend.Direct3D11" /> do not
     ///         support multi-window rendering. For more information see the GitHub issue:
     ///         https://github.com/floooh/sokol/issues/229.
@@ -42,17 +45,6 @@ namespace Sokol.Graphics
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public readonly struct Context
     {
-        /// <summary>
-        ///     Creates a <see cref="Context" />. Must be called once after a GL context has been created and made
-        ///     active.
-        /// </summary>
-        /// <returns>A <see cref="Context" />.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Context Create()
-        {
-            return ContextPInvoke.Create();
-        }
-
         /// <summary>
         ///     A number which uniquely identifies the <see cref="Context" />.
         /// </summary>
@@ -70,7 +62,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Activate()
         {
-            ContextPInvoke.Activate(this);
+            PInvoke.sg_activate_context(this);
         }
 
         /// <summary>
@@ -80,7 +72,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
-            ContextPInvoke.Destroy(this);
+            PInvoke.sg_discard_context(this);
         }
 
         /// <inheritdoc />

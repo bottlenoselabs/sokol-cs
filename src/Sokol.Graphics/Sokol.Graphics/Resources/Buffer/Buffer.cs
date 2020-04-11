@@ -9,10 +9,16 @@ using System.Runtime.InteropServices;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     A GPU resource that holds vertex or vertex-index data to be used by a <see cref="Pipeline"/> to input data
+    ///     A GPU resource that holds vertex or vertex-index data to be used by a <see cref="Pipeline" /> to input data
     ///     to "per-vertex processing" stage of a <see cref="Shader" />.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         To create a <see cref="Buffer" /> synchronously, call <see cref="GraphicsDevice.CreateBuffer" /> with a
+    ///         specified <see cref="BufferDescriptor" />. To create a <see cref="Buffer" /> asynchronously, call
+    ///         <see cref="GraphicsDevice.AllocBuffer" /> to get an un-initialized <see cref="Buffer" /> and then call
+    ///         <see cref="Initialize" /> with a specified <see cref="BufferDescriptor" />.
+    ///     </para>
     ///     <para>
     ///         A <see cref="Buffer" /> must only be used or destroyed with the same active <see cref="Context" /> that
     ///         was also active when the resource was created.
@@ -25,34 +31,15 @@ namespace Sokol.Graphics
     public readonly struct Buffer
     {
         /// <summary>
-        ///     Fill any zero-initialized members of a <see cref="BufferDescriptor"/> with their explicit default
+        ///     Fill any zero-initialized members of a <see cref="BufferDescriptor" /> with their explicit default
         ///     values.
         /// </summary>
         /// <param name="descriptor">The parameters for creating a buffer.</param>
-        /// <returns>A <see cref="BufferDescriptor"/> with any zero-initialized members set to default values.</returns>
+        /// <returns>A <see cref="BufferDescriptor" /> with any zero-initialized members set to default values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static BufferDescriptor QueryDefaults([In] ref BufferDescriptor descriptor)
         {
-            return BufferPInvoke.QueryDefaults(ref descriptor);
-        }
-
-        // TODO: Document allocating a buffer
-        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Buffer Alloc()
-        {
-            return BufferPInvoke.Alloc();
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Buffer" /> from the specified <see cref="BufferDescriptor" />.
-        /// </summary>
-        /// <param name="descriptor">The parameters for creating a buffer.</param>
-        /// <returns>A <see cref="Buffer" />.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Buffer Create([In] ref BufferDescriptor descriptor)
-        {
-            return BufferPInvoke.Create(ref descriptor);
+            return PInvoke.sg_query_buffer_defaults(ref descriptor);
         }
 
         /// <summary>
@@ -72,7 +59,7 @@ namespace Sokol.Graphics
         public bool IsOverflown
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => BufferPInvoke.QueryOverflow(this);
+            get => PInvoke.sg_query_buffer_overflow(this);
         }
 
         // TODO: Document `BufferInfo`.
@@ -80,7 +67,7 @@ namespace Sokol.Graphics
         public BufferInfo Info
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => BufferPInvoke.QueryInfo(this);
+            get => PInvoke.sg_query_buffer_info(this);
         }
 
         // TODO: Document `ResourceState`.
@@ -88,15 +75,15 @@ namespace Sokol.Graphics
         public ResourceState State
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => BufferPInvoke.QueryState(this);
+            get => PInvoke.sg_query_buffer_state(this);
         }
 
         // TODO: Document manual initialization of a buffer.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Init([In] ref BufferDescriptor descriptor)
+        public void Initialize([In] ref BufferDescriptor descriptor)
         {
-            BufferPInvoke.Init(this, ref descriptor);
+            PInvoke.sg_init_buffer(this, ref descriptor);
         }
 
         /// <summary>
@@ -105,7 +92,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
-            BufferPInvoke.Destroy(this);
+            PInvoke.sg_destroy_buffer(this);
         }
 
         // TODO: Document failing a buffer.
@@ -113,11 +100,12 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Fail()
         {
-            BufferPInvoke.Fail(this);
+            PInvoke.sg_fail_buffer(this);
         }
 
         /// <summary>
-        ///     Overwrites the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" /> must
+        ///     Overwrites the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" />
+        ///     must
         ///     have been created with <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
         /// </summary>
         /// <param name="dataPointer">A pointer to the starting address of a block of bytes to copy data.</param>
@@ -125,38 +113,51 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Update(IntPtr dataPointer, int dataSize)
         {
-            BufferPInvoke.Update(this, dataPointer, dataSize);
+            PInvoke.sg_update_buffer(this, dataPointer, dataSize);
         }
 
         /// <summary>
-        ///     Overwrites the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" /> must
-        ///     have been created with <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
+        ///     Overwrites the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" />
+        ///     must have been created with <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
+        ///     It is assumed that the <paramref name="data" /> provided is unmanaged or externally pinned.
         /// </summary>
         /// <param name="data">The region of memory to copy.</param>
-        /// <param name="count">The optional amount of elements to copy. Use <c>null</c> to copy all the elements.</param>
         /// <typeparam name="T">The type of elements to copy into the buffer.</typeparam>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe void Update<T>(Memory<T> data, int? count = null)
+        public unsafe void Update<T>(Span<T> data)
             where T : unmanaged
         {
-            var dataHandle = data.Pin();
-            var dataLength = count ?? data.Length;
-            var dataSize = Marshal.SizeOf<T>() * dataLength;
+            ref var dataReference = ref MemoryMarshal.GetReference(data);
+            var dataPointer = (IntPtr)Unsafe.AsPointer(ref dataReference);
+            var dataSize = Marshal.SizeOf<T>() * data.Length;
 
-            BufferPInvoke.Update(this, (IntPtr)dataHandle.Pointer, dataSize);
-
-            dataHandle.Dispose();
+            PInvoke.sg_update_buffer(this, dataPointer, dataSize);
         }
 
         /// <summary>
-        ///     Appends to the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" /> must
+        ///     Overwrites the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" />
+        ///     must have been created with <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
+        /// </summary>
+        /// <param name="data">The region of memory to copy.</param>
+        /// <typeparam name="T">The type of elements to copy into the buffer.</typeparam>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Update<T>(Memory<T> data)
+            where T : unmanaged
+        {
+            Update(data.Span);
+        }
+
+        /// <summary>
+        ///     Appends to the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" />
+        ///     must
         ///     have been created with <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
         /// </summary>
         /// <param name="dataPointer">A pointer to the starting address of a block of bytes to copy data.</param>
         /// <param name="dataSize">The number of bytes to copy.</param>
         /// <returns>
         ///     A byte offset to the start of the written data. This can be applied to
-        ///     <see cref="PipelineResourceBindings.VertexBufferOffset" /> or <see cref="PipelineResourceBindings.IndexBufferOffset" /> to render
+        ///     <see cref="ResourceBindings.VertexBufferOffset" /> or
+        ///     <see cref="ResourceBindings.IndexBufferOffset" /> to render
         ///     a portion of the buffer.
         /// </returns>
         /// <remarks>
@@ -176,11 +177,12 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int Append(IntPtr dataPointer, int dataSize)
         {
-            return BufferPInvoke.Append(this, dataPointer, dataSize);
+            return PInvoke.sg_append_buffer(this, dataPointer, dataSize);
         }
 
         /// <summary>
-        ///     Appends to the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" /> must
+        ///     Appends to the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" />
+        ///     must
         ///     have been created with <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
         /// </summary>
         /// <param name="data">The region of memory to copy.</param>
@@ -188,7 +190,8 @@ namespace Sokol.Graphics
         /// <typeparam name="T">The type of elements to copy into the buffer.</typeparam>
         /// <returns>
         ///     A byte offset to the start of the written data. This can be applied to
-        ///     <see cref="PipelineResourceBindings.VertexBufferOffset" /> or <see cref="PipelineResourceBindings.IndexBufferOffset" /> to render
+        ///     <see cref="ResourceBindings.VertexBufferOffset" /> or
+        ///     <see cref="ResourceBindings.IndexBufferOffset" /> to render
         ///     a portion of the buffer.
         /// </returns>
         /// <remarks>
@@ -213,7 +216,7 @@ namespace Sokol.Graphics
             var dataLength = count ?? data.Length;
             var dataSize = Marshal.SizeOf<T>() * dataLength;
 
-            var result = BufferPInvoke.Append(this, (IntPtr)dataHandle.Pointer, dataSize);
+            var result = PInvoke.sg_append_buffer(this, (IntPtr)dataHandle.Pointer, dataSize);
 
             dataHandle.Dispose();
 

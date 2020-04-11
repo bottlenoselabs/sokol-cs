@@ -23,7 +23,7 @@ namespace Sokol.Graphics
     ///             </item>
     ///         </list>
     ///         Magnification and minification can be set in the <see cref="ImageDescriptor" /> when calling
-    ///         <see cref="Image.Create" /> or <see cref="Image.Init" />.
+    ///         <see cref="GraphicsDevice.CreateImage" /> or <see cref="Image.Initialize" />.
     ///     </para>
     ///     <para>
     ///         A set of optimized images for progressively lower resolutions of an image known as mipmaps can
@@ -31,7 +31,7 @@ namespace Sokol.Graphics
     ///         filtering an <see cref="Image" /> with minification. Mipmapping is not used for magnification. Using
     ///         mipmapping means selecting between multiple images of different sizes for sampling based on the angle
     ///         and size of the image relative to screen or render target. For more information, see
-    ///         <a cref="http://en.wikipedia.org/wiki/Mipmap">https://en.wikipedia.org/wiki/Mipmap</a>.
+    ///         <a href="http://en.wikipedia.org/wiki/Mipmap">https://en.wikipedia.org/wiki/Mipmap</a>.
     ///     </para>
     ///     <para>
     ///         <see cref="ImageFilter" /> is blittable to the C `sg_filter` enum found in `sokol_gfx`.

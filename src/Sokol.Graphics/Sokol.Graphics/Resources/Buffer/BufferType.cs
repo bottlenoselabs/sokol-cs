@@ -8,25 +8,25 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="BufferDataType" /> is blittable to the C `sg_buffer_type` enum found in `sokol_gfx`.
+    ///         <see cref="BufferType" /> is blittable to the C `sg_buffer_type` enum found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
-    public enum BufferDataType
+    public enum BufferType
     {
         /// <summary>
         ///     This value is reserved for the default initialization of structures. The default
-        ///     <see cref="BufferDataType" /> is <see cref="Vertex" />.
+        ///     <see cref="BufferType" /> is <see cref="VertexBuffer" />.
         /// </summary>
         Default = 0,
 
         /// <summary>
         ///     The <see cref="Buffer" /> contains vertex data.
         /// </summary>
-        Vertex = 1,
+        VertexBuffer = 1,
 
         /// <summary>
         ///     The <see cref="Buffer" /> contains index data.
         /// </summary>
-        Index = 2
+        IndexBuffer = 2
     }
 }

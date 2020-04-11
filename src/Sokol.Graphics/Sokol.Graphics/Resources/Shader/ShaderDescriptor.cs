@@ -2,6 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Sokol.Graphics
@@ -10,6 +12,10 @@ namespace Sokol.Graphics
     ///     Parameters for constructing a <see cref="Shader" />.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         Use standard struct allocation and initialization techniques to create
+    ///         a <see cref="ShaderDescriptor" />.
+    ///     </para>
     ///     <para>
     ///         <see cref="ShaderDescriptor" /> is blittable to the C `sg_shader_desc` struct found in `sokol_gfx`.
     ///     </para>
@@ -63,5 +69,23 @@ namespace Sokol.Graphics
                 return ref *(ptr + index);
             }
         }
+
+// [SuppressMessage("ReSharper", "SA1600", Justification = "Nasty")]
+// #pragma warning disable 1591
+//         public ref ShaderVertexAttributeDescriptor Attribute2(int index)
+// #pragma warning restore 1591
+//         {
+//             ref ShaderVertexAttributeDescriptor z;
+//             z = default;
+//             var t = __makeref(z);
+//             var ptr = (byte*)Unsafe.AsPointer(ref this) + 8;
+//             // fixed (ShaderDescriptor* shaderDescription = &this)
+//             // {
+//             *(IntPtr*)&t = (IntPtr)(ptr + (index * 24));
+//             ref ShaderVertexAttributeDescriptor a = ref __refvalue(t, ShaderVertexAttributeDescriptor);
+//             var y = Unsafe.AsPointer(ref a);
+//             return ref Unsafe.AsRef<ShaderVertexAttributeDescriptor>(y);
+//             // }
+//         }
     }
 }

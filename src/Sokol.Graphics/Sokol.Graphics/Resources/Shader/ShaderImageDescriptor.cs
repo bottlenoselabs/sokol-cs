@@ -12,6 +12,10 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
+    ///         Use standard struct allocation and initialization techniques to create
+    ///         a <see cref="ShaderImageDescriptor" />.
+    ///     </para>
+    ///     <para>
     ///         <see cref="ShaderImageDescriptor" /> is blittable to the C `sg_shader_image_desc` struct found in
     ///         `sokol_gfx`.
     ///     </para>

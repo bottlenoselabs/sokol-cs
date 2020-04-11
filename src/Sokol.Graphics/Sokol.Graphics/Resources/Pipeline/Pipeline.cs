@@ -20,11 +20,11 @@ namespace Sokol.Graphics
     /// <remarks>
     ///     <para>
     ///         A render <see cref="Pipeline" /> processes drawing commands and writes data into a render
-    ///         <see cref="Pass"/> resource's targets. A render <see cref="Pipeline" /> has many stages. Some stages can
-    ///         be programmed using a <see cref="Shader" />. Some other stages have configurable behavior such as
+    ///         <see cref="Pass"/> resource's attachments. A render <see cref="Pipeline" /> has many stages. Some stages
+    ///         can be programmed using a <see cref="Shader" />. Some other stages have configurable behavior such as
     ///         <see cref="PipelineDepthStencilState" />, <see cref="PipelineRasterizerState" />, and
     ///         <see cref="PipelineBlendState" />. Remaining stages are hidden from the perspective of the developer as
-    ///         they can't be programmed or configured.
+    ///         they can't be programmed or configured with `sokol_gfx`.
     ///     </para>
     ///     <para>
     ///         With rasterization, lines and triangles are the building blocks for modeling any 2D and 3D geometry
@@ -35,12 +35,14 @@ namespace Sokol.Graphics
     ///         (framebuffer) or texels in a render target <see cref="Image" />.
     ///     </para>
     ///     <para>
-    ///         To create a <see cref="Pipeline" />, call <see cref="Pipeline.Create" /> or <see cref="Pipeline.Init" />
-    ///         with a specified <see cref="PipelineDescriptor" />.
+    ///         To create a <see cref="Pipeline" /> synchronously, call <see cref="GraphicsDevice.CreatePipeline" />
+    ///         with a specified <see cref="PipelineDescriptor" />. To create a <see cref="Pipeline" /> asynchronously,
+    ///         call <see cref="GraphicsDevice.AllocPipeline" /> to get an un-initialized <see cref="Pipeline" /> and
+    ///         then call <see cref="Initialize" /> with a specified <see cref="PipelineDescriptor" />.
     ///     </para>
     ///     <para>
-    ///         To activate a <see cref="Pipeline" /> with all it's state and by consequence deactivate any other
-    ///         active <see cref="Pipeline"/>, call <see cref="Apply" />.
+    ///         To activate a <see cref="Pipeline" /> with all it's state, and by consequence deactivate any other
+    ///         active <see cref="Pipeline"/>, call <see cref="Pass.Apply(Pipeline)" />.
     ///     </para>
     ///     <para>
     ///         A <see cref="Pipeline" /> must only be used or destroyed with the same active <see cref="Context" />
@@ -62,26 +64,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static PipelineDescriptor QueryDefaults([In] ref PipelineDescriptor descriptor)
         {
-            return PipelinePInvoke.QueryDefaults(ref descriptor);
-        }
-
-        // TODO: Document allocating a pipeline
-        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Pipeline Alloc()
-        {
-            return PipelinePInvoke.Alloc();
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Pipeline" /> from the specified <see cref="PipelineDescriptor" />.
-        /// </summary>
-        /// <param name="descriptor">The parameters for creating a pipeline.</param>
-        /// <returns>An <see cref="Image" />.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Pipeline Create([In] ref PipelineDescriptor descriptor)
-        {
-            return PipelinePInvoke.Create(ref descriptor);
+            return PInvoke.sg_query_pipeline_defaults(ref descriptor);
         }
 
         /// <summary>
@@ -93,9 +76,9 @@ namespace Sokol.Graphics
         // TODO: Document manual initialization of a pipeline
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Init([In] ref PipelineDescriptor descriptor)
+        public void Initialize([In] ref PipelineDescriptor descriptor)
         {
-            PipelinePInvoke.Init(this, ref descriptor);
+            PInvoke.sg_init_pipeline(this, ref descriptor);
         }
 
         /// <summary>
@@ -104,7 +87,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
-            PipelinePInvoke.Destroy(this);
+            PInvoke.sg_destroy_pipeline(this);
         }
 
         // TODO: Document failing a pipeline.
@@ -112,16 +95,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Fail()
         {
-            PipelinePInvoke.Fail(this);
-        }
-
-        /// <summary>
-        ///     Set the <see cref="Pipeline" /> as the active state for the next draw calls.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Apply()
-        {
-            PipelinePInvoke.Apply(this);
+            PInvoke.sg_fail_pipeline(this);
         }
 
         /// <summary>
@@ -138,17 +112,7 @@ namespace Sokol.Graphics
         {
             var dataPointer = (IntPtr)Unsafe.AsPointer(ref value);
             var dataSize = Marshal.SizeOf<T>();
-            PipelinePInvoke.ApplyUniforms(stage, uniformBlockIndex, dataPointer, dataSize);
-        }
-
-        /// <summary>
-        ///     Updates the active <see cref="PipelineResourceBindings" />.
-        /// </summary>
-        /// <param name="bindings">The resource bindings.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void ApplyBindings([In] ref PipelineResourceBindings bindings)
-        {
-            PipelinePInvoke.ApplyBindings(ref bindings);
+            PInvoke.sg_apply_uniforms(stage, uniformBlockIndex, dataPointer, dataSize);
         }
 
         /// <inheritdoc />

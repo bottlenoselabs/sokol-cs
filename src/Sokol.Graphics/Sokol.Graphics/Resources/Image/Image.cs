@@ -16,15 +16,30 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         An <see cref="Image" /> is either used as the input to a <see cref="Shader" /> or as the output of a
-    ///         <see cref="Pass" />. When an <see cref="Image" /> is used as input, it is often referred to as a
-    ///         "texture". When it is used as an output it is often referred to as a "render target". However, a render
-    ///         target is still a texture and can be used as input to another <see cref="Shader" />.
+    ///         An <see cref="Image" /> can be mapped to <see cref="ResourceBindings.VertexStageImage" /> or
+    ///         <see cref="ResourceBindings.FragmentStageImage" />. When this is done, the
+    ///         <see cref="Image" /> is used as input to a <see cref="Shader" /> in either of two programmable stages,
+    ///         <see cref="ShaderStageType.VertexStage" /> or <see cref="ShaderStageType.FragmentStage" />, respectively.
+    ///         An <see cref="Image" /> used like this is often called a texture.
+    ///     </para>
+    ///     <para>
+    ///         An <see cref="Image" /> can be mapped to attachments of a rendering <see cref="Pass" /> as a color,
+    ///         depth, or stencil target. When this is done, the <see cref="Image" /> is used as output from a
+    ///         <see cref="Shader" /> from the <see cref="ShaderStageType.FragmentStage" />. This is often called a
+    ///         render target. However, a render target can still be used as a texture (input) to a <see cref="Shader" />
+    ///         in another rendering <see cref="Pass" />. This leads to a composition technique where one or more
+    ///         off-screen rendering <see cref="Pass"/>es are used to generate an intermediate <see cref="Image" />
+    ///         before being rendered with a final <see cref="Pass" /> to the framebuffer (screen).
+    ///     </para>
+    ///     <para>
+    ///         To create a <see cref="Image" /> synchronously, call <see cref="GraphicsDevice.CreateImage" /> with a
+    ///         specified <see cref="ImageDescriptor" />. To create a <see cref="Image" /> asynchronously, call
+    ///         <see cref="GraphicsDevice.AllocImage" /> to get an un-initialized <see cref="Image" /> and then call
+    ///         <see cref="Initialize" /> with a specified <see cref="ImageDescriptor" />.
     ///     </para>
     ///     <para>
     ///         An <see cref="Image" /> may have multiple layers called "sub images" which are most often used as
-    ///         mipmaps. See <a cref="http://en.wikipedia.org/wiki/Mipmap">https://en.wikipedia.org/wiki/Mipmap</a>
-    ///         for more information.
+    ///         mipmaps.
     ///     </para>
     ///     <para>
     ///         The type, format, encoding, and organization of an <see cref="Image" /> never change. However, you can
@@ -50,26 +65,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ImageDescriptor QueryDefaults([In] ref ImageDescriptor descriptor)
         {
-            return ImagePInvoke.QueryDefaults(ref descriptor);
-        }
-
-        // TODO: Document allocating an image
-        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Image Alloc()
-        {
-            return ImagePInvoke.Alloc();
-        }
-
-        /// <summary>
-        ///     Creates an <see cref="Image" /> from the specified <see cref="ImageDescriptor" />.
-        /// </summary>
-        /// <param name="descriptor">The parameters for creating an image.</param>
-        /// <returns>An <see cref="Image" />.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Image Create([In] ref ImageDescriptor descriptor)
-        {
-            return ImagePInvoke.Create(ref descriptor);
+            return PInvoke.sg_query_image_defaults(ref descriptor);
         }
 
         /// <summary>
@@ -83,7 +79,7 @@ namespace Sokol.Graphics
         public ImageInfo Info
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ImagePInvoke.QueryInfo(this);
+            get => PInvoke.sg_query_image_info(this);
         }
 
         // TODO: Document `ResourceState`.
@@ -91,15 +87,15 @@ namespace Sokol.Graphics
         public ResourceState State
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ImagePInvoke.QueryState(this);
+            get => PInvoke.sg_query_image_state(this);
         }
 
         // TODO: Document manual initialization of an image.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Init([In] ref ImageDescriptor descriptor)
+        public void Initialize([In] ref ImageDescriptor descriptor)
         {
-            ImagePInvoke.Init(this, ref descriptor);
+            PInvoke.sg_init_image(this, ref descriptor);
         }
 
         /// <summary>
@@ -108,7 +104,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
-            ImagePInvoke.Destroy(this);
+            PInvoke.sg_destroy_image(this);
         }
 
         // TODO: Document failing an image.
@@ -116,7 +112,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Fail()
         {
-            ImagePInvoke.Fail(this);
+            PInvoke.sg_fail_image(this);
         }
 
         /// <summary>
@@ -128,7 +124,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Update(ref ImageContent data)
         {
-            ImagePInvoke.Update(this, ref data);
+            PInvoke.sg_update_image(this, ref data);
         }
 
         /// <inheritdoc />

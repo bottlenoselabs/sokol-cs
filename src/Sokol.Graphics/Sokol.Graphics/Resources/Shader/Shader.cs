@@ -14,6 +14,13 @@ namespace Sokol.Graphics
     ///     of a <see cref="Pipeline" /> and the global variables used in those stages known as uniforms.
     /// </summary>
     /// <remarks>
+    ///      <para>
+    ///         To create a <see cref="Shader" /> synchronously, call
+    ///         <see cref="GraphicsDevice.CreateShader(ref ShaderDescriptor)" /> with a specified
+    ///         <see cref="PipelineDescriptor" />. To create a <see cref="Shader" /> asynchronously,call
+    ///         <see cref="GraphicsDevice.AllocShader" /> to get an un-initialized <see cref="Pipeline" /> and then call
+    ///         <see cref="Initialize" />.
+    ///     </para>
     ///     <para>
     ///         The vertex stage, also called a vertex shader, executes programmable instructions early in the rendering
     ///         <see cref="Pipeline" /> for each vertex of input data. A vertex shader can not create nor destroy
@@ -56,54 +63,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ShaderDescriptor QueryDefaults([In] ref ShaderDescriptor descriptor)
         {
-            return ShaderPInvoke.QueryDefaults(ref descriptor);
-        }
-
-        // TODO: Document allocating a shader
-        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Shader AllocShader()
-        {
-            return ShaderPInvoke.AllocShader();
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Shader" /> from the specified <see cref="ShaderDescriptor" />.
-        /// </summary>
-        /// <param name="descriptor">The parameters for creating a shader.</param>
-        /// <returns>A <see cref="Shader" />.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Shader CreateShader([In] ref ShaderDescriptor descriptor)
-        {
-            return ShaderPInvoke.CreateShader(ref descriptor);
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Shader" /> from the specified <see cref="ShaderDescriptor" />. For convenience,
-        ///     fills in the <see cref="ShaderDescriptor" /> with specified vertex and fragment stage source code
-        ///     before creating the <see cref="Shader" />.
-        /// </summary>
-        /// <param name="descriptor">The parameters for creating a shader.</param>
-        /// <param name="vertexStageSourceCode">The "per-vertex processing" stage source code.</param>
-        /// <param name="fragmentStageSourceCode">The "per-fragment processing" stage source code.</param>
-        /// <returns>A <see cref="Shader" />.</returns>
-        public static Shader CreateShader(
-            [In] ref ShaderDescriptor descriptor,
-            string vertexStageSourceCode,
-            string fragmentStageSourceCode)
-        {
-            var vertexStageCodePointer = Marshal.StringToHGlobalAnsi(vertexStageSourceCode);
-            var fragmentStageCodePointer = Marshal.StringToHGlobalAnsi(fragmentStageSourceCode);
-
-            descriptor.VertexStage.SourceCode = vertexStageCodePointer;
-            descriptor.FragmentStage.SourceCode = fragmentStageCodePointer;
-
-            var shader = CreateShader(ref descriptor);
-
-            Marshal.FreeHGlobal(vertexStageCodePointer);
-            Marshal.FreeHGlobal(fragmentStageCodePointer);
-
-            return shader;
+            return PInvoke.sg_query_shader_defaults(ref descriptor);
         }
 
         /// <summary>
@@ -117,7 +77,7 @@ namespace Sokol.Graphics
         public ShaderInfo Info
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ShaderPInvoke.QueryInfo(this);
+            get => PInvoke.sg_query_shader_info(this);
         }
 
         // TODO: Document `ResourceState`.
@@ -125,15 +85,15 @@ namespace Sokol.Graphics
         public ResourceState State
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ShaderPInvoke.QueryState(this);
+            get => PInvoke.sg_query_shader_state(this);
         }
 
         // TODO: Document manual initialization of a shader.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Init([In] ref ShaderDescriptor descriptor)
+        public void Initialize([In] ref ShaderDescriptor descriptor)
         {
-            ShaderPInvoke.Init(this, ref descriptor);
+            PInvoke.sg_init_shader(this, ref descriptor);
         }
 
         /// <summary>
@@ -142,7 +102,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
-            ShaderPInvoke.Destroy(this);
+            PInvoke.sg_destroy_shader(this);
         }
 
         // TODO: Document failing a shader.
@@ -150,7 +110,7 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Fail()
         {
-            ShaderPInvoke.Fail(this);
+            PInvoke.sg_fail_shader(this);
         }
 
         /// <inheritdoc />

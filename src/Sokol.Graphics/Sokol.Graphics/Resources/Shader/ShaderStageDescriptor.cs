@@ -11,6 +11,10 @@ namespace Sokol.Graphics
     ///     Apart of <see cref="ShaderDescriptor" />.
     /// </summary>
     /// <remarks>
+    ///    <para>
+    ///         Use standard struct allocation and initialization techniques to create
+    ///         a <see cref="ShaderStageDescriptor" />.
+    ///     </para>
     ///     <para>
     ///         <see cref="ShaderStageDescriptor" /> is blittable to the C `sg_shader_stage_desc` struct found in
     ///         `sokol_gfx`.
@@ -19,21 +23,6 @@ namespace Sokol.Graphics
     [StructLayout(LayoutKind.Explicit, Size = 1280, Pack = 8, CharSet = CharSet.Ansi)]
     public unsafe struct ShaderStageDescriptor
     {
-        /// <summary>
-        ///     The pointer to the C style string containing the source code of the stage. Must be set for
-        ///     <see cref="GraphicsBackend.OpenGL" />, <see cref="GraphicsBackend.OpenGLES2" />, and
-        ///     <see cref="GraphicsBackend.OpenGLES3" />. Either <see cref="SourceCode" /> or <see cref="ByteCode" />
-        ///     must be set for <see cref="GraphicsBackend.Direct3D11" /> and <see cref="GraphicsBackend.Metal" />.
-        /// </summary>
-        /// <remarks>
-        ///     <para>
-        ///         For <see cref="GraphicsBackend.Direct3D11" />, setting <see cref="SourceCode" /> will load the
-        ///         `d3dcompiler_47.dll` on demand. If this fails, creating the shader will fail.
-        ///     </para>
-        /// </remarks>
-        [FieldOffset(0)]
-        public IntPtr SourceCode;
-
         /// <summary>
         ///     The pointer to the starting address of the block of bytes as data containing the compiled source code
         ///     of the stage. Either <see cref="SourceCode" /> or <see cref="ByteCode" /> must be set for
@@ -62,6 +51,28 @@ namespace Sokol.Graphics
 
         [FieldOffset(1088)]
         internal fixed ulong _images[16 * sokol_gfx.SG_MAX_SHADERSTAGE_IMAGES / 8];
+
+        [FieldOffset(0)]
+        private IntPtr _sourceCode;
+
+        /// <summary>
+        ///     Gets or sets the string containing the source code of the stage. Must be set for
+        ///     <see cref="GraphicsBackend.OpenGL" />, <see cref="GraphicsBackend.OpenGLES2" />, and
+        ///     <see cref="GraphicsBackend.OpenGLES3" />. Either <see cref="SourceCode" /> or <see cref="ByteCode" />
+        ///     must be set for <see cref="GraphicsBackend.Direct3D11" /> and <see cref="GraphicsBackend.Metal" />.
+        /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///         For <see cref="GraphicsBackend.Direct3D11" />, setting <see cref="SourceCode" /> will load the
+        ///         `d3dcompiler_47.dll` on demand. If this fails, creating the shader will fail.
+        ///     </para>
+        /// </remarks>
+        /// <value>The string containing the source code of the stage.</value>
+        public string SourceCode
+        {
+            get => UnmanagedStringMemoryManager.GetString(_sourceCode);
+            set => _sourceCode = UnmanagedStringMemoryManager.SetString(value);
+        }
 
         /// <summary>
         ///     Gets the <see cref="ShaderUniformBlockDescriptor" /> of the stage by reference given the specified

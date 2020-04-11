@@ -5,7 +5,7 @@ namespace Sokol.Graphics
 {
     /// <summary>
     ///     Defines the different color components that are selected when writing a blended output color to a
-    ///     framebuffer or render target <see cref="Image" />.
+    ///     <see cref="Pass"/>'s color attachment.
     /// </summary>
     /// <remarks>
     ///     <para>
