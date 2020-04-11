@@ -1,6 +1,7 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
@@ -35,6 +36,8 @@ using System.Runtime.InteropServices;
 [SuppressMessage("ReSharper", "CommentTypo", Justification = "C style code.")]
 public static unsafe class sokol_gfx
 {
+    private const string LibraryName = "sokol_gfx";
+
     public enum sg_action : uint
     {
         _SG_ACTION_DEFAULT,
@@ -117,6 +120,7 @@ public static unsafe class sokol_gfx
         SG_COLORMASK_B = 1 << 2,
         SG_COLORMASK_A = 1 << 3,
         SG_COLORMASK_RGB = 0x7,
+
         SG_COLORMASK_RGBA = 0xF
         // _SG_COLORMASK_FORCE_U32 = 0x7FFFFFFF
     }
@@ -517,6 +521,214 @@ public static unsafe class sokol_gfx
     [EditorBrowsable(EditorBrowsableState.Never)]
     public const int _SG_MTL_DEFAULT_SAMPLER_CACHE_CAPACITY = 64;
 
+    [DllImport(LibraryName)]
+    public static extern void sg_setup([In] ref sg_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_shutdown();
+
+    [DllImport(LibraryName)]
+    [return: MarshalAs(UnmanagedType.I1)]
+    public static extern bool sg_isvalid();
+
+    [DllImport(LibraryName)]
+    public static extern void sg_reset_state_cache();
+
+    [DllImport(LibraryName)]
+    public static extern sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_push_debug_group(char* name);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_pop_debug_group();
+
+    [DllImport(LibraryName)]
+    public static extern sg_buffer sg_make_buffer([In] ref sg_buffer_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern sg_image sg_make_image([In] ref sg_image_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern sg_shader sg_make_shader([In] ref sg_shader_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern sg_pipeline sg_make_pipeline([In] ref sg_pipeline_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern sg_pass sg_make_pass([In] ref sg_pass_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_destroy_buffer(sg_buffer buf);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_destroy_image(sg_image img);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_destroy_shader(sg_shader shd);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_destroy_pipeline(sg_pipeline pip);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_destroy_pass(sg_pass pass);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_update_buffer(sg_buffer buf, void* data_ptr, int data_size);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_update_image(sg_image img, sg_image_content* data);
+
+    [DllImport(LibraryName)]
+    public static extern int sg_append_buffer(sg_buffer buf, void* data_ptr, int data_size);
+
+    [DllImport(LibraryName)]
+    public static extern bool sg_query_buffer_overflow(sg_buffer buf);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_begin_default_pass([In] ref sg_pass_action pass_action, int width, int height);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_begin_pass(sg_pass pass, [In] ref sg_pass_action pass_action);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_apply_viewport(int x, int y, int width, int height, bool origin_top_left);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, bool origin_top_left);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_apply_pipeline(sg_pipeline pip);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_apply_bindings([In] ref sg_bindings bindings);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, void* data, int num_bytes);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_draw(int base_element, int num_elements, int num_instances);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_end_pass();
+
+    [DllImport(sokol_gfx.LibraryName)]
+    public static extern void sg_commit();
+
+    [DllImport(LibraryName)]
+    public static extern sg_desc sg_query_desc();
+
+    [DllImport(LibraryName)]
+    public static extern sg_backend sg_query_backend();
+
+    [DllImport(LibraryName)]
+    public static extern sg_features sg_query_features();
+
+    [DllImport(LibraryName)]
+    public static extern sg_limits sg_query_limits();
+
+    [DllImport(LibraryName)]
+    public static extern sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
+
+    [DllImport(LibraryName)]
+    public static extern sg_resource_state sg_query_buffer_state(sg_buffer buf);
+
+    [DllImport(LibraryName)]
+    public static extern sg_resource_state sg_query_image_state(sg_image img);
+
+    [DllImport(LibraryName)]
+    public static extern sg_resource_state sg_query_shader_state(sg_shader shd);
+
+    [DllImport(LibraryName)]
+    public static extern sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
+
+    [DllImport(LibraryName)]
+    public static extern sg_resource_state sg_query_pass_state(sg_pass pass);
+
+    [DllImport(LibraryName)]
+    public static extern sg_buffer_info sg_query_buffer_info(sg_buffer buf);
+
+    [DllImport(LibraryName)]
+    public static extern sg_image_info sg_query_image_info(sg_image img);
+
+    [DllImport(LibraryName)]
+    public static extern sg_shader_info sg_query_shader_info(sg_shader shd);
+
+    [DllImport(LibraryName)]
+    public static extern sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
+
+    [DllImport(LibraryName)]
+    public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
+
+    [DllImport(LibraryName)]
+    public static extern sg_buffer_desc sg_query_buffer_defaults([In] ref sg_buffer_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern sg_image_desc sg_query_image_defaults([In] ref sg_image_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern sg_shader_desc sg_query_shader_defaults([In] ref sg_shader_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern sg_pipeline_desc sg_query_pipeline_defaults([In] ref sg_pipeline_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern sg_pass_desc sg_query_pass_defaults([In] ref sg_pass_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern sg_buffer sg_alloc_buffer();
+
+    [DllImport(LibraryName)]
+    public static extern sg_image sg_alloc_image();
+
+    [DllImport(LibraryName)]
+    public static extern sg_shader sg_alloc_shader();
+
+    [DllImport(LibraryName)]
+    public static extern sg_pipeline sg_alloc_pipeline();
+
+    [DllImport(LibraryName)]
+    public static extern sg_pass sg_alloc_pass();
+
+    [DllImport(LibraryName)]
+    public static extern void sg_init_buffer(sg_buffer buf_id, [In] ref sg_buffer_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_init_image(sg_image img_id, [In] ref sg_image_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_init_shader(sg_shader shd_id, [In] ref sg_shader_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_init_pipeline(sg_pipeline pip_id, [In] ref sg_pipeline_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_init_pass(sg_pass pass_id, [In] ref sg_pass_desc desc);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_fail_buffer(sg_buffer buf_id);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_fail_image(sg_image img_id);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_fail_shader(sg_shader shd_id);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_fail_pipeline(sg_pipeline pip_id);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_fail_pass(sg_pass pass_id);
+
+    [DllImport(LibraryName)]
+    public static extern sg_context sg_setup_context();
+
+    [DllImport(LibraryName)]
+    public static extern void sg_activate_context(sg_context ctx_id);
+
+    [DllImport(LibraryName)]
+    public static extern void sg_discard_context(sg_context ctx_id);
+
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_buffer
     {
@@ -891,12 +1103,12 @@ public static unsafe class sokol_gfx
         [FieldOffset(0)]
         public fixed ulong _subimage[16 * (int)sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS / 8];
 
-        public ref sg_subimage_content subimage(int cubeFaceIndex, int mipMapIndex)
+        public ref sg_subimage_content subimage(sg_cube_face cubeFaceIndex, int mipMapIndex)
         {
             fixed (sg_image_content* image_content = &this)
             {
                 var ptr = (sg_subimage_content*)&image_content->_subimage[0];
-                var pointerOffset = (cubeFaceIndex * (int)sg_cube_face.SG_CUBEFACE_NUM) + mipMapIndex;
+                var pointerOffset = ((int)cubeFaceIndex * (int)sg_cube_face.SG_CUBEFACE_NUM) + mipMapIndex;
                 return ref *(ptr + pointerOffset);
             }
         }
@@ -1500,431 +1712,5 @@ public static unsafe class sokol_gfx
 
         [FieldOffset(96)]
         public uint _end_canary;
-    }
-
-    public static class opengl
-    {
-        private const string LibraryName = "sokol_gfx-opengl";
-
-        [DllImport(LibraryName)]
-        public static extern void sg_setup([In] ref sg_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_shutdown();
-
-        [DllImport(LibraryName)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        public static extern bool sg_isvalid();
-
-        [DllImport(LibraryName)]
-        public static extern void sg_reset_state_cache();
-
-        [DllImport(LibraryName)]
-        public static extern sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_push_debug_group(char* name);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_pop_debug_group();
-
-        [DllImport(LibraryName)]
-        public static extern sg_buffer sg_make_buffer([In] ref sg_buffer_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_image sg_make_image([In] ref sg_image_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_shader sg_make_shader([In] ref sg_shader_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pipeline sg_make_pipeline([In] ref sg_pipeline_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pass sg_make_pass([In] ref sg_pass_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_destroy_buffer(sg_buffer buf);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_destroy_image(sg_image img);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_destroy_shader(sg_shader shd);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_destroy_pipeline(sg_pipeline pip);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_destroy_pass(sg_pass pass);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_update_buffer(sg_buffer buf, void* data_ptr, int data_size);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_update_image(sg_image img, sg_image_content* data);
-
-        [DllImport(LibraryName)]
-        public static extern int sg_append_buffer(sg_buffer buf, void* data_ptr, int data_size);
-
-        [DllImport(LibraryName)]
-        public static extern bool sg_query_buffer_overflow(sg_buffer buf);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_begin_default_pass([In] ref sg_pass_action pass_action, int width, int height);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_begin_pass(sg_pass pass, [In] ref sg_pass_action pass_action);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_apply_viewport(int x, int y, int width, int height, bool origin_top_left);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, bool origin_top_left);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_apply_pipeline(sg_pipeline pip);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_apply_bindings([In] ref sg_bindings bindings);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, void* data, int num_bytes);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_draw(int base_element, int num_elements, int num_instances);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_end_pass();
-
-        [DllImport(LibraryName)]
-        public static extern void sg_commit();
-
-        [DllImport(LibraryName)]
-        public static extern sg_desc sg_query_desc();
-
-        [DllImport(LibraryName)]
-        public static extern sg_backend sg_query_backend();
-
-        [DllImport(LibraryName)]
-        public static extern sg_features sg_query_features();
-
-        [DllImport(LibraryName)]
-        public static extern sg_limits sg_query_limits();
-
-        [DllImport(LibraryName)]
-        public static extern sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
-
-        [DllImport(LibraryName)]
-        public static extern sg_resource_state sg_query_buffer_state(sg_buffer buf);
-
-        [DllImport(LibraryName)]
-        public static extern sg_resource_state sg_query_image_state(sg_image img);
-
-        [DllImport(LibraryName)]
-        public static extern sg_resource_state sg_query_shader_state(sg_shader shd);
-
-        [DllImport(LibraryName)]
-        public static extern sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
-
-        [DllImport(LibraryName)]
-        public static extern sg_resource_state sg_query_pass_state(sg_pass pass);
-
-        [DllImport(LibraryName)]
-        public static extern sg_buffer_info sg_query_buffer_info(sg_buffer buf);
-
-        [DllImport(LibraryName)]
-        public static extern sg_image_info sg_query_image_info(sg_image img);
-
-        [DllImport(LibraryName)]
-        public static extern sg_shader_info sg_query_shader_info(sg_shader shd);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
-
-        [DllImport(LibraryName)]
-        public static extern sg_buffer_desc sg_query_buffer_defaults([In] ref sg_buffer_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_image_desc sg_query_image_defaults([In] ref sg_image_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_shader_desc sg_query_shader_defaults([In] ref sg_shader_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pipeline_desc sg_query_pipeline_defaults([In] ref sg_pipeline_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pass_desc sg_query_pass_defaults([In] ref sg_pass_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_buffer sg_alloc_buffer();
-
-        [DllImport(LibraryName)]
-        public static extern sg_image sg_alloc_image();
-
-        [DllImport(LibraryName)]
-        public static extern sg_shader sg_alloc_shader();
-
-        [DllImport(LibraryName)]
-        public static extern sg_pipeline sg_alloc_pipeline();
-
-        [DllImport(LibraryName)]
-        public static extern sg_pass sg_alloc_pass();
-
-        [DllImport(LibraryName)]
-        public static extern void sg_init_buffer(sg_buffer buf_id, [In] ref sg_buffer_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_init_image(sg_image img_id, [In] ref sg_image_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_init_shader(sg_shader shd_id, [In] ref sg_shader_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_init_pipeline(sg_pipeline pip_id, [In] ref sg_pipeline_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_init_pass(sg_pass pass_id, [In] ref sg_pass_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_fail_buffer(sg_buffer buf_id);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_fail_image(sg_image img_id);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_fail_shader(sg_shader shd_id);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_fail_pipeline(sg_pipeline pip_id);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_fail_pass(sg_pass pass_id);
-
-        [DllImport(LibraryName)]
-        public static extern sg_context sg_setup_context();
-
-        [DllImport(LibraryName)]
-        public static extern void sg_activate_context(sg_context ctx_id);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_discard_context(sg_context ctx_id);
-    }
-
-    public static class metal
-    {
-        private const string LibraryName = "sokol_gfx-metal";
-
-        [DllImport(LibraryName)]
-        public static extern void sg_setup([In] ref sg_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_shutdown();
-
-        [DllImport(LibraryName)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        public static extern bool sg_isvalid();
-
-        [DllImport(LibraryName)]
-        public static extern void sg_reset_state_cache();
-
-        [DllImport(LibraryName)]
-        public static extern sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_push_debug_group(char* name);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_pop_debug_group();
-
-        [DllImport(LibraryName)]
-        public static extern sg_buffer sg_make_buffer([In] ref sg_buffer_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_image sg_make_image([In] ref sg_image_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_shader sg_make_shader([In] ref sg_shader_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pipeline sg_make_pipeline([In] ref sg_pipeline_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pass sg_make_pass([In] ref sg_pass_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_destroy_buffer(sg_buffer buf);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_destroy_image(sg_image img);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_destroy_shader(sg_shader shd);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_destroy_pipeline(sg_pipeline pip);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_destroy_pass(sg_pass pass);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_update_buffer(sg_buffer buf, void* data_ptr, int data_size);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_update_image(sg_image img, sg_image_content* data);
-
-        [DllImport(LibraryName)]
-        public static extern int sg_append_buffer(sg_buffer buf, void* data_ptr, int data_size);
-
-        [DllImport(LibraryName)]
-        public static extern bool sg_query_buffer_overflow(sg_buffer buf);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_begin_default_pass([In] ref sg_pass_action pass_action, int width, int height);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_begin_pass(sg_pass pass, [In] ref sg_pass_action pass_action);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_apply_viewport(int x, int y, int width, int height, bool origin_top_left);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, bool origin_top_left);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_apply_pipeline(sg_pipeline pip);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_apply_bindings([In] ref sg_bindings bindings);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, void* data, int num_bytes);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_draw(int base_element, int num_elements, int num_instances);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_end_pass();
-
-        [DllImport(LibraryName)]
-        public static extern void sg_commit();
-
-        [DllImport(LibraryName)]
-        public static extern sg_desc sg_query_desc();
-
-        [DllImport(LibraryName)]
-        public static extern sg_backend sg_query_backend();
-
-        [DllImport(LibraryName)]
-        public static extern sg_features sg_query_features();
-
-        [DllImport(LibraryName)]
-        public static extern sg_limits sg_query_limits();
-
-        [DllImport(LibraryName)]
-        public static extern sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
-
-        [DllImport(LibraryName)]
-        public static extern sg_resource_state sg_query_buffer_state(sg_buffer buf);
-
-        [DllImport(LibraryName)]
-        public static extern sg_resource_state sg_query_image_state(sg_image img);
-
-        [DllImport(LibraryName)]
-        public static extern sg_resource_state sg_query_shader_state(sg_shader shd);
-
-        [DllImport(LibraryName)]
-        public static extern sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
-
-        [DllImport(LibraryName)]
-        public static extern sg_resource_state sg_query_pass_state(sg_pass pass);
-
-        [DllImport(LibraryName)]
-        public static extern sg_buffer_info sg_query_buffer_info(sg_buffer buf);
-
-        [DllImport(LibraryName)]
-        public static extern sg_image_info sg_query_image_info(sg_image img);
-
-        [DllImport(LibraryName)]
-        public static extern sg_shader_info sg_query_shader_info(sg_shader shd);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
-
-        [DllImport(LibraryName)]
-        public static extern sg_buffer_desc sg_query_buffer_defaults([In] ref sg_buffer_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_image_desc sg_query_image_defaults([In] ref sg_image_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_shader_desc sg_query_shader_defaults([In] ref sg_shader_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pipeline_desc sg_query_pipeline_defaults([In] ref sg_pipeline_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_pass_desc sg_query_pass_defaults([In] ref sg_pass_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern sg_buffer sg_alloc_buffer();
-
-        [DllImport(LibraryName)]
-        public static extern sg_image sg_alloc_image();
-
-        [DllImport(LibraryName)]
-        public static extern sg_shader sg_alloc_shader();
-
-        [DllImport(LibraryName)]
-        public static extern sg_pipeline sg_alloc_pipeline();
-
-        [DllImport(LibraryName)]
-        public static extern sg_pass sg_alloc_pass();
-
-        [DllImport(LibraryName)]
-        public static extern void sg_init_buffer(sg_buffer buf_id, [In] ref sg_buffer_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_init_image(sg_image img_id, [In] ref sg_image_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_init_shader(sg_shader shd_id, [In] ref sg_shader_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_init_pipeline(sg_pipeline pip_id, [In] ref sg_pipeline_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_init_pass(sg_pass pass_id, [In] ref sg_pass_desc desc);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_fail_buffer(sg_buffer buf_id);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_fail_image(sg_image img_id);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_fail_shader(sg_shader shd_id);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_fail_pipeline(sg_pipeline pip_id);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_fail_pass(sg_pass pass_id);
-
-        [DllImport(LibraryName)]
-        public static extern sg_context sg_setup_context();
-
-        [DllImport(LibraryName)]
-        public static extern void sg_activate_context(sg_context ctx_id);
-
-        [DllImport(LibraryName)]
-        public static extern void sg_discard_context(sg_context ctx_id);
     }
 }
