@@ -53,7 +53,15 @@ All the types are [.NET value types](https://docs.microsoft.com/en-us/dotnet/csh
 
 ### Samples
 
-To learn how to use the .NET API, check out the [samples](https://github.com/lithiumtoast/Sokol.NET/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
+To learn how to use the .NET API, check out the [samples](htree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
+
+The following is a table of the same .NET API samples ordered by their complexity.
+
+Name|Description|GIF/Screenshot
+:---:|:---:|:---:
+[Clear](src/Samples/Sokol.Graphics.Samples.Clear/Sokol.Graphics.Samples.Clear/ClearApplication.cs)|[Clears the frame buffer with a specific color](src/Samples/Sokol.Graphics.Samples.Clear/Sokol.Graphics.Samples.Clear/ClearApplication.cs).|<img src="screenshots/gifs/clear.gif" width="300">
+[Triangle](src/Samples/Sokol.Graphics.Samples.Triangle/Sokol.Graphics.Samples.Triangle/Application.cs)|[Draw a triangle in clip space](src/Samples/Sokol.Graphics.Samples.Triangle/Sokol.Graphics.Samples.Triangle/Application.cs).|<img src="screenshots/gifs/triangle.gif" width="300">
+[Quad](src/Samples/Sokol.Graphics.Samples.Quad/Sokol.Graphics.Samples.Quad/Application.cs)|[Draw a quad in clip space](src/Samples/Sokol.Graphics.Samples.Quad/Sokol.Graphics.Samples.Quad/Application.cs).|<img src="screenshots/gifs/quad.gif" width="300">
 
 ## Supported Platforms & 3D APIs
 
@@ -64,7 +72,7 @@ Since `sokol_gfx` is a C library technically any platform is possible. However, 
 The following is a table of platforms that are known to work and their supported graphics API backends with `sokol_gfx` in C.
 
 Platform vs 3D API|OpenGL|OpenGLES|Direct3D11|Direct3D12|Metal|Vulkan|WebGPU
----|---|---|---|---|---|---|---
+:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:
 Desktop Windows|✅|❌|✅|⭕|❌|⭕|❌
 Desktop macOS|❗|❌|❌|❌|✅|⭕|❌
 Desktop Linux|✅|❌|❌|❌|❌|⭕|❌
