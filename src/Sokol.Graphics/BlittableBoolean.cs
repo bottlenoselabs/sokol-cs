@@ -39,6 +39,6 @@ public struct BlittableBoolean
     /// <inheritdoc />
     public override string ToString()
     {
-        return _value.ToString();
+        return Convert.ToBoolean(_value).ToString();
     }
 }
