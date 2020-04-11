@@ -1,20 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Description>A .NET wrapper for Sokol; minimal cross-platform standalone C headers.</Description>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace />
         <LangVersion>8</LangVersion>
-        <PackageVersion>0.1.0</PackageVersion>
-        <Title>Sokol.Graphics</Title>
+        <Nullable>enable</Nullable>
+        <Description>`sokol`.NET wrapper; a modern and simple 3D graphics API. Includes the PInvoke code.</Description>
         <Authors>Lucas Girouard-Stranks</Authors>
         <RootNamespace />
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Copyright>Copyright © 2019 Lucas Girouard-Stranks</Copyright>
-        <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
+        <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
         <License>MIT</License>
-        <RepositoryUrl>https://github.com/lithiumtoast/sokol-csharp</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lithiumtoast/sokol.net</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
+        <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>       
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -37,6 +38,7 @@
             <Link>StyleCop.json</Link>
         </AdditionalFiles>
     </ItemGroup>
+    
     <ItemGroup>
       <Compile Update="Sokol\PixelFormats\Rgba32F.Colors.cs">
         <DependentUpon>Rgba32F.cs</DependentUpon>
