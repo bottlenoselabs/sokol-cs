@@ -1,10 +1,13 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace Sokol.Graphics
+using System.Numerics;
+
+namespace Sokol.Graphics.Samples.Quad
 {
-    internal static class Sg
+    public struct Vertex
     {
-        internal const string LibraryName = "sokol_gfx";
+        public Vector3 Position;
+        public Rgba32F Color;
     }
 }
