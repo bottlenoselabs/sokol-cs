@@ -12,7 +12,13 @@
       "documentInternalElements": false
     },
     "orderingRules": {
-      "usingDirectivesPlacement": "outsideNamespace"
+      "usingDirectivesPlacement": "outsideNamespace",
+      "elementOrder": [
+        "kind",
+        "accessibility",
+        "constant",
+        "readonly"
+      ]
     },
     "layoutRules": {
       "newlineAtEndOfFile": "require"

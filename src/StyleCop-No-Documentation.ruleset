@@ -1,6 +1,6 @@
 <RuleSet Name="StyleCop Rules" Description="StyleCop code analysis rules for C# projects." ToolsVersion="15.0">
     <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.CSharp.ReadabilityRules">
-        <Rule Id="SA0001" Action="Error" />
+        <Rule Id="SA0001" Action="Hidden" />
         <Rule Id="SA0002" Action="Error" />
         
         <Rule Id="SA1000" Action="Error" />
@@ -152,7 +152,7 @@
         <Rule Id="SA1519" Action="Error" />
         <Rule Id="SA1520" Action="Error" />
 
-        <Rule Id="SA1600" Action="Error" />
+        <Rule Id="SA1600" Action="Hidden" />
         <Rule Id="SA1601" Action="Hidden" />
         <Rule Id="SA1602" Action="Error" />
         <Rule Id="SA1603" Action="Error" />
