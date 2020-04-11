@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // ReSharper disable UnusedType.Global
@@ -36,7 +37,7 @@ namespace Sokol.Graphics
         {
             get
             {
-                var value = QueryBackend();
+                var value = PInvoke.sg_query_backend();
                 return value switch
                 {
                     sokol_gfx.sg_backend.SG_BACKEND_GLCORE33 => GraphicsBackend.OpenGL,
@@ -65,12 +66,27 @@ namespace Sokol.Graphics
         public static GraphicsLimits Limits => QueryLimits();
 
         /// <summary>
+        ///     Frees any memory allocated by `sokol.NET` for strings used in descriptors. Only call this method
+        ///     after resources are created.
+        /// </summary>
+        public static void FreeStrings()
+        {
+            UnmanagedStringMemoryManager.Clear();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+        }
+
+        /// <summary>
         ///     Initializes `sokol_gfx` for the life-time of an application. Must be called after a window is created
         ///     and the graphics back-end device or context is created.
         /// </summary>
         /// <param name="desc">The configuration to use for initialize.</param>
-        [DllImport(Sg.LibraryName, EntryPoint = "sg_setup")]
-        public static extern void Setup([In] ref InitializeDescriptor desc);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Setup([In] ref InitializeDescriptor desc)
+        {
+            PInvoke.sg_setup(ref desc);
+        }
 
         /// <summary>
         ///     Destroys `sokol_gfx` for the life-time of an application. Should be called before an application exits
@@ -108,8 +124,117 @@ namespace Sokol.Graphics
         ///         </list>
         ///     </para>
         /// </remarks>
-        [DllImport(Sg.LibraryName, EntryPoint = "sg_shutdown")]
-        public static extern void Shutdown();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Shutdown()
+        {
+            PInvoke.sg_shutdown();
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Context" />. Must be called once after a GL context has been created and made
+        ///     active.
+        /// </summary>
+        /// <returns>A <see cref="Context" />.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Context CreateContext()
+        {
+            return PInvoke.sg_setup_context();
+        }
+
+        // TODO: Document allocating a buffer
+        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Buffer AllocBuffer()
+        {
+            return PInvoke.sg_alloc_buffer();
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Buffer" /> from the specified <see cref="BufferDescriptor" />.
+        /// </summary>
+        /// <param name="descriptor">The parameters for creating the buffer.</param>
+        /// <returns>A <see cref="Buffer" />.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Buffer CreateBuffer([In] ref BufferDescriptor descriptor)
+        {
+            return PInvoke.sg_make_buffer(ref descriptor);
+        }
+
+        // TODO: Document allocating an image
+        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Image AllocImage()
+        {
+            return PInvoke.sg_alloc_image();
+        }
+
+        /// <summary>
+        ///     Creates an <see cref="Image" /> from the specified <see cref="ImageDescriptor" />.
+        /// </summary>
+        /// <param name="descriptor">The parameters for creating an image.</param>
+        /// <returns>An <see cref="Image" />.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Image CreateImage([In] ref ImageDescriptor descriptor)
+        {
+            return PInvoke.sg_make_image(ref descriptor);
+        }
+
+        // TODO: Document allocating a pass
+        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Pass AllocPass()
+        {
+            return PInvoke.sg_alloc_pass();
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Pass" /> from the specified <see cref="PassDescriptor" />.
+        /// </summary>
+        /// <param name="descriptor">The parameters for creating a pass.</param>
+        /// <returns>A <see cref="Pass" />.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Pass CreatePass([In] ref PassDescriptor descriptor)
+        {
+            return PInvoke.sg_make_pass(ref descriptor);
+        }
+
+        // TODO: Document allocating a pipeline
+        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Pipeline AllocPipeline()
+        {
+            return PInvoke.sg_alloc_pipeline();
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Pipeline" /> from the specified <see cref="PipelineDescriptor" />.
+        /// </summary>
+        /// <param name="descriptor">The parameters for creating a pipeline.</param>
+        /// <returns>A <see cref="Pipeline" />.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Pipeline CreatePipeline([In] ref PipelineDescriptor descriptor)
+        {
+            return PInvoke.sg_make_pipeline(ref descriptor);
+        }
+
+        // TODO: Document allocating a shader
+        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Shader AllocShader()
+        {
+            return PInvoke.sg_alloc_shader();
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Shader" /> from the specified <see cref="ShaderDescriptor" />.
+        /// </summary>
+        /// <param name="descriptor">The parameters for creating a shader.</param>
+        /// <returns>A <see cref="Shader" />.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Shader CreateShader([In] ref ShaderDescriptor descriptor)
+        {
+            return PInvoke.sg_make_shader(ref descriptor);
+        }
 
         /// <summary>
         ///     Gets a <see cref="bool" /> indicating whether the current state of `sokol_gfx` is initialized or not.
@@ -118,40 +243,70 @@ namespace Sokol.Graphics
         ///     <c>true</c> when <see cref="Setup" /> was called successfully and <see cref="Shutdown" /> has not yet been
         ///     called; otherwise <c>false</c>.
         /// </returns>
-        [DllImport(Sg.LibraryName, EntryPoint = "sg_isvalid")]
-        [return: MarshalAs(UnmanagedType.I1)]
-        public static extern bool IsValid();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsValid()
+        {
+            return PInvoke.sg_isvalid();
+        }
 
         // TODO: Document calling into underlying 3D API directly.
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
-        [DllImport(Sg.LibraryName, EntryPoint = "sg_reset_state_cache")]
-        public static extern void ResetStateCache();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ResetStateCache()
+        {
+            PInvoke.sg_reset_state_cache();
+        }
+
+        /// <summary>
+        ///     Begins and returns the framebuffer pass.
+        /// </summary>
+        /// <param name="passAction">The framebuffer pass action.</param>
+        /// <param name="width">The width of framebuffer.</param>
+        /// <param name="height">The height of the framebuffer.</param>
+        /// <returns>The framebuffer <see cref="Pass" />.</returns>
+        public static Pass BeginDefaultPass([In] ref PassAction passAction, int width, int height)
+        {
+            PInvoke.sg_begin_default_pass(ref passAction, width, height);
+            return default;
+        }
 
         /// <summary>
         ///     Execute all scheduled rendering operations of the current frame of the `sokol_gfx` application. Marks
         ///     the end of the current frame.
         /// </summary>
-        [DllImport(Sg.LibraryName, EntryPoint = "sg_commit")]
-        public static extern void Commit();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Commit()
+        {
+            PInvoke.sg_commit();
+        }
 
         /// <summary>
         ///     Gets the <see cref="PixelFormatInfo" /> of a specified <see cref="PixelFormat" />.
         /// </summary>
         /// <param name="format">The pixel format.</param>
         /// <returns>A <see cref="PixelFormatInfo" />.</returns>
-        [DllImport(Sg.LibraryName, EntryPoint = "sg_query_pixelformat")]
-        public static extern PixelFormatInfo QueryPixelFormat(PixelFormat format);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static PixelFormatInfo QueryPixelFormat(PixelFormat format)
+        {
+            return PInvoke.sg_query_pixelformat(format);
+        }
 
-        [DllImport(Sg.LibraryName, EntryPoint = "sg_query_desc")]
-        private static extern InitializeDescriptor QueryDescriptor();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static InitializeDescriptor QueryDescriptor()
+        {
+            return PInvoke.sg_query_desc();
+        }
 
-        [DllImport(Sg.LibraryName, EntryPoint = "sg_query_backend")]
-        private static extern sokol_gfx.sg_backend QueryBackend();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static GraphicsFeatures QueryFeatures()
+        {
+            return PInvoke.sg_query_features();
+        }
 
-        [DllImport(Sg.LibraryName, EntryPoint = "sg_query_features")]
-        private static extern GraphicsFeatures QueryFeatures();
-
-        [DllImport(Sg.LibraryName, EntryPoint = "sg_query_limits")]
-        private static extern GraphicsLimits QueryLimits();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static GraphicsLimits QueryLimits()
+        {
+            return PInvoke.sg_query_limits();
+        }
     }
 }
