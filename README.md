@@ -16,19 +16,6 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 - [`Sokol.Graphics.OpenGL`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)
 - [`Sokol.Graphics.Metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)
 
-## News
-
-- 2020/01/18: .NET API fairly well finished. All samples now use the .NET API.
-- 2019/12/23: Metal graphics backend working with samples. Added NuGet package `Sokol.Graphics.Metal` for Metal specific code and packaging any `sokol` Metal native shared libraries.
-- 2019/11/16: Added NuGet package `Sokol.Graphics.OpenGL` for OpenGL specific code and packaging all the necessary OpenGL native shared libraries.
-- 2019/11/11: [`v0.1`](https://github.com/lithiumtoast/sokol-csharp/releases/tag/v0.1) released: `Sokol.Graphics` available as NuGet package (does not include shared library binaries).
-- 2019/11/03: .NET Core samples working with Ubuntu.
-- 2019/11/03: Added Azure Pipelines for builds and tests.
-- 2019/11/02: .NET Core samples working with Windows.
-- 2019/10/25: .NET Core samples working with macOS.
-- 2019/10/23: `sokol_gfx` C API finished.
-- 2019/10/15: Initial project creation.
-
 ## C API
 
 The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/framework/interop/consuming-unmanaged-dll-functions) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained.
