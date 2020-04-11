@@ -1,81 +1,30 @@
-// Original code derived from:
-// (1) https://github.com/mellinoe/veldrid/blob/master/src/Veldrid.MetalBindings/MTLRenderPassColorAttachmentDesciptor.cs
-
-/*
-The MIT License (MIT)
-
-Copyright (c) 2017 Eric Mellino and Veldrid contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
- */
-
-/* 
-MIT License
-
-Copyright (c) 2020 Lucas Girouard-Stranks
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
- */
+// Copyright (c) Lucas Girouard-Stranks. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using static Sokol.ObjCRuntime.Messaging;
-using static Sokol.Metal.MTLRenderPassAttachment;
+using static Metal.MTLRenderPassAttachment;
+using static ObjCRuntime.Messaging;
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable InconsistentNaming
-
-namespace Sokol.Metal
+namespace Metal
 {
-    public struct MTLRenderPassColorAttachmentDescriptor
+    public readonly struct MTLRenderPassColorAttachmentDescriptor
     {
-        public readonly IntPtr Handle;
-        
+        private readonly IntPtr _handle;
+
         public MTLRenderPassColorAttachmentDescriptor(IntPtr handle)
         {
-            Handle = handle;
+            _handle = handle;
         }
 
         public MTLTexture texture
         {
-            get => t_objc_msgSend<MTLTexture>(Handle, sel_texture);
-            set => void_objc_msgSend_intptr(Handle, sel_setTexture, value);
+            get => t_objc_msgSend<MTLTexture>(_handle, sel_texture);
+            set => void_objc_msgSend_intptr(_handle, sel_setTexture, value);
         }
-        
+
         public static implicit operator IntPtr(MTLRenderPassColorAttachmentDescriptor value)
         {
-            return value.Handle;
+            return value._handle;
         }
     }
 }
