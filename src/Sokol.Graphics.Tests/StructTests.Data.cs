@@ -1,11 +1,11 @@
+// Copyright (c) Lucas Girouard-Stranks. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 #pragma warning disable 649
-// ReSharper disable InconsistentNaming
-// ReSharper disable SuspiciousTypeConversion.Global
-// ReSharper disable CollectionNeverQueried.Global
 
 namespace Sokol.Graphics.Tests
 {
@@ -25,13 +25,13 @@ namespace Sokol.Graphics.Tests
                 {
                     return _sokolStructs;
                 }
-                
+
                 _sokolStructs = new List<object[]>();
                 InitializeSokolStructs();
                 return _sokolStructs;
             }
         }
-        
+
         public static List<object[]> SokolStructsAndCCopies
         {
             get
@@ -40,7 +40,7 @@ namespace Sokol.Graphics.Tests
                 {
                     return _sokolStructsAndGeneratedLayoutSequentialCopies;
                 }
-                
+
                 _sokolStructsAndGeneratedLayoutSequentialCopies = new List<object[]>();
                 InitializeSokolStructsAndGeneratedLayoutSequentialCopies();
                 return _sokolStructsAndGeneratedLayoutSequentialCopies;
@@ -52,38 +52,38 @@ namespace Sokol.Graphics.Tests
             var sokolType = typeof(sokol_gfx);
             var types = sokolType.GetNestedTypes();
             var typesSet = new HashSet<Type>();
-            
+
             foreach (var type in types)
             {
                 if (typesSet.Contains(type))
                 {
                     continue;
                 }
-                
+
                 if (!type.IsValueType || type.IsEnum)
                 {
                     typesSet.Add(type);
                     continue;
                 }
 
-                _sokolStructs.Add(new object[] {type});
+                _sokolStructs.Add(new object[] { type });
                 typesSet.Add(type);
             }
         }
-        
+
         private static void InitializeSokolStructsAndGeneratedLayoutSequentialCopies()
         {
             var sokolType = typeof(sokol_gfx);
             var types = sokolType.GetNestedTypes();
             var typesSet = new HashSet<Type>();
-            
+
             foreach (var type in types)
             {
                 if (typesSet.Contains(type))
                 {
                     continue;
                 }
-                
+
                 if (!type.IsValueType || type.IsEnum)
                 {
                     typesSet.Add(type);
@@ -91,8 +91,8 @@ namespace Sokol.Graphics.Tests
                 }
 
                 var generatedStruct = type.CStructType();
-                _sokolStructsAndGeneratedLayoutSequentialCopies.Add(new object[] {type, generatedStruct});
-                
+                _sokolStructsAndGeneratedLayoutSequentialCopies.Add(new object[] { type, generatedStruct });
+
                 typesSet.Add(type);
             }
         }
@@ -116,10 +116,13 @@ namespace Sokol.Graphics.Tests
         {
             [FieldOffset(0)]
             public byte B1;
+
             [FieldOffset(4)]
             public int I1;
+
             [FieldOffset(8)]
             public byte B2;
+
             [FieldOffset(12)]
             public int I2;
         }
@@ -132,11 +135,12 @@ namespace Sokol.Graphics.Tests
             public byte B2;
             public int I2;
         }
-        
+
         [StructLayout(LayoutKind.Sequential)]
         public struct MyStruct_Nested
         {
             public Struct_SloppyPack SloppyPack;
+
             // 2 BYTES OF PADDING FOR ALIGNMENT
             public Struct_TightPack TightPack;
         }

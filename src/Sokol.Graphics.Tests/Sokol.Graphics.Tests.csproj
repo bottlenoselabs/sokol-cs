@@ -1,13 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
 
         <IsPackable>false</IsPackable>
 
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
         <LangVersion>8</LangVersion>
+
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -19,17 +21,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentAssertions" Version="5.9.0"/>
-        <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0"/>
-        <PackageReference Include="Moq" Version="4.13.1"/>
-        <PackageReference Include="xunit" Version="2.4.1"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1"/>
-        <PackageReference Include="coverlet.collector" Version="1.1.0"/>
+        <PackageReference Include="FluentAssertions" Version="5.9.0" />
+        <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
+        <PackageReference Include="Moq" Version="4.13.1" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+        <PackageReference Include="coverlet.collector" Version="1.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj"/>
+        <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -53,6 +55,26 @@
             <Link>runtimes/win-x64/native/sokol_gfx.pdb</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>..\StyleCop-No-Documentation.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\StyleCop-No-Documentation.ruleset">
+            <Link>StyleCop-No-Documentation.ruleset</Link>
+        </Content>
+        <AdditionalFiles Include="..\StyleCop.json">
+            <Link>StyleCop.json</Link>
+        </AdditionalFiles>
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="PInvokeTests.Data.cs">
+        <DependentUpon>PInvokeTests.cs</DependentUpon>
+      </Compile>
+      <Compile Update="StructTests.Data.cs">
+        <DependentUpon>StructTests.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>
