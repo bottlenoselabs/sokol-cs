@@ -4,20 +4,18 @@
 using System;
 using System.IO;
 using System.Numerics;
-using Sokol.SDL2;
+using Sokol.App;
+using Sokol.Graphics;
+using Buffer = Sokol.Graphics.Buffer;
 
-namespace Sokol.Graphics.Samples.Quad
+namespace Samples.Quad
 {
     public class Application : App
     {
-        // the resources used
         private Pipeline _pipeline;
         private Buffer _indexBuffer;
         private Buffer _vertexBuffer;
         private Shader _shader;
-
-        // the resource bindings
-        private ResourceBindings _resourceBindings;
 
         public Application()
         {
@@ -26,31 +24,38 @@ namespace Sokol.Graphics.Samples.Quad
             _shader = CreateShader();
             _pipeline = CreatePipeline();
 
-            SetResourceBindings();
+            // Free any strings we implicitly allocated when creating resources
+            // Only call this method AFTER resources are created
+            GraphicsDevice.FreeStrings();
         }
 
-        protected override void Draw(int width, int height)
+        protected override void HandleInput(InputState state)
+        {
+        }
+
+        protected override void Update(AppTime time)
+        {
+        }
+
+        protected override void Draw(AppTime time)
         {
             // begin a framebuffer render pass
-            var passAction = PassAction.Clear(Rgba32F.Black);
-            var pass = GraphicsDevice.BeginDefaultPass(ref passAction, width, height);
+            var pass = BeginDefaultPass(Rgba32F.Black);
+
+            // describe the binding of the vertex and index buffer
+            var resourceBindings = default(ResourceBindings);
+            resourceBindings.VertexBuffer() = _vertexBuffer;
+            resourceBindings.IndexBuffer = _indexBuffer;
 
             // apply the render pipeline and bindings for the render pass
-            pass.Apply(_pipeline);
-            pass.Apply(ref _resourceBindings);
+            pass.ApplyPipeline(_pipeline);
+            pass.ApplyBindings(ref resourceBindings);
 
             // draw the quad into the target of the render pass
-            pass.Draw(0, 6);
+            pass.DrawElements(6);
 
             // end framebuffer render pass
             pass.End();
-        }
-
-        private void SetResourceBindings()
-        {
-            // describe the binding of the vertex and index buffer (not applied yet!)
-            _resourceBindings.VertexBuffer() = _vertexBuffer;
-            _resourceBindings.IndexBuffer = _indexBuffer;
         }
 
         private Pipeline CreatePipeline()
@@ -58,8 +63,8 @@ namespace Sokol.Graphics.Samples.Quad
             // describe the render pipeline
             var pipelineDesc = default(PipelineDescriptor);
             pipelineDesc.Shader = _shader;
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexFormat.Float3;
-            pipelineDesc.Layout.Attribute(1).Format = PipelineVertexFormat.Float4;
+            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
 
             // create the pipeline resource from the description
