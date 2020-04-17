@@ -55,6 +55,9 @@ namespace Sokol.App
                     fixedStepCount++;
                 }
 
+                // NOTE: If the step count is greater than 1, then the program can't keep up.
+                // TODO: Introduce a way to say whether we are lagging.
+
                 elapsedTime = accumulatedTime + (_targetElapsedTime * fixedStepCount);
                 var alpha = accumulatedTime.Ticks / (float)_targetElapsedTime.Ticks;
                 Draw(totalTime, elapsedTime, alpha);
