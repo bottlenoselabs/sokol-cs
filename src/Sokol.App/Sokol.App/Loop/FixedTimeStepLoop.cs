@@ -11,18 +11,12 @@ namespace Sokol.App
     [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
     public sealed class FixedTimeStepLoop : AppLoop
     {
-        private readonly TimeSpan _fixedElapsedTime;
-        private readonly TimeSpan _maximumAccumulatedTime;
-        private readonly TimeSpan _maximumElapsedTime;
+        private readonly TimeSpan _targetElapsedTime;
 
         public FixedTimeStepLoop(
-            [AllowNull] TimeSpan? fixedElapsedTime = null,
-            [AllowNull] TimeSpan? maximumElapsedTime = null,
-            [AllowNull] TimeSpan? maximumAccumulatedTime = null)
+            [AllowNull] TimeSpan? targetElapsedTime = null)
         {
-            _fixedElapsedTime = fixedElapsedTime ?? TimeSpan.FromSeconds(1 / 60.0);
-            _maximumElapsedTime = maximumElapsedTime ?? TimeSpan.FromSeconds(8 / 60.0);
-            _maximumAccumulatedTime = maximumAccumulatedTime ?? TimeSpan.FromSeconds(0.5);
+            _targetElapsedTime = targetElapsedTime ?? TimeSpan.FromSeconds(1 / 60.0);
         }
 
         public override void Run()
@@ -32,43 +26,37 @@ namespace Sokol.App
             var previousTicks = SDL_GetPerformanceCounter();
             var accumulatedTime = TimeSpan.Zero;
             var totalTime = TimeSpan.Zero;
-            var fixedElapsedTime = _fixedElapsedTime;
-            var maximumElapsedTime = _maximumElapsedTime;
-            var maximumAccumulatedTime = _maximumAccumulatedTime;
+
+            // WARNING: PUTTING THE THREAD TO SLEEP CAN CAUSE JITTER (~10ms) BECAUSE HOW THE OPERATING SYSTEM WORKS.
 
             while (IsRunning)
             {
+                RetryTick:
                 var currentTicks = SDL_GetPerformanceCounter();
                 var elapsedSeconds = (currentTicks - previousTicks) / (double)SDL_GetPerformanceFrequency();
-                var elapsedTime = TimeSpan.FromSeconds(elapsedSeconds);
+                var elapsedTime = new TimeSpan((long)(elapsedSeconds * TimeSpan.TicksPerSecond));
+                accumulatedTime += elapsedTime;
                 previousTicks = currentTicks;
 
-                if (elapsedTime > maximumElapsedTime)
+                PumpEvents(elapsedTime);
+                if (accumulatedTime < _targetElapsedTime)
                 {
-                    elapsedTime = maximumElapsedTime;
+                    goto RetryTick;
                 }
 
-                PumpEvents(elapsedTime);
                 HandleInput();
 
-                accumulatedTime += elapsedTime;
-                if (accumulatedTime > maximumAccumulatedTime)
-                {
-                    accumulatedTime = maximumAccumulatedTime;
-                }
-
                 var fixedStepCount = 0;
-                while (accumulatedTime >= fixedElapsedTime)
+                while (accumulatedTime >= _targetElapsedTime && IsRunning)
                 {
-                    accumulatedTime -= fixedElapsedTime;
-                    totalTime += fixedElapsedTime;
+                    accumulatedTime -= _targetElapsedTime;
+                    totalTime += _targetElapsedTime;
+                    Update(totalTime, _targetElapsedTime);
                     fixedStepCount++;
-                    Update(totalTime, elapsedTime);
                 }
 
-                elapsedTime = accumulatedTime + (_fixedElapsedTime * fixedStepCount);
-
-                var alpha = accumulatedTime.Ticks / (float)_fixedElapsedTime.Ticks;
+                elapsedTime = accumulatedTime + (_targetElapsedTime * fixedStepCount);
+                var alpha = accumulatedTime.Ticks / (float)_targetElapsedTime.Ticks;
                 Draw(totalTime, elapsedTime, alpha);
             }
         }
