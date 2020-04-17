@@ -1,12 +1,19 @@
-## How to Contribute to `sokol`.NET
+## How to Contribute to `sokol.NET`
 
 Please read the [code of conduct](CONTRIBUTING-CODE-CONDUCT.md) before contributing.
 
-Contributing to this project is pretty simple, because it's all about documentation. 
+Contributing to this project is pretty simple as it follows [`sokol`](https://github.com/floooh/sokol); any documentation, new code, bug fixes, etc, are going to be gravitating around `sokol`, which doesn't change too frequently.
 
-### Contributing to the Feedmereadmes Repository
-- **Major change** (paragraph or more): Just open an Issue in the Issues Tracker that includes your idea, and wait for the maintainers to respond (24-72 hours). Once they approve your idea, go forth.
-- **Minor change** (fixing typos, for example): Go ahead and make a pull request.
+Maintainers respond to issues or comments in under 72 hours.
 
-### Contributing to a Project Submitted to Feedmereadmes
-You must respect the contribution guidelines established by the project you want to help. Usually, they include a CONTRIBUTING.md/.rst file like this one. The creators of Feedmereadmes won't be able to negotiate changes with projects for you; we are highly unlikely to know the project creators, and respect the decisions made by other project creators when it comes to how they want to manage their work. If a project's contributing requirements are higher-friction than you would like, no problem! Choose to help another project with simpler requirements. :)
+### Crash or Bug
+
+Search the issues on this repository for your problem (don't forget closed issues!). If you found an existing issue that matches your problem, please comment on the issue. If you can't find an existing issue, please create a new issue and leave a comment. In the comment make sure you include your operating system (with version), the graphics backend used, what .NET version you are using, and a stack trace if possible.
+
+### Changes in Documentation
+
+Please make a draft pull request. The draft is used to start a discussion and refinement of the documentation. If necessary, maintainers may need to commit changes on your pull request branch for refinement.
+
+### Changes in Code
+
+Please create a draft pull request. The draft is used to start a conversation about the code changes.
