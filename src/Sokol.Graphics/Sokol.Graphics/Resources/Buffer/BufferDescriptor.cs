@@ -82,7 +82,7 @@ namespace Sokol.Graphics
 
         /// <summary>
         ///     Sets the <see cref="Data" /> and <see cref="Size" /> fields of the <see cref="BufferDescriptor" /> given
-        ///     the specified <see cref="Memory{T}" /> struct. It is assumed that the <paramref name="data" /> is
+        ///     the specified <see cref="Span{T}" /> struct. It is assumed that the <paramref name="data" /> is
         ///     already unmanaged or externally pinned.
         /// </summary>
         /// <param name="data">The memory block.</param>
