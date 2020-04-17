@@ -235,10 +235,6 @@ internal static class NativeLibraries
         {
             throw new Exception($"The `{libraryName}` library is out of date.", e);
         }
-        catch (DllNotFoundException e)
-        {
-            throw new Exception($"The `{libraryName}` library could not be found.", e);
-        }
     }
 
     private static IntPtr Resolve(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
@@ -259,7 +255,14 @@ internal static class NativeLibraries
             }
         }
 
-        return IntPtr.Zero;
+        var exceptions = new List<Exception>();
+        foreach (var libraryPath in list)
+        {
+            var exception = new FileNotFoundException(null, libraryPath);
+            exceptions.Add(exception);
+        }
+
+        throw new AggregateException("Could not find the library in the searched paths. Check the inner exception for the searched paths.", exceptions);
     }
 
     private static void AddLibraryPath(string libraryName, string libraryPath)
