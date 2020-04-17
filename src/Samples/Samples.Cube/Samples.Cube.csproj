@@ -13,14 +13,14 @@
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <DebugType>full</DebugType>
-      <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
 
     <ItemGroup>
-      <None Update="assets\**\*">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Update="assets\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <PropertyGroup>
@@ -35,7 +35,7 @@
         </AdditionalFiles>
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\Sokol.App\Sokol.App.csproj" />
+        <ProjectReference Include="..\..\Sokol.App\Sokol.App.csproj" />
     </ItemGroup>
 
 </Project>
