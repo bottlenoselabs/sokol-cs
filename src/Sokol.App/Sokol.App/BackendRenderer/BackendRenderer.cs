@@ -4,9 +4,9 @@
 using System;
 using System.Threading;
 
-namespace Sokol.SDL2
+namespace Sokol.App
 {
-    internal abstract class Renderer : IDisposable
+    internal abstract class BackendRenderer : IDisposable
     {
         private int _disposedState;
 
@@ -14,7 +14,7 @@ namespace Sokol.SDL2
 
         public abstract bool VerticalSyncIsEnabled { get; set; }
 
-        protected Renderer(IntPtr windowHandle)
+        protected BackendRenderer(IntPtr windowHandle)
         {
             if (windowHandle == IntPtr.Zero)
             {
@@ -42,7 +42,7 @@ namespace Sokol.SDL2
 
         protected abstract void ReleaseResources();
 
-        ~Renderer()
+        ~BackendRenderer()
         {
             var disposedState = Interlocked.CompareExchange(ref _disposedState, 1, 0);
             if (disposedState != 0)

@@ -5,9 +5,9 @@ using System;
 using System.Runtime.InteropServices;
 using static SDL2.SDL;
 
-namespace Sokol.SDL2
+namespace Sokol.App
 {
-    internal sealed class RendererOpenGL : Renderer
+    internal sealed class RendererOpenGL : BackendRenderer
     {
         private readonly IntPtr _contextHandle;
 

@@ -10,9 +10,9 @@ using ObjCRuntime;
 using Sokol.Graphics;
 using static SDL2.SDL;
 
-namespace Sokol.SDL2
+namespace Sokol.App
 {
-    internal sealed class RendererMetal : Renderer
+    internal sealed class RendererMetal : BackendRenderer
     {
         private static int _initializedState;
         private static RendererMetal _instance = null!;
@@ -30,7 +30,7 @@ namespace Sokol.SDL2
             set => _metalLayer.displaySyncEnabled = value;
         }
 
-        public RendererMetal(ref InitializeDescriptor descriptor, IntPtr windowHandle)
+        public RendererMetal(ref GraphicsDescriptor descriptor, IntPtr windowHandle)
             : base(windowHandle)
         {
             EnsureIsNotAlreadyInitialized();
