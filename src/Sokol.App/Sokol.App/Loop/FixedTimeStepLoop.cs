@@ -31,6 +31,7 @@ namespace Sokol.App
 
             while (IsRunning)
             {
+                // NOTE: The goto label is necessary because we don't want the cost of checking the while loop condition
                 RetryTick:
                 var currentTicks = SDL_GetPerformanceCounter();
                 var elapsedSeconds = (currentTicks - previousTicks) / (double)SDL_GetPerformanceFrequency();
@@ -47,6 +48,7 @@ namespace Sokol.App
                 HandleInput();
 
                 var fixedStepCount = 0;
+                // NOTE: `IsRunning` needs to be checked for the edge case where the app is lagging so hard it can't quit
                 while (accumulatedTime >= _targetElapsedTime && IsRunning)
                 {
                     accumulatedTime -= _targetElapsedTime;
@@ -55,8 +57,8 @@ namespace Sokol.App
                     fixedStepCount++;
                 }
 
-                // NOTE: If the step count is greater than 1, then the program can't keep up.
-                // TODO: Introduce a way to say whether we are lagging.
+                // NOTE: Step count is greater than 1 => app is having trouble keeping up to the requested time
+                // TODO: Have a way to query whether we are lagging so the developer can possibly try to have the app drop some work load
 
                 elapsedTime = accumulatedTime + (_targetElapsedTime * fixedStepCount);
                 var alpha = accumulatedTime.Ticks / (float)_targetElapsedTime.Ticks;
