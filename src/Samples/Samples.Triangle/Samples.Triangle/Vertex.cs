@@ -2,8 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Numerics;
+using Sokol.Graphics;
 
-namespace Sokol.Graphics.Samples.Triangle
+namespace Samples.Triangle
 {
     internal struct Vertex
     {

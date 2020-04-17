@@ -4,53 +4,55 @@
 using System;
 using System.IO;
 using System.Numerics;
-using Sokol.SDL2;
+using Sokol.App;
+using Sokol.Graphics;
+using Buffer = Sokol.Graphics.Buffer;
 
-namespace Sokol.Graphics.Samples.Triangle
+namespace Samples.Triangle
 {
     internal class Application : App
     {
-        // the resources used
-        private readonly Pipeline _pipeline;
-        private readonly Shader _shader;
-        private readonly Buffer _vertexBuffer;
-
-        // the resource bindings
-        private ResourceBindings _resourceBindings;
+        private Pipeline _pipeline;
+        private Shader _shader;
+        private Buffer _vertexBuffer;
 
         public Application()
         {
             _vertexBuffer = CreateVertexBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-            SetResourceBindings();
 
             // Free any strings we implicitly allocated when creating resources
             // Only call this method AFTER resources are created
             GraphicsDevice.FreeStrings();
         }
 
-        protected override void Draw(int width, int height)
+        protected override void HandleInput(InputState state)
+        {
+        }
+
+        protected override void Update(AppTime time)
+        {
+        }
+
+        protected override void Draw(AppTime time)
         {
             // begin a frame buffer render pass
-            var passAction = PassAction.Clear(Rgba32F.Black);
-            var pass = GraphicsDevice.BeginDefaultPass(ref passAction, width, height);
+            var pass = BeginDefaultPass(Rgba32F.Black);
+
+            // describe the binding of the vertex buffer (not applied yet!)
+            var resourceBindings = default(ResourceBindings);
+            resourceBindings.VertexBuffer() = _vertexBuffer;
 
             // apply the render pipeline and bindings for the render pass
-            pass.Apply(_pipeline);
-            pass.Apply(ref _resourceBindings);
+            pass.ApplyPipeline(_pipeline);
+            pass.ApplyBindings(ref resourceBindings);
 
-            // draw the triangle into the target of the render pass
-            pass.Draw(0, 3);
+            // draw the triangle (3 vertex indices) into the target of the render pass
+            pass.DrawElements(3);
 
             // end the frame buffer pass
             pass.End();
-        }
-
-        private void SetResourceBindings()
-        {
-            // describe the binding of the vertex buffer (not applied yet!)
-            _resourceBindings.VertexBuffer() = _vertexBuffer;
         }
 
         private static Buffer CreateVertexBuffer()
@@ -88,8 +90,8 @@ namespace Sokol.Graphics.Samples.Triangle
             {
                 Shader = _shader
             };
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexFormat.Float3;
-            pipelineDesc.Layout.Attribute(1).Format = PipelineVertexFormat.Float4;
+            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
 
             // create the pipeline resource from the descriptor
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);
