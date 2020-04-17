@@ -258,13 +258,41 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Begins and returns the framebuffer pass.
+        ///     Begins and returns the framebuffer <see cref="Pass" /> with the specified width, height, and
+        ///     <see cref="PassAction.DontCare" /> as the action.
         /// </summary>
-        /// <param name="passAction">The framebuffer pass action.</param>
         /// <param name="width">The width of framebuffer.</param>
         /// <param name="height">The height of the framebuffer.</param>
         /// <returns>The framebuffer <see cref="Pass" />.</returns>
-        public static Pass BeginDefaultPass([In] ref PassAction passAction, int width, int height)
+        public static Pass BeginDefaultPass(int width, int height)
+        {
+            var passAction = PassAction.DontCare;
+            return BeginDefaultPass(width, height, ref passAction);
+        }
+
+        /// <summary>
+        ///     Begins and returns the framebuffer <see cref="Pass" /> with the specified width, height, and
+        ///     <see cref="PassAction.Clear" /> as the action.
+        /// </summary>
+        /// <param name="width">The width of framebuffer.</param>
+        /// <param name="height">The height of the framebuffer.</param>
+        /// <param name="clearColor">The color to clear the color attachments.</param>
+        /// <returns>The framebuffer <see cref="Pass" />.</returns>
+        public static Pass BeginDefaultPass(int width, int height, Rgba32F clearColor)
+        {
+            var passAction = PassAction.Clear(clearColor);
+            return BeginDefaultPass(width, height, ref passAction);
+        }
+
+        /// <summary>
+        ///     Begins and returns the framebuffer <see cref="Pass"/> with the specified width, height, and
+        ///     <see cref="PassAction" />.
+        /// </summary>
+        /// <param name="width">The width of framebuffer.</param>
+        /// <param name="height">The height of the framebuffer.</param>
+        /// <param name="passAction">The framebuffer pass action.</param>
+        /// <returns>The framebuffer <see cref="Pass" />.</returns>
+        public static Pass BeginDefaultPass(int width, int height, [In] ref PassAction passAction)
         {
             PInvoke.sg_begin_default_pass(ref passAction, width, height);
             return default;
