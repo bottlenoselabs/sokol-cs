@@ -41,9 +41,9 @@ namespace Sokol.Graphics
         public int Offset;
 
         /// <summary>
-        ///     The <see cref="PipelineVertexFormat" /> for this particular attribute of a vertex.
+        ///     The <see cref="PipelineVertexAttributeFormat" /> for this particular attribute of a vertex.
         /// </summary>
         [FieldOffset(8)]
-        public PipelineVertexFormat Format;
+        public PipelineVertexAttributeFormat Format;
     }
 }

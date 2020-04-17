@@ -38,43 +38,44 @@ namespace Sokol.Graphics
     ///         in the vertex shader.
     ///     </para>
     ///     <para>
-    ///         <see cref="PipelineVertexFormat" /> is blittable to the C `sg_vertex_format` enum found in `sokol_gfx`.
+    ///         <see cref="PipelineVertexAttributeFormat" /> is blittable to the C `sg_vertex_format` enum found in
+    ///         `sokol_gfx`.
     ///     </para>
     /// </remarks>
-    public enum PipelineVertexFormat
+    public enum PipelineVertexAttributeFormat
     {
         /// <summary>
-        ///     Each vertex is undefined with a read size of <c>0</c> bytes.
+        ///     The vertex attribute slot is undefined with a read size of <c>0</c> bytes.
         /// </summary>
         Invalid,
 
         /// <summary>
-        ///     Each vertex is read and used as a <see cref="float" /> value.
+        ///     The vertex attribute slot is read and used as a <see cref="float" /> value.
         ///     Total read size is <c>4</c> bytes.
         /// </summary>
         Float,
 
         /// <summary>
-        ///     Each vertex is read and used as two <see cref="float" /> values.
+        ///     The vertex attribute slot is read and used as two <see cref="float" /> values.
         ///     Total read size is <c>8</c> bytes.
         /// </summary>
         Float2,
 
         /// <summary>
-        ///     Each vertex is read and used as three <see cref="float" /> values.
+        ///     The vertex attribute slot is read and used as three <see cref="float" /> values.
         ///     Total read size is <c>12</c> bytes.
         /// </summary>
         Float3,
 
         /// <summary>
-        ///     Each vertex is read and used as four <see cref="float" /> values.
+        ///     The vertex attribute slot is read and used as four <see cref="float" /> values.
         ///     Total read size is <c>16</c> bytes.
         /// </summary>
         Float4,
 
         /// <summary>
-        ///     Each vertex is read as four packed <see cref="sbyte" /> components and each component is unpacked to a
-        ///     un-normalized, signed <see cref="float" /> value.
+        ///     The vertex attribute slot is read as four packed <see cref="sbyte" /> components and each component is
+        ///     unpacked to a un-normalized, signed <see cref="float" /> value.
         ///     Total read size is <c>4</c> bytes.
         ///     If using <see cref="GraphicsBackend.Direct3D11" /> each packed component is not unpacked to a float, but
         ///     rather an integer component.
@@ -82,15 +83,15 @@ namespace Sokol.Graphics
         Byte4,
 
         /// <summary>
-        ///     Each vertex is read as four packed <see cref="sbyte" /> components and each component is unpacked to a
-        ///     normalized, signed <see cref="float" /> value. in the range of <c>-1.0f</c> to <c>+1.0f</c>.
+        ///     The vertex attribute slot is read as four packed <see cref="sbyte" /> components and each component is
+        ///     unpacked to a normalized, signed <see cref="float" /> value. in the range of <c>-1.0f</c> to <c>+1.0f</c>.
         ///     Total read size is <c>4</c> bytes.
         /// </summary>
         Byte4N,
 
         /// <summary>
-        ///     Each vertex is read as four packed <see cref="byte" /> components and each component is unpacked to a
-        ///     un-normalized, un-signed <see cref="float" /> value.
+        ///     The vertex attribute slot is read as four packed <see cref="byte" /> components and each component is
+        ///     unpacked to a un-normalized, un-signed <see cref="float" /> value.
         ///     Total read size is <c>4</c> bytes.
         ///     If using <see cref="GraphicsBackend.Direct3D11" /> each packed component is not unpacked to a float, but
         ///     rather an integer component.
@@ -98,15 +99,15 @@ namespace Sokol.Graphics
         UByte4,
 
         /// <summary>
-        ///     Each vertex is read as four packed <see cref="byte" /> components and each component is unpacked to a
-        ///     normalized, un-signed <see cref="float" /> value in the range of <c>0.0f</c> to <c>+1.0f</c>.
+        ///     The vertex attribute slot is read as four packed <see cref="byte" /> components and each component is
+        ///     unpacked to a normalized, un-signed <see cref="float" /> value in the range of <c>0.0f</c> to <c>+1.0f</c>.
         ///     Total read size is <c>4</c> bytes.
         /// </summary>
         UByte4N,
 
         /// <summary>
-        ///     Each vertex is read as two packed <see cref="short" /> components and each component is unpacked to a
-        ///     un-normalized, signed <see cref="float" /> value.
+        ///     The vertex attribute slot is read as two packed <see cref="short" /> components and each component is
+        ///     unpacked to a un-normalized, signed <see cref="float" /> value.
         ///     Total read size is <c>4</c> bytes.
         ///     If using <see cref="GraphicsBackend.Direct3D11" /> each packed component is not unpacked to a float, but
         ///     rather an integer component.
@@ -114,22 +115,22 @@ namespace Sokol.Graphics
         Short2,
 
         /// <summary>
-        ///     Each vertex is read as two packed <see cref="short" /> components and each component is unpacked to a
-        ///     normalized, signed <see cref="float" /> value in the range of <c>-1.0f</c> to <c>+1.0f</c>.
+        ///     The vertex attribute slot is read as two packed <see cref="short" /> components and each component is
+        ///     unpacked to a normalized, signed <see cref="float" /> value in the range of <c>-1.0f</c> to <c>+1.0f</c>.
         ///     Total read size is <c>4</c> bytes.
         /// </summary>
         Short2N,
 
         /// <summary>
-        ///     Each vertex is read as two packed <see cref="ushort" /> components and each component is unpacked to a
-        ///     normalized, un-signed <see cref="float" /> value in the range of <c>0.0f</c> to <c>+1.0f</c>.
+        ///     The vertex attribute slot is read as two packed <see cref="ushort" /> components and each component is
+        ///     unpacked to a normalized, un-signed <see cref="float" /> value in the range of <c>0.0f</c> to <c>+1.0f</c>.
         ///     Total read size is <c>4</c> bytes.
         /// </summary>
         UShort2N,
 
         /// <summary>
-        ///     Each vertex is read as four packed <see cref="short" /> components and each component is unpacked to a
-        ///     un-normalized, signed <see cref="float" /> value.
+        ///     The vertex attribute slot is read as four packed <see cref="short" /> components and each component is
+        ///     unpacked to a un-normalized, signed <see cref="float" /> value.
         ///     Total read size is <c>8</c> bytes.
         ///     If using <see cref="GraphicsBackend.Direct3D11" /> each packed component is not unpacked to a float, but
         ///     rather an integer component.
@@ -137,21 +138,21 @@ namespace Sokol.Graphics
         Short4,
 
         /// <summary>
-        ///     Each vertex is read as four packed <see cref="short" /> components and each component is unpacked to a
-        ///     normalized, signed <see cref="float" /> value in the range of <c>-1.0f</c> to <c>+1.0f</c>.
+        ///     The vertex attribute slot is read as four packed <see cref="short" /> components and each component is
+        ///     unpacked to a normalized, signed <see cref="float" /> value in the range of <c>-1.0f</c> to <c>+1.0f</c>.
         ///     Total read size is <c>8</c> bytes.
         /// </summary>
         Short4N,
 
         /// <summary>
-        ///     Each vertex is read as four packed <see cref="ushort" /> components and each component is unpacked to a
-        ///     normalized, un-signed <see cref="float" /> value in the range of <c>0.0f</c> to <c>+1.0f</c>.
+        ///     The vertex attribute slot is read as four packed <see cref="ushort" /> components and each component is
+        ///     unpacked to a normalized, un-signed <see cref="float" /> value in the range of <c>0.0f</c> to <c>+1.0f</c>.
         ///     Total read size is <c>8</c> bytes.
         /// </summary>
         UShort4N,
 
         /// <summary>
-        ///     Each vertex is read as four packed un-signed integer components: 10-bits, 10-bits, 10-bits,
+        ///     The vertex attribute slot is read as four packed un-signed integer components: 10-bits, 10-bits, 10-bits,
         ///     and 2-bits.
         ///     Each component is converted to a normalized, signed, float value in the range of <c>-1.0f</c> to
         ///     <c>+1.0f</c>.
