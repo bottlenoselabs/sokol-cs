@@ -2,17 +2,17 @@
 
 [![Build, test, and deploy status](https://img.shields.io/azure-devops/build/lustranks/sokol-sharp/lithiumtoast.sokol-sharp/master?label=build%2Ftest%2Fdeploy&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=4&branchName=master)
 
-A .NET wrapper for https://github.com/floooh/sokol.
+A .NET wrapper for https://github.com/floooh/sokol, primarily `sokol_gfx`, a simple and modern wrapper around GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 and Metal.
 
 Includes the C style API precisely as it is and a .NET style API for convenience.
 
-[`sokol_gfx`](https://github.com/floooh/sokol#sokol_gfxh) is a modern and simple 3D graphics API. To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written Andre Weissflog, the owner of `sokol`. 
+To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written Andre Weissflog, the owner of `sokol`. 
 
 ## C API
 
 The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/framework/interop/consuming-unmanaged-dll-functions) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained.
 
-The C structs in C# are blittable, meaning they have the [same memory layout as the C structs](https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types). This allows the structs to be passed by value (copy of data) or reference (akin to copy of pointer) from the managed world of .NET to the unmanaged world of C [as is](https://docs.microsoft.com/en-us/dotnet/framework/interop/copying-and-pinning#formatted-blittable-classes).
+The structs in C# are blittable, meaning they have the [same memory layout as the C structs](https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types). This allows the structs to be passed by value (copy of data) or reference (akin to copy of pointer) from the managed world of .NET to the unmanaged world of C [as is](https://docs.microsoft.com/en-us/dotnet/framework/interop/copying-and-pinning#formatted-blittable-classes).
 
 In .NET, the `unsafe` keyword will most often be necessary for using the C structs and calling the C functions. Also, for practicality, it's recommended to import the module with all the bindings, structs, and enums like so:
 
@@ -26,7 +26,7 @@ To learn how to use the C API, check out the [official C samples](https://github
 
 The .NET style API is a modification of the C bindings (from the side of .NET) to be more idiomatic and overall easier to use. The `unsafe` keyword is not required.
 
-The .NET API currently targets [.NET Core 3.1 (LTS)](https://devblogs.microsoft.com/dotnet/announcing-net-core-3-1/). One the reasons is to use `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required remains small, highly performant, and easy to use without re-inventing the wheel. Another reason to use .NET Core is easy cross platform support for desktop platforms and soon mobile, browser, and console platforms. More about platforms in the next section.
+The .NET API currently targets [.NET Core 3.1 (LTS)](https://devblogs.microsoft.com/dotnet/announcing-net-core-3-1/). Included with .NET Core is the `System.Numerics` namespace which `Vector2`, `Vector3`, `Matrix4x4`, are used. `Span<T>`, `Memory<T>`, and friends are also used which live in the `System.Memory` namespace that is also part of .NET Core. This results in code remaining small, highly performant, and easy to use without re-inventing the wheel. Using .NET Core also allows for easy support for desktop platforms and soon mobile, browser, and console platforms. More about platforms in the next section.
 
 All the types are [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other demanding, high performance, applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code).
 
@@ -38,9 +38,15 @@ The following is a table of the same .NET API samples ordered by their complexit
 
 Name|Description|GIF/Screenshot
 :---:|:---:|:---:
-[Clear](src/Samples/Sokol.Graphics.Samples.Clear/Sokol.Graphics.Samples.Clear/ClearApplication.cs)|[Clears the frame buffer with a specific color](src/Samples/Sokol.Graphics.Samples.Clear/Sokol.Graphics.Samples.Clear/ClearApplication.cs).|<img src="screenshots/gifs/clear.gif" width="300">
-[Triangle](src/Samples/Sokol.Graphics.Samples.Triangle/Sokol.Graphics.Samples.Triangle/Application.cs)|[Draw a triangle in clip space](src/Samples/Sokol.Graphics.Samples.Triangle/Sokol.Graphics.Samples.Triangle/Application.cs).|<img src="screenshots/gifs/triangle.gif" width="300">
-[Quad](src/Samples/Sokol.Graphics.Samples.Quad/Sokol.Graphics.Samples.Quad/Application.cs)|[Draw a quad in clip space](src/Samples/Sokol.Graphics.Samples.Quad/Sokol.Graphics.Samples.Quad/Application.cs).|<img src="screenshots/gifs/quad.gif" width="300">
+[Clear](src/Samples/Samples.Clear/Samples.Clear/ClearApplication.cs)|[Clears the frame buffer with a specific color.](src/Samples/Samples.Clear/Samples.Clear/ClearApplication.cs)|<img src="screenshots/clear.gif" width="350">
+[Triangle](src/Samples/Samples.Triangle/Samples.Triangle/Application.cs)|[Draw a triangle in clip space using a vertex buffer and a index buffer.](src/Samples/Samples.Triangle/Samples.Triangle/Application.cs)|<img src="screenshots/triangle.png" width="350">
+[Quad](src/Samples/Samples.Quad/Samples.Quad/Application.cs)|[Draw a quad in clip space using a vertex buffer and a index buffer.](src/Samples/Samples.Quad/Samples.Quad/Application.cs)|<img src="screenshots/quad.png" width="350">
+[BufferOffsets](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|[Draw a triangle and a quad in clip space using the same vertex buffer and and index buffer.](src/Samples/Samples.BufferOffsets/Samples.BufferOffsets/Application.cs)|<img src="screenshots/buffer-offsets.png" width="350">
+[Cube](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|[Draw a cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|<img src="screenshots/cube.gif" width="350">
+[NonInterleaved](src/Samples/Samples.NonInterleaved/Samples.NonInterleaved/Application.cs)|[Draw a cube using a vertex buffer with non-interleaved vertices, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|<img src="screenshots/non-interleaved.gif" width="350">
+[TexCube](src/Samples/Samples.TexCube/Samples.TextCube/Application.cs)|[Draw a textured cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.TexCube/Samples.TexCube/Application.cs)|<img src="screenshots/tex-cube.gif" width="350">
+[Offscreen](src/Samples/Samples.Offscreen/Samples.Offscreen/Application.cs)|[Draw a non-textured cube off screen to a render target and use the result as as the texture when drawing a cube to the framebuffer.](src/Samples/Samples.Offscreen/Samples.Offscreen/Application.cs)|<img src="screenshots/off-screen.gif" width="350">
+[Instancing](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|[Draw multiple particles using one immutable vertex, one immutable index buffer, and one vertex buffer with streamed instanced data.](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|<img src="screenshots/instancing.gif" width="350">
 
 ## Supported Platforms & 3D APIs
 
@@ -50,22 +56,23 @@ Since `sokol_gfx` is a C library technically any platform is possible. However, 
 
 The following is a table of platforms that are known to work and their supported graphics API backends with `sokol_gfx` in C.
 
-Platform vs 3D API|OpenGL|OpenGLES|Direct3D11|Direct3D12|Metal|Vulkan|WebGPU
+Platform vs 3D API|OpenGL|OpenGLES/WebGL|Direct3D11|Direct3D12|Metal|Vulkan|WebGPU
 :---|:---:|:---:|:---:|:---:|:---:|:---:|:---:
-Desktop Windows|✅|❌|✅|⭕|❌|⭕|❌
-Desktop macOS|❗|❌|❌|❌|✅|⭕|❌
-Desktop Linux|✅|❌|❌|❌|❌|⭕|❌
-Mobile iOS|❌|❌|❌|❌|✅|⭕|❌
-Mobile Android|❌|✅|❌|❌|❌|⭕|❌
-Browser WebAssembly|❌|✅|❌|❌|❌|❌|🚧
-Micro-console tvOS|❌|❌|❌|❌|✅|❌|❌
-Console Nintendo Switch|✅|❌|❌|❌|❌|⭕|❌
-Console Xbox One|❌|❌|✅|⭕|❌|❌|❌
-Console PlayStation 4|✅|❌|❌|❌|❌|⭕|❌
+Desktop Windows|:white_check_mark:|:x:|:white_check_mark:|:o:|:x:|:o:|:x:
+Desktop macOS|:exclamation:|:x:|:x:|:x:|:white_check_mark:|:question:|:x:
+Desktop Linux|:white_check_mark:|:x:|:x:|:x:|:x:|:o:|:x:
+Mobile iOS|:x:|:x:|:x:|:x:|:white_check_mark:|:question:|:x:
+Mobile Android|:x:|:white_check_mark:|:x:|:x:|:x:|:o:|:x:
+Browser WebAssembly|:x:|:white_check_mark:|:x:|:x:|:x:|:x:|:construction:
+Micro-console tvOS|:x:|:x:|:x:|:x:|:white_check_mark:|:question:|:x:
+Console Nintendo Switch|:white_check_mark:|:x:|:x:|:x:|:x:|:o:|:x:
+Console Xbox One|:x:|:x:|:white_check_mark:|:o:|:x:|:x:|:x:
+Console PlayStation 4|:white_check_mark:|:x:|:x:|:x:|:x:|:o:|:x:
 
-- ⭕ means the graphics API is supported on the platform but not by `sokol_gfx`.
-- 🚧 means the graphics API will be supported by `sokol_gfx` but is currently under construction (from `sokol` side).
-- ❗ means the graphics API is deprecated on that platform but can still work with `sokol_gfx`. OpenGL is deprecated for macOS. It is recommended to only use Metal for macOS if hardware supports it. All Apple platforms support Metal.
+- :o: means the graphics API is supported on the platform but not by `sokol_gfx`.
+- :construction: means the graphics API will be supported by `sokol_gfx` but is currently under construction (from `sokol` side).
+- :exclamation: means the graphics API is deprecated on that platform but can still work with `sokol_gfx`. OpenGL is deprecated for macOS. It is recommended to only use Metal for macOS if hardware supports it. All Apple platforms support Metal.
+- :question: means the graphics API is unofficially supported. [Vulkan has limited support on macOS and iOS.](https://github.com/KhronosGroup/MoltenVK) [Vulkan is not yet supported on tvOS](https://github.com/KhronosGroup/MoltenVK/issues/541).
 
 ## NuGet
 
@@ -73,7 +80,7 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 Name|Description
 :---|:---:
-[`Sokol.App`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.App)|Application framework for `sokol_gfx` using SDL2. Similar to MonoGame.
+[`Sokol.App`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.App)|Application framework for `sokol_gfx` using SDL2. Includes the basics like loading necessary libraries, a loop, keyboard input, mouse input, etc. 
 [`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)|PInvoke code for `sokol_gfx`.
 [`Sokol.Graphics.OpenGL`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)|PInvoke code for getting `sokol_gfx` working with OpenGL.
 [`Sokol.Graphics.OpenGL.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL.Native)|Shared libraries for getting `sokol_gfx` working with OpenGL.
@@ -82,29 +89,9 @@ Name|Description
 [`Sokol.SDL2`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2)|PInvoke code for getting `sokol_gfx` working with SDL2.
 [`Sokol.SDL2.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2.Native)|Shared libraries for getting `sokol_gfx` working with SDL2.
 
-## General Learning Resources
-
-All the linked resources in this section are 100% free and easily accessible from a modern browser (some have interactive tutorials).
-
-#### Know some programming but new to game development?
-
-- https://gameprogrammingpatterns.com/contents.html
-
-#### New to or need a refresher on vectors and matrices?
-
-- http://immersivemath.com
-
-#### Don't know what are "Model View Projection" matrices or how they work?
-
-- http://www.codinglabs.net/article_world_view_projection_matrix.aspx
-
-#### Confused about fragment shaders or want to learn how to create cool shader effects?
-
-- https://thebookofshaders.com
-
 ## Contributing
 
-You want to contribute? Awesome! To get started please read the [CONTRIBUTING](CONTRIBUTING) file for details on our code of conduct, and the process for submitting pull requests.
+Do you want to contribute? Awesome! To get started please read the [CONTRIBUTING](CONTRIBUTING.md) file for details on our code of conduct, the process for creating issues, and submitting pull requests.
 
 ## Versioning
 
@@ -112,8 +99,8 @@ You want to contribute? Awesome! To get started please read the [CONTRIBUTING](C
 
 ## License
 
-`Sokol#` is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+`Sokol.NET` is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Authors
+## Authors, Contributors & Maintainers
 
-- **Lucas Girouard-Stranks** [@lithiumtoast](https://github.com/lithiumtoast) *Owner*
+For information about the authors, contributors, and maintainers, see the [MAINTAINERS](MAINTAINERS.md) file.
