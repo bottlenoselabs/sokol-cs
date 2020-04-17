@@ -24,10 +24,10 @@ namespace Sokol.Graphics
     public static class GraphicsDevice
     {
         /// <summary>
-        ///     Gets the <see cref="InitializeDescriptor" /> of the `sokol_gfx` application.
+        ///     Gets the <see cref="GraphicsDescriptor" /> of the `sokol_gfx` application.
         /// </summary>
-        /// <value>The <see cref="InitializeDescriptor" /> of the `sokol_gfx` application.</value>
-        public static InitializeDescriptor Descriptor => QueryDescriptor();
+        /// <value>The <see cref="GraphicsDescriptor" /> of the `sokol_gfx` application.</value>
+        public static GraphicsDescriptor Descriptor => QueryDescriptor();
 
         /// <summary>
         ///     Gets the <see cref="GraphicsBackend" /> of the `sokol_gfx` application.
@@ -83,7 +83,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="desc">The configuration to use for initialize.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Setup([In] ref InitializeDescriptor desc)
+        public static void Setup([In] ref GraphicsDescriptor desc)
         {
             PInvoke.sg_setup(ref desc);
         }
@@ -292,7 +292,7 @@ namespace Sokol.Graphics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static InitializeDescriptor QueryDescriptor()
+        private static GraphicsDescriptor QueryDescriptor()
         {
             return PInvoke.sg_query_desc();
         }

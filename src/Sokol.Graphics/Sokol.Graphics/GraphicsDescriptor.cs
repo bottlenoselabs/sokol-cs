@@ -13,11 +13,11 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="InitializeDescriptor" /> is blittable to the C `sg_desc` struct found in `sokol_gfx`.
+    ///         <see cref="GraphicsDescriptor" /> is blittable to the C `sg_desc` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 8)]
-    public struct InitializeDescriptor
+    public struct GraphicsDescriptor
     {
         /// <summary>
         ///     The maximum number of available <see cref="Buffer" /> instances for the life-time of a `sokol_gfx`

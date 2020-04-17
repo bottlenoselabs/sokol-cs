@@ -17,7 +17,7 @@ namespace Sokol.Graphics
         private const string LIBRARY_NAME = "sokol_gfx";
 
         [DllImport(LIBRARY_NAME)]
-        public static extern void sg_setup([In] ref InitializeDescriptor desc);
+        public static extern void sg_setup([In] ref GraphicsDescriptor desc);
 
         [DllImport(LIBRARY_NAME)]
         public static extern void sg_shutdown();
@@ -111,7 +111,7 @@ namespace Sokol.Graphics
         public static extern void sg_commit();
 
         [DllImport(LIBRARY_NAME)]
-        public static extern InitializeDescriptor sg_query_desc();
+        public static extern GraphicsDescriptor sg_query_desc();
 
         [DllImport(LIBRARY_NAME)]
         public static extern sokol_gfx.sg_backend sg_query_backend();
