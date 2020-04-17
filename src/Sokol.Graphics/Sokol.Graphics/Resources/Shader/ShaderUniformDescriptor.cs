@@ -34,15 +34,6 @@ namespace Sokol.Graphics
     public struct ShaderUniformDescriptor
     {
         /// <summary>
-        ///     The pointer to a C style string containing the name of the uniform. Must be set for
-        ///     <see cref="GraphicsBackend.OpenGL" />, <see cref="GraphicsBackend.OpenGLES2" />, and
-        ///     <see cref="GraphicsBackend.OpenGLES3" />. Optional for every other <see cref="GraphicsBackend" />
-        ///     implementation.
-        /// </summary>
-        [FieldOffset(0)]
-        public IntPtr Name;
-
-        /// <summary>
         ///     The uniform data type.
         /// </summary>
         [FieldOffset(8)]
@@ -53,5 +44,22 @@ namespace Sokol.Graphics
         /// </summary>
         [FieldOffset(12)]
         public int ArrayCount;
+
+        [FieldOffset(0)]
+        private IntPtr _name;
+
+        /// <summary>
+        ///     Gets or sets the string with the name of the uniform. Must be set for
+        ///     <see cref="GraphicsBackend.OpenGL" />, <see cref="GraphicsBackend.OpenGLES2" />, and
+        ///     <see cref="GraphicsBackend.OpenGLES3" />. Optional for every other <see cref="GraphicsBackend" />
+        ///     implementation.
+        /// </summary>
+        /// <value>The string with the name of uniform.
+        /// </value>
+        public string Name
+        {
+            get => UnmanagedStringMemoryManager.GetString(_name);
+            set => _name = UnmanagedStringMemoryManager.SetString(value);
+        }
     }
 }
