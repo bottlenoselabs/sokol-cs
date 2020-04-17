@@ -24,17 +24,25 @@ namespace Sokol.Graphics
     public struct ShaderImageDescriptor
     {
         /// <summary>
-        ///     The pointer to a C style string containing the name of the sampler in the "per-fragment processing"
-        ///     stage source code. Required for <see cref="GraphicsBackend.OpenGLES2" />. Optional for every other
-        ///     <see cref="GraphicsBackend" /> implementation.
-        /// </summary>
-        [FieldOffset(0)]
-        public IntPtr Name;
-
-        /// <summary>
         ///     The <see cref="ImageType" /> of the <see cref="Image" /> that will be as input.
         /// </summary>
         [FieldOffset(8)]
         public ImageType Type;
+
+        [FieldOffset(0)]
+        private IntPtr _name;
+
+        /// <summary>
+        ///     Gets or sets the string with the the name of the sampler in the "per-fragment processing"
+        ///     stage source code. Required for <see cref="GraphicsBackend.OpenGLES2" />. Optional for every other
+        ///     <see cref="GraphicsBackend" /> implementation.
+        /// </summary>
+        /// <value>The string with the name of the sampler.
+        /// </value>
+        public string Name
+        {
+            get => UnmanagedStringMemoryManager.GetString(_name);
+            set => _name = UnmanagedStringMemoryManager.SetString(value);
+        }
     }
 }
