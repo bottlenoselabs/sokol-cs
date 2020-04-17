@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -121,10 +122,20 @@ internal static class NativeLibraries
             switch (backend)
             {
                 case GraphicsBackend.Dummy:
-                    AddLibraryPath("sokol_gfx", "runtimes/win-x64/native/sokol_gfx-dummy.dll");
+                    AddLibraryPath("sokol_gfx", Path.Combine(
+                        Environment.CurrentDirectory,
+                        "runtimes",
+                        "win-x64",
+                        "native",
+                        "sokol_gfx-dummy.dll"));
                     break;
                 case GraphicsBackend.OpenGL:
-                    AddLibraryPath("sokol_gfx", "runtimes/win-x64/native/sokol_gfx-opengl.dll");
+                    AddLibraryPath("sokol_gfx", Path.Combine(
+                        Environment.CurrentDirectory,
+                        "runtimes",
+                        "win-x64",
+                        "native",
+                        "sokol_gfx-opengl.dll"));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(requestedBackend), requestedBackend, null);
@@ -136,13 +147,28 @@ internal static class NativeLibraries
             switch (backend)
             {
                 case GraphicsBackend.Dummy:
-                    AddLibraryPath("sokol_gfx", "runtimes/osx-x64/native/libsokol_gfx-dummy.dylib");
+                    AddLibraryPath("sokol_gfx", Path.Combine(
+                        Environment.CurrentDirectory,
+                        "runtimes",
+                        "osx-x64",
+                        "native",
+                        "libsokol_gfx-dummy.dylib"));
                     break;
                 case GraphicsBackend.OpenGL:
-                    AddLibraryPath("sokol_gfx", "runtimes/osx-x64/native/libsokol_gfx-opengl.dylib");
+                    AddLibraryPath("sokol_gfx", Path.Combine(
+                        Environment.CurrentDirectory,
+                        "runtimes",
+                        "osx-x64",
+                        "native",
+                        "libsokol_gfx-opengl.dylib"));
                     break;
                 case GraphicsBackend.Metal:
-                    AddLibraryPath("sokol_gfx", "runtimes/osx-x64/native/libsokol_gfx-metal.dylib");
+                    AddLibraryPath("sokol_gfx", Path.Combine(
+                        Environment.CurrentDirectory,
+                        "runtimes",
+                        "osx-x64",
+                        "native",
+                        "libsokol_gfx-metal.dylib"));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(requestedBackend), requestedBackend, null);
@@ -154,10 +180,20 @@ internal static class NativeLibraries
             switch (backend)
             {
                 case GraphicsBackend.Dummy:
-                    AddLibraryPath("sokol_gfx", "runtimes/linux-x64/native/libsokol_gfx-dummy.so");
+                    AddLibraryPath("sokol_gfx", Path.Combine(
+                        Environment.CurrentDirectory,
+                        "runtimes",
+                        "linux-x64",
+                        "native",
+                        "libsokol_gfx-dummy.so"));
                     break;
                 case GraphicsBackend.OpenGL:
-                    AddLibraryPath("sokol_gfx", "runtimes/linux-x64/native/libsokol_gfx-opengl.so");
+                    AddLibraryPath("sokol_gfx", Path.Combine(
+                        Environment.CurrentDirectory,
+                        "runtimes",
+                        "linux-x64",
+                        "native",
+                        "libsokol_gfx-opengl.so"));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(requestedBackend), requestedBackend, null);
