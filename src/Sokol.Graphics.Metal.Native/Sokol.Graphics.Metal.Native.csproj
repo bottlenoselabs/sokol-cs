@@ -30,7 +30,7 @@
 
     <ItemGroup Condition="'$(Configuration)' == 'Release' ">
         <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\metal\release\libsokol_gfx.dylib">
-            <Link>runtimes/osx-x64/native/metal/libsokol_gfx-metal.dylib</Link>
+            <Link>runtimes/osx-x64/native/libsokol_gfx-metal.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/osx-x64/native/libsokol_gfx-metal.dylib</PackagePath>
         </Content>
