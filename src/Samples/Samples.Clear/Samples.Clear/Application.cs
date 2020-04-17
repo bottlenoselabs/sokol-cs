@@ -1,30 +1,35 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Sokol.SDL2;
+using Sokol.App;
+using Sokol.Graphics;
 
-namespace Sokol.Graphics.Samples.Clear
+namespace Samples.Clear
 {
     public class Application : App
     {
-        private PassAction _passAction;
+        private Rgba32F _clearColor;
 
         public Application()
         {
             // initially set the frame buffer clear color to red
-            _passAction = PassAction.Clear(Rgba32F.Red);
+            _clearColor = Rgba32F.Red;
         }
 
-        protected override void Draw(int width, int height)
+        protected override void HandleInput(InputState state)
         {
-            // get the color used to clear the framebuffer
-            ref var clearColor = ref _passAction.Color().Value;
+        }
+
+        protected override void Update(AppTime time)
+        {
             // move the color towards yellow, then reset, in repeat
-            clearColor.G = clearColor.G > 1.0f ? 0.0f : clearColor.G + 0.01f;
+            _clearColor.G = _clearColor.G > 1.0f ? 0.0f : _clearColor.G + 0.01f;
+        }
 
+        protected override void Draw(AppTime time)
+        {
             // begin a framebuffer render pass
-            var pass = GraphicsDevice.BeginDefaultPass(ref _passAction, width, height);
-
+            var pass = BeginDefaultPass(_clearColor);
             // end the framebuffer render pass
             pass.End();
         }
