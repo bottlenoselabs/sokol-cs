@@ -13,7 +13,7 @@ namespace Sokol.Graphics
     /// <remarks>
     ///     <para>
     ///         To apply a <see cref="ResourceBindings" />, call
-    ///         <see cref="Pass.Apply(ref ResourceBindings)" /> after a <see cref="Pipeline" /> is created.
+    ///         <see cref="Pass.ApplyBindings" /> after a <see cref="Pipeline" /> is created.
     ///     </para>
     ///     <para>
     ///         Use standard struct allocation and initialization techniques to create
@@ -87,7 +87,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index indicating what vertex <see cref="Buffer" /> slot the offset applies to.</param>
         /// <returns>A zero-based offset.</returns>
-        public ref int VertexBufferOffset(int index)
+        public ref int VertexBufferOffset(int index = 0)
         {
             return ref _vertexBufferOffsets[index];
         }
@@ -100,7 +100,7 @@ namespace Sokol.Graphics
         ///     The zero-based index indicating what slot to use to get the <see cref="Image" />.
         /// </param>
         /// <returns>A <see cref="Image" />.</returns>
-        public ref Image VertexStageImage(int index)
+        public ref Image VertexStageImage(int index = 0)
         {
             fixed (ResourceBindings* bindings = &this)
             {
@@ -117,7 +117,7 @@ namespace Sokol.Graphics
         ///     The zero-based index indicating what slot to use to get the <see cref="Image" />.
         /// </param>
         /// <returns>A <see cref="Image" />.</returns>
-        public ref Image FragmentStageImage(int index)
+        public ref Image FragmentStageImage(int index = 0)
         {
             fixed (ResourceBindings* bindings = &this)
             {
