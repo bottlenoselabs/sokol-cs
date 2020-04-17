@@ -42,7 +42,7 @@ namespace Sokol.Graphics
     ///     </para>
     ///     <para>
     ///         To activate a <see cref="Pipeline" /> with all it's state, and by consequence deactivate any other
-    ///         active <see cref="Pipeline"/>, call <see cref="Pass.Apply(Pipeline)" />.
+    ///         active <see cref="Pipeline"/>, call <see cref="Pass.ApplyPipeline" />.
     ///     </para>
     ///     <para>
     ///         A <see cref="Pipeline" /> must only be used or destroyed with the same active <see cref="Context" />
@@ -96,23 +96,6 @@ namespace Sokol.Graphics
         public void Fail()
         {
             PInvoke.sg_fail_pipeline(this);
-        }
-
-        /// <summary>
-        ///     Updates the data for a <see cref="Shader" /> uniform given a a specified <see cref="ShaderStageType" />,
-        ///     the block the uniform belongs to, and the data itself.
-        /// </summary>
-        /// <param name="stage">The shader stage.</param>
-        /// <param name="uniformBlockIndex">The uniform block zero-based index which the uniform belongs to.</param>
-        /// <param name="value">The data.</param>
-        /// <typeparam name="T">The type of <paramref name="value" />.</typeparam>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe void ApplyShaderUniform<T>(ShaderStageType stage, int uniformBlockIndex, ref T value)
-            where T : unmanaged
-        {
-            var dataPointer = (IntPtr)Unsafe.AsPointer(ref value);
-            var dataSize = Marshal.SizeOf<T>();
-            PInvoke.sg_apply_uniforms(stage, uniformBlockIndex, dataPointer, dataSize);
         }
 
         /// <inheritdoc />
