@@ -9,21 +9,28 @@ using System.Diagnostics.CodeAnalysis;
 namespace Sokol.Graphics
 {
     /// <summary>
-    ///     <para>
-    ///         Defines the available formats for how information is encoded and organized in an
-    ///         <see cref="Image" />.
-    ///     </para>
+    ///     Defines the available formats for how information is encoded and organized in an <see cref="Image" />.
+    /// </summary>
+    /// <remarks>
     ///     <para>
     ///         The name of a <see cref="PixelFormat" /> usually consists of three parts which are read from left to
     ///         right: the components, the bit width per component, and the component data type. For data types,
     ///         a postfix may be added to distinguish between formats with similar components and bit widths:
-    ///         (1) no postfix, marking an un-signed normalized integer;
-    ///         (2) a `SN` postfix, marking a signed normalized integer;
-    ///         (3) a `UI` postfix, marking an un-signed non-normalized integer; and
-    ///         (4) a `F` postfix, marking a float.
+    ///         <list type="bullet">
+    ///             <item>
+    ///                 <description>No postfix, marking an un-signed normalized integer.</description>
+    ///             </item>
+    ///             <item>
+    ///                 <description>A `SN` postfix, marking a signed normalized integer.</description>
+    ///             </item>
+    ///             <item>
+    ///                 <description>A `UI` postfix, marking an un-signed non-normalized integer.</description>
+    ///             </item>
+    ///             <item>
+    ///                 <description>A `F` postfix, marking a float.</description>
+    ///             </item>
+    ///         </list>
     ///     </para>
-    /// </summary>
-    /// <remarks>
     ///     <para>
     ///         For normalized un-signed integer formats suh as <see cref="RGBA8" />, component values in the range
     ///         <c>[0.0, 1.0]</c> are stored as <c>[0, MAX_UINT]</c>, where <c>MAX_UINT</c> is the greatest un-signed
