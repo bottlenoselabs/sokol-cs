@@ -18,6 +18,7 @@ namespace Samples.Cube
         private Buffer _indexBuffer;
         private Pipeline _pipeline;
 
+        private bool _paused;
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
         private float _rotationX;
@@ -39,13 +40,24 @@ namespace Samples.Cube
 
         protected override void HandleInput(InputState state)
         {
+            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
+            {
+                _paused = !_paused;
+            }
         }
 
         protected override void Update(AppTime time)
         {
+            if (_paused)
+            {
+                return;
+            }
+
+            var deltaSeconds = time.ElapsedSeconds;
+
             // rotate cube and create vertex shader mvp matrix
-            _rotationX += 1.0f * 0.020f;
-            _rotationY += 2.0f * 0.020f;
+            _rotationX += 1.0f * deltaSeconds;
+            _rotationY += 2.0f * deltaSeconds;
             var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
             var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
             var modelMatrix = rotationMatrixX * rotationMatrixY;

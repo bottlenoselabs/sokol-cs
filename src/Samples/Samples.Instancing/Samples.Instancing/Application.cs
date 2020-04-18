@@ -23,9 +23,10 @@ namespace Samples.Instancing
         private Shader _shader;
         private Pipeline _pipeline;
 
-        private readonly Random _random = new Random();
-        private readonly Vector3[] _positions = new Vector3[_maxParticlesCount];
-        private readonly Vector3[] _velocities = new Vector3[_maxParticlesCount];
+        private bool _paused;
+        private Random _random = new Random();
+        private Vector3[] _positions = new Vector3[_maxParticlesCount];
+        private Vector3[] _velocities = new Vector3[_maxParticlesCount];
         private float _rotationY;
         private int _currentParticleCount;
         private Matrix4x4 _viewProjectionMatrix;
@@ -51,10 +52,19 @@ namespace Samples.Instancing
 
         protected override void HandleInput(InputState state)
         {
+            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
+            {
+                _paused = !_paused;
+            }
         }
 
         protected override void Update(AppTime time)
         {
+            if (_paused)
+            {
+                return;
+            }
+
             // emit new particles
             for (var i = 0; i < _particlesCountEmittedPerFrame; i++)
             {
