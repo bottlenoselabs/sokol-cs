@@ -28,9 +28,9 @@ namespace Samples.Clear
 
         protected override void Draw(AppTime time)
         {
-            // begin a framebuffer render pass
+            // begin a frame buffer render pass
             var pass = BeginDefaultPass(_clearColor);
-            // end the framebuffer render pass
+            // end the frame buffer render pass
             pass.End();
         }
     }

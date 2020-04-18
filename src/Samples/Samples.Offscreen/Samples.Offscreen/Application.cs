@@ -85,7 +85,7 @@ namespace Samples.Offscreen
             // end the offscreen render pass
             _offscreenRenderPass.End();
 
-            // begin a framebuffer render pass
+            // begin a frame buffer render pass
             Rgba32F clearColor = 0x0040FFFF;
             var frameBufferPass = BeginDefaultPass(clearColor);
 
@@ -95,17 +95,17 @@ namespace Samples.Offscreen
             frameBufferResourceBindings.IndexBuffer = _indexBuffer;
             frameBufferResourceBindings.FragmentStageImage() = _renderTarget;
 
-            // apply the render pipeline and bindings for the framebuffer render pass
+            // apply the render pipeline and bindings for the frame buffer render pass
             frameBufferPass.ApplyPipeline(_frameBufferPipeline);
             frameBufferPass.ApplyBindings(ref frameBufferResourceBindings);
 
-            // apply the mvp matrix to the framebuffer vertex shader
+            // apply the mvp matrix to the frame buffer vertex shader
             frameBufferPass.ApplyShaderUniforms(ShaderStageType.VertexStage, ref _modelViewProjectionMatrix);
 
-            // draw the textured cube into the target of the framebuffer render pass
+            // draw the textured cube into the target of the frame buffer render pass
             frameBufferPass.DrawElements(36);
 
-            // end the framebuffer render pass
+            // end the frame buffer render pass
             frameBufferPass.End();
         }
 

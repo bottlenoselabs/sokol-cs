@@ -39,7 +39,7 @@ namespace Samples.Quad
 
         protected override void Draw(AppTime time)
         {
-            // begin a framebuffer render pass
+            // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Black);
 
             // describe the binding of the vertex and index buffer
@@ -54,7 +54,7 @@ namespace Samples.Quad
             // draw the quad into the target of the render pass
             pass.DrawElements(6);
 
-            // end framebuffer render pass
+            // end frame buffer render pass
             pass.End();
         }
 

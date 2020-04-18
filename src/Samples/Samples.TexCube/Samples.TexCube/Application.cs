@@ -52,7 +52,7 @@ namespace Samples.TexCube
 
         protected override void Draw(AppTime time)
         {
-            // begin a framebuffer render pass
+            // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Gray);
 
             // describe the binding of the vertex and index buffer
@@ -71,7 +71,7 @@ namespace Samples.TexCube
             // draw the cube into the target of the render pass
             pass.DrawElements(36);
 
-            // end the framebuffer render pass
+            // end the frame buffer render pass
             pass.End();
         }
 

@@ -42,7 +42,7 @@ namespace Samples.BufferOffsets
 
         protected override void Draw(AppTime time)
         {
-            // begin a framebuffer render pass
+            // begin a frame buffer render pass
             Rgba32F clearColor = 0x8080FFFF;
             var pass = BeginDefaultPass(clearColor);
 
@@ -69,7 +69,7 @@ namespace Samples.BufferOffsets
             // draw the quad (6 triangle indices) into the target of the render pass
             pass.DrawElements(6);
 
-            // end the framebuffer render pass
+            // end the frame buffer render pass
             pass.End();
         }
 

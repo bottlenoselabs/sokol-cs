@@ -54,7 +54,7 @@ namespace Samples.Cube
 
         protected override void Draw(AppTime time)
         {
-            // begin a framebuffer render pass
+            // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Gray);
 
             var resourceBindings = default(ResourceBindings);
@@ -71,7 +71,7 @@ namespace Samples.Cube
             // draw the cube into the target of the render pass
             pass.DrawElements(36);
 
-            // end the framebuffer render pass
+            // end the frame buffer render pass
             pass.End();
         }
 

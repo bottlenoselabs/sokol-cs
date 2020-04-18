@@ -105,7 +105,7 @@ namespace Samples.Instancing
             // NOTE: this is called here instead of in `Update` because buffers can only be updated once per frame
             _instanceBuffer.Update(_positions.AsMemory().Slice(0, _currentParticleCount));
 
-            // begin a framebuffer render pass
+            // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Black);
 
             // describe the binding of the buffers
@@ -124,7 +124,7 @@ namespace Samples.Instancing
             // draw the particles into the target of the render pass
             pass.DrawElements(24, instanceCount: _currentParticleCount);
 
-            // end framebuffer render pass
+            // end frame buffer render pass
             pass.End();
         }
 
