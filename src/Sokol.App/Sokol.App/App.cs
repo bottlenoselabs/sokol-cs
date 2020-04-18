@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Sokol.Graphics;
 using static SDL2.SDL;
@@ -154,16 +155,19 @@ namespace Sokol.App
             return GraphicsDevice.BeginDefaultPass(_drawableWidth, _drawableHeight, ref passAction);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void DoInput(InputState state)
         {
             HandleInput(state);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void DoUpdate(AppTime time)
         {
             Update(time);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void DoDraw(AppTime time)
         {
             var (width, height) = _renderer.GetDrawableSize();
