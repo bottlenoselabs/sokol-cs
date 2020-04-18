@@ -33,19 +33,20 @@ namespace Sokol.App
             {
                 // NOTE: The goto label is necessary because we don't want the cost of checking the while loop condition
                 RetryTick:
+                PumpEvents();
+
                 var currentTicks = SDL_GetPerformanceCounter();
                 var elapsedSeconds = (currentTicks - previousTicks) / (double)SDL_GetPerformanceFrequency();
                 var elapsedTime = new TimeSpan((long)(elapsedSeconds * TimeSpan.TicksPerSecond));
                 accumulatedTime += elapsedTime;
                 previousTicks = currentTicks;
 
-                PumpEvents(elapsedTime);
                 if (accumulatedTime < _targetElapsedTime)
                 {
                     goto RetryTick;
                 }
 
-                HandleInput();
+                HandleInput(elapsedTime);
 
                 var fixedStepCount = 0;
                 // NOTE: `IsRunning` needs to be checked for the edge case where the app is lagging so hard it can't quit

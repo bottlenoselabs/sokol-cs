@@ -10,19 +10,17 @@ namespace Sokol.App
 {
 #pragma warning disable 1591
     [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
-    public abstract class AppLoop
+    public class AppLoop
     {
         private static readonly InputState InputState = new InputState();
-        private static TimeSpan _inputDeltaTime;
         private readonly AppTime _time;
-        private bool _isRunning;
 
         protected bool IsRunning
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _isRunning;
+            get;
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => _isRunning = value;
+            set;
         }
 
         protected AppLoop()
@@ -30,19 +28,39 @@ namespace Sokol.App
             _time = new AppTime();
         }
 
-        public abstract void Run();
+        public virtual void Run()
+        {
+            IsRunning = true;
+
+            var previousTicks = SDL_GetPerformanceCounter();
+            var accumulatedTime = TimeSpan.Zero;
+            var totalTime = TimeSpan.Zero;
+
+            while (IsRunning)
+            {
+                PumpEvents();
+
+                var currentTicks = SDL_GetPerformanceCounter();
+                var elapsedSeconds = (currentTicks - previousTicks) / (double)SDL_GetPerformanceFrequency();
+                var elapsedTime = new TimeSpan((long)(elapsedSeconds * TimeSpan.TicksPerSecond));
+                accumulatedTime += elapsedTime;
+                previousTicks = currentTicks;
+
+                HandleInput(elapsedTime);
+                Update(totalTime, elapsedTime);
+                Draw(totalTime, elapsedTime, 1);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Stop()
         {
-            _isRunning = false;
+            IsRunning = false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected static void PumpEvents(TimeSpan deltaTime)
+        protected static void PumpEvents()
         {
-            _inputDeltaTime = deltaTime;
-
             while (SDL_PollEvent(out var e) != 0)
             {
                 HandleEvent(e);
@@ -50,8 +68,9 @@ namespace Sokol.App
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected static void HandleInput()
+        protected static void HandleInput(TimeSpan elapsedTime)
         {
+            InputState.Update(elapsedTime);
             App.Instance.DoInput(InputState);
         }
 
@@ -161,7 +180,7 @@ namespace Sokol.App
             var isDown = e.state == 1;
 
             InputState.ModifiersKeys = modifiers;
-            InputState.UpdateKeyButton(key, isDown, _inputDeltaTime);
+            InputState.HandleKeyboardEvent(key, isDown);
 
             if (isDown)
             {

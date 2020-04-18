@@ -8,70 +8,95 @@ namespace Sokol.App
 {
     public struct ButtonState
     {
-        private const int PressedStateIsDownMask = 0x1;
-        private const int PressedStateIsDownValue = 0x1;
-        private const int PressedStateIsUpMask = 0x1;
-        private const int PressedStateIsUpValue = 0x0;
-        private const int PressedStateIsPressedMask = 0x3;
-        private const int PressedStateIsPressedValue = 0x1;
-        private const int PressedStateWasDownMask = 0x2;
-        private const int PressedStateWasDownValue = 0x1;
-        private const int PressedStateWasUpMask = 0x2;
-        private const int PressedStateWasUpValue = 0x0;
+        // Brain dump:
+        //    - a button can physically be in either of two states: "is down?" or "is up?"
+        //    - however, we want to be able to ask the following questions for a button such as:
+        //        1. "is down now but previously was up?" (the button enters a pressed state)
+        //        2. "is down now and was also previously down?" (the button is pressed)
+        //        3. "is up now but was previously down?" (the button enters a released state)
+        //        4. "is up now and was also previously up?" (the button is released)
+        //    - these questions can be derived from 2 bool variables (do the truth table exercise if you are not sure)
+        //        1. `isDown` (`isUp` is the opposite)
+        //        2. `wasDown' (`wasUp` is the opposite)
+        //    - these states could be expressed as a `bool` but:
+        //        1. a bool can take 1-8 bytes in C# (see https://stackoverflow.com/questions/28514373/what-is-the-size-of-a-boolean-in-c-does-it-really-take-4-bytes)
+        //        2. we will need a bunch of branching to calculate the states (if conditions)
+        //    - to deal with problem 1 we can use a "bit vector" to store the booleans as bits packed in a single byte
+        //    - this nicely leads to a solution for problem 2 as we can shift bits to calculate the previous frame
+        //    - example:
+        //        - '01' is the bit vector for "is down now but was previously up"
+        //        - shift the bits left by 1, `10` is the bit vector for "is up now but was previously down"
+        //        - set the least sig bit with the current state, `11` is "is down now and was previously down"
 
         private TimeSpan _downDuration;
-        private byte _pressedState;
+        private byte _state;
 
-        // ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
         public TimeSpan DownDuration
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => _downDuration;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => _downDuration = value;
         }
 
         public bool IsDown
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => (_pressedState & PressedStateIsDownMask) == PressedStateIsDownValue;
+            get => (_state & 0x1) == 0x1;
         }
 
         public bool IsUp
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => (_pressedState & PressedStateIsUpMask) == PressedStateIsUpValue;
-        }
-
-        public bool IsPressed
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => (_pressedState & PressedStateIsPressedMask) == PressedStateIsPressedValue;
+            get => (_state & 0x1) == 0x0;
         }
 
         public bool WasDown
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => (_pressedState & PressedStateWasDownMask) == PressedStateWasDownValue;
+            get => (_state & 0x2) == 0x1;
         }
 
         public bool WasUp
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => (_pressedState & PressedStateWasUpMask) == PressedStateWasUpValue;
+            get => (_state & 0x2) == 0x0;
         }
 
-        internal static void Update(ref ButtonState buttonState, bool isDown, TimeSpan elapsedTime)
+        public bool IsPressed
         {
-            var intIsDown = Convert.ToInt32(isDown);
-            var newPressedState = buttonState._pressedState << 1 | intIsDown;
-            buttonState._pressedState = (byte)newPressedState;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => (_state & 0x3) == 0x3;
+        }
+
+        public bool IsReleased
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => (_state & 0x3) == 0x0;
+        }
+
+        public bool HasEnteredPressed
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => (_state & 0x3) == 0x1;
+        }
+
+        public bool HasEnteredReleased
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => (_state & 0x3) == 0x2;
+        }
+
+        internal static void Update(ref ButtonState button, bool isDown, TimeSpan elapsedTime)
+        {
+            button._state = (byte)(((0x1 & button._state) << 1) | Convert.ToByte(isDown));
             if (isDown)
             {
-                buttonState.DownDuration += elapsedTime;
+                button._downDuration += elapsedTime;
             }
             else
             {
-                buttonState.DownDuration = TimeSpan.Zero;
+                button._downDuration = TimeSpan.Zero;
             }
         }
     }

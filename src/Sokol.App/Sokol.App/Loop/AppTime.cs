@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Sokol.App
 {
@@ -12,7 +13,19 @@ namespace Sokol.App
     {
         public TimeSpan TotalTime { get; internal set; }
 
+        public float TotalSeconds
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => (float)TotalTime.TotalSeconds;
+        }
+
         public TimeSpan ElapsedTime { get; set; }
+
+        public float ElapsedSeconds
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => (float)ElapsedTime.TotalSeconds;
+        }
 
         public float Alpha { get; internal set; }
     }
