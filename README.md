@@ -46,7 +46,8 @@ Name|Description|GIF/Screenshot
 [NonInterleaved](src/Samples/Samples.NonInterleaved/Samples.NonInterleaved/Application.cs)|[Draw a cube using a vertex buffer with non-interleaved vertices, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|<img src="screenshots/non-interleaved.gif" width="350">
 [TexCube](src/Samples/Samples.TexCube/Samples.TextCube/Application.cs)|[Draw a textured cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.TexCube/Samples.TexCube/Application.cs)|<img src="screenshots/tex-cube.gif" width="350">
 [Offscreen](src/Samples/Samples.Offscreen/Samples.Offscreen/Application.cs)|[Draw a non-textured cube off screen to a render target and use the result as as the texture when drawing a cube to the framebuffer.](src/Samples/Samples.Offscreen/Samples.Offscreen/Application.cs)|<img src="screenshots/off-screen.gif" width="350">
-[Instancing](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|[Draw multiple particles using one immutable vertex, one immutable index buffer, and one vertex buffer with streamed instanced data.](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|<img src="screenshots/instancing.gif" width="350">
+[Instancing](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|[Draw multiple particles using one immutable vertex, one immutable index buffer, and one vertex buffer with streamed instance data.](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|<img src="screenshots/instancing.gif" width="350">
+[MRT](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|[Draw a cube to multiple render targets (MRT) and then blend the results.](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|<img src="screenshots/mrt.gif" width="350">
 
 ## Supported Platforms & 3D APIs
 
