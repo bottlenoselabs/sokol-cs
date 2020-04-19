@@ -52,6 +52,10 @@ namespace Samples.MultipleRenderTargets
 
             _debugShader = CreateDebugShader();
             _debugPipeline = CreateDebugPipeline(msaaSampleCount);
+
+            // Free any strings we implicitly allocated when creating resources
+            // Only call this method AFTER resources are created
+            GraphicsDevice.FreeStrings();
         }
 
         protected override void HandleInput(InputState state)

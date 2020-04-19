@@ -45,6 +45,10 @@ namespace Samples.Offscreen
 
             _frameBufferShader = CreateFrameBufferShader();
             _frameBufferPipeline = CreateFrameBufferPipeline();
+
+            // Free any strings we implicitly allocated when creating resources
+            // Only call this method AFTER resources are created
+            GraphicsDevice.FreeStrings();
         }
 
         protected override void HandleInput(InputState state)

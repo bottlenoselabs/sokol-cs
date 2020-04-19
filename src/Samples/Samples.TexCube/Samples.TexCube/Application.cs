@@ -32,8 +32,12 @@ namespace Samples.TexCube
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _texture = CreateTexture();
-            CreateShader();
-            CreatePipeline();
+            _shader = CreateShader();
+            _pipeline = CreatePipeline();
+
+            // Free any strings we implicitly allocated when creating resources
+            // Only call this method AFTER resources are created
+            GraphicsDevice.FreeStrings();
         }
 
         protected override void HandleInput(InputState state)
@@ -102,7 +106,7 @@ namespace Samples.TexCube
             _viewProjectionMatrix = viewMatrix * projectionMatrix;
         }
 
-        private void CreatePipeline()
+        private Pipeline CreatePipeline()
         {
             var pipelineDesc = default(PipelineDescriptor);
             pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
@@ -115,10 +119,10 @@ namespace Samples.TexCube
             pipelineDesc.Rasterizer.CullMode = PipelineTriangleCullMode.Back;
             pipelineDesc.Rasterizer.SampleCount = GraphicsDevice.Features.MsaaRenderTargets ? 4 : 1;
 
-            _pipeline = GraphicsDevice.CreatePipeline(ref pipelineDesc);
+            return GraphicsDevice.CreatePipeline(ref pipelineDesc);
         }
 
-        private void CreateShader()
+        private Shader CreateShader()
         {
             // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
@@ -141,7 +145,7 @@ namespace Samples.TexCube
             }
 
             // create the shader resource from the description
-            _shader = GraphicsDevice.CreateShader(ref shaderDesc);
+            return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
         private Image CreateTexture()

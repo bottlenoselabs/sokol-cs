@@ -48,6 +48,10 @@ namespace Samples.Instancing
             _instanceBuffer = CreateInstanceBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
+
+            // Free any strings we implicitly allocated when creating resources
+            // Only call this method AFTER resources are created
+            GraphicsDevice.FreeStrings();
         }
 
         protected override void HandleInput(InputState state)
