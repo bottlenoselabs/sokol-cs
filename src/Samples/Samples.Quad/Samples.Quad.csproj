@@ -19,7 +19,7 @@
 
     <ItemGroup>
         <None Update="assets\**\*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 

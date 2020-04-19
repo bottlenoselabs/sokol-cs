@@ -18,9 +18,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Update="assets\**\*">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Update="assets\**\*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <PropertyGroup>
