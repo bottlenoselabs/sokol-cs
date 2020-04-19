@@ -13,7 +13,7 @@ namespace Sokol.Graphics
         // https://en.wikipedia.org/wiki/X11_color_names
 
         /// <summary>
-        ///     Gets a <see cref="Rgba8U" /> that has a RGBA value of #000000FF.
+        ///     Gets a <see cref="Rgba8U" /> that has a RGBA value of #00000000.
         /// </summary>
         public static readonly Rgba8U TransparentBlack = 0x00000000;
 
