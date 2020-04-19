@@ -47,7 +47,8 @@ Name|Description|GIF/Screenshot
 [TexCube](src/Samples/Samples.TexCube/Samples.TextCube/Application.cs)|[Draw a textured cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.TexCube/Samples.TexCube/Application.cs)|<img src="screenshots/tex-cube.gif" width="350">
 [Offscreen](src/Samples/Samples.Offscreen/Samples.Offscreen/Application.cs)|[Draw a non-textured cube off screen to a render target and use the result as as the texture when drawing a cube to the framebuffer.](src/Samples/Samples.Offscreen/Samples.Offscreen/Application.cs)|<img src="screenshots/off-screen.gif" width="350">
 [Instancing](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|[Draw multiple particles using one immutable vertex, one immutable index buffer, and one vertex buffer with streamed instance data.](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|<img src="screenshots/instancing.gif" width="350">
-[MRT](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|[Draw a cube to multiple render targets (MRT) and then blend the results.](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|<img src="screenshots/mrt.gif" width="350">
+[MultipleRenderTargets](src/Samples/Samples.MultipleRenderTargets/Samples.Instancing/Application.cs)|[Draw a cube to multiple render targets and then blend the results.](src/Samples/Samples.Instancing/Samples.MultipleRenderTargets//Application.cs)|<img src="screenshots/mrt.gif" width="350">
+[ArrayTex](src/Samples/Samples.ArrayTex/Samples.ArrayTex/Application.cs)|[Draw a cube with multiple 2D textures using one continous block of texture data (texture array).](src/Samples/Samples.ArrayTex/Samples.ArrayTex/Application.cs)|<img src="screenshots/array-tex.gif" width="350">
 
 ## Supported Platforms & 3D APIs
 
