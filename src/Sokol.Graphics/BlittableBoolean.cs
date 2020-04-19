@@ -17,7 +17,7 @@ using System;
 ///         with unmanaged code in .NET applications.
 ///     </para>
 /// </remarks>
-public struct BlittableBoolean
+public readonly struct BlittableBoolean
 {
     private readonly byte _value;
 
@@ -26,11 +26,21 @@ public struct BlittableBoolean
         _value = Convert.ToByte(value);
     }
 
+    /// <summary>
+    ///     Converts the specified <see cref="bool" /> to a <see cref="BlittableBoolean" />.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>A <see cref="BlittableBoolean" />.</returns>
     public static implicit operator BlittableBoolean(bool value)
     {
         return new BlittableBoolean(value);
     }
 
+    /// <summary>
+    ///     Converts the specified <see cref="BlittableBoolean" /> to a <see cref="bool" />.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>A <see cref="bool" />.</returns>
     public static implicit operator bool(BlittableBoolean value)
     {
         return Convert.ToBoolean(value._value);
