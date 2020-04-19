@@ -82,7 +82,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="ShaderUniformBlockDescriptor" /> by reference.</returns>
-        public ref ShaderUniformBlockDescriptor UniformBlock(int index)
+        public ref ShaderUniformBlockDescriptor UniformBlock(int index = 0)
         {
             fixed (ShaderStageDescriptor* shaderStageDescription = &this)
             {
@@ -97,7 +97,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="ShaderImageDescriptor" /> by reference.</returns>
-        public ref ShaderImageDescriptor Image(int index)
+        public ref ShaderImageDescriptor Image(int index = 0)
         {
             fixed (ShaderStageDescriptor* shaderStageDescription = &this)
             {
