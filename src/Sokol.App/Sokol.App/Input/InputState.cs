@@ -52,6 +52,8 @@ namespace Sokol.App
                 ButtonState.Update(ref keyButtonState, isDown, elapsedTime);
                 _previousActiveKeys.Add(key, isDown);
             }
+
+            _activeKeys.Clear();
         }
     }
 }
