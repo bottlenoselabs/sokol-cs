@@ -65,12 +65,12 @@ namespace Sokol.App
         ///     Initializes a new instance of the <see cref="App" /> class using an optional
         ///     <see cref="AppLoop" />, <see cref="Backend " /> and <see cref="GraphicsDescriptor " />.
         /// </summary>
-        /// <param name="appLoop">The app loop.</param>
-        /// <param name="graphicsBackend">The graphics backend.</param>
+        /// <param name="backend">The graphics backend.</param>
+        /// <param name="loop">The app loop.</param>
         /// <param name="descriptor">The `sokol_gfx` initialize descriptor.</param>
         protected App(
-            AppLoop? appLoop = null,
-            GraphicsBackend? graphicsBackend = null,
+            GraphicsBackend? backend = null,
+            AppLoop? loop = null,
             GraphicsDescriptor? descriptor = null)
         {
             if (Instance != null)
@@ -80,9 +80,9 @@ namespace Sokol.App
 
             Instance = this;
 
-            var (platform, backend) = NativeLibraries.Load(graphicsBackend);
+            var (platform, backendUsed) = NativeLibraries.Load(backend);
             Platform = platform;
-            Backend = backend;
+            Backend = backendUsed;
 
             SDL_Init(SDL_INIT_VIDEO);
             Window = new AppWindow(string.Empty, 800, 600);
@@ -92,7 +92,7 @@ namespace Sokol.App
 
             GraphicsDevice.Setup(ref desc);
 
-            _loop = appLoop ?? new FixedTimeStepLoop();
+            _loop = loop ?? new FixedTimeStepLoop();
         }
 
         /// <inheritdoc />
