@@ -31,7 +31,6 @@ namespace Samples.ArrayTex
         private VertexStageParams _vertexStageParams;
 
         public Application()
-            : base(GraphicsBackend.OpenGL)
         {
             DrawableSizeChanged += OnDrawableSizeChanged;
 
