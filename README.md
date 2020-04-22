@@ -49,6 +49,7 @@ Name|Description|GIF/Screenshot
 [Instancing](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|[Draw multiple particles using one immutable vertex, one immutable index buffer, and one vertex buffer with streamed instance data.](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|<img src="screenshots/instancing.gif" width="350">
 [MultipleRenderTargets](src/Samples/Samples.MultipleRenderTargets/Samples.Instancing/Application.cs)|[Draw a cube to multiple render targets and then blend the results.](src/Samples/Samples.Instancing/Samples.MultipleRenderTargets//Application.cs)|<img src="screenshots/mrt.gif" width="350">
 [ArrayTex](src/Samples/Samples.ArrayTex/Samples.ArrayTex/Application.cs)|[Draw a cube with multiple 2D textures using one continous block of texture data (texture array).](src/Samples/Samples.ArrayTex/Samples.ArrayTex/Application.cs)|<img src="screenshots/array-tex.gif" width="350">
+[Dynex](src/Samples/Samples.DynTex/Samples.DynTex/Application.cs)|[Draw a cube with streamed 2D texture data. The data is updated to with the rules of Conway's Game of Life.](src/Samples/Samples.DynTex/Samples.DynTex/Application.cs)|<img src="screenshots/dyn-tex.gif" width="350">
 
 ## Supported Platforms & 3D APIs
 
