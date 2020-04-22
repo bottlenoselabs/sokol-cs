@@ -6,11 +6,6 @@ using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-// ReSharper disable NonReadonlyMemberInGetHashCode
-// ReSharper disable FieldCanBeMadeReadOnly.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable CommentTypo
-// ReSharper disable UnusedMember.Global
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -24,7 +19,7 @@ namespace Sokol.Graphics
     ///         <see cref="Rgb32F" /> is blittable.
     ///     </para>
     /// </remarks>
-    public partial struct Rgb32F
+    public partial struct Rgb32F : IEquatable<Rgb32F>
     {
         /// <summary>
         ///     The red component value.
@@ -76,7 +71,31 @@ namespace Sokol.Graphics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
-            return HashCode.Combine(R.GetHashCode(), G.GetHashCode(), B.GetHashCode());
+            // ReSharper disable NonReadonlyMemberInGetHashCode
+            return HashCode.Combine(R, G, B);
+            // ReSharper restore NonReadonlyMemberInGetHashCode
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(Rgb32F other)
+        {
+            return R.Equals(other.R) && G.Equals(other.G) && B.Equals(other.B);
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object? obj)
+        {
+            return obj is Rgb32F other && Equals(other);
+        }
+
+        public static bool operator ==(Rgb32F a, Rgb32F b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Rgb32F a, Rgb32F b)
+        {
+            return !(a == b);
         }
 
         public static explicit operator Rgb32F(Rgba32F color)

@@ -5,10 +5,6 @@ using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
-// ReSharper disable FieldCanBeMadeReadOnly.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable once CheckNamespace
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -23,7 +19,7 @@ namespace Sokol.Graphics
     ///         <see cref="Rgba8U" /> is blittable.
     ///     </para>
     /// </remarks>
-    public partial struct Rgba8U
+    public partial struct Rgba8U : IEquatable<Rgba8U>
     {
         /// <summary>
         ///     The red component value.
@@ -61,18 +57,40 @@ namespace Sokol.Graphics
         }
 
         /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"R:{R}, G:{G}, B:{B}, A:{A}";
+        }
+
+        /// <inheritdoc />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
             // ReSharper disable NonReadonlyMemberInGetHashCode
-            return HashCode.Combine(R.GetHashCode(), G.GetHashCode(), B.GetHashCode(), A.GetHashCode());
+            return HashCode.Combine(R, G, B, A);
             // ReSharper restore NonReadonlyMemberInGetHashCode
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public bool Equals(Rgba8U other)
         {
-            return $"R:{R}, G:{G}, B:{B}, A:{A}";
+            return R == other.R && G == other.G && B == other.B && A == other.A;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object? obj)
+        {
+            return obj is Rgba8U other && Equals(other);
+        }
+
+        public static bool operator ==(Rgba8U a, Rgba8U b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Rgba8U a, Rgba8U b)
+        {
+            return !(a == b);
         }
 
         public static implicit operator Rgba8U(string value)

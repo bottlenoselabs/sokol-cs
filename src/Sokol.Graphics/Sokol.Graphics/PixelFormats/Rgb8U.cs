@@ -5,9 +5,6 @@ using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
-// ReSharper disable FieldCanBeMadeReadOnly.Global
-// ReSharper disable UnusedType.Global
-// ReSharper disable MemberCanBePrivate.Global
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -21,7 +18,7 @@ namespace Sokol.Graphics
     ///         <see cref="Rgb8U" /> is blittable.
     ///     </para>
     /// </remarks>
-    public partial struct Rgb8U
+    public partial struct Rgb8U : IEquatable<Rgb8U>
     {
         /// <summary>
         ///     The red component value.
@@ -62,8 +59,30 @@ namespace Sokol.Graphics
         public override int GetHashCode()
         {
             // ReSharper disable NonReadonlyMemberInGetHashCode
-            return HashCode.Combine(R.GetHashCode(), G.GetHashCode(), B.GetHashCode());
+            return HashCode.Combine(R, G, B);
             // ReSharper restore NonReadonlyMemberInGetHashCode
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(Rgb8U other)
+        {
+            return R == other.R && G == other.G && B == other.B;
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object? obj)
+        {
+            return obj is Rgb8U other && Equals(other);
+        }
+
+        public static bool operator ==(Rgb8U a, Rgb8U b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Rgb8U a, Rgb8U b)
+        {
+            return !(a == b);
         }
 
         public static implicit operator Rgb8U(string value)

@@ -6,11 +6,6 @@ using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-// ReSharper disable NonReadonlyMemberInGetHashCode
-// ReSharper disable FieldCanBeMadeReadOnly.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable CommentTypo
-// ReSharper disable UnusedMember.Global
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -24,7 +19,7 @@ namespace Sokol.Graphics
     ///         <see cref="Rgba32F" /> is blittable.
     ///     </para>
     /// </remarks>
-    public partial struct Rgba32F
+    public partial struct Rgba32F : IEquatable<Rgba32F>
     {
         /// <summary>
         ///     The red component value.
@@ -75,16 +70,40 @@ namespace Sokol.Graphics
         }
 
         /// <inheritdoc />
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(R.GetHashCode(), G.GetHashCode(), B.GetHashCode(), A.GetHashCode());
-        }
-
-        /// <inheritdoc />
         public override string ToString()
         {
             return $"R:{R}, G:{G}, B:{B}, A:{A}";
+        }
+
+        /// <inheritdoc />
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode()
+        {
+            // ReSharper disable NonReadonlyMemberInGetHashCode
+            return HashCode.Combine(R, G, B, A);
+            // ReSharper restore NonReadonlyMemberInGetHashCode
+        }
+
+        /// <inheritdoc />
+        public bool Equals(Rgba32F other)
+        {
+            return R.Equals(other.R) && G.Equals(other.G) && B.Equals(other.B) && A.Equals(other.A);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object? obj)
+        {
+            return obj is Rgba32F other && Equals(other);
+        }
+
+        public static bool operator ==(Rgba32F a, Rgba32F b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Rgba32F a, Rgba32F b)
+        {
+            return !(a == b);
         }
 
         public static implicit operator Rgba32F(string value)
