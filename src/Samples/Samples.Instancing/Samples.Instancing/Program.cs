@@ -7,7 +7,7 @@ namespace Samples.Instancing
     {
         private static void Main(string[] args)
         {
-            using var app = new Application();
+            var app = new Application();
             app.Run();
         }
     }
