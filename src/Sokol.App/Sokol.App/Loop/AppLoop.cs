@@ -36,9 +36,13 @@ namespace Sokol.App
             var accumulatedTime = TimeSpan.Zero;
             var totalTime = TimeSpan.Zero;
 
-            while (IsRunning)
+            while (true)
             {
                 PumpEvents();
+                if (!IsRunning)
+                {
+                    break;
+                }
 
                 var currentTicks = SDL_GetPerformanceCounter();
                 var elapsedSeconds = (currentTicks - previousTicks) / (double)SDL_GetPerformanceFrequency();

@@ -29,11 +29,13 @@ namespace Sokol.App
 
             // WARNING: PUTTING THE THREAD TO SLEEP CAN CAUSE JITTER (~10ms) BECAUSE HOW THE OPERATING SYSTEM WORKS.
 
-            while (IsRunning)
+            while (true)
             {
-                // NOTE: The goto label is necessary because we don't want the cost of checking the while loop condition
-                RetryTick:
                 PumpEvents();
+                if (!IsRunning)
+                {
+                    break;
+                }
 
                 var currentTicks = SDL_GetPerformanceCounter();
                 var elapsedSeconds = (currentTicks - previousTicks) / (double)SDL_GetPerformanceFrequency();
@@ -43,7 +45,7 @@ namespace Sokol.App
 
                 if (accumulatedTime < _targetElapsedTime)
                 {
-                    goto RetryTick;
+                    continue;
                 }
 
                 HandleInput(elapsedTime);
