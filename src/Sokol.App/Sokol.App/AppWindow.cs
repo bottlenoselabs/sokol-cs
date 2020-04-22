@@ -10,8 +10,6 @@ namespace Sokol.App
 {
     public sealed class AppWindow : IDisposable
     {
-        private bool _shouldClose;
-
         public IntPtr Handle { get; }
 
         public uint ID { get; }
@@ -24,19 +22,17 @@ namespace Sokol.App
 
         public int Height { get; private set; }
 
-        public event Action Created;
+        public event Action<AppWindow>? Closed;
 
-        public event Action<AppWindow> Closed;
+        public event Action<AppWindow>? Closing;
 
-        public event Action<AppWindow> Closing;
+        public event Action<AppWindow>? Resized;
 
-        public event Action<AppWindow> Resized;
+        public event Action<AppWindow>? Moved;
 
-        public event Action<AppWindow> Moved;
+        public event Action<KeyboardEventData>? KeyDown;
 
-        public event Action<KeyboardEventData> KeyDown;
-
-        public event Action<KeyboardEventData> KeyUp;
+        public event Action<KeyboardEventData>? KeyUp;
 
         public AppWindow(string title, int width, int height)
         {
@@ -72,11 +68,6 @@ namespace Sokol.App
             }
 
             ID = SDL_GetWindowID(Handle);
-
-            if ((windowFlags & SDL_WindowFlags.SDL_WINDOW_SHOWN) == SDL_WindowFlags.SDL_WINDOW_SHOWN)
-            {
-                SDL_ShowWindow(Handle);
-            }
 
             OnCreated();
         }
@@ -174,13 +165,13 @@ namespace Sokol.App
         {
             Exists = true;
 
+            SDL_ShowWindow(Handle);
+
             SDL_GetWindowPosition(Handle, out var x, out var y);
             OnMoved(x, y);
 
             SDL_GetWindowSize(Handle, out var width, out var height);
             OnResize(width, height);
-
-            Created?.Invoke();
         }
 
         private void ReleaseResources()
