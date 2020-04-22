@@ -13,7 +13,7 @@ namespace Sokol.App
     /// <summary>
     ///     The base class for Sokol.NET applications that use SDL2.
     /// </summary>
-    public abstract class App : IDisposable
+    public abstract class App
     {
         [SuppressMessage("ReSharper", "SA1401", Justification = "Internal")]
         internal static App Instance = null!;
@@ -95,13 +95,6 @@ namespace Sokol.App
             _loop = loop ?? new FixedTimeStepLoop();
         }
 
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            ReleaseResources();
-            GC.SuppressFinalize(this);
-        }
-
         /// <summary>
         ///     Starts running the <see cref="App" />.
         /// </summary>
@@ -111,6 +104,7 @@ namespace Sokol.App
             _loop.Run();
             Window.Close();
             Closing?.Invoke(this);
+            ReleaseResources();
         }
 
         /// <summary>
@@ -219,14 +213,6 @@ namespace Sokol.App
         private void OnDrawableSizeChanged(int width, int height)
         {
             DrawableSizeChanged?.Invoke(this, width, height);
-        }
-
-        /// <summary>
-        ///     Finalizes an instance of the <see cref="App" /> class.
-        /// </summary>
-        ~App()
-        {
-            ReleaseResources();
         }
     }
 }
