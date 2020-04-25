@@ -69,6 +69,20 @@ namespace Sokol.Graphics
             A = vector4.W;
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Rgba32F" /> structure using a specified
+        ///     <see cref="Rgb32F" /> and alpha.
+        /// </summary>
+        /// <param name="color">The RGB color.</param>
+        /// <param name="a">The alpha component value.</param>
+        public Rgba32F(Rgb32F color, byte a)
+        {
+            R = color.R;
+            G = color.G;
+            B = color.B;
+            A = a;
+        }
+
         /// <inheritdoc />
         public override string ToString()
         {
@@ -104,6 +118,51 @@ namespace Sokol.Graphics
         public static bool operator !=(Rgba32F a, Rgba32F b)
         {
             return !(a == b);
+        }
+
+        public static Rgba32F operator -(Rgba32F b, Rgba32F a)
+        {
+            var red = Math.Max(b.R - a.R, 0);
+            var green = Math.Max(b.G - a.G, 0);
+            var blue = Math.Max(b.B - a.B, 0);
+            var alpha = Math.Max(b.A - a.A, 0);
+            return new Rgba32F(red, green, blue, alpha);
+        }
+
+        public static Rgba32F operator +(Rgba32F a, Rgba32F b)
+        {
+            var red = a.R + b.R;
+            var green = a.G + b.G;
+            var blue = a.B + b.B;
+            var alpha = a.A + b.A;
+            return new Rgba32F(red, green, blue, alpha);
+        }
+
+        public static Rgba32F operator *(Rgba32F a, Rgba32F b)
+        {
+            var red = a.R * b.R;
+            var green = a.G * b.G;
+            var blue = a.B * b.B;
+            var alpha = a.A * b.A;
+            return new Rgba32F(red, green, blue, alpha);
+        }
+
+        public static Rgba32F operator *(float value, Rgba32F color)
+        {
+            var red = value * color.R;
+            var green = value * color.G;
+            var blue = value * color.B;
+            var alpha = value * color.A;
+            return new Rgba32F(red, green, blue, alpha);
+        }
+
+        public static Rgba32F operator *(Rgba32F color, float value)
+        {
+            var red = value * color.R;
+            var green = value * color.G;
+            var blue = value * color.B;
+            var alpha = value * color.A;
+            return new Rgba32F(red, green, blue, alpha);
         }
 
         public static implicit operator Rgba32F(string value)

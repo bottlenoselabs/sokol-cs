@@ -85,6 +85,22 @@ namespace Sokol.Graphics
             return !(a == b);
         }
 
+        public static Rgb8U operator -(Rgb8U b, Rgb8U a)
+        {
+            var red = (byte)Math.Max(b.R - a.R, 0);
+            var green = (byte)Math.Max(b.G - a.G, 0);
+            var blue = (byte)Math.Max(b.B - a.B, 0);
+            return new Rgb8U(red, green, blue);
+        }
+
+        public static Rgb8U operator +(Rgb8U a, Rgb8U b)
+        {
+            var red = (byte)(a.R + b.R);
+            var green = (byte)(a.G + b.G);
+            var blue = (byte)(a.B + b.B);
+            return new Rgb8U(red, green, blue);
+        }
+
         public static implicit operator Rgb8U(string value)
         {
             return FromHex(value);

@@ -98,6 +98,46 @@ namespace Sokol.Graphics
             return !(a == b);
         }
 
+        public static Rgb32F operator -(Rgb32F b, Rgb32F a)
+        {
+            var red = b.R - a.R;
+            var green = b.G - a.G;
+            var blue = b.B - a.B;
+            return new Rgb32F(red, green, blue);
+        }
+
+        public static Rgb32F operator +(Rgb32F a, Rgb32F b)
+        {
+            var red = a.R + b.R;
+            var green = a.G + b.G;
+            var blue = a.B + b.B;
+            return new Rgb32F(red, green, blue);
+        }
+
+        public static Rgb32F operator *(Rgb32F a, Rgb32F b)
+        {
+            var red = a.R * b.R;
+            var green = a.G * b.G;
+            var blue = a.B * b.B;
+            return new Rgb32F(red, green, blue);
+        }
+
+        public static Rgb32F operator *(float value, Rgb32F color)
+        {
+            var red = value * color.R;
+            var green = value * color.G;
+            var blue = value * color.B;
+            return new Rgb32F(red, green, blue);
+        }
+
+        public static Rgb32F operator *(Rgb32F color, float value)
+        {
+            var red = value * color.R;
+            var green = value * color.G;
+            var blue = value * color.B;
+            return new Rgb32F(red, green, blue);
+        }
+
         public static explicit operator Rgb32F(Rgba32F color)
         {
             return new Rgb32F(color.R, color.G, color.B);

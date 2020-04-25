@@ -42,7 +42,7 @@ namespace Sokol.Graphics
         public byte A;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Rgba8U" /> structure using byte values.
+        ///     Initializes a new instance of the <see cref="Rgba8U" /> structure using specified byte values.
         /// </summary>
         /// <param name="r">The red component value.</param>
         /// <param name="g">The green component value.</param>
@@ -53,6 +53,20 @@ namespace Sokol.Graphics
             R = r;
             G = g;
             B = b;
+            A = a;
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Rgba8U" /> structure using a specified <see cref="Rgb8U" />
+        ///     and alpha.
+        /// </summary>
+        /// <param name="color">The RGB color.</param>
+        /// <param name="a">The alpha component value.</param>
+        public Rgba8U(Rgb8U color, byte a)
+        {
+            R = color.R;
+            G = color.G;
+            B = color.B;
             A = a;
         }
 
@@ -91,6 +105,33 @@ namespace Sokol.Graphics
         public static bool operator !=(Rgba8U a, Rgba8U b)
         {
             return !(a == b);
+        }
+
+        public static Rgba8U operator -(Rgba8U b, Rgba8U a)
+        {
+            var red = (byte)Math.Max(b.R - a.R, 0);
+            var green = (byte)Math.Max(b.G - a.G, 0);
+            var blue = (byte)Math.Max(b.B - a.B, 0);
+            var alpha = (byte)Math.Max(b.A - a.A, 0);
+            return new Rgba8U(red, green, blue, alpha);
+        }
+
+        public static Rgba8U operator +(Rgba8U a, Rgba8U b)
+        {
+            var red = (byte)(a.R + b.R);
+            var green = (byte)(a.G + b.G);
+            var blue = (byte)(a.B + b.B);
+            var alpha = (byte)(a.A + b.A);
+            return new Rgba8U(red, green, blue, alpha);
+        }
+
+        public static Rgba8U operator *(Rgba8U a, Rgba8U b)
+        {
+            var red = (byte)(a.R + b.R);
+            var green = (byte)(a.G + b.G);
+            var blue = (byte)(a.B + b.B);
+            var alpha = (byte)(a.A + b.A);
+            return new Rgba8U(red, green, blue, alpha);
         }
 
         public static implicit operator Rgba8U(string value)
