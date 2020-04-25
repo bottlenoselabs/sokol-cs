@@ -107,5 +107,5 @@ jobs:
           name: nuget-packages
 
       - name: Echo Packages
-        run: ls -lR ./nuget-packages
+        run: find ./nuget-packages -not -type d
   
