@@ -28,7 +28,7 @@ jobs:
     - name: Use GitVersion
       id: gitversion # step id used as reference for output values
       uses: gittools/actions/gitversion/execute@v0.9.2
-    - name: Test GitVersion
+    - name: Echo GitVersion
       run: |
         echo "Major: ${{ steps.gitversion.outputs.major }}"
         echo "Minor: ${{ steps.gitversion.outputs.minor }}"
@@ -64,5 +64,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.100'
-    - name: Build
-      run: dotnet build './src/Sokol.sln' /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+    - name: Restore Solution
+      run: dotnet restore './src/Sokol.sln' --verbosity quiet
+    - name: Build Solution
+      run: dotnet build './src/Sokol.sln' --verbosity minimal --configuration Release --no-restore /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+    - name: Test Solution
+      run: dotnet test './src/Sokol.sln' --verbosity normal --configuration Release --no-build
