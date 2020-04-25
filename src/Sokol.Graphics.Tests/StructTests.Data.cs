@@ -5,17 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
 #pragma warning disable 649
 
 namespace Sokol.Graphics.Tests
 {
     public partial class StructTests
     {
-        private static Random _random;
-        private static List<object[]> _sokolStructs;
-        private static List<object[]> _sokolStructsAndGeneratedLayoutSequentialCopies;
-
-        public static Random Random => _random ??= new Random(Guid.NewGuid().GetHashCode());
+        private static List<object[]> _sokolStructs = new List<object[]>();
+        private static List<object[]> _sokolStructsAndGeneratedLayoutSequentialCopies = new List<object[]>();
 
         public static List<object[]> SokolStructs
         {
