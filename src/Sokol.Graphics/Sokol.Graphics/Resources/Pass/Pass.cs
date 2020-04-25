@@ -155,7 +155,7 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Queues a command to render primitive elements to the <see cref="Pipeline" />.
+        ///     Queues a command to render primitive elements to the target of <see cref="Pass" />.
         /// </summary>
         /// <param name="elementCount">The number of elements.</param>
         /// <param name="baseElement">The base element index.</param>
