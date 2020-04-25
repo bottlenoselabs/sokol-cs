@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading;
+using Xunit;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -13,41 +15,19 @@ namespace Sokol.Graphics.Tests
 {
     public partial class StructTests
     {
-        private static List<object[]> _sokolStructs = new List<object[]>();
-        private static List<object[]> _sokolStructsAndGeneratedLayoutSequentialCopies = new List<object[]>();
+        public static List<object[]> SokolStructs { get; }
 
-        public static List<object[]> SokolStructs
+        public static List<object[]> SokolStructsAndCCopies { get; }
+
+        static StructTests()
         {
-            get
-            {
-                if (_sokolStructs != null)
-                {
-                    return _sokolStructs;
-                }
-
-                _sokolStructs = new List<object[]>();
-                InitializeSokolStructs();
-                return _sokolStructs;
-            }
+            SokolStructs = InitializeSokolStructs();
+            SokolStructsAndCCopies = InitializeSokolStructsAndGeneratedLayoutSequentialCopies();
         }
 
-        public static List<object[]> SokolStructsAndCCopies
+        private static List<object[]> InitializeSokolStructs()
         {
-            get
-            {
-                if (_sokolStructsAndGeneratedLayoutSequentialCopies != null)
-                {
-                    return _sokolStructsAndGeneratedLayoutSequentialCopies;
-                }
-
-                _sokolStructsAndGeneratedLayoutSequentialCopies = new List<object[]>();
-                InitializeSokolStructsAndGeneratedLayoutSequentialCopies();
-                return _sokolStructsAndGeneratedLayoutSequentialCopies;
-            }
-        }
-
-        private static void InitializeSokolStructs()
-        {
+            var structs = new List<object[]>();
             var sokolType = typeof(sokol_gfx);
             var types = sokolType.GetNestedTypes();
             var typesSet = new HashSet<Type>();
@@ -65,13 +45,16 @@ namespace Sokol.Graphics.Tests
                     continue;
                 }
 
-                _sokolStructs.Add(new object[] { type });
+                structs.Add(new object[] { type });
                 typesSet.Add(type);
             }
+
+            return structs;
         }
 
-        private static void InitializeSokolStructsAndGeneratedLayoutSequentialCopies()
+        private static List<object[]> InitializeSokolStructsAndGeneratedLayoutSequentialCopies()
         {
+            var structs = new List<object[]>();
             var sokolType = typeof(sokol_gfx);
             var types = sokolType.GetNestedTypes();
             var typesSet = new HashSet<Type>();
@@ -90,10 +73,12 @@ namespace Sokol.Graphics.Tests
                 }
 
                 var generatedStruct = type.CStructType();
-                _sokolStructsAndGeneratedLayoutSequentialCopies.Add(new object[] { type, generatedStruct });
+                structs.Add(new object[] { type, generatedStruct });
 
                 typesSet.Add(type);
             }
+
+            return structs;
         }
 
         [StructLayout(LayoutKind.Sequential)]
