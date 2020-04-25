@@ -82,9 +82,8 @@ namespace Samples.DynTex
 
         protected override void Draw(AppTime time)
         {
-            var imageContent = default(ImageContent);
-            imageContent.SubImage().SetData(_textureData.AsMemory());
-            _texture.Update(ref imageContent);
+            // upload the texture data to the GPU, can only done once per frame per image
+            _texture.Update(_textureData.AsMemory());
 
             // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Black);

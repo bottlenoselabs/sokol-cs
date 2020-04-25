@@ -1,6 +1,7 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -116,7 +117,7 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Overwrites the contents of the <see cref="Image" /> by copying any pointed memory in the specified
+        ///     Overwrites the contents of the <see cref="Image" /> by copying the pointed memory in the specified
         ///     <see cref="ImageContent" />. The <see cref="Image" /> must have been created
         ///     using <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
         /// </summary>
@@ -125,6 +126,33 @@ namespace Sokol.Graphics
         public void Update(ref ImageContent data)
         {
             PInvoke.sg_update_image(this, ref data);
+        }
+
+        /// <summary>
+        ///     Overwrites the contents of the <see cref="Image" /> for the first <see cref="ImageSubContent"/> by
+        ///     copying the pointed memory in the specified <see cref="Span{T}" />. The <see cref="Image" /> must have
+        ///     been created using <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
+        /// </summary>
+        /// <param name="data">The memory block.</param>
+        /// <typeparam name="T">The type of data in the memory block.</typeparam>
+        public void Update<T>(Span<T> data)
+        {
+            var imageContent = default(ImageContent);
+            imageContent.SubImage().SetData(data);
+            Update(ref imageContent);
+        }
+
+        /// <summary>
+        ///     Overwrites the contents of the <see cref="Image" /> for the first <see cref="ImageSubContent"/> by
+        ///     copying the pointed memory in the specified <see cref="Memory{T}" />. The <see cref="Image" /> must have
+        ///     been created using <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />. It is
+        ///     assumed that the <paramref name="data" /> is already unmanaged or externally pinned.
+        /// </summary>
+        /// <param name="data">The memory block.</param>
+        /// <typeparam name="T">The type of data in the memory block.</typeparam>
+        public void Update<T>(Memory<T> data)
+        {
+            Update(data.Span);
         }
 
         /// <inheritdoc />

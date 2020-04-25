@@ -226,7 +226,7 @@ namespace Samples.ArrayTex
 
             // immutable images need to specify the data/size in the descriptor
             // when using a `Memory<T>`, or a `Span<T>` which is unmanaged or already pinned, we do this by calling `SetData`
-            imageDesc.Content.SubImage().SetData(pixelData);
+            imageDesc.SetData(pixelData);
 
             // create the image from the descriptor
             // note: for immutable images this "uploads" the data to the GPU

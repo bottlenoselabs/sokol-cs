@@ -186,5 +186,31 @@ namespace Sokol.Graphics
         /// </summary>
         [FieldOffset(1656)]
         internal uint _endCanary;
+
+        /// <summary>
+        ///     Sets the <see cref="ImageSubContent.Data" /> and <see cref="ImageSubContent.Size" /> fields of the
+        ///     <see cref="Content" /> for the first <see cref="ImageSubContent"/> given
+        ///     the specified <see cref="Span{T}" /> struct. It is assumed that the <paramref name="data" /> is
+        ///     already unmanaged or externally pinned.
+        /// </summary>
+        /// <param name="data">The memory block.</param>
+        /// <typeparam name="T">The type of data in the memory block.</typeparam>
+        public void SetData<T>(Span<T> data)
+        {
+            Content.SubImage().SetData(data);
+        }
+
+        /// <summary>
+        ///     Sets the <see cref="ImageSubContent.Data" /> and <see cref="ImageSubContent.Size" /> fields of the
+        ///     <see cref="Content" /> for the first <see cref="ImageSubContent"/> given
+        ///     the specified <see cref="Span{T}" /> struct. It is assumed that the <paramref name="data" /> is
+        ///     already unmanaged or externally pinned.
+        /// </summary>
+        /// <param name="data">The memory block.</param>
+        /// <typeparam name="T">The type of data in the memory block.</typeparam>
+        public void SetData<T>(Memory<T> data)
+        {
+            SetData(data.Span);
+        }
     }
 }
