@@ -90,7 +90,7 @@ jobs:
       run: dotnet pack $SOLUTION --verbosity minimal --configuration Release --no-build -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
 
     - name: Upload Packed Artifacts
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2-preview
       with:
         name: NuGet Packages
         path: '*/**/*.nupkg'
