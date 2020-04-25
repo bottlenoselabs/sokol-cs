@@ -106,7 +106,8 @@ jobs:
       with:
         source-url: https://www.myget.org/F/lithiumtoast/api/v3/index.json
       env:
-        NUGET_AUTH_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
+        MYGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
+        MYGET_SOURCE_URL: 'https://www.myget.org/F/lithiumtoast/api/v3/index.json'
 
     - name: Download NuGet Packages
       uses: actions/download-artifact@v1
@@ -115,7 +116,7 @@ jobs:
 
     - name: Echo Packages
       run: find ./nuget-packages/ -not -type d -exec basename {} \;
-      
-    - name: Upload Packages to MyGet
-      run: dotnet nuget push "%./nuget-packages/**/*.nupkg"
+ 
+    - name: 'Upload Packages: MyGet'
+      run: dotnet nuget push "%./nuget-packages/**/*.nupkg" --source $MYGET_SOURCE_URL --symbol-source $MYGET_SOURCE_URL --api-key $NUGET_AUTH_TOKEN --symbol-api-key $NUGET_AUTH_TOKEN --skip-duplicate --no-service-endpoint --force-english-output
   
