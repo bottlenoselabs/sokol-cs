@@ -89,6 +89,11 @@ namespace Sokol.App
             OnClosed();
         }
 
+        public void Resize(int width, int height)
+        {
+            SDL_SetWindowSize(Handle, width, height);
+        }
+
         internal void OnShown()
         {
             // TODO
