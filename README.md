@@ -2,7 +2,7 @@
 
 ![.NET CI/CD](https://github.com/lithiumtoast/Sokol.NET/workflows/.NET%20Core%20CI/CD/badge.svg)
 
-A .NET wrapper for https://github.com/floooh/sokol, primarily `sokol_gfx`, a simple and modern wrapper around GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 and Metal.
+A .NET wrapper for https://github.com/floooh/sokol, primarily `sokol_gfx`; a simple and modern wrapper around GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 and Metal.
 
 Includes the C style API precisely as it is and a .NET style API for convenience.
 
