@@ -287,7 +287,6 @@ namespace Samples.ArrayTex
             vertices[7].Position = new Vector3(-1.0f, 1.0f, 1.0f);
             vertices[7].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 3
-            var color3 = Rgba32F.Blue;
             vertices[8].Position = new Vector3(-1.0f, -1.0f, -1.0f);
             vertices[8].TextureCoordinate = new Vector2(0.0f, 0.0f);
             vertices[9].Position = new Vector3(-1.0f, 1.0f, -1.0f);
