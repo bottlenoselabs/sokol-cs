@@ -10,7 +10,7 @@
         <RootNamespace />
         <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
         <License>MIT</License>
-        <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/lithiumtoast/sokol.net</PackageProjectUrl>
         <RepositoryUrl>https://github.com/lithiumtoast/sokol.net</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
