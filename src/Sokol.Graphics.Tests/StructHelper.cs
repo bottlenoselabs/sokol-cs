@@ -1,12 +1,16 @@
-﻿using System;
+﻿// Copyright (c) Lucas Girouard-Stranks. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Sokol.Graphics.Tests
 {
+    [SuppressMessage("ReSharper", "SA1600", Justification = "Tests")]
     public static class StructHelper
     {
         private static readonly AssemblyName StructGeneratorAssemblyName = new AssemblyName("GeneratedStructsAssembly");
@@ -22,7 +26,11 @@ namespace Sokol.Graphics.Tests
 
         public static Type CStructType(this Type structType)
         {
-            if (structType == null) return null;
+            if (structType == null)
+            {
+                return null;
+            }
+
             if (StructGeneratedTypesByStructTypes.TryGetValue(structType, out var generatedStructType))
             {
                 return generatedStructType;
@@ -56,21 +64,12 @@ namespace Sokol.Graphics.Tests
 
             var generatedStructName = $"{structType.Name}<C>";
 
-            if (structType.Name == "RgbaFloat")
-            {
-                Console.WriteLine();
-            }
-
             TypeBuilder generatedStructTypeBuilder;
             try
             {
-                generatedStructTypeBuilder = ModuleBuilder.DefineType(generatedStructName,
-                    TypeAttributes.Public |
-                    TypeAttributes.Sealed |
-                    TypeAttributes.SequentialLayout |
-                    TypeAttributes.Serializable |
-                    TypeAttributes.AnsiClass |
-                    TypeAttributes.BeforeFieldInit,
+                generatedStructTypeBuilder = ModuleBuilder.DefineType(
+                    generatedStructName,
+                    TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.SequentialLayout | TypeAttributes.Serializable | TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit,
                     typeof(ValueType));
             }
             catch (Exception e)
@@ -81,14 +80,14 @@ namespace Sokol.Graphics.Tests
 
             var fields = structType.GetTypeInfo().DeclaredFields;
             var currentFieldPosition = -1;
-            
+
             foreach (var field in fields)
             {
                 if (field.IsStatic)
                 {
                     continue;
                 }
-                
+
                 var fieldType = field.FieldType;
                 var structTypeC = CStructType(fieldType);
 
@@ -102,6 +101,7 @@ namespace Sokol.Graphics.Tests
                 {
                     currentFieldPosition = fieldOffsetAttribute.Value;
                 }
+
                 generatedStructTypeBuilder.DefineField(field.Name, structTypeC, FieldAttributes.Public);
             }
 

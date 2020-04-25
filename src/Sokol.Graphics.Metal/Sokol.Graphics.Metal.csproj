@@ -1,42 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Description>A .NET wrapper for Sokol; minimal cross-platform standalone C headers.</Description>
-        <TargetFramework>netstandard2.1</TargetFramework>
-        <RootNamespace>Sokol.Graphics</RootNamespace>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace />
         <LangVersion>8</LangVersion>
-        <PackageVersion>0.1.0</PackageVersion>
-        <Title>Sokol.Graphics.Metal</Title>
+        <Nullable>enable</Nullable>
+        <Description>`sokol`.NET - Modern and simple 3D graphics API. Includes the Metal PInvoke code.</Description>
         <Authors>Lucas Girouard-Stranks</Authors>
-        <RootNamespace>Sokol</RootNamespace>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <RootNamespace />
         <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
-        <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
         <License>MIT</License>
-        <RepositoryUrl>https://github.com/lithiumtoast/sokol-csharp</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lithiumtoast/sokol.net</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageTags>sokol sokol_gfx c# csharp pinvoke .netstandard macos metal</PackageTags>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
     </ItemGroup>
-    
-    <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
-        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\metal\debug\libsokol_gfx.dylib">
-            <Link>libsokol_gfx-metal.dylib</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/osx-x64/native</PackagePath>
-        </Content>
-    </ItemGroup>
 
-    <ItemGroup Condition="'$(Configuration)' == 'Release' ">
-        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\metal\release\libsokol_gfx.dylib">
-            <Link>libsokol_gfx-metal.dylib</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/osx-x64/native</PackagePath>
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>..\StyleCop-C-Style.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\StyleCop-C-Style.ruleset">
+            <Link>StyleCop-C-Style.ruleset</Link>
         </Content>
+        <AdditionalFiles Include="..\StyleCop.json">
+            <Link>StyleCop.json</Link>
+        </AdditionalFiles>
     </ItemGroup>
 
 </Project>

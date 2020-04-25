@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace />
+        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
+        <Description>`sokol`.NET wrapper; a modern and simple 3D graphics API. Includes the Application framework code.</Description>
+        <Authors>Lucas Girouard-Stranks</Authors>
+        <RootNamespace />
+        <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
+        <License>MIT</License>
+        <PackageProjectUrl>https://github.com/lithiumtoast/sokol-csharp</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lithiumtoast/sokol.net</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Sokol.Graphics.Metal.Native\Sokol.Graphics.Metal.Native.csproj" />
+        <ProjectReference Include="..\Sokol.Graphics.Metal\Sokol.Graphics.Metal.csproj" />
+        <ProjectReference Include="..\Sokol.Graphics.OpenGL.Native\Sokol.Graphics.OpenGL.Native.csproj" />
+        <ProjectReference Include="..\Sokol.Graphics.OpenGL\Sokol.Graphics.OpenGL.csproj" />
+        <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
+        <ProjectReference Include="..\Sokol.SDL2.Native\Sokol.SDL2.Native.csproj" />
+        <ProjectReference Include="..\Sokol.SDL2\Sokol.SDL2.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>..\StyleCop-No-Documentation.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\StyleCop-No-Documentation.ruleset">
+            <Link>StyleCop-No-Documentation.ruleset</Link>
+        </Content>
+        <AdditionalFiles Include="..\StyleCop.json">
+            <Link>StyleCop.json</Link>
+        </AdditionalFiles>
+    </ItemGroup>
+
+</Project>

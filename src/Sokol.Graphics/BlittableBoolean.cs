@@ -1,85 +1,54 @@
-// For more information see the blog post: https://aakinshin.net/posts/blittable/
-// Original code derived from: https://github.com/AndreyAkinshin/BlittableStructs/blob/master/BlittableStructs/BlittableBoolean.cs
-
-/* 
-MIT License
-
-Copyright (c) 2015 Andrey Akinshin
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
- */
-
-/* 
-MIT License
-
-Copyright (c) 2020 Lucas Girouard-Stranks
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
- */
+// Copyright (c) Lucas Girouard-Stranks. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
 
-namespace Sokol
+/// <summary>
+///     A boolean value type with the same memory layout as a <see cref="byte" /> in both managed and unmanaged
+///     code.
+/// </summary>
+/// <remarks>
+///     <para>
+///         <see cref="BlittableBoolean" /> is blittable. Blittable types are data types in software applications
+///         which have a unique characteristic. Data are often represented in memory differently in managed and
+///         unmanaged code in the world of .NET. However, blittable types are defined as having an identical
+///         presentation in memory for both environments, and can be directly shared. Understanding the difference
+///         between blittable and non-blittable types can aid in using P/Invoke, a technique for interoperability
+///         with unmanaged code in .NET applications.
+///     </para>
+/// </remarks>
+public readonly struct BlittableBoolean
 {
-    public struct BlittableBoolean
+    private readonly byte _value;
+
+    private BlittableBoolean(bool value)
     {
-        private byte _byteValue;
+        _value = Convert.ToByte(value);
+    }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        public bool Value
-        {
-            // We use Convert static class to tell the compiler:
-            // "Trust me, this type is that type even if you can't know it now, let me do it and you'll see."
-            // https://stackoverflow.com/a/15395832
-            get => Convert.ToBoolean(_byteValue);
-            set => _byteValue = Convert.ToByte(value);
-        }
+    /// <summary>
+    ///     Converts the specified <see cref="bool" /> to a <see cref="BlittableBoolean" />.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>A <see cref="BlittableBoolean" />.</returns>
+    public static implicit operator BlittableBoolean(bool value)
+    {
+        return new BlittableBoolean(value);
+    }
 
-        public static implicit operator BlittableBoolean(bool value)
-        {
-            return new BlittableBoolean { Value = value };
-        }
+    /// <summary>
+    ///     Converts the specified <see cref="BlittableBoolean" /> to a <see cref="bool" />.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>A <see cref="bool" />.</returns>
+    public static implicit operator bool(BlittableBoolean value)
+    {
+        return Convert.ToBoolean(value._value);
+    }
 
-        public static implicit operator bool (BlittableBoolean value)
-        {
-            return value.Value;
-        }
-
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return Convert.ToBoolean(_value).ToString();
     }
 }

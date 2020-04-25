@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Sokol.Samples.Triangle": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

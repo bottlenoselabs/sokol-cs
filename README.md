@@ -1,102 +1,109 @@
-# Sokol\#
+# `sokol`.NET
 
 [![Build, test, and deploy status](https://img.shields.io/azure-devops/build/lustranks/sokol-sharp/lithiumtoast.sokol-sharp/master?label=build%2Ftest%2Fdeploy&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=4&branchName=master)
 
-A .NET wrapper (VB, C#, F#) for https://github.com/floooh/sokol.
+A .NET wrapper for https://github.com/floooh/sokol, primarily `sokol_gfx`, a simple and modern wrapper around GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 and Metal.
 
-Includes the C API precisely as it is and a .NET API over the C API for convenience.
+Includes the C style API precisely as it is and a .NET style API for convenience.
 
-## NuGet
-
-To get the NuGet packages, add the following feed: `https://www.myget.org/F/lithiumtoast/api/v3/index.json`
-
-- [`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)
-- [`Sokol.Graphics.OpenGL`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)
-- [`Sokol.Graphics.Metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)
-
-## News
-
-- 2020/01/18: .NET API fairly well finished. All samples now use the .NET API.
-- 2019/12/23: Metal graphics backend working with samples. Added NuGet package `Sokol.Graphics.Metal` for Metal specific code and packaging any `sokol` Metal native shared libraries.
-- 2019/11/16: Added NuGet package `Sokol.Graphics.OpenGL` for OpenGL specific code and packaging all the necessary OpenGL native shared libraries.
-- 2019/11/11: [`v0.1`](https://github.com/lithiumtoast/sokol-csharp/releases/tag/v0.1) released: `Sokol.Graphics` available as NuGet package (does not include shared library binaries).
-- 2019/11/03: .NET Core samples working with Ubuntu.
-- 2019/11/03: Added Azure Pipelines for builds and tests.
-- 2019/11/02: .NET Core samples working with Windows.
-- 2019/10/25: .NET Core samples working with macOS.
-- 2019/10/23: `sokol_gfx` C API finished.
-- 2019/10/15: Initial project creation.
+To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written Andre Weissflog, the owner of `sokol`. 
 
 ## C API
 
 The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/framework/interop/consuming-unmanaged-dll-functions) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained.
 
-The C structs in C# are blittable, meaning they have the [same memory layout as C structs](https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types). This allows the structures to be passed by value (copy of data) or reference (akin to copy of pointer) from the managed world of .NET to the unmanaged world of C [as is, improving performance.](https://docs.microsoft.com/en-us/dotnet/framework/interop/copying-and-pinning#formatted-blittable-classes).
+The structs in C# are blittable, meaning they have the [same memory layout as the C structs](https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types). This allows the structs to be passed by value (copy of data) or reference (akin to copy of pointer) from the managed world of .NET to the unmanaged world of C [as is](https://docs.microsoft.com/en-us/dotnet/framework/interop/copying-and-pinning#formatted-blittable-classes).
 
 In .NET, the `unsafe` keyword will most often be necessary for using the C structs and calling the C functions. Also, for practicality, it's recommended to import the module with all the bindings, structs, and enums like so:
 
 ```cs
-using static Sokol.sokol_gfx;
+using static sokol_gfx;
 ```
 
 To learn how to use the C API, check out the [official C samples](https://github.com/floooh/sokol-samples). You can also find the same examples that run in [your browser](https://floooh.github.io/sokol-html5/index.html). The comments in the [`sokol_gfx.h`](https://github.com/floooh/sokol/blob/master/sokol_gfx.h) file are also a good reference.
 
 ## .NET API
 
-The .NET API is just wrappers over the C API for .NET idioms, convenience, and ease of use. The `unsafe` keyword is not required. All the types have some prefix such as `Sg` for "Sokol Graphics". The API targets .NET Standard 2.1 and makes use of `System.Numerics` for `Vector2`, `Vector3`, `Matrix4x4`, etc and of `System.Memory` for `Span<T>`, `Memory<T>`, etc. By using these, the code required for the safe API remains small, highly performant, and easy to use without re-inventing the wheel.
+The .NET style API is a modification of the C bindings (from the side of .NET) to be more idiomatic and overall easier to use. The `unsafe` keyword is not required.
 
-All the types are mutable, [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other high performance applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code).
+The .NET API currently targets [.NET Core 3.1 (LTS)](https://devblogs.microsoft.com/dotnet/announcing-net-core-3-1/). Included with .NET Core is the `System.Numerics` namespace which `Vector2`, `Vector3`, `Matrix4x4`, are used. `Span<T>`, `Memory<T>`, and friends are also used which live in the `System.Memory` namespace that is also part of .NET Core. This results in code remaining small, highly performant, and easy to use without re-inventing the wheel. Using .NET Core also allows for easy support for desktop platforms and soon mobile, browser, and console platforms. More about platforms in the next section.
 
-For practicality, it's recommended to import the module with all the bindings like so:
-
-```cs
-using static Sokol.Sg;
-```
+All the types are [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other demanding, high performance, applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code).
 
 ### Samples
 
-To learn how to use the .NET API, check out the [.NET Core samples](https://github.com/lithiumtoast/sokol-csharp/tree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
+To learn how to use the .NET API, check out the [samples](htree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
 
-## Strings
+The following is a table of the same .NET API samples ordered by their complexity.
 
-In the C and .NET API, string management is still on you. To convert a [.NET `string`](https://docs.microsoft.com/en-us/dotnet/api/system.string) (UTF16) to a C string (ASCII) use [`Marshal.StringToHGlobalAnsi`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.stringtohglobalansi). This method will allocate on the unmanaged heap and you are responsible for freeing the memory with [`Marshal.FreeHGlobal`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.freehglobal).
+Name|Description|GIF/Screenshot
+:---:|:---:|:---:
+[Clear](src/Samples/Samples.Clear/Samples.Clear/ClearApplication.cs)|[Clears the frame buffer with a specific color.](src/Samples/Samples.Clear/Samples.Clear/ClearApplication.cs)|<img src="screenshots/clear.gif" width="350">
+[Triangle](src/Samples/Samples.Triangle/Samples.Triangle/Application.cs)|[Draw a triangle in clip space using a vertex buffer and a index buffer.](src/Samples/Samples.Triangle/Samples.Triangle/Application.cs)|<img src="screenshots/triangle.png" width="350">
+[Quad](src/Samples/Samples.Quad/Samples.Quad/Application.cs)|[Draw a quad in clip space using a vertex buffer and a index buffer.](src/Samples/Samples.Quad/Samples.Quad/Application.cs)|<img src="screenshots/quad.png" width="350">
+[BufferOffsets](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|[Draw a triangle and a quad in clip space using the same vertex buffer and and index buffer.](src/Samples/Samples.BufferOffsets/Samples.BufferOffsets/Application.cs)|<img src="screenshots/buffer-offsets.png" width="350">
+[Cube](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|[Draw a cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|<img src="screenshots/cube.gif" width="350">
+[NonInterleaved](src/Samples/Samples.NonInterleaved/Samples.NonInterleaved/Application.cs)|[Draw a cube using a vertex buffer with non-interleaved vertices, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|<img src="screenshots/non-interleaved.gif" width="350">
+[TexCube](src/Samples/Samples.TexCube/Samples.TextCube/Application.cs)|[Draw a textured cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.TexCube/Samples.TexCube/Application.cs)|<img src="screenshots/tex-cube.gif" width="350">
+[Offscreen](src/Samples/Samples.Offscreen/Samples.Offscreen/Application.cs)|[Draw a non-textured cube off screen to a render target and use the result as as the texture when drawing a cube to the framebuffer.](src/Samples/Samples.Offscreen/Samples.Offscreen/Application.cs)|<img src="screenshots/off-screen.gif" width="350">
+[Instancing](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|[Draw multiple particles using one immutable vertex, one immutable index buffer, and one vertex buffer with streamed instance data.](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|<img src="screenshots/instancing.gif" width="350">
+[MultipleRenderTargets](src/Samples/Samples.MultipleRenderTargets/Samples.Instancing/Application.cs)|[Draw a cube to multiple render targets and then blend the results.](src/Samples/Samples.Instancing/Samples.MultipleRenderTargets//Application.cs)|<img src="screenshots/mrt.gif" width="350">
+[ArrayTexture](src/Samples/Samples.ArrayTex/Samples.ArrayTex/Application.cs)|[Draw a cube with multiple 2D textures using one continous block of texture data (texture array).](src/Samples/Samples.ArrayTex/Samples.ArrayTex/Application.cs)|<img src="screenshots/array-tex.gif" width="350">
+[DynamicTexture](src/Samples/Samples.DynTex/Samples.DynTex/Application.cs)|[Draw a cube with streamed 2D texture data. The data is updated to with the rules of Conway's Game of Life.](src/Samples/Samples.DynTex/Samples.DynTex/Application.cs)|<img src="screenshots/dyn-tex.gif" width="350">
 
-## Supported Platforms
+## Supported Platforms & 3D APIs
 
-Since `sokol` is a C library, technically, any platform is possible. The following is a table of platforms that are known to work and their supported graphics API backends with `sokol`. If you find that anything is incorrect, I would be more than happy to discuss and change the table in an existing or new [issue](https://github.com/lithiumtoast/sokol-csharp/issues).
+Since `sokol_gfx` is a C library technically any platform is possible. However, currently only desktop platforms (Windows, macOS, and Linux) are supported with `Sokol.NET` by using .NET Core 3.1. In November 2020, `Sokol.NET` will move to .NET 5 and support mobile (iOS, Android), browser (WebAssembly), consoles (Nintendo Switch, Xbox One, PlayStation 4), and micro-consoles (tvOS). See [.NET 5 annoucement as the next .NET Core that will unify desktop, mobile, browser, consoles, and other platforms](https://devblogs.microsoft.com/dotnet/introducing-net-5/).
 
-Platform|OpenGL 3.x|OpenGLESX/WebGLX|Direct3D11|Direct3D12|Metal|Vulkan
----|---|---|---|---|---|---
-Desktop Windows|✅|❌|✅|⭕|❌|⭕
-Desktop macOS|❗|❌|❌|❌|✅|⭕
-Desktop Linux|✅|❌|❌|❌|❌|⭕
-Mobile iOS|❌|❌|❌|❌|✅|⭕
-Mobile Android|❌|✅|❌|❌|❌|❓
-Browser WebAssembly|❌|✅|❌|❌|❌|❌
-Microconsole tvOS|❌|❌|❌|❌|✅|❌
-Console Nintendo Switch|✅|❌|❌|❌|❌|⭕
-Console Xbox One|❌|❌|✅|⭕|❌|❌
-Console PlayStation 4|✅|❌|❌|❌|❌|❓
+[`sokol_gfx`](https://github.com/floooh/sokol#sokol_gfxh) converges old and modern graphics APIs to one simple and easy to use API. To learn more about the convergence of modern 3D graphics APIs (such as Metal, DirectX11/12, and WebGPU) and how they compare to legacy APIs (such as OpenGL), see *[A Comparison of Modern Graphics APIs](https://alain.xyz/blog/comparison-of-modern-graphics-apis)* blog written by Alain Galvan, a graphics software engineer.
 
-- ⭕ means the graphics API is supported on the platform but not by `sokol`.
-- OpenGL is deprecated for macOS; recommended to only use Metal for macOS if hardware supports it. All Apple platforms support Metal and are supported with .NET using [Xamarin](https://dotnet.microsoft.com/apps/xamarin).
-- Android is supported with .NET using [Xamarin](https://dotnet.microsoft.com/apps/xamarin).
-- As of Q4 2018, WebAssembly is made possible with .NET using [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor). I have not tried to get Sokol working with Blazor yet.
-- As of writing in Q1 2020, consoles are made possible with .NET using [BRUTE](http://brute.rocks). However, the tool is not yet released to the general public. Also, SDK licenses are required for each console. You can read more about the plans for this technology in [this MonoGame GitHub issue](https://github.com/MonoGame/MonoGame/issues/7003#issuecomment-581481032).
-- As of Q2 2019, [.NET 5 has been accounced as the next .NET Core that will unify desktop, mobile, browser, consoles, and other platforms](https://devblogs.microsoft.com/dotnet/introducing-net-5/). Thus, adopting .NET Core *now* is future proofing.
+The following is a table of platforms that are known to work and their supported graphics API backends with `sokol_gfx` in C.
+
+Platform vs 3D API|OpenGL|OpenGLES/WebGL|Direct3D11|Direct3D12|Metal|Vulkan|WebGPU
+:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+Desktop Windows|:white_check_mark:|:x:|:white_check_mark:|:o:|:x:|:o:|:x:
+Desktop macOS|:exclamation:|:x:|:x:|:x:|:white_check_mark:|:question:|:x:
+Desktop Linux|:white_check_mark:|:x:|:x:|:x:|:x:|:o:|:x:
+Mobile iOS|:x:|:x:|:x:|:x:|:white_check_mark:|:question:|:x:
+Mobile Android|:x:|:white_check_mark:|:x:|:x:|:x:|:o:|:x:
+Browser WebAssembly|:x:|:white_check_mark:|:x:|:x:|:x:|:x:|:construction:
+Micro-console tvOS|:x:|:x:|:x:|:x:|:white_check_mark:|:question:|:x:
+Console Nintendo Switch|:white_check_mark:|:x:|:x:|:x:|:x:|:o:|:x:
+Console Xbox One|:x:|:x:|:white_check_mark:|:o:|:x:|:x:|:x:
+Console PlayStation 4|:white_check_mark:|:x:|:x:|:x:|:x:|:o:|:x:
+
+- :o: means the graphics API is supported on the platform but not by `sokol_gfx`.
+- :construction: means the graphics API will be supported by `sokol_gfx` but is currently under construction (from `sokol` side).
+- :exclamation: means the graphics API is deprecated on that platform but can still work with `sokol_gfx`. OpenGL is deprecated for macOS. It is recommended to only use Metal for macOS if hardware supports it. All Apple platforms support Metal.
+- :question: means the graphics API is unofficially supported. [Vulkan has limited support on macOS and iOS.](https://github.com/KhronosGroup/MoltenVK) [Vulkan is not yet supported on tvOS](https://github.com/KhronosGroup/MoltenVK/issues/541).
+
+## NuGet
+
+To get the NuGet packages, add the following feed: `https://www.myget.org/F/lithiumtoast/api/v3/index.json`
+
+Name|Description
+:---|:---:
+[`Sokol.App`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.App)|Application framework for `sokol_gfx` using SDL2. Includes the basics like loading necessary libraries, a loop, keyboard input, mouse input, etc. 
+[`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)|PInvoke code for `sokol_gfx`.
+[`Sokol.Graphics.OpenGL`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)|PInvoke code for getting `sokol_gfx` working with OpenGL.
+[`Sokol.Graphics.OpenGL.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL.Native)|Shared libraries for getting `sokol_gfx` working with OpenGL.
+[`Sokol.Graphics.Metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)|PInvoke code for getting `sokol_gfx` working with Metal.
+[`Sokol.Graphics.Metal.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)|Shared libraries for getting `sokol_gfx` working with Metal.
+[`Sokol.SDL2`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2)|PInvoke code for getting `sokol_gfx` working with SDL2.
+[`Sokol.SDL2.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2.Native)|Shared libraries for getting `sokol_gfx` working with SDL2.
 
 ## Contributing
 
-You want to contribute? Awesome! To get started please read the [CONTRIBUTING](CONTRIBUTING) file for details on our code of conduct, and the process for submitting pull requests.
+Do you want to contribute? Awesome! To get started please read the [CONTRIBUTING](CONTRIBUTING.md) file for details on our code of conduct, the process for creating issues, and submitting pull requests.
 
 ## Versioning
 
-`Sokol#` uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. The version scheme used for native shared libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol#` is `MAJOR.MINOR.PATCH-TAG`. For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/sokol-csharp/tags).
+`Sokol.NET` uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. For example, the version scheme used for native shared libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol.NET` is `MAJOR.MINOR.PATCH-TAG`. For a complete list of the versions available, see the [tags on this repository](https://github.com/lithiumtoast/Sokol.NET/tags).
 
 ## License
 
-`Sokol#` is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+`Sokol.NET` is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Authors
+## Authors, Contributors & Maintainers
 
-- **Lucas Girouard-Stranks** [@lithiumtoast](https://github.com/lithiumtoast) *Owner*
+For information about the authors, contributors, and maintainers, see the [MAINTAINERS](MAINTAINERS.md) file.

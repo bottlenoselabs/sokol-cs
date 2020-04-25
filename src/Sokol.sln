@@ -6,15 +6,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.Tests", "Sok
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{DF872AF1-F024-4734-951F-248FA834668A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Clear", "Samples\Sokol.Samples.Clear\Sokol.Samples.Clear.csproj", "{72A5D206-5F0C-46DA-927E-9277BA817D1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Clear", "Samples\Samples.Clear\Samples.Clear.csproj", "{72A5D206-5F0C-46DA-927E-9277BA817D1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Triangle", "Samples\Sokol.Samples.Triangle\Sokol.Samples.Triangle.csproj", "{1AF26DCF-FE59-4240-B368-9E958DBCA0E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Triangle", "Samples\Samples.Triangle\Samples.Triangle.csproj", "{1AF26DCF-FE59-4240-B368-9E958DBCA0E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Quad", "Samples\Sokol.Samples.Quad\Sokol.Samples.Quad.csproj", "{24C2F69D-5493-44B9-AAB8-3487577D0DC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Quad", "Samples\Samples.Quad\Samples.Quad.csproj", "{24C2F69D-5493-44B9-AAB8-3487577D0DC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Base", "Samples\Sokol.Samples.Base\Sokol.Samples.Base.csproj", "{0F2FFCB3-A154-4A74-A559-59B9F73DE522}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.BufferOffsets", "Samples\Sokol.Samples.BufferOffsets\Sokol.Samples.BufferOffsets.csproj", "{0B6FB505-3FEA-43F2-BAB7-7ED11FD11378}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.BufferOffsets", "Samples\Samples.BufferOffsets\Samples.BufferOffsets.csproj", "{0B6FB505-3FEA-43F2-BAB7-7ED11FD11378}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Blend", "Samples\Sokol.Samples.Blend\Sokol.Samples.Blend.csproj", "{37D4BDFC-0441-480B-AFA7-ECBB48E6D70E}"
 EndProject
@@ -22,17 +20,33 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.OpenGL", "So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.Metal", "Sokol.Graphics.Metal\Sokol.Graphics.Metal.csproj", "{E9327C9E-A290-48FD-A360-F3BB11C608D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Cube", "Samples\Sokol.Samples.Cube\Sokol.Samples.Cube.csproj", "{4D68F7FE-8CD7-4146-8CFA-A6CBBD26763A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Cube", "Samples\Samples.Cube\Samples.Cube.csproj", "{4D68F7FE-8CD7-4146-8CFA-A6CBBD26763A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.NonInterleaved", "Samples\Sokol.Samples.NonInterleaved\Sokol.Samples.NonInterleaved.csproj", "{4B0149AC-29BF-42EC-852F-9351AD4CDF7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.NonInterleaved", "Samples\Samples.NonInterleaved\Samples.NonInterleaved.csproj", "{4B0149AC-29BF-42EC-852F-9351AD4CDF7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.TexCube", "Samples\Sokol.Samples.TexCube\Sokol.Samples.TexCube.csproj", "{1D0079B5-A8C9-44BD-AF01-2F070E90DD89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.TexCube", "Samples\Samples.TexCube\Samples.TexCube.csproj", "{1D0079B5-A8C9-44BD-AF01-2F070E90DD89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Offscreen", "Samples\Sokol.Samples.Offscreen\Sokol.Samples.Offscreen.csproj", "{566E8BC0-6047-40D1-AA22-85C96622D404}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Offscreen", "Samples\Samples.Offscreen\Samples.Offscreen.csproj", "{566E8BC0-6047-40D1-AA22-85C96622D404}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Instancing", "Samples\Sokol.Samples.Instancing\Sokol.Samples.Instancing.csproj", "{A3287B22-E9D6-46E8-B1CE-59125EEE6E5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Instancing", "Samples\Samples.Instancing\Samples.Instancing.csproj", "{A3287B22-E9D6-46E8-B1CE-59125EEE6E5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.MultipleRenderTargets", "Samples\Sokol.Samples.MultipleRenderTargets\Sokol.Samples.MultipleRenderTargets.csproj", "{C8A64B7F-606C-4739-918F-2ED95BC31F67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.MultipleRenderTargets", "Samples\Samples.MultipleRenderTargets\Samples.MultipleRenderTargets.csproj", "{C8A64B7F-606C-4739-918F-2ED95BC31F67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.SDL2.Native", "Sokol.SDL2.Native\Sokol.SDL2.Native.csproj", "{451C9C4E-3455-47D5-830B-D1F06051201C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.App", "Sokol.App\Sokol.App.csproj", "{9023C19C-3818-4988-BDD4-14E757DF40EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.SDL2", "Sokol.SDL2\Sokol.SDL2.csproj", "{2C89139A-1C6B-4D75-B5C9-70645E617FB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDL2", "SDL2", "{B3189854-F935-40F9-84F7-F074AB32E0FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.Metal.Native", "Sokol.Graphics.Metal.Native\Sokol.Graphics.Metal.Native.csproj", "{EC00EDDB-A7A2-4D17-989E-FF4ACB8F24DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.OpenGL.Native", "Sokol.Graphics.OpenGL.Native\Sokol.Graphics.OpenGL.Native.csproj", "{BD7C4352-BCAA-460E-9BBA-3E1A959A9C4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.ArrayTex", "Samples\Samples.ArrayTex\Samples.ArrayTex.csproj", "{F451F011-24B0-497C-B6D3-2B3555B4C6D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.DynTex", "Samples\Samples.DynTex\Samples.DynTex.csproj", "{49B3F49D-199E-4AE1-A621-B44F96AE7AAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,10 +74,6 @@ Global
 		{24C2F69D-5493-44B9-AAB8-3487577D0DC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24C2F69D-5493-44B9-AAB8-3487577D0DC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24C2F69D-5493-44B9-AAB8-3487577D0DC5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F2FFCB3-A154-4A74-A559-59B9F73DE522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F2FFCB3-A154-4A74-A559-59B9F73DE522}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F2FFCB3-A154-4A74-A559-59B9F73DE522}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F2FFCB3-A154-4A74-A559-59B9F73DE522}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0B6FB505-3FEA-43F2-BAB7-7ED11FD11378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0B6FB505-3FEA-43F2-BAB7-7ED11FD11378}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B6FB505-3FEA-43F2-BAB7-7ED11FD11378}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -104,12 +114,39 @@ Global
 		{C8A64B7F-606C-4739-918F-2ED95BC31F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8A64B7F-606C-4739-918F-2ED95BC31F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8A64B7F-606C-4739-918F-2ED95BC31F67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{451C9C4E-3455-47D5-830B-D1F06051201C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{451C9C4E-3455-47D5-830B-D1F06051201C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{451C9C4E-3455-47D5-830B-D1F06051201C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{451C9C4E-3455-47D5-830B-D1F06051201C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9023C19C-3818-4988-BDD4-14E757DF40EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9023C19C-3818-4988-BDD4-14E757DF40EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9023C19C-3818-4988-BDD4-14E757DF40EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9023C19C-3818-4988-BDD4-14E757DF40EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C89139A-1C6B-4D75-B5C9-70645E617FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C89139A-1C6B-4D75-B5C9-70645E617FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C89139A-1C6B-4D75-B5C9-70645E617FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C89139A-1C6B-4D75-B5C9-70645E617FB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC00EDDB-A7A2-4D17-989E-FF4ACB8F24DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC00EDDB-A7A2-4D17-989E-FF4ACB8F24DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC00EDDB-A7A2-4D17-989E-FF4ACB8F24DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC00EDDB-A7A2-4D17-989E-FF4ACB8F24DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD7C4352-BCAA-460E-9BBA-3E1A959A9C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD7C4352-BCAA-460E-9BBA-3E1A959A9C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD7C4352-BCAA-460E-9BBA-3E1A959A9C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD7C4352-BCAA-460E-9BBA-3E1A959A9C4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F451F011-24B0-497C-B6D3-2B3555B4C6D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F451F011-24B0-497C-B6D3-2B3555B4C6D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F451F011-24B0-497C-B6D3-2B3555B4C6D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F451F011-24B0-497C-B6D3-2B3555B4C6D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49B3F49D-199E-4AE1-A621-B44F96AE7AAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B3F49D-199E-4AE1-A621-B44F96AE7AAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B3F49D-199E-4AE1-A621-B44F96AE7AAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B3F49D-199E-4AE1-A621-B44F96AE7AAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{72A5D206-5F0C-46DA-927E-9277BA817D1E} = {DF872AF1-F024-4734-951F-248FA834668A}
 		{1AF26DCF-FE59-4240-B368-9E958DBCA0E5} = {DF872AF1-F024-4734-951F-248FA834668A}
 		{24C2F69D-5493-44B9-AAB8-3487577D0DC5} = {DF872AF1-F024-4734-951F-248FA834668A}
-		{0F2FFCB3-A154-4A74-A559-59B9F73DE522} = {DF872AF1-F024-4734-951F-248FA834668A}
 		{0B6FB505-3FEA-43F2-BAB7-7ED11FD11378} = {DF872AF1-F024-4734-951F-248FA834668A}
 		{37D4BDFC-0441-480B-AFA7-ECBB48E6D70E} = {DF872AF1-F024-4734-951F-248FA834668A}
 		{4D68F7FE-8CD7-4146-8CFA-A6CBBD26763A} = {DF872AF1-F024-4734-951F-248FA834668A}
@@ -118,5 +155,9 @@ Global
 		{566E8BC0-6047-40D1-AA22-85C96622D404} = {DF872AF1-F024-4734-951F-248FA834668A}
 		{A3287B22-E9D6-46E8-B1CE-59125EEE6E5D} = {DF872AF1-F024-4734-951F-248FA834668A}
 		{C8A64B7F-606C-4739-918F-2ED95BC31F67} = {DF872AF1-F024-4734-951F-248FA834668A}
+		{2C89139A-1C6B-4D75-B5C9-70645E617FB3} = {B3189854-F935-40F9-84F7-F074AB32E0FC}
+		{451C9C4E-3455-47D5-830B-D1F06051201C} = {B3189854-F935-40F9-84F7-F074AB32E0FC}
+		{F451F011-24B0-497C-B6D3-2B3555B4C6D1} = {DF872AF1-F024-4734-951F-248FA834668A}
+		{49B3F49D-199E-4AE1-A621-B44F96AE7AAE} = {DF872AF1-F024-4734-951F-248FA834668A}
 	EndGlobalSection
 EndGlobal
