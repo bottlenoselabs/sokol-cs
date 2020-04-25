@@ -95,7 +95,7 @@ jobs:
       uses: actions/upload-artifact@v2-preview
       with:
         name: nuget-packages
-        path: '*/**/*.nupkg'
+        path: '*/**/*.s?nupkg'
 
   deploy-job:
     name: Deploy
