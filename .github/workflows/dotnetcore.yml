@@ -107,5 +107,11 @@ jobs:
           name: nuget-packages
 
       - name: Echo Packages
-        run: find ./nuget-packages -not -type d -exec basename {} \;
+        run: find ./nuget-packages/ -not -type d -exec basename {} \;
+      
+      - name: Add MyGet Source
+        run: nuget source Add -Name "MyGet" -Source "https://www.myget.org/F/lithiumtoast/api/v2/package"
+
+      - name: Upload Packages to MyGet
+        run: nuget push -Source "MyGet" -ApiKey ${{ secrets.MYGET_ACCESS_TOKEN }} "%./nuget/packages/**/*.nupkg" || true
   
