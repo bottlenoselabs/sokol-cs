@@ -1,6 +1,6 @@
 # `sokol`.NET
 
-[![Build, test, and deploy status](https://img.shields.io/azure-devops/build/lustranks/sokol-sharp/lithiumtoast.sokol-sharp/master?label=build%2Ftest%2Fdeploy&logo=azure-pipelines)](https://dev.azure.com/lustranks/sokol-csharp/_build/latest?definitionId=4&branchName=master)
+![.NET CI/CD](https://github.com/lithiumtoast/Sokol.NET/workflows/.NET%20Core%20CI/CD/badge.svg)
 
 A .NET wrapper for https://github.com/floooh/sokol, primarily `sokol_gfx`, a simple and modern wrapper around GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 and Metal.
 
