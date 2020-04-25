@@ -5,7 +5,7 @@
         <RootNamespace />
         <LangVersion>8</LangVersion>
         <Nullable>enable</Nullable>
-        <Description>`sokol`.NET - Modern and simple 3D graphics API - SDL2 PInvoke shared libraries</Description>
+        <Description>Sokol.NET; a modern and simple 3D graphics API. This specific package includes the SDL2 PInvoke shared libraries.</Description>
         <Authors>Lucas Girouard-Stranks</Authors>
         <RootNamespace />
         <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
