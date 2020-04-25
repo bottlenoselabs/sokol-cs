@@ -17,6 +17,8 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <IsPackable>true</IsPackable>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 
     <ItemGroup>

@@ -18,6 +18,8 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>1591</NoWarn>
         <IsPackable>true</IsPackable>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 
     <ItemGroup>

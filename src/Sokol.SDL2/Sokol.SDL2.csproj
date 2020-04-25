@@ -17,6 +17,8 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <WarningLevel>0</WarningLevel>
         <IsPackable>true</IsPackable>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 
     <ItemGroup>
