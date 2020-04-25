@@ -101,7 +101,7 @@ jobs:
     steps:
 
       - name: Download NuGet Packages
-      - uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v1
         with:
           name: nuget-packages
 
