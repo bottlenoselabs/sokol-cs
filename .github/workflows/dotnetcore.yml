@@ -96,6 +96,7 @@ jobs:
         path: '*/**/*.nupkg'
 
   deploy-job:
+    name: Deploy
     needs: [build-job]
     runs-on: ubuntu-latest
     steps:
@@ -106,5 +107,5 @@ jobs:
           name: nuget-packages
 
       - name: Echo Packages
-        run: cat nuget-packages
+        run: find . -type f -exec cat {} \;
   
