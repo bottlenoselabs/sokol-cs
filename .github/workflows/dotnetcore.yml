@@ -65,4 +65,4 @@ jobs:
       with:
         dotnet-version: '3.1.100'
     - name: Build
-      run: dotnet build './src/Sokol.sln'
+      run: dotnet build './src/Sokol.sln' /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
