@@ -6,7 +6,7 @@ using Sokol.Graphics;
 
 namespace Samples.Clear
 {
-    public class Application : App
+    internal sealed class Application : App
     {
         private Rgba32F _clearColor;
 

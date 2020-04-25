@@ -5,6 +5,10 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBeInternal
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>

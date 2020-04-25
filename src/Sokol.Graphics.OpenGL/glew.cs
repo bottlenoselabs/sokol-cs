@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-public static unsafe class glew
+public static class glew
 {
     private const string LIBRARY_NAME = "glew";
 

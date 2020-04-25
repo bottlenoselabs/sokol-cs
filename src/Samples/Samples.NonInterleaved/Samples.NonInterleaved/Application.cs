@@ -11,12 +11,12 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.NonInterleaved
 {
-    public class NonInterleavedApplication : App
+    internal sealed class Application : App
     {
-        private Buffer _vertexBuffer;
-        private Buffer _indexBuffer;
-        private Shader _shader;
-        private Pipeline _pipeline;
+        private readonly Buffer _vertexBuffer;
+        private readonly Buffer _indexBuffer;
+        private readonly Shader _shader;
+        private readonly Pipeline _pipeline;
 
         private bool _paused;
         private float _rotationX;
@@ -24,7 +24,7 @@ namespace Samples.NonInterleaved
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public NonInterleavedApplication()
+        public Application()
         {
             DrawableSizeChanged += OnDrawableSizeChanged;
 
@@ -123,29 +123,37 @@ namespace Samples.NonInterleaved
         private Shader CreateShader()
         {
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock(0).Uniform(0);
+            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
+            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
 
-            if (Backend == GraphicsBackend.OpenGL)
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private Buffer CreateIndexBuffer()
+        private static Buffer CreateIndexBuffer()
         {
-            // use memory from the thread's stack for the cube's indices
-            Span<ushort> indices = stackalloc ushort[]
+            // ReSharper disable once RedundantCast
+            var indices = (Span<ushort>)stackalloc ushort[]
             {
                 // quad 1
                 0, 1, 2,
@@ -183,10 +191,10 @@ namespace Samples.NonInterleaved
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private Buffer CreateVertexBuffer()
+        private static Buffer CreateVertexBuffer()
         {
-            // use memory from the thread's stack for the cube's vertices
-            Span<float> vertices = stackalloc float[]
+            // ReSharper disable once RedundantCast
+            var vertices = (Span<float>)stackalloc float[]
             {
                 // quad 1 (4 Vector3 positions as floats)
                 -1.0f, -1.0f, -1.0f,

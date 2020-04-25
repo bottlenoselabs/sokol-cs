@@ -4,6 +4,8 @@
 using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -41,7 +43,7 @@ namespace Sokol.Graphics
         /// </value>
         public string Name
         {
-            get => UnmanagedStringMemoryManager.GetString(_name);
+            readonly get => UnmanagedStringMemoryManager.GetString(_name);
             set => _name = UnmanagedStringMemoryManager.SetString(value);
         }
     }

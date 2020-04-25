@@ -37,14 +37,14 @@ namespace Sokol.Graphics
         public int Size;
 
         [FieldOffset(8)]
-        internal fixed ulong _uniforms[16 * sokol_gfx.SG_MAX_UB_MEMBERS / 8];
+        private fixed ulong _uniforms[16 * sokol_gfx.SG_MAX_UB_MEMBERS / 8];
 
         /// <summary>
         ///     Gets a <see cref="ShaderUniformBlockDescriptor" /> by reference given the specified index.
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="ShaderUniformBlockDescriptor" /> by reference.</returns>
-        public ref ShaderUniformDescriptor Uniform(int index)
+        public readonly ref ShaderUniformDescriptor Uniform(int index)
         {
             fixed (ShaderUniformBlockDescriptor* uniformBlockDescription = &this)
             {

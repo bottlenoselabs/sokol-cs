@@ -3,6 +3,9 @@
 
 using System.Runtime.InteropServices;
 
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable MemberCanBeInternal
+
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -22,6 +25,7 @@ namespace Sokol.Graphics
         ///     The stencil value to use when the stencil render target <see cref="Image" /> is cleared.
         /// </summary>
         [FieldOffset(4)]
+        // ReSharper disable once FieldCanBeMadeReadOnly.Global
         public byte Value;
     }
 }

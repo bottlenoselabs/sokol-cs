@@ -25,7 +25,7 @@ namespace ObjCRuntime
             _handle = objc_getClass(utf8BytesPtr);
         }
 
-        public readonly T New<T>()
+        public T New<T>()
             where T : unmanaged
         {
             var value = intptr_objc_msgSend(_handle, sel_new);

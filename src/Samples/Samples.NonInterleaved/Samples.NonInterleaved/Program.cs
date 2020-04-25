@@ -5,9 +5,9 @@ namespace Samples.NonInterleaved
 {
     internal static class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
-            var app = new NonInterleavedApplication();
+            var app = new Application();
             app.Run();
         }
     }

@@ -3,6 +3,8 @@
 
 using System.Runtime.InteropServices;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -43,12 +45,14 @@ namespace Sokol.Graphics
         ///     The mipmap level of the <see cref="Image" /> used for rendering to the attachment.
         /// </summary>
         [FieldOffset(4)]
+        // ReSharper disable once FieldCanBeMadeReadOnly.Global
         public int Level;
 
         /// <summary>
         ///     The slice of the <see cref="Image" /> used for rendering to the attachment.
         /// </summary>
         [FieldOffset(8)]
+        // ReSharper disable once FieldCanBeMadeReadOnly.Global
         public int Slice;
     }
 }

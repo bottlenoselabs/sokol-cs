@@ -10,12 +10,12 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Quad
 {
-    public class Application : App
+    internal sealed class Application : App
     {
-        private Pipeline _pipeline;
-        private Buffer _indexBuffer;
-        private Buffer _vertexBuffer;
-        private Shader _shader;
+        private readonly Pipeline _pipeline;
+        private readonly Buffer _indexBuffer;
+        private readonly Buffer _vertexBuffer;
+        private readonly Shader _shader;
 
         public Application()
         {
@@ -76,26 +76,34 @@ namespace Samples.Quad
             // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
 
-            // specify shader stage source code for each graphics backend
-            if (Backend == GraphicsBackend.OpenGL)
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                // specify shader stage source code for each graphics backend
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private Buffer CreateIndexBuffer()
+        private static Buffer CreateIndexBuffer()
         {
-            // use memory from the thread's stack to create the quad indices
-            Span<ushort> indices = stackalloc ushort[]
+            // ReSharper disable once RedundantCast
+            var indices = (Span<ushort>)stackalloc ushort[]
             {
                 0, 1, 2, // triangle 1 indices
                 0, 2, 3 // triangle 2 indices
@@ -117,10 +125,10 @@ namespace Samples.Quad
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private Buffer CreateVertexBuffer()
+        private static Buffer CreateVertexBuffer()
         {
-            // use memory from the thread's stack for the quad vertices
-            Span<Vertex> vertices = stackalloc Vertex[4];
+            // ReSharper disable once RedundantCast
+            var vertices = (Span<Vertex>)stackalloc Vertex[4];
 
             // describe the vertices of the quad
             vertices[0].Position = new Vector3(-0.5f, 0.5f, 0.5f);

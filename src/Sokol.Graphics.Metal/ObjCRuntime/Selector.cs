@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ObjCRuntime
 {
-    internal unsafe struct Selector
+    internal readonly unsafe struct Selector
     {
         private readonly IntPtr _handle;
 

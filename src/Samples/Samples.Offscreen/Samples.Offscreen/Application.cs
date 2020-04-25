@@ -11,17 +11,16 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Offscreen
 {
-    public class Application : App
+    internal sealed class Application : App
     {
-        private Buffer _indexBuffer;
-        private Buffer _vertexBuffer;
-        private Pipeline _offscreenPipeline;
-        private Shader _offscreenShader;
-        private Pipeline _frameBufferPipeline;
-        private Shader _frameBufferShader;
-        private Image _renderTarget;
-        private Image _renderTargetDepth;
-        private Pass _offscreenRenderPass;
+        private readonly Buffer _indexBuffer;
+        private readonly Buffer _vertexBuffer;
+        private readonly Pipeline _offscreenPipeline;
+        private readonly Shader _offscreenShader;
+        private readonly Pipeline _frameBufferPipeline;
+        private readonly Shader _frameBufferShader;
+        private readonly Image _renderTarget;
+        private readonly Pass _offscreenRenderPass;
 
         private bool _paused;
         private float _rotationX;
@@ -40,7 +39,6 @@ namespace Samples.Offscreen
 
             var (renderTarget, renderTargetDepth) = CreateOffscreenRenderTargets();
             _renderTarget = renderTarget;
-            _renderTargetDepth = renderTargetDepth;
             _offscreenRenderPass = CreateOffscreenRenderPass(renderTarget, renderTargetDepth);
 
             _frameBufferShader = CreateFrameBufferShader();
@@ -140,7 +138,7 @@ namespace Samples.Offscreen
 
         private Pipeline CreateFrameBufferPipeline()
         {
-            // describe the framebuffer render pipeline
+            // describe the frame buffer render pipeline
             var frameBufferPipelineDesc = default(PipelineDescriptor);
             frameBufferPipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
             frameBufferPipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
@@ -152,7 +150,7 @@ namespace Samples.Offscreen
             frameBufferPipelineDesc.Rasterizer.CullMode = PipelineTriangleCullMode.Back;
             frameBufferPipelineDesc.Rasterizer.SampleCount = GraphicsDevice.Features.MsaaRenderTargets ? 4 : 1;
 
-            // create the framebuffer pipeline resource from the description
+            // create the frame buffer pipeline resource from the description
             return GraphicsDevice.CreatePipeline(ref frameBufferPipelineDesc);
         }
 
@@ -180,23 +178,27 @@ namespace Samples.Offscreen
         private Shader CreateFrameBufferShader()
         {
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
-            ref var frameBufferMvpUniform = ref shaderDesc.VertexStage.UniformBlock(0).Uniform(0);
+            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
+            ref var frameBufferMvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
             frameBufferMvpUniform.Name = "mvp";
             frameBufferMvpUniform.Type = ShaderUniformType.Matrix4x4;
-            shaderDesc.FragmentStage.Image(0).Name = "tex";
-            shaderDesc.FragmentStage.Image(0).Type = ImageType.Texture2D;
+            shaderDesc.FragmentStage.Image().Name = "tex";
+            shaderDesc.FragmentStage.Image().Type = ImageType.Texture2D;
 
-            // specify shader stage source code for each graphics backend
-            if (Backend == GraphicsBackend.OpenGL)
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                // specify shader stage source code for each graphics backend
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the shader resource from the description
@@ -207,28 +209,36 @@ namespace Samples.Offscreen
         {
             // describe the offscreen shader program
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
-            ref var offscreenMvpUniform = ref shaderDesc.VertexStage.UniformBlock(0).Uniform(0);
+            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
+            ref var offscreenMvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
             offscreenMvpUniform.Name = "mvp";
             offscreenMvpUniform.Type = ShaderUniformType.Matrix4x4;
 
-            // specify shader stage source code for each graphics backend
-            if (Backend == GraphicsBackend.OpenGL)
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenFrag.metal");
+                // specify shader stage source code for each graphics backend
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the offscreen shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private Pass CreateOffscreenRenderPass(Image renderTarget, Image renderTargetDepth)
+        private static Pass CreateOffscreenRenderPass(Image renderTarget, Image renderTargetDepth)
         {
             var passDesc = default(PassDescriptor);
             passDesc.ColorAttachment(0).Image = renderTarget;
@@ -237,7 +247,7 @@ namespace Samples.Offscreen
             return GraphicsDevice.CreatePass(ref passDesc);
         }
 
-        private (Image renderTarget, Image renderTargetDepth) CreateOffscreenRenderTargets()
+        private static (Image renderTarget, Image renderTargetDepth) CreateOffscreenRenderTargets()
         {
             // describe a 2d texture render target
             var imageDesc = default(ImageDescriptor);
@@ -263,10 +273,10 @@ namespace Samples.Offscreen
             return (renderTarget, renderTargetDepth);
         }
 
-        private Buffer CreateIndexBuffer()
+        private static Buffer CreateIndexBuffer()
         {
-            // use memory from the thread's stack to create the cube indices
-            Span<ushort> indices = stackalloc ushort[]
+            // ReSharper disable once RedundantCast
+            var indices = (Span<ushort>)stackalloc ushort[]
             {
                 0, 1, 2, 0, 2, 3, // quad 1 of cube
                 6, 5, 4, 7, 6, 4, // quad 2 of cube
@@ -292,10 +302,10 @@ namespace Samples.Offscreen
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private Buffer CreateVertexBuffer()
+        private static Buffer CreateVertexBuffer()
         {
-            // use memory from the thread's stack for the cube vertices
-            Span<Vertex> vertices = stackalloc Vertex[4 * 6];
+            // ReSharper disable once RedundantCast
+            var vertices = (Span<Vertex>)stackalloc Vertex[4 * 6];
 
             // describe the vertices of the cube
             // quad 1

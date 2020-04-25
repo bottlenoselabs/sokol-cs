@@ -4,10 +4,12 @@
 using System.Numerics;
 using Sokol.Graphics;
 
+// ReSharper disable NotAccessedField.Global
+
 namespace Samples.BufferOffsets
 {
     // The interleaved vertex data structure
-    public struct Vertex
+    internal struct Vertex
     {
         public Vector2 Position;
         public Rgb32F Color;

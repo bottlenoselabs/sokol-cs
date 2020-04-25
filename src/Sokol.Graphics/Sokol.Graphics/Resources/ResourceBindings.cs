@@ -3,6 +3,8 @@
 
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -41,28 +43,28 @@ namespace Sokol.Graphics
         public int IndexBufferOffset;
 
         [FieldOffset(76)]
-        internal fixed uint _vsImages[sokol_gfx.SG_MAX_SHADERSTAGE_IMAGES];
+        private fixed uint _vsImages[sokol_gfx.SG_MAX_SHADERSTAGE_IMAGES];
 
         [FieldOffset(124)]
-        internal fixed uint _fsImages[sokol_gfx.SG_MAX_SHADERSTAGE_IMAGES];
+        private fixed uint _fsImages[sokol_gfx.SG_MAX_SHADERSTAGE_IMAGES];
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
         [FieldOffset(0)]
-        internal uint _startCanary;
+        private readonly uint _startCanary;
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
         [FieldOffset(172)]
-        internal uint _endCanary;
+        private readonly uint _endCanary;
 
         [FieldOffset(4)]
-        internal fixed uint _vertexBuffers[sokol_gfx.SG_MAX_SHADERSTAGE_BUFFERS];
+        private fixed uint _vertexBuffers[sokol_gfx.SG_MAX_SHADERSTAGE_BUFFERS];
 
         [FieldOffset(36)]
-        internal fixed int _vertexBufferOffsets[sokol_gfx.SG_MAX_SHADERSTAGE_BUFFERS];
+        private fixed int _vertexBufferOffsets[sokol_gfx.SG_MAX_SHADERSTAGE_BUFFERS];
 
         /// <summary>
         ///     Gets the vertex <see cref="Buffer" />, by reference, to use given a specified slot or index.
@@ -72,7 +74,7 @@ namespace Sokol.Graphics
         ///     negative. Must be less than or equal to <c>8</c>. Default is <c>0</c>.
         /// </param>
         /// <returns>A vertex <see cref="Buffer" /> by reference.</returns>
-        public ref Buffer VertexBuffer(int index = 0)
+        public readonly ref Buffer VertexBuffer(int index = 0)
         {
             fixed (ResourceBindings* bindings = &this)
             {
@@ -100,7 +102,7 @@ namespace Sokol.Graphics
         ///     The zero-based index indicating what slot to use to get the <see cref="Image" />.
         /// </param>
         /// <returns>A <see cref="Image" />.</returns>
-        public ref Image VertexStageImage(int index = 0)
+        public readonly ref Image VertexStageImage(int index = 0)
         {
             fixed (ResourceBindings* bindings = &this)
             {
@@ -117,7 +119,7 @@ namespace Sokol.Graphics
         ///     The zero-based index indicating what slot to use to get the <see cref="Image" />.
         /// </param>
         /// <returns>A <see cref="Image" />.</returns>
-        public ref Image FragmentStageImage(int index = 0)
+        public readonly ref Image FragmentStageImage(int index = 0)
         {
             fixed (ResourceBindings* bindings = &this)
             {

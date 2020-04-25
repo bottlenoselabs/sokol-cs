@@ -49,6 +49,6 @@ namespace Sokol.Graphics
         /// </summary>
         Linux = 1 << 2
 
-        // TODO: Tizen, Android, iOS, tvOS, RaspberryPi, WebAssembly, PlayStation4, PlayStationVita, Switch etc
+        // TODO: Android, iOS, tvOS, RaspberryPi, WebAssembly, PlayStation4, PlayStationVita, Switch etc
     }
 }

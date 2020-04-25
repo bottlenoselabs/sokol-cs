@@ -6,6 +6,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -31,21 +33,10 @@ namespace Sokol.Graphics
     public readonly struct Buffer
     {
         /// <summary>
-        ///     Fill any zero-initialized members of a <see cref="BufferDescriptor" /> with their explicit default
-        ///     values.
-        /// </summary>
-        /// <param name="descriptor">The parameters for creating a buffer.</param>
-        /// <returns>A <see cref="BufferDescriptor" /> with any zero-initialized members set to default values.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static BufferDescriptor QueryDefaults([In] ref BufferDescriptor descriptor)
-        {
-            return PInvoke.sg_query_buffer_defaults(ref descriptor);
-        }
-
-        /// <summary>
         ///     A number which uniquely identifies the <see cref="Buffer" />.
         /// </summary>
         [FieldOffset(0)]
+        // ReSharper disable once MemberCanBePrivate.Global
         public readonly uint Identifier;
 
         /// <summary>
@@ -76,6 +67,18 @@ namespace Sokol.Graphics
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => PInvoke.sg_query_buffer_state(this);
+        }
+
+        /// <summary>
+        ///     Fill any zero-initialized members of a <see cref="BufferDescriptor" /> with their explicit default
+        ///     values.
+        /// </summary>
+        /// <param name="descriptor">The parameters for creating a buffer.</param>
+        /// <returns>A <see cref="BufferDescriptor" /> with any zero-initialized members set to default values.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static BufferDescriptor QueryDefaults([In] ref BufferDescriptor descriptor)
+        {
+            return PInvoke.sg_query_buffer_defaults(ref descriptor);
         }
 
         // TODO: Document manual initialization of a buffer.
@@ -124,6 +127,7 @@ namespace Sokol.Graphics
         /// <param name="data">The region of memory to copy.</param>
         /// <typeparam name="T">The type of elements to copy into the buffer.</typeparam>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // ReSharper disable once MemberCanBePrivate.Global
         public unsafe void Update<T>(Span<T> data)
             where T : unmanaged
         {

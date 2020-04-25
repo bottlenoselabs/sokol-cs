@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 // ReSharper disable UnusedMember.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>

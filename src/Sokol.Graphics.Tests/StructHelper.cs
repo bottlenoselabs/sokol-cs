@@ -21,16 +21,11 @@ namespace Sokol.Graphics.Tests
         {
             var assemblyBuilder =
                 AssemblyBuilder.DefineDynamicAssembly(StructGeneratorAssemblyName, AssemblyBuilderAccess.Run);
-            ModuleBuilder = assemblyBuilder.DefineDynamicModule(StructGeneratorAssemblyName.Name);
+            ModuleBuilder = assemblyBuilder.DefineDynamicModule(StructGeneratorAssemblyName.Name!);
         }
 
         public static Type CStructType(this Type structType)
         {
-            if (structType == null)
-            {
-                return null;
-            }
-
             if (StructGeneratedTypesByStructTypes.TryGetValue(structType, out var generatedStructType))
             {
                 return generatedStructType;
@@ -56,7 +51,7 @@ namespace Sokol.Graphics.Tests
                 return structType;
             }
 
-            if (structType.Name.StartsWith("<"))
+            if (structType.Name.StartsWith("<", StringComparison.Ordinal))
             {
                 StructGeneratedTypesByStructTypes[structType] = structType;
                 return structType;
@@ -106,9 +101,9 @@ namespace Sokol.Graphics.Tests
             }
 
             generatedStructType = generatedStructTypeBuilder.CreateType();
-            StructGeneratedTypesByStructTypes[structType] = generatedStructType;
+            StructGeneratedTypesByStructTypes[structType] = generatedStructType!;
 
-            return generatedStructType;
+            return generatedStructType!;
         }
     }
 }

@@ -5,8 +5,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -55,18 +57,6 @@ namespace Sokol.Graphics
     public readonly struct Shader
     {
         /// <summary>
-        ///     Fill any zero-initialized members of a <see cref="ShaderDescriptor" /> with their explicit default
-        ///     values.
-        /// </summary>
-        /// <param name="descriptor">The parameters for creating a shader.</param>
-        /// <returns>A <see cref="ShaderDescriptor" /> with any zero-initialized members set to default values.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ShaderDescriptor QueryDefaults([In] ref ShaderDescriptor descriptor)
-        {
-            return PInvoke.sg_query_shader_defaults(ref descriptor);
-        }
-
-        /// <summary>
         ///     A number which uniquely identifies the <see cref="Shader" />.
         /// </summary>
         [FieldOffset(0)]
@@ -86,6 +76,18 @@ namespace Sokol.Graphics
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => PInvoke.sg_query_shader_state(this);
+        }
+
+        /// <summary>
+        ///     Fill any zero-initialized members of a <see cref="ShaderDescriptor" /> with their explicit default
+        ///     values.
+        /// </summary>
+        /// <param name="descriptor">The parameters for creating a shader.</param>
+        /// <returns>A <see cref="ShaderDescriptor" /> with any zero-initialized members set to default values.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ShaderDescriptor QueryDefaults([In] ref ShaderDescriptor descriptor)
+        {
+            return PInvoke.sg_query_shader_defaults(ref descriptor);
         }
 
         // TODO: Document manual initialization of a shader.

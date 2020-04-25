@@ -4,6 +4,8 @@
 using System.Numerics;
 using Sokol.Graphics;
 
+// ReSharper disable NotAccessedField.Global
+
 namespace Samples.Quad
 {
     public struct Vertex

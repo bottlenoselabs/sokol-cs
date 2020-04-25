@@ -18,8 +18,7 @@ namespace ObjCRuntime
             return Unsafe.AsRef<T>(&value);
         }
 
-        public static void setObjectAtIndexedSubscript<T>(IntPtr receiver, IntPtr value, UIntPtr index)
-            where T : unmanaged
+        public static void setObjectAtIndexedSubscript(IntPtr receiver, IntPtr value, UIntPtr index)
         {
             void_objc_msgSend_intptr_nsuinteger(receiver, sel_setObjectAtIndexedSubscript, value, index);
         }

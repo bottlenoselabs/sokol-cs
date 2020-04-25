@@ -2,8 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Sokol.Graphics
@@ -36,23 +34,23 @@ namespace Sokol.Graphics
         public ShaderStageDescriptor FragmentStage;
 
         [FieldOffset(8)]
-        internal fixed ulong _attributes[24 * sokol_gfx.SG_MAX_VERTEX_ATTRIBUTES / 8];
+        private fixed ulong _attributes[24 * sokol_gfx.SG_MAX_VERTEX_ATTRIBUTES / 8];
 
         // TODO: Trace hooks.
         [FieldOffset(2952)]
-        internal IntPtr Label;
+        private readonly IntPtr _label;
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
         [FieldOffset(0)]
-        internal uint _startCanary;
+        private readonly uint _startCanary;
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
         [FieldOffset(2960)]
-        internal uint _endCanary;
+        private readonly uint _endCanary;
 
         /// <summary>
         ///     Gets the <see cref="ShaderVertexAttributeDescriptor" /> by reference given the specified index. All vertex
@@ -61,7 +59,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="ShaderVertexAttributeDescriptor" /> by reference.</returns>
-        public ref ShaderVertexAttributeDescriptor Attribute(int index)
+        public readonly ref ShaderVertexAttributeDescriptor Attribute(int index)
         {
             fixed (ShaderDescriptor* shaderDescription = &this)
             {

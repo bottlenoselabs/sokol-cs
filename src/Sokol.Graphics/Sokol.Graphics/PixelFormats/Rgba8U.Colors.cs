@@ -5,6 +5,7 @@
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 // ReSharper disable once CheckNamespace
+
 namespace Sokol.Graphics
 {
     // ReSharper disable once SA1601
@@ -120,6 +121,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     Gets a <see cref="Rgba8U" /> that has a RGBA value of #FFF8DCFF.
         /// </summary>
+        // ReSharper disable once IdentifierTypo
         public static readonly Rgba8U Cornsilk = 0xFFF8DCFF;
 
         /// <summary>
@@ -275,6 +277,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     Gets a <see cref="Rgba8U" /> that has a RGBA value of #DCDCDCFF.
         /// </summary>
+        // ReSharper disable once IdentifierTypo
         public static readonly Rgba8U Gainsboro = 0xDCDCDCFF;
 
         /// <summary>
@@ -560,6 +563,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     Gets a <see cref="Rgba8U" /> that has a RGBA value of #FF4500FF.
         /// </summary>
+        // ReSharper disable once IdentifierTypo
         public static readonly Rgba8U Orangered = 0xFF4500FF;
 
         /// <summary>
@@ -750,6 +754,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     Gets a <see cref="Rgba8U" /> that has a RGBA value of #F5F5F5FF.
         /// </summary>
+        // ReSharper disable once IdentifierTypo
         public static readonly Rgba8U Whitesmoke = 0xF5F5F5FF;
 
         /// <summary>

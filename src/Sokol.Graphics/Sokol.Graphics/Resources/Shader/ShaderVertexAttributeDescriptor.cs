@@ -4,6 +4,10 @@
 using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -46,7 +50,7 @@ namespace Sokol.Graphics
         /// </value>
         public string Name
         {
-            get => UnmanagedStringMemoryManager.GetString(_name);
+            readonly get => UnmanagedStringMemoryManager.GetString(_name);
             set => _name = UnmanagedStringMemoryManager.SetString(value);
         }
 
@@ -58,8 +62,8 @@ namespace Sokol.Graphics
         /// <value>The string with the name of the HLSL vertex attribute.</value>
         public string SemanticName
         {
-            get => UnmanagedStringMemoryManager.GetString(_name);
-            set => _name = UnmanagedStringMemoryManager.SetString(value);
+            readonly get => UnmanagedStringMemoryManager.GetString(_semanticName);
+            set => _semanticName = UnmanagedStringMemoryManager.SetString(value);
         }
     }
 }

@@ -11,12 +11,12 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Cube
 {
-    public class Application : App
+    internal sealed class Application : App
     {
-        private Shader _shader;
-        private Buffer _vertexBuffer;
-        private Buffer _indexBuffer;
-        private Pipeline _pipeline;
+        private readonly Shader _shader;
+        private readonly Buffer _vertexBuffer;
+        private readonly Buffer _indexBuffer;
+        private readonly Pipeline _pipeline;
 
         private bool _paused;
         private Matrix4x4 _viewProjectionMatrix;
@@ -119,29 +119,37 @@ namespace Samples.Cube
         private Shader CreateShader()
         {
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock(0).Uniform(0);
+            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
+            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
 
-            if (Backend == GraphicsBackend.OpenGL)
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private Buffer CreateIndexBuffer()
+        private static Buffer CreateIndexBuffer()
         {
-            // use memory from the thread's stack to create the cube indices
-            Span<ushort> indices = stackalloc ushort[]
+            // ReSharper disable once RedundantCast
+            var indices = (Span<ushort>)stackalloc ushort[]
             {
                 0, 1, 2, 0, 2, 3, // quad 1 of cube
                 6, 5, 4, 7, 6, 4, // quad 2 of cube
@@ -167,10 +175,10 @@ namespace Samples.Cube
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private Buffer CreateVertexBuffer()
+        private static Buffer CreateVertexBuffer()
         {
-            // use memory from the thread's stack for the quad vertices
-            Span<Vertex> vertices = stackalloc Vertex[24];
+            // ReSharper disable once RedundantCast
+            var vertices = (Span<Vertex>)stackalloc Vertex[24];
 
             // describe the vertices of the cube
             // quad 1

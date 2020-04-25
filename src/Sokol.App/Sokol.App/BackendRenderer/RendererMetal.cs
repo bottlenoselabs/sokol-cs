@@ -21,7 +21,7 @@ namespace Sokol.App
         private GCHandle _getMetalDrawableGCHandle;
 
         private GCHandle _getMetalRenderPassDescriptorGCHandle;
-        private CAMetalLayer _metalLayer;
+        private readonly CAMetalLayer _metalLayer;
         private MTLRenderPassDescriptor _renderPassDescriptor;
 
         public override bool VerticalSyncIsEnabled

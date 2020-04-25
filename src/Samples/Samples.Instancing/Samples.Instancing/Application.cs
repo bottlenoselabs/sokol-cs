@@ -12,21 +12,21 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Instancing
 {
-    public class Application : App
+    internal sealed class Application : App
     {
         private const int _maxParticlesCount = 512 * 1024;
         private const int _particlesCountEmittedPerFrame = 10;
 
-        private Buffer _indexBuffer;
-        private Buffer _vertexBuffer;
-        private Buffer _instanceBuffer;
-        private Shader _shader;
-        private Pipeline _pipeline;
+        private readonly Buffer _indexBuffer;
+        private readonly Buffer _vertexBuffer;
+        private readonly Buffer _instanceBuffer;
+        private readonly Shader _shader;
+        private readonly Pipeline _pipeline;
 
         private bool _paused;
-        private Random _random = new Random();
-        private Vector3[] _positions = new Vector3[_maxParticlesCount];
-        private Vector3[] _velocities = new Vector3[_maxParticlesCount];
+        private readonly Random _random = new Random();
+        private readonly Vector3[] _positions = new Vector3[_maxParticlesCount];
+        private readonly Vector3[] _velocities = new Vector3[_maxParticlesCount];
         private float _rotationY;
         private int _currentParticleCount;
         private Matrix4x4 _viewProjectionMatrix;
@@ -36,7 +36,7 @@ namespace Samples.Instancing
         {
             Debug.Assert(
                 GraphicsDevice.IsValid(),
-                message: "sokol_gfx should be initialized");
+                "sokol_gfx should be initialized");
             Debug.Assert(
                 GraphicsDevice.Features.Instancing,
                 $"instancing is not supported for your hardware with {Backend} API");
@@ -186,28 +186,36 @@ namespace Samples.Instancing
         {
             // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock(0).Uniform(0);
+            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
+            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
 
-            // specify shader stage source code for each graphics backend
-            if (Backend == GraphicsBackend.OpenGL)
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                // specify shader stage source code for each graphics backend
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private Buffer CreateInstanceBuffer()
+        private static Buffer CreateInstanceBuffer()
         {
             var bufferDesc = default(BufferDescriptor);
             bufferDesc.Usage = ResourceUsage.Stream;
@@ -216,10 +224,10 @@ namespace Samples.Instancing
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private Buffer CreateIndexBuffer()
+        private static Buffer CreateIndexBuffer()
         {
-            // use memory from the thread's stack to create the static geometry indices
-            Span<ushort> indices = stackalloc ushort[]
+            // ReSharper disable once RedundantCast
+            var indices = (Span<ushort>)stackalloc ushort[]
             {
                 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 1,
                 5, 1, 2, 5, 2, 3, 5, 3, 4, 5, 4, 1
@@ -239,10 +247,10 @@ namespace Samples.Instancing
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private Buffer CreateVertexBuffer()
+        private static Buffer CreateVertexBuffer()
         {
-            // use memory from the thread's stack for the static geometry vertices
-            Span<Vertex> vertices = stackalloc Vertex[6];
+            // ReSharper disable once RedundantCast
+            var vertices = (Span<Vertex>)stackalloc Vertex[6];
 
             const float r = 0.05f;
             // describe the vertices of the quad

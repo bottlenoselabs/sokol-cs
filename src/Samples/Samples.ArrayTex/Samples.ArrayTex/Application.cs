@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Buffers;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -11,17 +12,17 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.ArrayTex
 {
-    public class Application : App
+    internal sealed class Application : App
     {
         private const int _textureLayersCount = 3;
         private const int _textureWidth = 16;
         private const int _textureHeight = 16;
 
-        private Buffer _vertexBuffer;
-        private Buffer _indexBuffer;
-        private Image _texture;
-        private Shader _shader;
-        private Pipeline _pipeline;
+        private readonly Buffer _vertexBuffer;
+        private readonly Buffer _indexBuffer;
+        private readonly Image _texture;
+        private readonly Shader _shader;
+        private readonly Pipeline _pipeline;
 
         private bool _paused;
         private float _rotationX;
@@ -159,26 +160,33 @@ namespace Samples.ArrayTex
             image.Name = "tex";
             image.Type = ImageType.TextureArray;
 
-            // specify shader stage source code for each graphics backend
-            if (Backend == GraphicsBackend.OpenGL)
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                // specify shader stage source code for each graphics backend
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private Image CreateTexture()
+        private static Image CreateTexture()
         {
-            // use memory from the thread's stack to create the checkerboard texture data
-            Span<Rgba8U> pixelData = stackalloc Rgba8U[_textureLayersCount * _textureWidth * _textureHeight];
+            var pixelData = ArrayPool<Rgba8U>.Shared.Rent(_textureLayersCount * _textureWidth * _textureHeight);
 
             for (int layer = 0, even_odd = 0, index = 0; layer < _textureLayersCount; layer++)
             {
@@ -189,18 +197,13 @@ namespace Samples.ArrayTex
                         ref var color = ref pixelData[index];
                         if ((int)(even_odd & 1) > 0)
                         {
-                            switch (layer)
+                            color = layer switch
                             {
-                                case 0:
-                                    color = Rgba8U.Red;
-                                    break;
-                                case 1:
-                                    color = Rgba8U.Lime;
-                                    break;
-                                case 2:
-                                    color = Rgba8U.Blue;
-                                    break;
-                            }
+                                0 => Rgba8U.Red,
+                                1 => Rgba8U.Lime,
+                                2 => Rgba8U.Blue,
+                                _ => color
+                            };
                         }
                         else
                         {
@@ -226,17 +229,21 @@ namespace Samples.ArrayTex
 
             // immutable images need to specify the data/size in the descriptor
             // when using a `Memory<T>`, or a `Span<T>` which is unmanaged or already pinned, we do this by calling `SetData`
-            imageDesc.SetData(pixelData);
+            imageDesc.SetData(pixelData.AsSpan());
 
             // create the image from the descriptor
             // note: for immutable images this "uploads" the data to the GPU
-            return GraphicsDevice.CreateImage(ref imageDesc);
+            var image = GraphicsDevice.CreateImage(ref imageDesc);
+
+            ArrayPool<Rgba8U>.Shared.Return(pixelData);
+
+            return image;
         }
 
-        private Buffer CreateIndexBuffer()
+        private static Buffer CreateIndexBuffer()
         {
-            // use memory from the thread's stack to create the cube indices
-            Span<ushort> indices = stackalloc ushort[]
+            // ReSharper disable once RedundantCast
+            var indices = (Span<ushort>)stackalloc ushort[]
             {
                 0, 1, 2, 0, 2, 3, // quad 1 of cube
                 6, 5, 4, 7, 6, 4, // quad 2 of cube
@@ -262,10 +269,10 @@ namespace Samples.ArrayTex
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private Buffer CreateVertexBuffer()
+        private static Buffer CreateVertexBuffer()
         {
-            // use memory from the thread's stack for the cube vertices
-            Span<Vertex> vertices = stackalloc Vertex[4 * 6];
+            // ReSharper disable once RedundantCast
+            var vertices = (Span<Vertex>)stackalloc Vertex[4 * 6];
 
             // describe the vertices of the cube
             // quad 1

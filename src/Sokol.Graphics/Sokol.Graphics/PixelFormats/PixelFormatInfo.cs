@@ -3,6 +3,8 @@
 
 using System.Runtime.InteropServices;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>

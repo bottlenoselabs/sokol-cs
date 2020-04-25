@@ -5,6 +5,8 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
+// ReSharper disable MemberCanBeInternal
+
 namespace Sokol.Graphics
 {
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style")]
@@ -30,12 +32,15 @@ namespace Sokol.Graphics
         public static extern void sg_reset_state_cache();
 
         [DllImport(LIBRARY_NAME)]
+        // ReSharper disable once UnusedMember.Global
         public static extern TraceHooks sg_install_trace_hooks([In] ref TraceHooks trace_hooks);
 
         [DllImport(LIBRARY_NAME)]
+        // ReSharper disable once UnusedMember.Global
         public static extern void sg_push_debug_group(IntPtr name);
 
         [DllImport(LIBRARY_NAME)]
+        // ReSharper disable once UnusedMember.Global
         public static extern void sg_pop_debug_group();
 
         [DllImport(LIBRARY_NAME)]

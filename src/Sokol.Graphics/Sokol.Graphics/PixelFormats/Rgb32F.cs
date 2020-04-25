@@ -6,17 +6,22 @@ using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable MemberCanBeInternal
+
 namespace Sokol.Graphics
 {
+    /// <inheritdoc />
     /// <summary>
     ///     A pixel color value type with 32 bits each for the 3 float components: red, green, and blue.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="Rgb32F" /> is mutable on purpose for easier use when working with the components directly.
+    ///         <see cref="T:Sokol.Graphics.Rgb32F" /> is mutable on purpose for easier use when working with the components directly.
     ///     </para>
     ///     <para>
-    ///         <see cref="Rgb32F" /> is blittable.
+    ///         <see cref="T:Sokol.Graphics.Rgb32F" /> is blittable.
     ///     </para>
     /// </remarks>
     public partial struct Rgb32F : IEquatable<Rgb32F>
@@ -62,14 +67,14 @@ namespace Sokol.Graphics
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public override readonly string ToString()
         {
             return $"R:{R}, G:{G}, B:{B}";
         }
 
         /// <inheritdoc />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
             // ReSharper disable NonReadonlyMemberInGetHashCode
             return HashCode.Combine(R, G, B);

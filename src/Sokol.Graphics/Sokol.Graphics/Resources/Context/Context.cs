@@ -4,9 +4,11 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
+
 namespace Sokol.Graphics
 {
     /// <summary>

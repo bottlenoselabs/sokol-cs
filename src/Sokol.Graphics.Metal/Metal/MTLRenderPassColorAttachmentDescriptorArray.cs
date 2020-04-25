@@ -17,10 +17,10 @@ namespace Metal
             _handle = handle;
         }
 
-        public MTLRenderPassColorAttachmentDescriptor this[uint index]
+        public unsafe MTLRenderPassColorAttachmentDescriptor this[uint index]
         {
             get => NSArray.objectAtIndexedSubscript<MTLRenderPassColorAttachmentDescriptor>(_handle, (UIntPtr)index);
-            set => NSArray.setObjectAtIndexedSubscript<MTLRenderPassColorAttachmentDescriptor>(_handle, value, (UIntPtr)index);
+            set => NSArray.setObjectAtIndexedSubscript(_handle, (IntPtr)(&value), (UIntPtr)index);
         }
 
         public static implicit operator IntPtr(MTLRenderPassColorAttachmentDescriptorArray value)

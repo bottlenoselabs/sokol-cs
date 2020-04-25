@@ -27,10 +27,10 @@ namespace Sokol.Graphics
     public unsafe struct PipelineVertexLayoutDescriptor
     {
         [FieldOffset(0)]
-        internal fixed int _buffers[12 * sokol_gfx.SG_MAX_SHADERSTAGE_BUFFERS / 4];
+        private fixed int _buffers[12 * sokol_gfx.SG_MAX_SHADERSTAGE_BUFFERS / 4];
 
         [FieldOffset(96)]
-        internal fixed int _attrs[12 * sokol_gfx.SG_MAX_VERTEX_ATTRIBUTES / 4];
+        private fixed int _attrs[12 * sokol_gfx.SG_MAX_VERTEX_ATTRIBUTES / 4];
 
         /// <summary>
         ///     Gets the <see cref="PipelineVertexBufferLayoutDescriptor" />, by reference, given the specified slot or
@@ -38,7 +38,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index of the vertex <see cref="Buffer" />.</param>
         /// <returns>A <see cref="PipelineVertexBufferLayoutDescriptor"/> by reference.</returns>
-        public ref PipelineVertexBufferLayoutDescriptor Buffer(int index)
+        public readonly ref PipelineVertexBufferLayoutDescriptor Buffer(int index)
         {
             fixed (PipelineVertexLayoutDescriptor* layoutDescription = &this)
             {
@@ -53,7 +53,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index of the vertex <see cref="Buffer" />.</param>
         /// <returns>A <see cref="PipelineVertexBufferLayoutDescriptor"/> by reference.</returns>
-        public ref PipelineVertexAttributeDescriptor Attribute(int index)
+        public readonly ref PipelineVertexAttributeDescriptor Attribute(int index)
         {
             fixed (PipelineVertexLayoutDescriptor* layoutDescription = &this)
             {

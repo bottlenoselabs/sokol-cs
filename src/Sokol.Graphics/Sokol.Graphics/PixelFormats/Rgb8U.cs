@@ -5,17 +5,22 @@ using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable MemberCanBeInternal
+
 namespace Sokol.Graphics
 {
+    /// <inheritdoc />
     /// <summary>
     ///     A pixel color value type with 8 bits each for the 3 un-signed integer components: red, green, and blue.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="Rgb8U" /> is mutable on purpose for easier use when working with the components directly.
+    ///         <see cref="T:Sokol.Graphics.Rgb8U" /> is mutable on purpose for easier use when working with the components directly.
     ///     </para>
     ///     <para>
-    ///         <see cref="Rgb8U" /> is blittable.
+    ///         <see cref="T:Sokol.Graphics.Rgb8U" /> is blittable.
     ///     </para>
     /// </remarks>
     public partial struct Rgb8U : IEquatable<Rgb8U>
@@ -49,14 +54,14 @@ namespace Sokol.Graphics
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public override readonly string ToString()
         {
             return $"R:{R}, G:{G}, B:{B}";
         }
 
         /// <inheritdoc />
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
             // ReSharper disable NonReadonlyMemberInGetHashCode
             return HashCode.Combine(R, G, B);

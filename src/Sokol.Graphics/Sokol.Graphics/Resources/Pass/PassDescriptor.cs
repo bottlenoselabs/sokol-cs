@@ -27,30 +27,30 @@ namespace Sokol.Graphics
         public PassAttachmentDescriptor DepthStencilAttachment;
 
         [FieldOffset(4)]
-        internal fixed int _color_attachments[12 * sokol_gfx.SG_MAX_COLOR_ATTACHMENTS / 4];
+        private fixed int _color_attachments[12 * sokol_gfx.SG_MAX_COLOR_ATTACHMENTS / 4];
 
         // TODO: Trace hooks
         [FieldOffset(64)]
-        internal byte* Label;
+        private readonly byte* _label;
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
         [FieldOffset(0)]
-        internal uint _startCanary;
+        private readonly uint _startCanary;
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
         [FieldOffset(72)]
-        internal uint _endCanary;
+        private readonly uint _endCanary;
 
         /// <summary>
         ///     Gets the color <see cref="PassAttachmentDescriptor" />, by reference, given the specified slot or index.
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="PassAttachmentDescriptor"/> by reference.</returns>
-        public ref PassAttachmentDescriptor ColorAttachment(int index)
+        public readonly ref PassAttachmentDescriptor ColorAttachment(int index)
         {
             fixed (PassDescriptor* passDescription = &this)
             {

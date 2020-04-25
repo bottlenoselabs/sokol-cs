@@ -6,8 +6,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable FieldCanBeMadeReadOnly.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -31,13 +33,41 @@ namespace Sokol.Graphics
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct Pass
+    public readonly struct Pass
     {
         /// <summary>
         ///     A number which uniquely identifies the <see cref="Pass" />.
         /// </summary>
         [FieldOffset(0)]
-        public uint Identifier;
+        public readonly uint Identifier;
+
+        // TODO: Document `PassInfo`.
+        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        public PassInfo Info
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => PInvoke.sg_query_pass_info(this);
+        }
+
+        // TODO: Document `ResourceState`.
+        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        public ResourceState State
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => PInvoke.sg_query_pass_state(this);
+        }
+
+        /// <summary>
+        ///     Fill any zero-initialized members of an <see cref="PassDescriptor" /> with their explicit default
+        ///     values.
+        /// </summary>
+        /// <param name="descriptor">The parameters for creating a pass.</param>
+        /// <returns>An <see cref="PassDescriptor" /> with any zero-initialized members set to default values.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static PassDescriptor QueryDefaults([In] ref PassDescriptor descriptor)
+        {
+            return PInvoke.sg_query_pass_defaults(ref descriptor);
+        }
 
         // TODO: Document manual initialization of a pass
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
@@ -95,6 +125,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     Ends the <see cref="Pass" />.
         /// </summary>
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         public void End()
         {
             PInvoke.sg_end_pass();
@@ -105,6 +136,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="pipeline">The pipeline.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         public void ApplyPipeline(Pipeline pipeline)
         {
             PInvoke.sg_apply_pipeline(pipeline);
@@ -116,6 +148,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="bindings">The resource bindings.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         public void ApplyBindings([In] ref ResourceBindings bindings)
         {
             PInvoke.sg_apply_bindings(ref bindings);
@@ -131,6 +164,7 @@ namespace Sokol.Graphics
         /// <param name="uniformBlockIndex">The uniform block zero-based index which the uniform belongs to.</param>
         /// <typeparam name="T">The type of <paramref name="value" />.</typeparam>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         public unsafe void ApplyShaderUniforms<T>(ShaderStageType stage, ref T value, int uniformBlockIndex = 0)
             where T : unmanaged
         {
@@ -149,9 +183,26 @@ namespace Sokol.Graphics
         /// <param name="originIsTopLeft">
         ///     Indicates whether the origin is the top-left (<c>true</c>) or the bottom-left (<c>false</c>).
         /// </param>
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         public void ApplyViewport(int x, int y, int width, int height, bool originIsTopLeft = false)
         {
             PInvoke.sg_apply_viewport(x, y, width, height, originIsTopLeft);
+        }
+
+        /// <summary>
+        ///     Updates the scissor rectangle for the <see cref="Pass" />.
+        /// </summary>
+        /// <param name="x">The top-left x-coordinate of the scissor.</param>
+        /// <param name="y">The top-left y-coordinate of the scissor.</param>
+        /// <param name="width">The width of the scissor.</param>
+        /// <param name="height">The height of the scissor.</param>
+        /// <param name="originIsTopLeft">
+        ///     Indicates whether the origin is the top-left (<c>true</c>) or the bottom-left (<c>false</c>).
+        /// </param>
+        // ReSharper disable once MemberCanBeMadeStatic.Global
+        public void ApplyScissor(int x, int y, int width, int height, bool originIsTopLeft = false)
+        {
+            PInvoke.sg_apply_scissor_rect(x, y, width, height, originIsTopLeft);
         }
 
         /// <summary>
@@ -160,6 +211,7 @@ namespace Sokol.Graphics
         /// <param name="elementCount">The number of elements.</param>
         /// <param name="baseElement">The base element index.</param>
         /// <param name="instanceCount">The number of instances.</param>
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         public void DrawElements(int elementCount, int baseElement = 0, int instanceCount = 1)
         {
             PInvoke.sg_draw(baseElement, elementCount, instanceCount);

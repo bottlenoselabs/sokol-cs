@@ -5,8 +5,17 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Sokol.Graphics;
 using static SDL2.SDL;
+
+// ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable UnusedParameter.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable MemberCanBeInternal
+// ReSharper disable EventNeverSubscribedTo.Global
+#pragma warning disable 67
 
 namespace Sokol.App
 {
@@ -18,6 +27,7 @@ namespace Sokol.App
         [SuppressMessage("ReSharper", "SA1401", Justification = "Internal")]
         internal static App Instance = null!;
 
+        private static int _isInitialized;
         private static int _drawableWidth;
         private static int _drawableHeight;
         private readonly AppLoop _loop;
@@ -57,7 +67,7 @@ namespace Sokol.App
         public event Action<App, KeyboardEventData>? KeyUp;
 
         /// <summary>
-        ///     Occurs when the size of the application's framebuffer changes.
+        ///     Occurs when the size of the application's frame buffer changes.
         /// </summary>
         public event Action<App, int, int>? DrawableSizeChanged;
 
@@ -73,7 +83,7 @@ namespace Sokol.App
             AppLoop? loop = null,
             GraphicsDescriptor? descriptor = null)
         {
-            if (Instance != null)
+            if (Interlocked.CompareExchange(ref _isInitialized, 1, 0) == 1)
             {
                 throw new InvalidOperationException("Another application has already been initialized.");
             }
@@ -116,10 +126,10 @@ namespace Sokol.App
         }
 
         /// <summary>
-        ///     Begins and returns the framebuffer <see cref="Pass" /> with the specified width, height, and
+        ///     Begins and returns the frame buffer <see cref="Pass" /> with the specified width, height, and
         ///     <see cref="PassAction.DontCare" /> as the action.
         /// </summary>
-        /// <returns>The framebuffer <see cref="Pass" />.</returns>
+        /// <returns>The frame buffer <see cref="Pass" />.</returns>
         public static Pass BeginDefaultPass()
         {
             var passAction = PassAction.DontCare;
@@ -127,11 +137,11 @@ namespace Sokol.App
         }
 
         /// <summary>
-        ///     Begins and returns the framebuffer <see cref="Pass" /> with the specified width, height, and
+        ///     Begins and returns the frame buffer <see cref="Pass" /> with the specified width, height, and
         ///     <see cref="PassAction.Clear" /> as the action.
         /// </summary>
         /// <param name="clearColor">The color to clear the color attachments.</param>
-        /// <returns>The framebuffer <see cref="Pass" />.</returns>
+        /// <returns>The frame buffer <see cref="Pass" />.</returns>
         public static Pass BeginDefaultPass(Rgba32F clearColor)
         {
             var passAction = PassAction.Clear(clearColor);
@@ -139,11 +149,11 @@ namespace Sokol.App
         }
 
         /// <summary>
-        ///     Begins and returns the framebuffer <see cref="Pass"/> with the specified width, height, and
+        ///     Begins and returns the frame buffer <see cref="Pass"/> with the specified width, height, and
         ///     <see cref="PassAction" />.
         /// </summary>
-        /// <param name="passAction">The framebuffer pass action.</param>
-        /// <returns>The framebuffer <see cref="Pass" />.</returns>
+        /// <param name="passAction">The frame buffer pass action.</param>
+        /// <returns>The frame buffer <see cref="Pass" />.</returns>
         public static Pass BeginDefaultPass([In] ref PassAction passAction)
         {
             return GraphicsDevice.BeginDefaultPass(_drawableWidth, _drawableHeight, ref passAction);
@@ -196,6 +206,9 @@ namespace Sokol.App
                 case GraphicsBackend.Metal:
                     return new RendererMetal(ref descriptor, windowHandle);
                 case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(backend), backend, null);

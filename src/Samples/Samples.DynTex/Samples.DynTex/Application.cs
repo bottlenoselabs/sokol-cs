@@ -11,13 +11,13 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.DynTex
 {
-    public class Application : App
+    internal sealed class Application : App
     {
-        private Buffer _vertexBuffer;
-        private Buffer _indexBuffer;
-        private Image _texture;
-        private Shader _shader;
-        private Pipeline _pipeline;
+        private readonly Buffer _vertexBuffer;
+        private readonly Buffer _indexBuffer;
+        private readonly Image _texture;
+        private readonly Shader _shader;
+        private readonly Pipeline _pipeline;
 
         private bool _paused;
         private float _rotationX;
@@ -26,13 +26,14 @@ namespace Samples.DynTex
         private Matrix4x4 _worldProjectionMatrix;
         private int _updateCount;
 
-        private Rgba8U _livingColor = Rgba8U.White;
-        private Rgba8U _deadColor = Rgba8U.Black;
+        private readonly Rgba8U _livingColor = Rgba8U.White;
+        private readonly Rgba8U _deadColor = Rgba8U.Black;
+
         // width/height must be power of 2
         private const int _textureWidth = 64;
         private const int _textureHeight = 64;
-        private Rgba8U[] _textureData = new Rgba8U[_textureWidth * _textureHeight];
-        private Random _random = new Random();
+        private readonly Rgba8U[] _textureData = new Rgba8U[_textureWidth * _textureHeight];
+        private readonly Random _random = new Random();
 
         public Application()
         {
@@ -119,7 +120,7 @@ namespace Samples.DynTex
                     {
                         for (var nx = -1; nx < 2; nx++)
                         {
-                            if ((nx == 0) && (ny == 0))
+                            if (nx == 0 && ny == 0)
                             {
                                 continue;
                             }
@@ -173,14 +174,7 @@ namespace Samples.DynTex
                     var index = (y * _textureHeight) + x;
                     ref var color = ref _textureData[index];
 
-                    if (_random.Next(0, 255 + 1) > 230)
-                    {
-                        color = _livingColor;
-                    }
-                    else
-                    {
-                        color = _deadColor;
-                    }
+                    color = _random.Next(0, 255 + 1) > 230 ? _livingColor : _deadColor;
                 }
             }
         }
@@ -229,23 +223,31 @@ namespace Samples.DynTex
             image.Name = "tex";
             image.Type = ImageType.Texture2D;
 
-            // specify shader stage source code for each graphics backend
-            if (Backend == GraphicsBackend.OpenGL)
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                // specify shader stage source code for each graphics backend
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private Image CreateTexture()
+        private static Image CreateTexture()
         {
             var imageDesc = new ImageDescriptor
             {
@@ -263,10 +265,10 @@ namespace Samples.DynTex
             return GraphicsDevice.CreateImage(ref imageDesc);
         }
 
-        private Buffer CreateIndexBuffer()
+        private static Buffer CreateIndexBuffer()
         {
-            // use memory from the thread's stack to create the cube indices
-            Span<ushort> indices = stackalloc ushort[]
+            // ReSharper disable once RedundantCast
+            var indices = (Span<ushort>)stackalloc ushort[]
             {
                 0, 1, 2, 0, 2, 3, // quad 1 of cube
                 6, 5, 4, 7, 6, 4, // quad 2 of cube
@@ -292,10 +294,10 @@ namespace Samples.DynTex
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private Buffer CreateVertexBuffer()
+        private static Buffer CreateVertexBuffer()
         {
-            // use memory from the thread's stack for the cube vertices
-            Span<Vertex> vertices = stackalloc Vertex[4 * 6];
+            // ReSharper disable once RedundantCast
+            var vertices = (Span<Vertex>)stackalloc Vertex[4 * 6];
 
             // describe the vertices of the cube
             // quad 1

@@ -6,6 +6,12 @@ using System.Numerics;
 using Sokol.Graphics;
 using static SDL2.SDL;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable EventNeverSubscribedTo.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBeInternal
+
 namespace Sokol.App
 {
     public sealed class AppWindow : IDisposable
@@ -45,13 +51,21 @@ namespace Sokol.App
             var windowFlags = SDL_WindowFlags.SDL_WINDOW_SHOWN |
                               SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI |
                               SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
-            if (app.Backend == GraphicsBackend.OpenGL)
+            switch (app.Backend)
             {
-                windowFlags |= SDL_WindowFlags.SDL_WINDOW_OPENGL;
-            }
-            else if (app.Backend == GraphicsBackend.Metal)
-            {
-                windowFlags |= SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI;
+                case GraphicsBackend.OpenGL:
+                    windowFlags |= SDL_WindowFlags.SDL_WINDOW_OPENGL;
+                    break;
+                case GraphicsBackend.Metal:
+                    windowFlags |= SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI;
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             Handle = SDL_CreateWindow(
@@ -94,36 +108,43 @@ namespace Sokol.App
             SDL_SetWindowSize(Handle, width, height);
         }
 
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         internal void OnShown()
         {
             // TODO
         }
 
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         internal void OnHidden()
         {
             // TODO
         }
 
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         internal void OnExposed()
         {
             // TODO
         }
 
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         internal void OnFocused()
         {
             // TODO
         }
 
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         internal void OnUnfocused()
         {
             // TODO
         }
 
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         internal void OnMouseEntered()
         {
             // TODO
         }
 
+        // ReSharper disable once MemberCanBeMadeStatic.Global
         internal void OnMouseLeft()
         {
             // TODO

@@ -11,19 +11,19 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.MultipleRenderTargets
 {
-    public class Application : App
+    internal sealed class Application : App
     {
-        private readonly Image[] _offScreenRenderTargets = new Image[4];
-        private Buffer _cubeIndexBuffer;
-        private Buffer _cubeVertexBuffer;
-        private Buffer _quadVertexBuffer;
-        private Pipeline _debugPipeline;
-        private Shader _debugShader;
-        private Pipeline _fullScreenPipeline;
-        private Shader _fullScreenShader;
-        private Pass _offScreenPass;
-        private Pipeline _offScreenPipeline;
-        private Shader _offScreenShader;
+        private readonly Image[] _offScreenRenderTargets;
+        private readonly Buffer _cubeIndexBuffer;
+        private readonly Buffer _cubeVertexBuffer;
+        private readonly Buffer _quadVertexBuffer;
+        private readonly Pipeline _debugPipeline;
+        private readonly Shader _debugShader;
+        private readonly Pipeline _fullScreenPipeline;
+        private readonly Shader _fullScreenShader;
+        private readonly Pass _offScreenPass;
+        private readonly Pipeline _offScreenPipeline;
+        private readonly Shader _offScreenShader;
 
         private bool _paused;
         private Vector2 _offset;
@@ -93,8 +93,8 @@ namespace Samples.MultipleRenderTargets
         {
             // render cube into offscreen render targets
             var offScreenPassAction = default(PassAction);
-            offScreenPassAction.Color(0).Action = PassAttachmentAction.Clear;
-            offScreenPassAction.Color(0).Value = new Rgba32F(0.25f, 0.0f, 0.0f, 1.0f);
+            offScreenPassAction.Color().Action = PassAttachmentAction.Clear;
+            offScreenPassAction.Color().Value = new Rgba32F(0.25f, 0.0f, 0.0f, 1.0f);
             offScreenPassAction.Color(1).Action = PassAttachmentAction.Clear;
             offScreenPassAction.Color(1).Value = new Rgba32F(0.0f, 0.25f, 0.0f, 1.0f);
             offScreenPassAction.Color(2).Action = PassAttachmentAction.Clear;
@@ -168,18 +168,26 @@ namespace Samples.MultipleRenderTargets
         {
             // describe the fullscreen shader program
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.FragmentStage.Image(0).Name = "tex";
-            shaderDesc.FragmentStage.Image(0).Type = ImageType.Texture2D;
-            // specify shader stage source code for each graphics backend
-            if (Backend == GraphicsBackend.OpenGL)
+            shaderDesc.FragmentStage.Image().Name = "tex";
+            shaderDesc.FragmentStage.Image().Type = ImageType.Texture2D;
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debug.vert");
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debug.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/debugVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/debugFrag.metal");
+                // specify shader stage source code for each graphics backend
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debug.vert");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debug.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/debugVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/debugFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the fullscreen shader resource from the description
@@ -203,37 +211,45 @@ namespace Samples.MultipleRenderTargets
         {
             // describe the fullscreen shader program
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock(0).Size = Marshal.SizeOf<Vector2>();
-            ref var offsetUniform = ref shaderDesc.VertexStage.UniformBlock(0).Uniform(0);
+            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Vector2>();
+            ref var offsetUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
             offsetUniform.Name = "offset";
             offsetUniform.Type = ShaderUniformType.Float2;
-            shaderDesc.FragmentStage.Image(0).Name = "tex0";
-            shaderDesc.FragmentStage.Image(0).Type = ImageType.Texture2D;
+            shaderDesc.FragmentStage.Image().Name = "tex0";
+            shaderDesc.FragmentStage.Image().Type = ImageType.Texture2D;
             shaderDesc.FragmentStage.Image(1).Name = "tex1";
             shaderDesc.FragmentStage.Image(1).Type = ImageType.Texture2D;
             shaderDesc.FragmentStage.Image(2).Name = "tex2";
             shaderDesc.FragmentStage.Image(2).Type = ImageType.Texture2D;
 
-            // specify shader stage source code for each graphics backend
-            if (Backend == GraphicsBackend.OpenGL)
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/fullScreen.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/fullScreen.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/fullScreenVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/fullScreenFrag.metal");
+                // specify shader stage source code for each graphics backend
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/fullScreen.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/fullScreen.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/fullScreenVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/fullScreenFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the fullscreen shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private Buffer CreateQuadVertexBuffer()
+        private static Buffer CreateQuadVertexBuffer()
         {
-            // use memory from the thread's stack to create the full screen quad vertices
-            Span<Vector2> vertices = stackalloc Vector2[]
+            // ReSharper disable once RedundantCast
+            var vertices = (Span<Vector2>)stackalloc Vector2[]
             {
                 new Vector2(0, 0),
                 new Vector2(1, 0),
@@ -255,7 +271,7 @@ namespace Samples.MultipleRenderTargets
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private Image[] CreateOffScreenRenderTargets(int msaaSampleCount)
+        private static Image[] CreateOffScreenRenderTargets(int msaaSampleCount)
         {
             // describe the off screen render target images
             var colorImageDesc = default(ImageDescriptor);
@@ -304,30 +320,39 @@ namespace Samples.MultipleRenderTargets
         {
             // describe the off screen shader program
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock(0).Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock(0).Uniform(0);
+            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
+            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
-            // specify shader stage source code for each graphics backend
-            if (Backend == GraphicsBackend.OpenGL)
+
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offScreen.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offScreen.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offScreenVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offScreenFrag.metal");
+                // specify shader stage source code for each graphics backend
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offScreen.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offScreen.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offScreenVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offScreenFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the off screen shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private Buffer CreateCubeIndexBuffer()
+        private static Buffer CreateCubeIndexBuffer()
         {
-            // use memory from the thread's stack to create the cube indices
-            Span<ushort> cubeIndices = stackalloc ushort[]
+            // ReSharper disable once RedundantCast
+            var cubeIndices = (Span<ushort>)stackalloc ushort[]
             {
                 0, 1, 2, 0, 2, 3, // quad 1 of cube
                 6, 5, 4, 7, 6, 4, // quad 2 of cube
@@ -351,10 +376,10 @@ namespace Samples.MultipleRenderTargets
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private Buffer CreateCubeVertexBuffer()
+        private static Buffer CreateCubeVertexBuffer()
         {
-            // use memory from the thread's stack for the cube vertices
-            Span<Vertex> cubeVertices = stackalloc Vertex[24];
+            // ReSharper disable once RedundantCast
+            var cubeVertices = (Span<Vertex>)stackalloc Vertex[24];
 
             // describe the vertices of the cube
             // quad 1

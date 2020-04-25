@@ -4,6 +4,10 @@
 using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable UnusedMember.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -55,6 +59,7 @@ namespace Sokol.Graphics
         [FieldOffset(0)]
         private IntPtr _sourceCode;
 
+        // ReSharper disable once CommentTypo
         /// <summary>
         ///     Gets or sets the string containing the source code of the stage. Must be set for
         ///     <see cref="GraphicsBackend.OpenGL" />, <see cref="GraphicsBackend.OpenGLES2" />, and
@@ -70,7 +75,7 @@ namespace Sokol.Graphics
         /// <value>The string containing the source code of the stage.</value>
         public string SourceCode
         {
-            get => UnmanagedStringMemoryManager.GetString(_sourceCode);
+            readonly get => UnmanagedStringMemoryManager.GetString(_sourceCode);
             set => _sourceCode = UnmanagedStringMemoryManager.SetString(value);
         }
 
@@ -82,7 +87,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="ShaderUniformBlockDescriptor" /> by reference.</returns>
-        public ref ShaderUniformBlockDescriptor UniformBlock(int index = 0)
+        public readonly ref ShaderUniformBlockDescriptor UniformBlock(int index = 0)
         {
             fixed (ShaderStageDescriptor* shaderStageDescription = &this)
             {
@@ -97,7 +102,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="ShaderImageDescriptor" /> by reference.</returns>
-        public ref ShaderImageDescriptor Image(int index = 0)
+        public readonly ref ShaderImageDescriptor Image(int index = 0)
         {
             fixed (ShaderStageDescriptor* shaderStageDescription = &this)
             {

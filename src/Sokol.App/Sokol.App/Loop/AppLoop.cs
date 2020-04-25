@@ -6,6 +6,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using static SDL2.SDL;
 
+// ReSharper disable MemberCanBeInternal
+
 namespace Sokol.App
 {
 #pragma warning disable 1591
@@ -104,7 +106,7 @@ namespace Sokol.App
             {
                 case SDL_EventType.SDL_QUIT:
                 case SDL_EventType.SDL_APP_TERMINATING:
-                    App.Instance.Exit();
+                    App.Instance!.Exit();
                     break;
                 case SDL_EventType.SDL_WINDOWEVENT:
                     HandleWindowEvent(e.window);
@@ -342,26 +344,31 @@ namespace Sokol.App
             return mods;
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private static void HandleTextInputEvent(SDL_TextInputEvent e)
         {
             // TODO
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private static void HandleMouseMotionEvent(SDL_MouseMotionEvent e)
         {
             // TODO
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private static void HandleMouseButtonEvent(SDL_MouseButtonEvent e)
         {
             // TODO
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private static void HandleMouseWheelEvent(SDL_MouseWheelEvent e)
         {
             // TODO
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private static void HandleDropEvent(SDL_DropEvent e)
         {
             // TODO

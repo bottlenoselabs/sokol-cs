@@ -24,7 +24,7 @@ namespace Sokol.Graphics
         public static PassAction Clear(Rgba32F? color = null)
         {
             var passAction = default(PassAction);
-            ref var color0 = ref passAction.Color(0);
+            ref var color0 = ref passAction.Color();
             color0.Action = PassAttachmentAction.Clear;
             color0.Value = color ?? Rgba32F.Gray;
             return passAction;
@@ -36,6 +36,7 @@ namespace Sokol.Graphics
         /// <value>
         ///     The don't care <see cref="PassAction" />.
         /// </value>
+        // ReSharper disable once IdentifierTypo
         public static PassAction DontCare
         {
             get
@@ -56,28 +57,30 @@ namespace Sokol.Graphics
         ///     The <see cref="PassDepthAttachmentAction "/> to use.
         /// </summary>
         [FieldOffset(84)]
+        // ReSharper disable once MemberCanBePrivate.Global
         public PassDepthAttachmentAction Depth;
 
         /// <summary>
         ///     The <see cref="PassStencilAttachmentAction" /> to use.
         /// </summary>
         [FieldOffset(92)]
+        // ReSharper disable once MemberCanBePrivate.Global
         public PassStencilAttachmentAction Stencil;
 
         [FieldOffset(4)]
-        internal fixed int _colors[20 * sokol_gfx.SG_MAX_COLOR_ATTACHMENTS / 4];
+        private fixed int _colors[20 * sokol_gfx.SG_MAX_COLOR_ATTACHMENTS / 4];
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
         [FieldOffset(0)]
-        internal uint _startCanary;
+        private readonly uint _startCanary;
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
         [FieldOffset(100)]
-        internal uint _endCanary;
+        private readonly uint _endCanary;
 
         /// <summary>
         ///     Gets the <see cref="PassColorAttachmentAction" />, by reference, to use given a specified slot or index.

@@ -3,6 +3,9 @@
 
 using System.Globalization;
 
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace CoreGraphics
 {
     public struct CGFloat
@@ -24,7 +27,7 @@ namespace CoreGraphics
             return cgf.value;
         }
 
-        public override string ToString()
+        public override readonly string ToString()
         {
             return value.ToString(CultureInfo.InvariantCulture);
         }

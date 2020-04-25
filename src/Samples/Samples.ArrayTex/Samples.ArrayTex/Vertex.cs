@@ -2,11 +2,12 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Numerics;
-using Sokol.Graphics;
+
+// ReSharper disable NotAccessedField.Global
 
 namespace Samples.ArrayTex
 {
-    public struct Vertex
+    internal struct Vertex
     {
         public Vector3 Position;
         public Vector2 TextureCoordinate;

@@ -39,7 +39,7 @@ internal static class NativeLibraries
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            AddLibraryPath("SDL2", "runtimes/win-x64/native/SDL.dll");
+            AddLibraryPath("SDL2", "runtimes/win-x64/native/SDL2.dll");
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -54,6 +54,7 @@ internal static class NativeLibraries
             throw new NotImplementedException();
         }
 
+        // ReSharper disable StringLiteralTypo
         // exports required to ignore for macOS, needs more testing on other platforms
         exportsToIgnore.Add("SDL_WinRTGetDeviceFamily");
         exportsToIgnore.Add("SDL_SetWindowsMessageHook");
@@ -83,6 +84,7 @@ internal static class NativeLibraries
         exportsToIgnore.Add("SDL_Metal_DestroyView");
         exportsToIgnore.Add("SDL_SetTextureScaleMode");
         exportsToIgnore.Add("SDL_GetTextureScaleMode");
+        // ReSharper restore StringLiteralTypo
 
         NativeLibrary.SetDllImportResolver(typeof(SDL).Assembly, resolver);
         PreLoadLibrary("SDL2", typeof(SDL), exportsToIgnore.ToArray());
@@ -101,106 +103,17 @@ internal static class NativeLibraries
 
     private static GraphicsBackend UseSokolGfx(DllImportResolver resolver, GraphicsPlatform platform, GraphicsBackend? requestedBackend)
     {
-        GraphicsBackend backend;
-        if (requestedBackend == null)
-        {
-            backend = platform switch
-            {
-                GraphicsPlatform.Windows => GraphicsBackend.Direct3D11,
-                GraphicsPlatform.macOS => GraphicsBackend.Metal,
-                GraphicsPlatform.Linux => GraphicsBackend.OpenGL,
-                _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
-            };
-        }
-        else
-        {
-            backend = (GraphicsBackend)requestedBackend;
-        }
+        var backend = GetUseableGraphicsBackend(platform, requestedBackend);
 
-        if (platform == GraphicsPlatform.Windows)
-        {
-            switch (backend)
-            {
-                case GraphicsBackend.Dummy:
-                    AddLibraryPath("sokol_gfx", Path.Combine(
-                        Environment.CurrentDirectory,
-                        "runtimes",
-                        "win-x64",
-                        "native",
-                        "sokol_gfx-dummy.dll"));
-                    break;
-                case GraphicsBackend.OpenGL:
-                    AddLibraryPath("sokol_gfx", Path.Combine(
-                        Environment.CurrentDirectory,
-                        "runtimes",
-                        "win-x64",
-                        "native",
-                        "sokol_gfx-opengl.dll"));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(requestedBackend), requestedBackend, null);
-            }
-        }
+        var rid = GetRuntimeIdentifier(platform);
+        var extension = GetDynamicLibraryExtension(platform);
+        var backendString = backend.ToString().ToLowerInvariant();
+        var libraryPrefix = platform == GraphicsPlatform.Windows ? string.Empty : "lib";
+        var libraryPath = $"runtimes/{rid}/native/{libraryPrefix}sokol_gfx-{backendString}.{extension}";
 
-        if (platform == GraphicsPlatform.macOS)
-        {
-            switch (backend)
-            {
-                case GraphicsBackend.Dummy:
-                    AddLibraryPath("sokol_gfx", Path.Combine(
-                        Environment.CurrentDirectory,
-                        "runtimes",
-                        "osx-x64",
-                        "native",
-                        "libsokol_gfx-dummy.dylib"));
-                    break;
-                case GraphicsBackend.OpenGL:
-                    AddLibraryPath("sokol_gfx", Path.Combine(
-                        Environment.CurrentDirectory,
-                        "runtimes",
-                        "osx-x64",
-                        "native",
-                        "libsokol_gfx-opengl.dylib"));
-                    break;
-                case GraphicsBackend.Metal:
-                    AddLibraryPath("sokol_gfx", Path.Combine(
-                        Environment.CurrentDirectory,
-                        "runtimes",
-                        "osx-x64",
-                        "native",
-                        "libsokol_gfx-metal.dylib"));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(requestedBackend), requestedBackend, null);
-            }
-        }
+        AddLibraryPath("sokol_gfx", libraryPath);
 
-        if (platform == GraphicsPlatform.Linux)
-        {
-            switch (backend)
-            {
-                case GraphicsBackend.Dummy:
-                    AddLibraryPath("sokol_gfx", Path.Combine(
-                        Environment.CurrentDirectory,
-                        "runtimes",
-                        "linux-x64",
-                        "native",
-                        "libsokol_gfx-dummy.so"));
-                    break;
-                case GraphicsBackend.OpenGL:
-                    AddLibraryPath("sokol_gfx", Path.Combine(
-                        Environment.CurrentDirectory,
-                        "runtimes",
-                        "linux-x64",
-                        "native",
-                        "libsokol_gfx-opengl.so"));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(requestedBackend), requestedBackend, null);
-            }
-        }
-
-        NativeLibrary.SetDllImportResolver(typeof(Sokol.Graphics.PInvoke).Assembly, resolver);
+        NativeLibrary.SetDllImportResolver(typeof(PInvoke).Assembly, resolver);
         PreLoadLibrary("sokol_gfx", typeof(PInvoke));
 
         return backend;
@@ -221,8 +134,11 @@ internal static class NativeLibraries
             case GraphicsPlatform.Linux:
                 AddLibraryPath("glew", "runtimes/linux-x64/native/libGLEW.so");
                 break;
-            default:
+            case GraphicsPlatform.Unknown:
+            case GraphicsPlatform.macOS:
                 return;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(platform), platform, null);
         }
 
         PreLoadLibrary("glew", typeof(glew));
@@ -245,21 +161,21 @@ internal static class NativeLibraries
     }
 
     [SuppressMessage("ReSharper", "SA1011", Justification = "C# 8")]
-    private static void PreLoadLibrary(string libraryName, Type type, string[]? exportsToIgnore = null)
+    private static void PreLoadLibrary(string libraryName, Type type, params string[]? exportsToIgnore)
     {
         try
         {
             var methods = type.GetRuntimeMethods();
             foreach (var method in methods)
             {
-                var dllImportAttribute = method?.GetCustomAttribute<DllImportAttribute>();
+                var dllImportAttribute = method.GetCustomAttribute<DllImportAttribute>();
                 if (dllImportAttribute == null)
                 {
                     continue;
                 }
 
                 var exportName = dllImportAttribute.EntryPoint ?? method!.Name;
-                if (exportsToIgnore != null && exportsToIgnore.Contains(exportName))
+                if (exportsToIgnore?.Contains(exportName) == true)
                 {
                     continue;
                 }
@@ -303,6 +219,11 @@ internal static class NativeLibraries
 
     private static void AddLibraryPath(string libraryName, string libraryPath)
     {
+        if (!Path.IsPathFullyQualified(libraryPath))
+        {
+            libraryPath = Path.Combine(Environment.CurrentDirectory, libraryPath);
+        }
+
         if (!LibraryPathsByLibraryName.TryGetValue(libraryName, out var list))
         {
             list = new List<string>();
@@ -346,5 +267,51 @@ internal static class NativeLibraries
         {
             throw new NotSupportedException("32-bit architecture is not supported.");
         }
+    }
+
+    private static string GetRuntimeIdentifier(GraphicsPlatform platform)
+    {
+        return platform switch
+        {
+            GraphicsPlatform.Windows => "win-x64",
+            GraphicsPlatform.macOS => "osx-x64",
+            GraphicsPlatform.Linux => "linux-x64",
+            GraphicsPlatform.Unknown => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
+        };
+    }
+
+    private static string GetDynamicLibraryExtension(GraphicsPlatform platform)
+    {
+        return platform switch
+        {
+            GraphicsPlatform.Windows => "dll",
+            GraphicsPlatform.macOS => "dylib",
+            GraphicsPlatform.Linux => "so",
+            GraphicsPlatform.Unknown => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
+        };
+    }
+
+    private static GraphicsBackend GetUseableGraphicsBackend(GraphicsPlatform platform, GraphicsBackend? requestedBackend)
+    {
+        GraphicsBackend backend;
+        if (requestedBackend == null)
+        {
+            backend = platform switch
+            {
+                GraphicsPlatform.Windows => GraphicsBackend.Direct3D11,
+                GraphicsPlatform.macOS => GraphicsBackend.Metal,
+                GraphicsPlatform.Linux => GraphicsBackend.OpenGL,
+                GraphicsPlatform.Unknown => throw new NotImplementedException(),
+                _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
+            };
+        }
+        else
+        {
+            backend = (GraphicsBackend)requestedBackend;
+        }
+
+        return backend;
     }
 }

@@ -6,9 +6,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>
@@ -30,7 +32,7 @@ namespace Sokol.Graphics
     ///         render target. However, a render target can still be used as a texture (input) to a <see cref="Shader" />
     ///         in another rendering <see cref="Pass" />. This leads to a composition technique where one or more
     ///         off-screen rendering <see cref="Pass"/>es are used to generate an intermediate <see cref="Image" />
-    ///         before being rendered with a final <see cref="Pass" /> to the framebuffer (screen).
+    ///         before being rendered with a final <see cref="Pass" /> to the frame buffer (screen).
     ///     </para>
     ///     <para>
     ///         To create a <see cref="Image" /> synchronously, call <see cref="GraphicsDevice.CreateImage" /> with a
@@ -58,18 +60,6 @@ namespace Sokol.Graphics
     public readonly struct Image
     {
         /// <summary>
-        ///     Fill any zero-initialized members of an <see cref="ImageDescriptor" /> with their explicit default
-        ///     values.
-        /// </summary>
-        /// <param name="descriptor">The parameters for creating an image.</param>
-        /// <returns>An <see cref="ImageDescriptor" /> with any zero-initialized members set to default values.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ImageDescriptor QueryDefaults([In] ref ImageDescriptor descriptor)
-        {
-            return PInvoke.sg_query_image_defaults(ref descriptor);
-        }
-
-        /// <summary>
         ///     A number which uniquely identifies the <see cref="Image" />.
         /// </summary>
         [FieldOffset(0)]
@@ -89,6 +79,18 @@ namespace Sokol.Graphics
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => PInvoke.sg_query_image_state(this);
+        }
+
+        /// <summary>
+        ///     Fill any zero-initialized members of an <see cref="ImageDescriptor" /> with their explicit default
+        ///     values.
+        /// </summary>
+        /// <param name="descriptor">The parameters for creating an image.</param>
+        /// <returns>An <see cref="ImageDescriptor" /> with any zero-initialized members set to default values.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ImageDescriptor QueryDefaults([In] ref ImageDescriptor descriptor)
+        {
+            return PInvoke.sg_query_image_defaults(ref descriptor);
         }
 
         // TODO: Document manual initialization of an image.

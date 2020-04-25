@@ -1,12 +1,12 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
+// ReSharper disable MemberCanBeInternal
 // ReSharper disable CheckNamespace
 // ReSharper disable UnusedType.Global
 // ReSharper disable InconsistentNaming
@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable ShiftExpressionRealShiftCountIsZero
+
 /// <summary>
 ///     The structs, enums, and static methods of `sokol_gfx`. Everything in this module exactly matches what is in
 ///     C, and the naming conventions used in C are maintained. For documentation see the comments in the
@@ -612,7 +613,7 @@ public static unsafe class sokol_gfx
     [DllImport(LibraryName)]
     public static extern void sg_end_pass();
 
-    [DllImport(sokol_gfx.LibraryName)]
+    [DllImport(LibraryName)]
     public static extern void sg_commit();
 
     [DllImport(LibraryName)]
@@ -1012,7 +1013,7 @@ public static unsafe class sokol_gfx
         [FieldOffset(172)]
         public uint _end_canary;
 
-        public ref sg_buffer vertex_buffer(int index)
+        public readonly ref sg_buffer vertex_buffer(int index)
         {
             fixed (sg_bindings* bindings = &this)
             {
@@ -1026,7 +1027,7 @@ public static unsafe class sokol_gfx
             return ref _vertex_buffer_offsets[index];
         }
 
-        public ref sg_image vs_image(int index)
+        public readonly ref sg_image vs_image(int index)
         {
             fixed (sg_bindings* bindings = &this)
             {
@@ -1035,7 +1036,7 @@ public static unsafe class sokol_gfx
             }
         }
 
-        public ref sg_image fs_image(int index)
+        public readonly ref sg_image fs_image(int index)
         {
             fixed (sg_bindings* bindings = &this)
             {
@@ -1078,7 +1079,7 @@ public static unsafe class sokol_gfx
         [FieldOffset(64)]
         public uint _end_canary;
 
-        public void* GetMTLBuffers()
+        public readonly void* GetMTLBuffers()
         {
             fixed (sg_buffer_desc* buffer_desc = &this)
             {
@@ -1103,7 +1104,7 @@ public static unsafe class sokol_gfx
         [FieldOffset(0)]
         public fixed ulong _subimage[16 * (int)sg_cube_face.SG_CUBEFACE_NUM * SG_MAX_MIPMAPS / 8];
 
-        public ref sg_subimage_content subimage(sg_cube_face cubeFaceIndex, int mipMapIndex)
+        public readonly ref sg_subimage_content subimage(sg_cube_face cubeFaceIndex, int mipMapIndex)
         {
             fixed (sg_image_content* image_content = &this)
             {
@@ -1195,7 +1196,7 @@ public static unsafe class sokol_gfx
         [FieldOffset(1656)]
         public uint _end_canary;
 
-        public void* mtlTextures()
+        public readonly void* mtlTextures()
         {
             fixed (sg_image_desc* image_desc = &this)
             {
@@ -1239,7 +1240,7 @@ public static unsafe class sokol_gfx
         [FieldOffset(8)]
         public fixed ulong _uniforms[16 * SG_MAX_UB_MEMBERS / 8];
 
-        public ref sg_shader_uniform_desc uniform(int index)
+        public readonly ref sg_shader_uniform_desc uniform(int index)
         {
             fixed (sg_shader_uniform_block_desc* shader_uniform_block_desc = &this)
             {
@@ -1280,7 +1281,7 @@ public static unsafe class sokol_gfx
         [FieldOffset(1088)]
         public fixed ulong _images[16 * SG_MAX_SHADERSTAGE_IMAGES / 8];
 
-        public ref sg_shader_uniform_block_desc uniformBlock(int index)
+        public readonly ref sg_shader_uniform_block_desc uniformBlock(int index)
         {
             fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
             {
@@ -1289,7 +1290,7 @@ public static unsafe class sokol_gfx
             }
         }
 
-        public ref sg_shader_image_desc image(int index)
+        public readonly ref sg_shader_image_desc image(int index)
         {
             fixed (sg_shader_stage_desc* sg_shader_stage_desc = &this)
             {
@@ -1320,7 +1321,7 @@ public static unsafe class sokol_gfx
         [FieldOffset(2960)]
         public uint _end_canary;
 
-        public ref sg_shader_attr_desc attr(int index)
+        public readonly ref sg_shader_attr_desc attr(int index)
         {
             fixed (sg_shader_desc* sg_shader_stage_desc = &this)
             {
@@ -1365,7 +1366,7 @@ public static unsafe class sokol_gfx
         [FieldOffset(96)]
         public fixed int _attrs[12 * SG_MAX_VERTEX_ATTRIBUTES / 4];
 
-        public ref sg_buffer_layout_desc buffer(int index)
+        public readonly ref sg_buffer_layout_desc buffer(int index)
         {
             fixed (sg_layout_desc* layout_desc = &this)
             {
@@ -1374,7 +1375,7 @@ public static unsafe class sokol_gfx
             }
         }
 
-        public ref sg_vertex_attr_desc attr(int index)
+        public readonly ref sg_vertex_attr_desc attr(int index)
         {
             fixed (sg_layout_desc* layout_desc = &this)
             {
@@ -1564,7 +1565,7 @@ public static unsafe class sokol_gfx
         [FieldOffset(72)]
         public uint _end_canary;
 
-        public ref sg_attachment_desc color_attachment(int index)
+        public readonly ref sg_attachment_desc color_attachment(int index)
         {
             fixed (sg_pass_desc* pass_desc = &this)
             {

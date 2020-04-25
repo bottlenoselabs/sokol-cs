@@ -1,19 +1,20 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
+
 namespace Sokol.Graphics
 {
     /// <summary>
     ///     <para>
     ///         A GPU resource that specifies the steps that a GPU performs to convert 2D or 3D geometry into pixels
-    ///         (called rasterization) that can be displayed on screen (to a framebuffer) or saved off screen
+    ///         (called rasterization) that can be displayed on screen (to a frame buffer) or saved off screen
     ///         (to a render target <see cref="Image" />).
     ///     </para>
     /// </summary>
@@ -32,7 +33,7 @@ namespace Sokol.Graphics
     ///         point is traditionally given attributes such as a position, a color, a normal vector, or
     ///         texture coordinates. This vertex data is the input to a <see cref="Shader" /> where two programmable
     ///         stages can customize rasterization. The output a <see cref="Shader" /> is the pixels on screen
-    ///         (framebuffer) or texels in a render target <see cref="Image" />.
+    ///         (frame buffer) or texels in a render target <see cref="Image" />.
     ///     </para>
     ///     <para>
     ///         To create a <see cref="Pipeline" /> synchronously, call <see cref="GraphicsDevice.CreatePipeline" />
@@ -56,22 +57,38 @@ namespace Sokol.Graphics
     public readonly struct Pipeline
     {
         /// <summary>
-        ///     Fill any zero-initialized members of an <see cref="ImageDescriptor" /> with their explicit default
+        ///     A number which uniquely identifies the <see cref="Pipeline" />.
+        /// </summary>
+        [FieldOffset(0)]
+        public readonly uint Identifier;
+
+        // TODO: Document `PipelineInfo`.
+        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        public PipelineInfo Info
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => PInvoke.sg_query_pipeline_info(this);
+        }
+
+        // TODO: Document `ResourceState`.
+        [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]
+        public ResourceState State
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => PInvoke.sg_query_pipeline_state(this);
+        }
+
+        /// <summary>
+        ///     Fill any zero-initialized members of an <see cref="PipelineDescriptor" /> with their explicit default
         ///     values.
         /// </summary>
         /// <param name="descriptor">The parameters for creating an image.</param>
-        /// <returns>An <see cref="ImageDescriptor" /> with any zero-initialized members set to default values.</returns>
+        /// <returns>An <see cref="PipelineDescriptor" /> with any zero-initialized members set to default values.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static PipelineDescriptor QueryDefaults([In] ref PipelineDescriptor descriptor)
         {
             return PInvoke.sg_query_pipeline_defaults(ref descriptor);
         }
-
-        /// <summary>
-        ///     A number which uniquely identifies the <see cref="Pipeline" />.
-        /// </summary>
-        [FieldOffset(0)]
-        public readonly uint Identifier;
 
         // TODO: Document manual initialization of a pipeline
         [SuppressMessage("ReSharper", "SA1600", Justification = "TODO")]

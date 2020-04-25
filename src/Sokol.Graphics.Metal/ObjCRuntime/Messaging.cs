@@ -6,6 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using CoreGraphics;
 
+// ReSharper disable StringLiteralTypo
+// ReSharper disable IdentifierTypo
+
 namespace ObjCRuntime
 {
     internal static unsafe class Messaging
@@ -20,9 +23,6 @@ namespace ObjCRuntime
         public static extern void void_objc_msgSend_intptr(IntPtr receiver, Selector selector, IntPtr arg1);
 
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
-        public static extern void void_objc_msgSend_uintptr(IntPtr receiver, Selector selector, UIntPtr arg1);
-
-        [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern void void_objc_msgSend_intptr_nsuinteger(
             IntPtr receiver,
             Selector selector,
@@ -30,16 +30,7 @@ namespace ObjCRuntime
             UIntPtr arg2);
 
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
-        public static extern void void_objc_msgSend_cgsize(IntPtr receiver, Selector selector, CGSize arg1);
-
-        [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend_stret")]
-        public static extern void ptr_objc_msgSend_stret(void* retPtr, IntPtr receiver, Selector selector);
-
-        [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern BlittableBoolean bool_objc_msgSend(IntPtr receiver, Selector selector);
-
-        [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
-        public static extern uint uint_objc_msgSend(IntPtr receiver, IntPtr selector);
 
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]
         public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector);

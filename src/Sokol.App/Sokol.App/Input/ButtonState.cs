@@ -4,6 +4,8 @@
 using System;
 using System.Runtime.CompilerServices;
 
+// ReSharper disable UnusedMember.Global
+
 namespace Sokol.App
 {
     public struct ButtonState
@@ -31,57 +33,58 @@ namespace Sokol.App
         private TimeSpan _downDuration;
         private byte _state;
 
+        // ReSharper disable once ConvertToAutoPropertyWhenPossible
         public TimeSpan DownDuration
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _downDuration;
+            readonly get => _downDuration;
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => _downDuration = value;
         }
 
-        public bool IsDown
+        public readonly bool IsDown
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => (_state & 0x1) == 0x1;
         }
 
-        public bool IsUp
+        public readonly bool IsUp
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => (_state & 0x1) == 0x0;
         }
 
-        public bool WasDown
+        public readonly bool WasDown
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => (_state & 0x2) == 0x1;
         }
 
-        public bool WasUp
+        public readonly bool WasUp
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => (_state & 0x2) == 0x0;
         }
 
-        public bool IsPressed
+        public readonly bool IsPressed
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => (_state & 0x3) == 0x3;
         }
 
-        public bool IsReleased
+        public readonly bool IsReleased
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => (_state & 0x3) == 0x0;
         }
 
-        public bool HasEnteredPressed
+        public readonly bool HasEnteredPressed
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => (_state & 0x3) == 0x1;
         }
 
-        public bool HasEnteredReleased
+        public readonly bool HasEnteredReleased
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => (_state & 0x3) == 0x2;

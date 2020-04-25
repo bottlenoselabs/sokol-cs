@@ -47,7 +47,7 @@ namespace Sokol.Graphics
     ///         <see cref="GraphicsBackend" /> dependent. For <see cref="GraphicsBackend.Metal" /> and
     ///         <see cref="GraphicsBackend.Direct3D11" />, it is <see cref="PixelFormat.BGRA8" />. For all others, it is
     ///         <see cref="PixelFormat.RGBA8" />. The reason for this is to allow for more efficient frame flips for the
-    ///         the default on-screen <see cref="Pass" />'s color attachment (framebuffer). However, for your own
+    ///         the default on-screen <see cref="Pass" />'s color attachment (frame buffer). However, for your own
     ///         offscreen <see cref="Pass" /> color attachment(s), use any <see cref="PixelFormat" /> which is
     ///         convenient.
     ///     </para>
@@ -354,7 +354,7 @@ namespace Sokol.Graphics
         /// <remarks>
         ///     <para>
         ///         The pixel format <see cref="BC2_RGBA" /> is also known as the texture compression `DXT2` or `DXT3`
-        ///         depending if the color is premultiplied by alpha or not, respectively.
+        ///         depending if the color is pre-multiplied by alpha or not, respectively.
         ///     </para>
         ///     <para>
         ///         The pixel format <see cref="BC2_RGBA" /> is used in practice for images with sharp alpha transitions

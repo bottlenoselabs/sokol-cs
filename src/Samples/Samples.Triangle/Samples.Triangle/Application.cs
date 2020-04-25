@@ -10,11 +10,11 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Triangle
 {
-    internal class Application : App
+    internal sealed class Application : App
     {
-        private Pipeline _pipeline;
-        private Shader _shader;
-        private Buffer _vertexBuffer;
+        private readonly Pipeline _pipeline;
+        private readonly Shader _shader;
+        private readonly Buffer _vertexBuffer;
 
         public Application()
         {
@@ -57,8 +57,8 @@ namespace Samples.Triangle
 
         private static Buffer CreateVertexBuffer()
         {
-            // create some memory for the triangle vertices, `Span` is similar to an array except it is type safe
-            Span<Vertex> vertices = stackalloc Vertex[3];
+            // ReSharper disable once RedundantCast
+            var vertices = (Span<Vertex>)stackalloc Vertex[3];
 
             // describe the vertices of the triangle
             vertices[0].Position = new Vector3(0.0f, 0.5f, 0.5f);
@@ -106,16 +106,24 @@ namespace Samples.Triangle
             shaderDesc.Attribute(0).Name = "position";
             shaderDesc.Attribute(1).Name = "color0";
 
-            // specify shader stage source code for each graphics backend
-            if (Backend == GraphicsBackend.OpenGL)
+            switch (Backend)
             {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
-            }
-            else if (Backend == GraphicsBackend.Metal)
-            {
-                shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                // specify shader stage source code for each graphics backend
+                case GraphicsBackend.OpenGL:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    break;
+                case GraphicsBackend.Metal:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the shader resource from the descriptor

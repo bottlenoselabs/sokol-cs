@@ -4,8 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Threading;
-using Xunit;
+using JetBrains.Annotations;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -13,6 +12,7 @@ using Xunit;
 
 namespace Sokol.Graphics.Tests
 {
+    [UsedImplicitly]
     public partial class StructTests
     {
         public static List<object[]> SokolStructs { get; }
@@ -45,7 +45,7 @@ namespace Sokol.Graphics.Tests
                     continue;
                 }
 
-                structs.Add(new object[] { type });
+                structs.Add(new object[] {type});
                 typesSet.Add(type);
             }
 
@@ -73,7 +73,7 @@ namespace Sokol.Graphics.Tests
                 }
 
                 var generatedStruct = type.CStructType();
-                structs.Add(new object[] { type, generatedStruct });
+                structs.Add(new object[] {type, generatedStruct});
 
                 typesSet.Add(type);
             }

@@ -26,7 +26,7 @@ namespace Sokol.Graphics
         public readonly BlittableBoolean Instancing;
 
         /// <summary>
-        ///     A <see cref="bool" /> value that indicates whether the framebuffer and texture origin is in top left
+        ///     A <see cref="bool" /> value that indicates whether the frame buffer and texture origin is in top left
         ///     corner.
         /// </summary>
         [FieldOffset(1)]

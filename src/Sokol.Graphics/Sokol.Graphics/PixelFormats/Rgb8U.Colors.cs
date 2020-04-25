@@ -4,6 +4,7 @@
 // ReSharper disable CommentTypo
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
+
 namespace Sokol.Graphics
 {
     // ReSharper disable once SA1601
@@ -119,6 +120,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     Gets a <see cref="Rgb8U" /> that has a RGB value of #FFF8DC.
         /// </summary>
+        // ReSharper disable once IdentifierTypo
         public static readonly Rgb8U Cornsilk = 0xFFF8DC;
 
         /// <summary>
@@ -274,6 +276,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     Gets a <see cref="Rgb8U" /> that has a RGB value of #DCDCDC.
         /// </summary>
+        // ReSharper disable once IdentifierTypo
         public static readonly Rgb8U Gainsboro = 0xDCDCDC;
 
         /// <summary>
@@ -559,6 +562,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     Gets a <see cref="Rgb8U" /> that has a RGB value of #FF4500.
         /// </summary>
+        // ReSharper disable once IdentifierTypo
         public static readonly Rgb8U Orangered = 0xFF4500;
 
         /// <summary>
@@ -749,6 +753,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     Gets a <see cref="Rgb8U" /> that has a RGB value of #F5F5F5.
         /// </summary>
+        // ReSharper disable once IdentifierTypo
         public static readonly Rgb8U Whitesmoke = 0xF5F5F5;
 
         /// <summary>

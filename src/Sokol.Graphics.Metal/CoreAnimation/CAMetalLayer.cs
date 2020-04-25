@@ -8,6 +8,10 @@ using Metal;
 using ObjCRuntime;
 using static ObjCRuntime.Messaging;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable StringLiteralTypo
+// ReSharper disable IdentifierTypo
+
 namespace CoreAnimation
 {
     [StructLayout(LayoutKind.Sequential)]

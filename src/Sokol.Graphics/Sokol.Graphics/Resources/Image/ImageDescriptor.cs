@@ -195,7 +195,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="data">The memory block.</param>
         /// <typeparam name="T">The type of data in the memory block.</typeparam>
-        public void SetData<T>(Span<T> data)
+        public readonly void SetData<T>(Span<T> data)
         {
             Content.SubImage().SetData(data);
         }
@@ -208,7 +208,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="data">The memory block.</param>
         /// <typeparam name="T">The type of data in the memory block.</typeparam>
-        public void SetData<T>(Memory<T> data)
+        public readonly void SetData<T>(Memory<T> data)
         {
             SetData(data.Span);
         }

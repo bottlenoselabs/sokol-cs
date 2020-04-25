@@ -70,18 +70,18 @@ namespace Sokol.Graphics
 
         // TODO: Trace hooks
         [FieldOffset(440)]
-        internal IntPtr Label;
+        private readonly IntPtr _label;
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
         [FieldOffset(0)]
-        internal uint _startCanary;
+        private readonly uint _startCanary;
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
         [FieldOffset(448)]
-        internal uint _endCanary;
+        private readonly uint _endCanary;
     }
 }
