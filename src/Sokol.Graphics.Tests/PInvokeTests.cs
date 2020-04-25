@@ -1,69 +1,22 @@
+// Copyright (c) Lucas Girouard-Stranks. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Xunit;
-using static Sokol.sokol_gfx;
+using static sokol_gfx;
 
 // Tests taken from https://github.com/floooh/sokol-samples/blob/master/tests/sokol-gfx-test.c
-
 namespace Sokol.Graphics.Tests
 {
+    [SuppressMessage("ReSharper", "SA1600", Justification = "Tests")]
     public unsafe partial class PInvokeTests
     {
         [Fact]
-        public void InitShutdown()
-        {
-            var setupDesc = new sg_desc();
-            sg_setup(ref setupDesc);
-
-            var isValidAfterSetup = sg_isvalid();
-            Assert.True(isValidAfterSetup);
-
-            sg_shutdown();
-            var isValidAfterShutdown = sg_isvalid();
-            Assert.False(isValidAfterShutdown);
-        }
-
-        [Fact]
-        public void QueryDesc()
-        {
-            var setupDesc = new sg_desc
-            {
-                buffer_pool_size = 1024,
-                shader_pool_size = 128,
-                pass_pool_size = 64
-            };
-            sg_setup(ref setupDesc);
-
-            var desc = sg_query_desc();
-
-            Assert.True(desc.buffer_pool_size == 1024);
-            Assert.True(desc.image_pool_size == _SG_DEFAULT_IMAGE_POOL_SIZE);
-            Assert.True(desc.shader_pool_size == 128);
-            Assert.True(desc.pipeline_pool_size == _SG_DEFAULT_PIPELINE_POOL_SIZE);
-            Assert.True(desc.pass_pool_size == 64);
-            Assert.True(desc.context_pool_size == _SG_DEFAULT_CONTEXT_POOL_SIZE);
-            Assert.True(desc.mtl_global_uniform_buffer_size == _SG_MTL_DEFAULT_UB_SIZE);
-            Assert.True(desc.mtl_sampler_cache_size == _SG_MTL_DEFAULT_SAMPLER_CACHE_CAPACITY);
-
-            sg_shutdown();
-        }
-
-        [Fact]
-        public void QueryBackend()
-        {
-            var setupDesc = new sg_desc();
-            sg_setup(ref setupDesc);
-
-            var backend = sg_query_backend();
-            Assert.True(backend == sg_backend.SG_BACKEND_DUMMY);
-
-            sg_shutdown();
-        }
-
-        [Fact]
         public void AllocFailDestroyBuffers()
         {
-            var setupDesc = new sg_desc()
+            var setupDesc = new sg_desc
             {
                 buffer_pool_size = 3
             };
@@ -108,7 +61,7 @@ namespace Sokol.Graphics.Tests
         [Fact]
         public void AllocFailDestroyImages()
         {
-            var setupDesc = new sg_desc()
+            var setupDesc = new sg_desc
             {
                 image_pool_size = 3
             };
@@ -150,97 +103,9 @@ namespace Sokol.Graphics.Tests
         }
 
         [Fact]
-        public void AllocFailDestroyShaders()
-        {
-            var setupDesc = new sg_desc()
-            {
-                shader_pool_size = 3
-            };
-            sg_setup(ref setupDesc);
-
-            var isValidAfterSetup = sg_isvalid();
-            Assert.True(isValidAfterSetup);
-
-            var shaders = stackalloc sg_shader[3];
-            sg_resource_state shaderState;
-            for (var i = 0; i < 3; i++)
-            {
-                shaders[i] = sg_alloc_shader();
-                Assert.True(shaders[i].id != SG_INVALID_ID);
-                shaderState = sg_query_shader_state(shaders[i]);
-                Assert.True(shaderState == sg_resource_state.SG_RESOURCESTATE_ALLOC);
-            }
-
-            var invalidShader = sg_alloc_shader();
-            Assert.True(invalidShader.id == SG_INVALID_ID);
-            shaderState = sg_query_shader_state(invalidShader);
-            Assert.True(shaderState == sg_resource_state.SG_RESOURCESTATE_INVALID);
-
-            for (var i = 0; i < 3; i++)
-            {
-                sg_fail_shader(shaders[i]);
-                shaderState = sg_query_shader_state(shaders[i]);
-                Assert.True(shaderState == sg_resource_state.SG_RESOURCESTATE_FAILED);
-            }
-
-            for (var i = 0; i < 3; i++)
-            {
-                sg_destroy_shader(shaders[i]);
-                shaderState = sg_query_shader_state(invalidShader);
-                Assert.True(shaderState == sg_resource_state.SG_RESOURCESTATE_INVALID);
-            }
-
-            sg_shutdown();
-        }
-
-        [Fact]
-        public void AllocFailDestroyPipelines()
-        {
-            var setupDesc = new sg_desc()
-            {
-                pipeline_pool_size = 3
-            };
-            sg_setup(ref setupDesc);
-
-            var isValidAfterSetup = sg_isvalid();
-            Assert.True(isValidAfterSetup);
-
-            var pipelines = stackalloc sg_pipeline[3];
-            sg_resource_state pipelineState;
-            for (var i = 0; i < 3; i++)
-            {
-                pipelines[i] = sg_alloc_pipeline();
-                Assert.True(pipelines[i].id != SG_INVALID_ID);
-                pipelineState = sg_query_pipeline_state(pipelines[i]);
-                Assert.True(pipelineState == sg_resource_state.SG_RESOURCESTATE_ALLOC);
-            }
-
-            var invalidPipeline = sg_alloc_pipeline();
-            Assert.True(invalidPipeline.id == SG_INVALID_ID);
-            pipelineState = sg_query_pipeline_state(invalidPipeline);
-            Assert.True(pipelineState == sg_resource_state.SG_RESOURCESTATE_INVALID);
-
-            for (var i = 0; i < 3; i++)
-            {
-                sg_fail_pipeline(pipelines[i]);
-                pipelineState = sg_query_pipeline_state(pipelines[i]);
-                Assert.True(pipelineState == sg_resource_state.SG_RESOURCESTATE_FAILED);
-            }
-
-            for (var i = 0; i < 3; i++)
-            {
-                sg_destroy_pipeline(pipelines[i]);
-                pipelineState = sg_query_pipeline_state(invalidPipeline);
-                Assert.True(pipelineState == sg_resource_state.SG_RESOURCESTATE_INVALID);
-            }
-
-            sg_shutdown();
-        }
-
-        [Fact]
         public void AllocFailDestroyPasses()
         {
-            var setupDesc = new sg_desc()
+            var setupDesc = new sg_desc
             {
                 pass_pool_size = 3
             };
@@ -282,9 +147,97 @@ namespace Sokol.Graphics.Tests
         }
 
         [Fact]
+        public void AllocFailDestroyPipelines()
+        {
+            var setupDesc = new sg_desc
+            {
+                pipeline_pool_size = 3
+            };
+            sg_setup(ref setupDesc);
+
+            var isValidAfterSetup = sg_isvalid();
+            Assert.True(isValidAfterSetup);
+
+            var pipelines = stackalloc sg_pipeline[3];
+            sg_resource_state pipelineState;
+            for (var i = 0; i < 3; i++)
+            {
+                pipelines[i] = sg_alloc_pipeline();
+                Assert.True(pipelines[i].id != SG_INVALID_ID);
+                pipelineState = sg_query_pipeline_state(pipelines[i]);
+                Assert.True(pipelineState == sg_resource_state.SG_RESOURCESTATE_ALLOC);
+            }
+
+            var invalidPipeline = sg_alloc_pipeline();
+            Assert.True(invalidPipeline.id == SG_INVALID_ID);
+            pipelineState = sg_query_pipeline_state(invalidPipeline);
+            Assert.True(pipelineState == sg_resource_state.SG_RESOURCESTATE_INVALID);
+
+            for (var i = 0; i < 3; i++)
+            {
+                sg_fail_pipeline(pipelines[i]);
+                pipelineState = sg_query_pipeline_state(pipelines[i]);
+                Assert.True(pipelineState == sg_resource_state.SG_RESOURCESTATE_FAILED);
+            }
+
+            for (var i = 0; i < 3; i++)
+            {
+                sg_destroy_pipeline(pipelines[i]);
+                pipelineState = sg_query_pipeline_state(invalidPipeline);
+                Assert.True(pipelineState == sg_resource_state.SG_RESOURCESTATE_INVALID);
+            }
+
+            sg_shutdown();
+        }
+
+        [Fact]
+        public void AllocFailDestroyShaders()
+        {
+            var setupDesc = new sg_desc
+            {
+                shader_pool_size = 3
+            };
+            sg_setup(ref setupDesc);
+
+            var isValidAfterSetup = sg_isvalid();
+            Assert.True(isValidAfterSetup);
+
+            var shaders = stackalloc sg_shader[3];
+            sg_resource_state shaderState;
+            for (var i = 0; i < 3; i++)
+            {
+                shaders[i] = sg_alloc_shader();
+                Assert.True(shaders[i].id != SG_INVALID_ID);
+                shaderState = sg_query_shader_state(shaders[i]);
+                Assert.True(shaderState == sg_resource_state.SG_RESOURCESTATE_ALLOC);
+            }
+
+            var invalidShader = sg_alloc_shader();
+            Assert.True(invalidShader.id == SG_INVALID_ID);
+            shaderState = sg_query_shader_state(invalidShader);
+            Assert.True(shaderState == sg_resource_state.SG_RESOURCESTATE_INVALID);
+
+            for (var i = 0; i < 3; i++)
+            {
+                sg_fail_shader(shaders[i]);
+                shaderState = sg_query_shader_state(shaders[i]);
+                Assert.True(shaderState == sg_resource_state.SG_RESOURCESTATE_FAILED);
+            }
+
+            for (var i = 0; i < 3; i++)
+            {
+                sg_destroy_shader(shaders[i]);
+                shaderState = sg_query_shader_state(invalidShader);
+                Assert.True(shaderState == sg_resource_state.SG_RESOURCESTATE_INVALID);
+            }
+
+            sg_shutdown();
+        }
+
+        [Fact]
         public void GenerationCounter()
         {
-            var setupDesc = new sg_desc()
+            var setupDesc = new sg_desc
             {
                 pass_pool_size = 1
             };
@@ -309,7 +262,7 @@ namespace Sokol.Graphics.Tests
 
                 var bufferState = sg_query_buffer_state(buffer);
                 Assert.True(bufferState == sg_resource_state.SG_RESOURCESTATE_VALID);
-                Assert.True(buffer.id >> 16 == (uint) (i + 1));
+                Assert.True(buffer.id >> 16 == (uint)(i + 1));
                 sg_destroy_buffer(buffer);
                 bufferState = sg_query_buffer_state(buffer);
                 Assert.True(bufferState == sg_resource_state.SG_RESOURCESTATE_INVALID);
@@ -319,21 +272,47 @@ namespace Sokol.Graphics.Tests
         }
 
         [Fact]
+        public void InitShutdown()
+        {
+            var setupDesc = default(sg_desc);
+            sg_setup(ref setupDesc);
+
+            var isValidAfterSetup = sg_isvalid();
+            Assert.True(isValidAfterSetup);
+
+            sg_shutdown();
+            var isValidAfterShutdown = sg_isvalid();
+            Assert.False(isValidAfterShutdown);
+        }
+
+        [Fact]
+        public void QueryBackend()
+        {
+            var setupDesc = default(sg_desc);
+            sg_setup(ref setupDesc);
+
+            var backend = sg_query_backend();
+            Assert.True(backend == sg_backend.SG_BACKEND_DUMMY);
+
+            sg_shutdown();
+        }
+
+        [Fact]
         public void QueryBufferDefaults()
         {
-            var setupDesc = new sg_desc()
+            var setupDesc = new sg_desc
             {
                 pass_pool_size = 1
             };
             sg_setup(ref setupDesc);
 
-            var bufferDesc = new sg_buffer_desc();
+            var bufferDesc = default(sg_buffer_desc);
             var desc = sg_query_buffer_defaults(ref bufferDesc);
 
             Assert.True(desc.type == sg_buffer_type.SG_BUFFERTYPE_VERTEXBUFFER);
             Assert.True(desc.usage == sg_usage.SG_USAGE_IMMUTABLE);
 
-            bufferDesc = new sg_buffer_desc()
+            bufferDesc = new sg_buffer_desc
             {
                 type = sg_buffer_type.SG_BUFFERTYPE_INDEXBUFFER
             };
@@ -342,7 +321,7 @@ namespace Sokol.Graphics.Tests
             Assert.True(desc.type == sg_buffer_type.SG_BUFFERTYPE_INDEXBUFFER);
             Assert.True(desc.usage == sg_usage.SG_USAGE_IMMUTABLE);
 
-            bufferDesc = new sg_buffer_desc()
+            bufferDesc = new sg_buffer_desc
             {
                 usage = sg_usage.SG_USAGE_DYNAMIC
             };
@@ -355,12 +334,37 @@ namespace Sokol.Graphics.Tests
         }
 
         [Fact]
-        public void QueryImageDefaults()
+        public void QueryDesc()
         {
-            var setupDesc = new sg_desc();
+            var setupDesc = new sg_desc
+            {
+                buffer_pool_size = 1024,
+                shader_pool_size = 128,
+                pass_pool_size = 64
+            };
             sg_setup(ref setupDesc);
 
-            var desc = new sg_image_desc();
+            var desc = sg_query_desc();
+
+            Assert.True(desc.buffer_pool_size == 1024);
+            Assert.True(desc.image_pool_size == _SG_DEFAULT_IMAGE_POOL_SIZE);
+            Assert.True(desc.shader_pool_size == 128);
+            Assert.True(desc.pipeline_pool_size == _SG_DEFAULT_PIPELINE_POOL_SIZE);
+            Assert.True(desc.pass_pool_size == 64);
+            Assert.True(desc.context_pool_size == _SG_DEFAULT_CONTEXT_POOL_SIZE);
+            Assert.True(desc.mtl_global_uniform_buffer_size == _SG_MTL_DEFAULT_UB_SIZE);
+            Assert.True(desc.mtl_sampler_cache_size == _SG_MTL_DEFAULT_SAMPLER_CACHE_CAPACITY);
+
+            sg_shutdown();
+        }
+
+        [Fact]
+        public void QueryImageDefaults()
+        {
+            var setupDesc = default(sg_desc);
+            sg_setup(ref setupDesc);
+
+            var desc = default(sg_image_desc);
             desc = sg_query_image_defaults(ref desc);
 
             Assert.True(desc.type == sg_image_type.SG_IMAGETYPE_2D);
@@ -381,19 +385,17 @@ namespace Sokol.Graphics.Tests
         }
 
         [Fact]
-        public void QueryShaderDefaults()
+        public void QueryPassDefaults()
         {
-            var setupDesc = new sg_desc();
+            var setupDesc = default(sg_desc);
             sg_setup(ref setupDesc);
 
-            var desc = new sg_shader_desc();
-            desc = sg_query_shader_defaults(ref desc);
+            var desc = default(sg_pass_desc);
+            desc = sg_query_pass_defaults(ref desc);
 
-            var vertexShaderEntry = Marshal.PtrToStringAnsi((IntPtr) desc.vs.entry);
-            Assert.True(vertexShaderEntry == "main");
-
-            var fragmentShaderEntry = Marshal.PtrToStringAnsi((IntPtr) desc.fs.entry);
-            Assert.True(fragmentShaderEntry == "main");
+            ref var colorAttachment0 = ref desc.color_attachment(0);
+            Assert.True(colorAttachment0.image.id == SG_INVALID_ID);
+            Assert.True(colorAttachment0.mip_level == 0);
 
             sg_shutdown();
         }
@@ -401,10 +403,10 @@ namespace Sokol.Graphics.Tests
         [Fact]
         public void QueryPipelineDefaults()
         {
-            var setupDesc = new sg_desc();
+            var setupDesc = default(sg_desc);
             sg_setup(ref setupDesc);
 
-            var desc = new sg_pipeline_desc();
+            var desc = default(sg_pipeline_desc);
             ref var attr0 = ref desc.layout.attr(0);
             attr0.format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT3;
             ref var attr1 = ref desc.layout.attr(1);
@@ -444,7 +446,7 @@ namespace Sokol.Graphics.Tests
             Assert.True(desc.blend.src_factor_alpha == sg_blend_factor.SG_BLENDFACTOR_ONE);
             Assert.True(desc.blend.dst_factor_alpha == sg_blend_factor.SG_BLENDFACTOR_ZERO);
             Assert.True(desc.blend.op_alpha == sg_blend_op.SG_BLENDOP_ADD);
-            Assert.True(desc.blend.color_write_mask == 0xF);
+            Assert.True((int)desc.blend.color_write_mask == 0xF);
             Assert.True(desc.blend.color_attachment_count == 1);
             Assert.True(desc.blend.color_format == sg_pixel_format.SG_PIXELFORMAT_RGBA8);
             Assert.True(desc.blend.depth_format == sg_pixel_format.SG_PIXELFORMAT_DEPTH_STENCIL);
@@ -457,23 +459,24 @@ namespace Sokol.Graphics.Tests
             Assert.True(desc.rasterizer.depth_bias_slope_scale == 0);
             Assert.True(desc.rasterizer.depth_bias_clamp == 0);
             // ReSharper restore CompareOfFloatsByEqualityOperator
-            
             sg_shutdown();
         }
 
         [Fact]
-        public void QueryPassDefaults()
+        public void QueryShaderDefaults()
         {
-            var setupDesc = new sg_desc();
+            var setupDesc = default(sg_desc);
             sg_setup(ref setupDesc);
-            
-            var desc = new sg_pass_desc();
-            desc = sg_query_pass_defaults(ref desc);
 
-            ref var colorAttachment0 = ref desc.color_attachment(0);
-            Assert.True(colorAttachment0.image.id == SG_INVALID_ID);
-            Assert.True(colorAttachment0.mip_level == 0);
-            
+            var desc = default(sg_shader_desc);
+            desc = sg_query_shader_defaults(ref desc);
+
+            var vertexShaderEntry = Marshal.PtrToStringAnsi((IntPtr)desc.vs.entry);
+            Assert.True(vertexShaderEntry == "main");
+
+            var fragmentShaderEntry = Marshal.PtrToStringAnsi((IntPtr)desc.fs.entry);
+            Assert.True(fragmentShaderEntry == "main");
+
             sg_shutdown();
         }
     }

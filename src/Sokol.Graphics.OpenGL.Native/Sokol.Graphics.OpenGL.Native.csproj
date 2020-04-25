@@ -1,0 +1,91 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace />
+        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
+        <Description>Sokol.NET; a modern and simple 3D graphics API. This specific package includes the OpenGL PInvoke shared libraries.</Description>
+        <Authors>Lucas Girouard-Stranks</Authors>
+        <RootNamespace />
+        <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
+        <License>MIT</License>
+        <PackageProjectUrl>https://github.com/lithiumtoast/sokol.net</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lithiumtoast/sokol.net</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
+        <IsPackable>true</IsPackable>
+        <IncludeSymbols>false</IncludeSymbols>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\lib\libGLEW-2.1.0\win-x64\glew32.dll">
+            <Link>runtimes/win-x64/native/glew32.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/win-x64/native</PackagePath>
+        </Content>
+        <Content Include="..\..\lib\libGLEW-2.1.0\linux-x64\libGLEW.so">
+            <Link>runtimes/linux-x64/native/libGLEW.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/linux-x64/native</PackagePath>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
+        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\linux-x64\opengl\debug\libsokol_gfx.so">
+            <Link>runtimes/linux-x64/native/libsokol_gfx-opengl.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/linux-x64/native/sokol_gfx-opengl.so</PackagePath>
+        </Content>
+        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\opengl\debug\libsokol_gfx.dylib">
+            <Link>runtimes/osx-x64/native/libsokol_gfx-opengl.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/osx-x64/native/sokol_gfx-opengl.dylib</PackagePath>
+        </Content>
+        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\opengl\debug\sokol_gfx.dll">
+            <Link>runtimes/win-x64/native/sokol_gfx-opengl.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/win-x64/native/sokol_gfx-opengl.dll</PackagePath>
+        </Content>
+        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\opengl\debug\sokol_gfx.pdb">
+            <Link>runtimes/win-x64/native/sokol_gfx-opengl.pdb</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/win-x64/native/sokol_gfx-opengl.pdb</PackagePath>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release' ">
+        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\linux-x64\opengl\release\libsokol_gfx.so">
+            <Link>runtimes/linux-x64/native/libsokol_gfx-opengl.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/linux-x64/native.sokol_gfx-opengl.so</PackagePath>
+        </Content>
+        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\opengl\release\libsokol_gfx.dylib">
+            <Link>runtimes/osx-x64/native/libsokol_gfx-opengl.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/osx-x64/native/sokol_gfx-opengl.dylib</PackagePath>
+        </Content>
+        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\opengl\release\sokol_gfx.dll">
+            <Link>runtimes/win-x64/native/sokol_gfx-opengl.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/win-x64/native/sokol_gfx-opengl.dll</PackagePath>
+        </Content>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>..\StyleCop-Disabled.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\StyleCop-Disabled.ruleset">
+            <Link>StyleCop-Disabled.ruleset</Link>
+        </Content>
+        <AdditionalFiles Include="..\StyleCop.json">
+            <Link>StyleCop.json</Link>
+        </AdditionalFiles>
+    </ItemGroup>
+
+</Project>
