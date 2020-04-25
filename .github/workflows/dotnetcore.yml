@@ -107,5 +107,5 @@ jobs:
           name: nuget-packages
 
       - name: Echo Packages
-        run: find . -type f -exec cat {} \;
+        run: ls -lR ./nuget-packages
   
