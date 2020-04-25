@@ -68,8 +68,8 @@ jobs:
       with:
         dotnet-version: '3.1.100'
     - name: Restore Solution
-      run: dotnet restore $(SOLUTION) --verbosity quiet
+      run: dotnet restore $SOLUTION --verbosity quiet
     - name: Build Solution
-      run: dotnet build $(SOLUTION) --verbosity minimal --configuration Release --no-restore /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+      run: dotnet build $SOLUTION --verbosity minimal --configuration Release --no-restore /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
     - name: Test Solution
-      run: dotnet test $(SOLUTION) --verbosity normal --configuration Release --no-build
+      run: dotnet test $SOLUTION --verbosity normal --configuration Release --no-build
