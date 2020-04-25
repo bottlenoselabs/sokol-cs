@@ -17,7 +17,7 @@ on:
       - develop 
 
 jobs:
-  my-job:
+  build-job:
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -92,5 +92,19 @@ jobs:
     - name: Upload Packed Artifacts
       uses: actions/upload-artifact@v2-preview
       with:
-        name: NuGet Packages
+        name: nuget-packages
         path: '*/**/*.nupkg'
+
+  deploy-job:
+    needs: [build-job]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Download NuGet Packages
+      - uses: actions/download-artifact@v1
+        with:
+          name: nuget-packages
+
+      - name: Echo Packages
+        run: cat nuget-packages
+  
