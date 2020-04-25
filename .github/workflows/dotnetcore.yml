@@ -107,5 +107,5 @@ jobs:
           name: nuget-packages
 
       - name: Echo Packages
-        run: find ./nuget-packages -not -type d
+        run: find ./nuget-packages -not -type d -exec basename {} \;
   
