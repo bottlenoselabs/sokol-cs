@@ -15,6 +15,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>

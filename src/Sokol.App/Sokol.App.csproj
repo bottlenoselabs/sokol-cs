@@ -16,6 +16,7 @@
         <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
