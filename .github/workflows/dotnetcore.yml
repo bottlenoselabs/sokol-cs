@@ -114,8 +114,11 @@ jobs:
 
     - name: Echo Packages
       run: find ./nuget-packages/ -not -type d -exec basename {} \;
+      
+    - name: 'Add Packages Source: MyGet'
+      run: dotnet nuget add source $MYGET_SOURCE_URL --name 'MyGet' --username 'lithiumtoast' --password $MYGET_ACCESS_TOKEN
  
     - name: 'Upload Packages: MyGet'
       # MyGet will automatically push symbol packages if they are located in the same folder
-      run: dotnet nuget push './**/*.nupkg' --source $MYGET_SOURCE_URL --api-key $MYGET_ACCESS_TOKEN --skip-duplicate
+      run: dotnet nuget push './**/*.nupkg' --source 'MyGet' --skip-duplicate
   
