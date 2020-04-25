@@ -116,5 +116,6 @@ jobs:
       run: find ./nuget-packages/ -not -type d -exec basename {} \;
  
     - name: 'Upload Packages: MyGet'
-      run: dotnet nuget push "%./nuget-packages/**/*.nupkg" --source $MYGET_SOURCE_URL --symbol-source $MYGET_SOURCE_URL --api-key $NUGET_AUTH_TOKEN --symbol-api-key $NUGET_AUTH_TOKEN --skip-duplicate --no-service-endpoint --force-english-output
+      # MyGet will automatically push symbol packages if they are located in the same folder
+      run: dotnet nuget push "%./nuget-packages/**/*.nupkg" --source $MYGET_SOURCE_URL --api-key $NUGET_AUTH_TOKEN --skip-duplicate --no-service-endpoint --force-english-output
   
