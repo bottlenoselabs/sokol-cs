@@ -101,17 +101,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Download NuGet Packages
-        uses: actions/download-artifact@v1
-        with:
-          name: nuget-packages
+    - name: Setup .NET Core CLI with MyGet
+      uses: actions/setup-dotnet@v1
+      with:
+        source-url: https://www.myget.org/F/lithiumtoast/api/v2/package
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
 
-      - name: Echo Packages
-        run: find ./nuget-packages/ -not -type d -exec basename {} \;
+    - name: Download NuGet Packages
+      uses: actions/download-artifact@v1
+      with:
+        name: nuget-packages
+
+    - name: Echo Packages
+      run: find ./nuget-packages/ -not -type d -exec basename {} \;
       
-      - name: Add MyGet Source
-        run: nuget source Add -Name "MyGet" -Source "https://www.myget.org/F/lithiumtoast/api/v2/package"
-
-      - name: Upload Packages to MyGet
-        run: nuget push -Source "MyGet" -ApiKey ${{ secrets.MYGET_ACCESS_TOKEN }} "%./nuget/packages/**/*.nupkg" || true
+    - name: Upload Packages to MyGet
+      run: dotnet nuget push "%./nuget-packages/**/*.nupkg"
   
