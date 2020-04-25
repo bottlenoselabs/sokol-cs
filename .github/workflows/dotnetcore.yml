@@ -1,4 +1,4 @@
-name: .NET Core
+name: .NET Core CI/CD
 
 on:
   push:
@@ -12,14 +12,14 @@ on:
 
 jobs:
   my-job:
-    name: Test Job
+    name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: Print
-      env:
-        MY_VAR: Hi there! My name is
-        FIRST_NAME: Link
-        MIDDLE_NAME: The
-        LAST_NAME: Hero of Time
-      run: |
-        echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
+    - name: Checkout repository
+      uses: actions/checkout@master
+    - name: Setup .NET Core CLI
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.100'
+    - name: Build
+      run: dotnet build './src/Sokol.sln'
