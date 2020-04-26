@@ -127,13 +127,7 @@ For a complete list of the release versions, see the [tags on this repository](h
 
 `Sokol.NET` is licensed under the MIT License - see the [LICENSE file](LICENSE) for details.
 
-The following are 1st level dependencies for `Sokol.NET` which have their own licenses:
-
-Direct Dependency|License
-:---|:---:
-[`sokol`](https://github.com/floooh/sokol)|[ZLIB](https://github.com/floooh/sokol/blob/master/LICENSE) 
-[`SDL2-CS`](https://github.com/flibitijibibo/SDL2-CS)|[ZLIB](https://github.com/flibitijibibo/SDL2-CS/blob/master/LICENSE) 
-[`SDL2`](https://www.libsdl.org/index.php)|[ZLIB](https://www.libsdl.org/license.php)
+For information about 3rd party licenses, see [the latest complete open source license report](https://app.fossa.com/reports/f01b41f3-1a78-4d1d-89b3-9a54b12733e2) provided by [FOSSA](https://fossa.com).
 
 ## Contributing
 
