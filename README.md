@@ -122,14 +122,6 @@ How `GitVersion` is configured for `Sokol.NET`, the version is automatically bum
 
 For a complete list of the release versions, see the [tags on this repository](https://github.com/lithiumtoast/Sokol.NET/tags).
 
-## License
-
-`Sokol.NET` is licensed under the MIT License - see the [LICENSE file](LICENSE) for details.
-
-For information about 3rd party licenses, see [the latest complete open source license report](https://app.fossa.com/reports/f01b41f3-1a78-4d1d-89b3-9a54b12733e2) provided by [FOSSA](https://fossa.com).
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET)
-
 ## Support
 
 For details about how to get support for `Sokol.NET`, see the [SUPPORT](.github/SUPPORT.md) file.
@@ -142,6 +134,10 @@ Do you want to contribute? Awesome! To get started please read the [CONTRIBUTING
 
 For a list of contributors, see the [CONTRIBUTORS](CONTRIBUTORS.md) file.
 
-## Authors
+## License
 
-For information about the authors, see the [AUTHORS](AUTHORS.md) file.
+`Sokol.NET` is licensed under the MIT License - see the [LICENSE file](LICENSE) for details.
+
+For information about 3rd party licenses, see [the latest complete open source license report](https://app.fossa.com/reports/f01b41f3-1a78-4d1d-89b3-9a54b12733e2) provided by [FOSSA](https://fossa.com).
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET)
