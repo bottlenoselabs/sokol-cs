@@ -7,7 +7,7 @@ namespace Samples.NonInterleaved
     {
         private static void Main()
         {
-            var app = new Application();
+            var app = new NonInterleavedApplication();
             app.Run();
         }
     }

@@ -7,7 +7,7 @@ namespace Samples.BufferOffsets
     {
         private static void Main()
         {
-            var app = new Application();
+            var app = new BufferOffsetsApplication();
             app.Run();
         }
     }

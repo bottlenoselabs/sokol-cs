@@ -7,7 +7,7 @@ namespace Samples.Clear
     {
         private static void Main()
         {
-            var app = new Application();
+            var app = new ClearApplication();
             app.Run();
         }
     }

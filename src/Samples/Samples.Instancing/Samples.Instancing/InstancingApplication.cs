@@ -12,7 +12,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Instancing
 {
-    internal sealed class Application : App
+    internal sealed class InstancingApplication : App
     {
         private const int _maxParticlesCount = 512 * 1024;
         private const int _particlesCountEmittedPerFrame = 10;
@@ -32,7 +32,7 @@ namespace Samples.Instancing
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public Application()
+        public InstancingApplication()
         {
             Debug.Assert(
                 GraphicsDevice.IsValid(),

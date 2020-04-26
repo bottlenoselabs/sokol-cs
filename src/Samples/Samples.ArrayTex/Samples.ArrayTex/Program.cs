@@ -7,7 +7,7 @@ namespace Samples.ArrayTex
     {
         private static void Main()
         {
-            var app = new Application();
+            var app = new ArrayTexApplication();
             app.Run();
         }
     }

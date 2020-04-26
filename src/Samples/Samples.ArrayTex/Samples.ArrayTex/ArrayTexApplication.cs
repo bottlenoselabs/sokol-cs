@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Buffers;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -9,27 +10,34 @@ using Sokol.App;
 using Sokol.Graphics;
 using Buffer = Sokol.Graphics.Buffer;
 
-namespace Samples.Cube
+namespace Samples.ArrayTex
 {
-    internal sealed class Application : App
+    internal sealed class ArrayTexApplication : App
     {
-        private readonly Shader _shader;
+        private const int _textureLayersCount = 3;
+        private const int _textureWidth = 16;
+        private const int _textureHeight = 16;
+
         private readonly Buffer _vertexBuffer;
         private readonly Buffer _indexBuffer;
+        private readonly Image _texture;
+        private readonly Shader _shader;
         private readonly Pipeline _pipeline;
 
         private bool _paused;
-        private Matrix4x4 _viewProjectionMatrix;
-        private Matrix4x4 _modelViewProjectionMatrix;
         private float _rotationX;
         private float _rotationY;
+        private Matrix4x4 _viewProjectionMatrix;
+        private int _frameIndex;
+        private VertexStageParams _vertexStageParams;
 
-        public Application()
+        public ArrayTexApplication()
         {
             DrawableSizeChanged += OnDrawableSizeChanged;
 
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
+            _texture = CreateTexture();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
 
@@ -56,42 +64,55 @@ namespace Samples.Cube
             var deltaSeconds = time.ElapsedSeconds;
 
             // rotate cube and create vertex shader mvp matrix
-            _rotationX += 1.0f * deltaSeconds;
-            _rotationY += 2.0f * deltaSeconds;
+            _rotationX += 0.25f * deltaSeconds;
+            _rotationY += 0.5f * deltaSeconds;
             var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
             var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
             var modelMatrix = rotationMatrixX * rotationMatrixY;
-            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
+            _vertexStageParams.MVP = modelMatrix * _viewProjectionMatrix;
+
+            // calculate texture coordinate offsets (xy = uv, z = texture layer)
+            var offset = _frameIndex * 0.0001f;
+            _vertexStageParams.Offset0 = new Vector3(-offset, offset, 0);
+            _vertexStageParams.Offset1 = new Vector3(offset, -offset, 1);
+            _vertexStageParams.Offset2 = new Vector3(0, 0, 2);
+
+            // calculate color interpolation weight
+            _vertexStageParams.Weights = new Vector3(1f, 1f, 1f);
         }
 
         protected override void Draw(AppTime time)
         {
             // begin a frame buffer render pass
-            var pass = BeginDefaultPass(Rgba32F.Gray);
+            var pass = BeginDefaultPass(Rgba32F.Black);
 
+            // describe the binding of the vertex and index buffer
             var resourceBindings = default(ResourceBindings);
             resourceBindings.VertexBuffer() = _vertexBuffer;
             resourceBindings.IndexBuffer = _indexBuffer;
+            resourceBindings.FragmentStageImage() = _texture;
 
             // apply the render pipeline and bindings for the render pass
             pass.ApplyPipeline(_pipeline);
             pass.ApplyBindings(ref resourceBindings);
 
-            // apply the mvp matrix to the vertex shader
-            pass.ApplyShaderUniforms(ShaderStageType.VertexStage, ref _modelViewProjectionMatrix);
+            // apply the params to the vertex shader
+            pass.ApplyShaderUniforms(ShaderStageType.VertexStage, ref _vertexStageParams);
 
             // draw the cube into the target of the render pass
             pass.DrawElements(36);
 
             // end the frame buffer render pass
             pass.End();
+
+            _frameIndex++;
         }
 
         private void OnDrawableSizeChanged(App app, int width, int height)
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
-                (float)(40.0f * Math.PI / 180),
+                (float)(35.0f * Math.PI / 180),
                 (float)width / height,
                 0.01f,
                 10.0f);
@@ -106,7 +127,7 @@ namespace Samples.Cube
         {
             var pipelineDesc = default(PipelineDescriptor);
             pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
-            pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
+            pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float2;
             pipelineDesc.Shader = _shader;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
             pipelineDesc.DepthStencil.DepthCompareFunction = PipelineDepthCompareFunction.LessEqual;
@@ -118,14 +139,30 @@ namespace Samples.Cube
 
         private Shader CreateShader()
         {
+            // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
-            mvpUniform.Name = "mvp";
-            mvpUniform.Type = ShaderUniformType.Matrix4x4;
+
+            ref var uniformBlock = ref shaderDesc.VertexStage.UniformBlock();
+            uniformBlock.Size = Marshal.SizeOf<VertexStageParams>();
+            uniformBlock.Uniform(0).Name = "mvp";
+            uniformBlock.Uniform(0).Type = ShaderUniformType.Matrix4x4;
+            uniformBlock.Uniform(1).Name = "offset0";
+            uniformBlock.Uniform(1).Type = ShaderUniformType.Float3;
+            uniformBlock.Uniform(2).Name = "offset1";
+            uniformBlock.Uniform(2).Type = ShaderUniformType.Float3;
+            uniformBlock.Uniform(3).Name = "offset2";
+            uniformBlock.Uniform(3).Type = ShaderUniformType.Float3;
+            uniformBlock.Uniform(4).Name = "weights";
+            uniformBlock.Uniform(4).Type = ShaderUniformType.Float3;
+            shaderDesc.FragmentStage.Image().Type = ImageType.TextureArray;
+
+            ref var image = ref shaderDesc.FragmentStage.Image();
+            image.Name = "tex";
+            image.Type = ImageType.TextureArray;
 
             switch (Backend)
             {
+                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
@@ -143,7 +180,64 @@ namespace Samples.Cube
                     throw new ArgumentOutOfRangeException();
             }
 
+            // create the shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
+        }
+
+        private static Image CreateTexture()
+        {
+            var pixelData = ArrayPool<Rgba8U>.Shared.Rent(_textureLayersCount * _textureWidth * _textureHeight);
+
+            for (int layer = 0, even_odd = 0, index = 0; layer < _textureLayersCount; layer++)
+            {
+                for (var y = 0; y < _textureHeight; y++, even_odd++)
+                {
+                    for (var x = 0; x < _textureWidth; x++, even_odd++, index++)
+                    {
+                        ref var color = ref pixelData[index];
+                        if ((int)(even_odd & 1) > 0)
+                        {
+                            color = layer switch
+                            {
+                                0 => Rgba8U.Red,
+                                1 => Rgba8U.Lime,
+                                2 => Rgba8U.Blue,
+                                _ => color
+                            };
+                        }
+                        else
+                        {
+                            pixelData[index] = Rgba8U.TransparentBlack;
+                        }
+                    }
+                }
+            }
+
+            // describe an immutable 2d texture
+            var imageDesc = new ImageDescriptor
+            {
+                Usage = ResourceUsage.Immutable,
+                Type = ImageType.TextureArray,
+                Width = _textureWidth,
+                Height = _textureHeight,
+                Layers = _textureLayersCount,
+                Format = PixelFormat.RGBA8,
+                MinificationFilter = ImageFilter.Nearest,
+                MagnificationFilter = ImageFilter.Nearest,
+                WrapW = ImageWrap.Repeat
+            };
+
+            // immutable images need to specify the data/size in the descriptor
+            // when using a `Memory<T>`, or a `Span<T>` which is unmanaged or already pinned, we do this by calling `SetData`
+            imageDesc.SetData(pixelData.AsSpan());
+
+            // create the image from the descriptor
+            // note: for immutable images this "uploads" the data to the GPU
+            var image = GraphicsDevice.CreateImage(ref imageDesc);
+
+            ArrayPool<Rgba8U>.Shared.Return(pixelData);
+
+            return image;
         }
 
         private static Buffer CreateIndexBuffer()
@@ -178,69 +272,63 @@ namespace Samples.Cube
         private static Buffer CreateVertexBuffer()
         {
             // ReSharper disable once RedundantCast
-            var vertices = (Span<Vertex>)stackalloc Vertex[24];
+            var vertices = (Span<Vertex>)stackalloc Vertex[4 * 6];
 
             // describe the vertices of the cube
             // quad 1
-            var color1 = Rgba32F.Red;
             vertices[0].Position = new Vector3(-1.0f, -1.0f, -1.0f);
-            vertices[0].Color = color1;
+            vertices[0].TextureCoordinate = new Vector2(0.0f, 0.0f);
             vertices[1].Position = new Vector3(1.0f, -1.0f, -1.0f);
-            vertices[1].Color = color1;
+            vertices[1].TextureCoordinate = new Vector2(1.0f, 0.0f);
             vertices[2].Position = new Vector3(1.0f, 1.0f, -1.0f);
-            vertices[2].Color = color1;
+            vertices[2].TextureCoordinate = new Vector2(1.0f, 1.0f);
             vertices[3].Position = new Vector3(-1.0f, 1.0f, -1.0f);
-            vertices[3].Color = color1;
+            vertices[3].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 2
-            var color2 = Rgba32F.Lime;
             vertices[4].Position = new Vector3(-1.0f, -1.0f, 1.0f);
-            vertices[4].Color = color2;
+            vertices[4].TextureCoordinate = new Vector2(0.0f, 0.0f);
             vertices[5].Position = new Vector3(1.0f, -1.0f, 1.0f);
-            vertices[5].Color = color2;
+            vertices[5].TextureCoordinate = new Vector2(1.0f, 0.0f);
             vertices[6].Position = new Vector3(1.0f, 1.0f, 1.0f);
-            vertices[6].Color = color2;
+            vertices[6].TextureCoordinate = new Vector2(1.0f, 1.0f);
             vertices[7].Position = new Vector3(-1.0f, 1.0f, 1.0f);
-            vertices[7].Color = color2;
+            vertices[7].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 3
-            var color3 = Rgba32F.Blue;
             vertices[8].Position = new Vector3(-1.0f, -1.0f, -1.0f);
-            vertices[8].Color = color3;
+            vertices[8].TextureCoordinate = new Vector2(0.0f, 0.0f);
             vertices[9].Position = new Vector3(-1.0f, 1.0f, -1.0f);
-            vertices[9].Color = color3;
+            vertices[9].TextureCoordinate = new Vector2(1.0f, 0.0f);
             vertices[10].Position = new Vector3(-1.0f, 1.0f, 1.0f);
-            vertices[10].Color = color3;
+            vertices[10].TextureCoordinate = new Vector2(1.0f, 1.0f);
             vertices[11].Position = new Vector3(-1.0f, -1.0f, 1.0f);
-            vertices[11].Color = color3;
+            vertices[11].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 4
-            var color4 = new Rgba32F(1f, 0.5f, 0f, 1f);
             vertices[12].Position = new Vector3(1.0f, -1.0f, -1.0f);
-            vertices[12].Color = color4;
+            vertices[12].TextureCoordinate = new Vector2(0.0f, 0.0f);
             vertices[13].Position = new Vector3(1.0f, 1.0f, -1.0f);
-            vertices[13].Color = color4;
+            vertices[13].TextureCoordinate = new Vector2(1.0f, 0.0f);
             vertices[14].Position = new Vector3(1.0f, 1.0f, 1.0f);
-            vertices[14].Color = color4;
+            vertices[14].TextureCoordinate = new Vector2(1.0f, 1.0f);
             vertices[15].Position = new Vector3(1.0f, -1.0f, 1.0f);
-            vertices[15].Color = color4;
+            vertices[15].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 5
-            var color5 = new Rgba32F(0f, 0.5f, 1f, 1f);
             vertices[16].Position = new Vector3(-1.0f, -1.0f, -1.0f);
-            vertices[16].Color = color5;
+            vertices[16].TextureCoordinate = new Vector2(0.0f, 0.0f);
             vertices[17].Position = new Vector3(-1.0f, -1.0f, 1.0f);
-            vertices[17].Color = color5;
+            vertices[17].TextureCoordinate = new Vector2(1.0f, 0.0f);
             vertices[18].Position = new Vector3(1.0f, -1.0f, 1.0f);
-            vertices[18].Color = color5;
+            vertices[18].TextureCoordinate = new Vector2(1.0f, 1.0f);
             vertices[19].Position = new Vector3(1.0f, -1.0f, -1.0f);
-            vertices[19].Color = color5;
+            vertices[19].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 6
-            var color6 = new Rgba32F(1.0f, 0.0f, 0.5f, 1f);
             vertices[20].Position = new Vector3(-1.0f, 1.0f, -1.0f);
-            vertices[20].Color = color6;
+            vertices[20].TextureCoordinate = new Vector2(0.0f, 0.0f);
             vertices[21].Position = new Vector3(-1.0f, 1.0f, 1.0f);
-            vertices[21].Color = color6;
+            vertices[21].TextureCoordinate = new Vector2(1.0f, 0.0f);
             vertices[22].Position = new Vector3(1.0f, 1.0f, 1.0f);
-            vertices[22].Color = color6;
+            vertices[22].TextureCoordinate = new Vector2(1.0f, 1.0f);
             vertices[23].Position = new Vector3(1.0f, 1.0f, -1.0f);
-            vertices[23].Color = color6;
+            vertices[23].TextureCoordinate = new Vector2(0.0f, 1.0f);
 
             // describe an immutable vertex buffer
             var bufferDesc = new BufferDescriptor

@@ -7,7 +7,7 @@ namespace Samples.DynTex
     {
         private static void Main()
         {
-            var app = new Application();
+            var app = new DynTexApplication();
             app.Run();
         }
     }

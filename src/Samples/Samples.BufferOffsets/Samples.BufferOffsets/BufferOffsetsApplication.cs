@@ -11,7 +11,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.BufferOffsets
 {
-    internal sealed class Application : App
+    internal sealed class BufferOffsetsApplication : App
     {
         private readonly Buffer _vertexBuffer;
         private readonly Buffer _indexBuffer;
@@ -20,7 +20,7 @@ namespace Samples.BufferOffsets
 
         private ResourceBindings _resourceBindings;
 
-        public Application()
+        public BufferOffsetsApplication()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();

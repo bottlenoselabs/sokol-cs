@@ -11,7 +11,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.NonInterleaved
 {
-    internal sealed class Application : App
+    internal sealed class NonInterleavedApplication : App
     {
         private readonly Buffer _vertexBuffer;
         private readonly Buffer _indexBuffer;
@@ -24,7 +24,7 @@ namespace Samples.NonInterleaved
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public Application()
+        public NonInterleavedApplication()
         {
             DrawableSizeChanged += OnDrawableSizeChanged;
 

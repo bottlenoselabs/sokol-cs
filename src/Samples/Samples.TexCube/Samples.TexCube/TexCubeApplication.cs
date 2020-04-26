@@ -9,18 +9,15 @@ using Sokol.App;
 using Sokol.Graphics;
 using Buffer = Sokol.Graphics.Buffer;
 
-namespace Samples.Offscreen
+namespace Samples.TexCube
 {
-    internal sealed class Application : App
+    internal sealed class TexCubeApplication : App
     {
-        private readonly Buffer _indexBuffer;
         private readonly Buffer _vertexBuffer;
-        private readonly Pipeline _offscreenPipeline;
-        private readonly Shader _offscreenShader;
-        private readonly Pipeline _frameBufferPipeline;
-        private readonly Shader _frameBufferShader;
-        private readonly Image _renderTarget;
-        private readonly Pass _offscreenRenderPass;
+        private readonly Buffer _indexBuffer;
+        private readonly Image _texture;
+        private readonly Shader _shader;
+        private readonly Pipeline _pipeline;
 
         private bool _paused;
         private float _rotationX;
@@ -28,21 +25,15 @@ namespace Samples.Offscreen
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public Application()
+        public TexCubeApplication()
         {
             DrawableSizeChanged += OnDrawableSizeChanged;
 
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
-            _offscreenShader = CreateOffscreenShader();
-            _offscreenPipeline = CreateOffscreenPipeline();
-
-            var (renderTarget, renderTargetDepth) = CreateOffscreenRenderTargets();
-            _renderTarget = renderTarget;
-            _offscreenRenderPass = CreateOffscreenRenderPass(renderTarget, renderTargetDepth);
-
-            _frameBufferShader = CreateFrameBufferShader();
-            _frameBufferPipeline = CreateFrameBufferPipeline();
+            _texture = CreateTexture();
+            _shader = CreateShader();
+            _pipeline = CreatePipeline();
 
             // Free any strings we implicitly allocated when creating resources
             // Only call this method AFTER resources are created
@@ -77,50 +68,27 @@ namespace Samples.Offscreen
 
         protected override void Draw(AppTime time)
         {
-            // begin the offscreen render pass
-            var offscreenPassAction = PassAction.Clear(Rgba32F.Black);
-            _offscreenRenderPass.Begin(ref offscreenPassAction);
-
-            // describe the bindings for rendering a non-textured cube into the render target
-            var offscreenResourceBindings = default(ResourceBindings);
-            offscreenResourceBindings.VertexBuffer() = _vertexBuffer;
-            offscreenResourceBindings.IndexBuffer = _indexBuffer;
-
-            // apply the render pipeline and bindings for the offscreen render pass
-            _offscreenRenderPass.ApplyPipeline(_offscreenPipeline);
-            _offscreenRenderPass.ApplyBindings(ref offscreenResourceBindings);
-
-            // apply the mvp matrix to the offscreen vertex shader
-            _offscreenRenderPass.ApplyShaderUniforms(ShaderStageType.VertexStage, ref _modelViewProjectionMatrix);
-
-            // draw the non-textured cube into the target of the offscreen render pass
-            _offscreenRenderPass.DrawElements(36);
-
-            // end the offscreen render pass
-            _offscreenRenderPass.End();
-
             // begin a frame buffer render pass
-            Rgba32F clearColor = 0x0040FFFF;
-            var frameBufferPass = BeginDefaultPass(clearColor);
+            var pass = BeginDefaultPass(Rgba32F.Gray);
 
-            // describe the bindings for using the offscreen render target as the sampled texture
-            var frameBufferResourceBindings = default(ResourceBindings);
-            frameBufferResourceBindings.VertexBuffer() = _vertexBuffer;
-            frameBufferResourceBindings.IndexBuffer = _indexBuffer;
-            frameBufferResourceBindings.FragmentStageImage() = _renderTarget;
+            // describe the binding of the vertex and index buffer
+            var resourceBindings = default(ResourceBindings);
+            resourceBindings.VertexBuffer() = _vertexBuffer;
+            resourceBindings.IndexBuffer = _indexBuffer;
+            resourceBindings.FragmentStageImage() = _texture;
 
-            // apply the render pipeline and bindings for the frame buffer render pass
-            frameBufferPass.ApplyPipeline(_frameBufferPipeline);
-            frameBufferPass.ApplyBindings(ref frameBufferResourceBindings);
+            // apply the render pipeline and bindings for the render pass
+            pass.ApplyPipeline(_pipeline);
+            pass.ApplyBindings(ref resourceBindings);
 
-            // apply the mvp matrix to the frame buffer vertex shader
-            frameBufferPass.ApplyShaderUniforms(ShaderStageType.VertexStage, ref _modelViewProjectionMatrix);
+            // apply the mvp matrix to the vertex shader
+            pass.ApplyShaderUniforms(ShaderStageType.VertexStage, ref _modelViewProjectionMatrix);
 
-            // draw the textured cube into the target of the frame buffer render pass
-            frameBufferPass.DrawElements(36);
+            // draw the cube into the target of the render pass
+            pass.DrawElements(36);
 
             // end the frame buffer render pass
-            frameBufferPass.End();
+            pass.End();
         }
 
         private void OnDrawableSizeChanged(App app, int width, int height)
@@ -132,63 +100,40 @@ namespace Samples.Offscreen
                 0.01f,
                 10.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(
-                new Vector3(0.0f, 1.5f, 6.0f), Vector3.Zero, Vector3.UnitY);
+                new Vector3(0.0f, 1.5f, 6.0f),
+                Vector3.Zero,
+                Vector3.UnitY);
             _viewProjectionMatrix = viewMatrix * projectionMatrix;
         }
 
-        private Pipeline CreateFrameBufferPipeline()
+        private Pipeline CreatePipeline()
         {
-            // describe the frame buffer render pipeline
-            var frameBufferPipelineDesc = default(PipelineDescriptor);
-            frameBufferPipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
-            frameBufferPipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
-            frameBufferPipelineDesc.Layout.Attribute(2).Format = PipelineVertexAttributeFormat.Float2;
-            frameBufferPipelineDesc.Shader = _frameBufferShader;
-            frameBufferPipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
-            frameBufferPipelineDesc.DepthStencil.DepthCompareFunction = PipelineDepthCompareFunction.LessEqual;
-            frameBufferPipelineDesc.DepthStencil.DepthWriteIsEnabled = true;
-            frameBufferPipelineDesc.Rasterizer.CullMode = PipelineTriangleCullMode.Back;
-            frameBufferPipelineDesc.Rasterizer.SampleCount = GraphicsDevice.Features.MsaaRenderTargets ? 4 : 1;
-
-            // create the frame buffer pipeline resource from the description
-            return GraphicsDevice.CreatePipeline(ref frameBufferPipelineDesc);
-        }
-
-        private Pipeline CreateOffscreenPipeline()
-        {
-            // describe the offscreen render pipeline
             var pipelineDesc = default(PipelineDescriptor);
-            // skip texture coordinates
-            pipelineDesc.Layout.Buffer(0).Stride = 36;
             pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
-            pipelineDesc.Shader = _offscreenShader;
+            pipelineDesc.Layout.Attribute(2).Format = PipelineVertexAttributeFormat.Float2;
+            pipelineDesc.Shader = _shader;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
             pipelineDesc.DepthStencil.DepthCompareFunction = PipelineDepthCompareFunction.LessEqual;
             pipelineDesc.DepthStencil.DepthWriteIsEnabled = true;
-            pipelineDesc.Blend.ColorFormat = PixelFormat.RGBA8;
-            pipelineDesc.Blend.DepthFormat = PixelFormat.Depth;
             pipelineDesc.Rasterizer.CullMode = PipelineTriangleCullMode.Back;
             pipelineDesc.Rasterizer.SampleCount = GraphicsDevice.Features.MsaaRenderTargets ? 4 : 1;
 
-            // create the offscreen pipeline resource from the description
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);
         }
 
-        private Shader CreateFrameBufferShader()
+        private Shader CreateShader()
         {
+            // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var frameBufferMvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
-            frameBufferMvpUniform.Name = "mvp";
-            frameBufferMvpUniform.Type = ShaderUniformType.Matrix4x4;
-            shaderDesc.FragmentStage.Image().Name = "tex";
+            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
+            mvpUniform.Name = "mvp";
+            mvpUniform.Type = ShaderUniformType.Matrix4x4;
             shaderDesc.FragmentStage.Image().Type = ImageType.Texture2D;
 
-            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
@@ -196,34 +141,6 @@ namespace Samples.Offscreen
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            // create the shader resource from the description
-            return GraphicsDevice.CreateShader(ref shaderDesc);
-        }
-
-        private Shader CreateOffscreenShader()
-        {
-            // describe the offscreen shader program
-            var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var offscreenMvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
-            offscreenMvpUniform.Name = "mvp";
-            offscreenMvpUniform.Type = ShaderUniformType.Matrix4x4;
-
-            switch (Backend)
-            {
-                // specify shader stage source code for each graphics backend
-                case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.frag");
-                    break;
-                case GraphicsBackend.Metal:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenVert.metal");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenFrag.metal");
                     break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
@@ -234,43 +151,40 @@ namespace Samples.Offscreen
                     throw new ArgumentOutOfRangeException();
             }
 
-            // create the offscreen shader resource from the description
+            // create the shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private static Pass CreateOffscreenRenderPass(Image renderTarget, Image renderTargetDepth)
+        private static Image CreateTexture()
         {
-            var passDesc = default(PassDescriptor);
-            passDesc.ColorAttachment(0).Image = renderTarget;
-            passDesc.DepthStencilAttachment.Image = renderTargetDepth;
+            // ReSharper disable once RedundantCast
+            var pixelData = (Span<Rgba8U>)stackalloc Rgba8U[]
+            {
+                Rgba8U.White, Rgba8U.Black, Rgba8U.White, Rgba8U.Black,
+                Rgba8U.Black, Rgba8U.White, Rgba8U.Black, Rgba8U.White,
+                Rgba8U.White, Rgba8U.Black, Rgba8U.White, Rgba8U.Black,
+                Rgba8U.Black, Rgba8U.White, Rgba8U.Black, Rgba8U.White
+            };
 
-            return GraphicsDevice.CreatePass(ref passDesc);
-        }
+            // describe an immutable 2d texture
+            var imageDesc = new ImageDescriptor
+            {
+                Usage = ResourceUsage.Immutable,
+                Type = ImageType.Texture2D,
+                Width = 4,
+                Height = 4,
+                Format = PixelFormat.RGBA8,
+                MinificationFilter = ImageFilter.Nearest,
+                MagnificationFilter = ImageFilter.Nearest
+            };
 
-        private static (Image renderTarget, Image renderTargetDepth) CreateOffscreenRenderTargets()
-        {
-            // describe a 2d texture render target
-            var imageDesc = default(ImageDescriptor);
-            imageDesc.Usage = ResourceUsage.Immutable;
-            imageDesc.Type = ImageType.Texture2D;
-            imageDesc.IsRenderTarget = true;
-            imageDesc.Width = 512;
-            imageDesc.Height = 512;
-            imageDesc.Depth = 1;
-            imageDesc.MipmapCount = 1;
-            imageDesc.Format = PixelFormat.RGBA8;
-            imageDesc.MinificationFilter = ImageFilter.Linear;
-            imageDesc.MagnificationFilter = ImageFilter.Linear;
-            imageDesc.SampleCount = GraphicsDevice.Features.MsaaRenderTargets ? 4 : 1;
+            // immutable images need to specify the data/size in the descriptor
+            // when using a `Memory<T>`, or a `Span<T>` which is unmanaged or already pinned, we do this by calling `SetData`
+            imageDesc.SetData(pixelData);
 
-            // create the color render target image from the description
-            var renderTarget = GraphicsDevice.CreateImage(ref imageDesc);
-
-            // create the depth render target image from the description
-            imageDesc.Format = PixelFormat.Depth;
-            var renderTargetDepth = GraphicsDevice.CreateImage(ref imageDesc);
-
-            return (renderTarget, renderTargetDepth);
+            // create the image from the descriptor
+            // note: for immutable images this "uploads" the data to the GPU
+            return GraphicsDevice.CreateImage(ref imageDesc);
         }
 
         private static Buffer CreateIndexBuffer()
@@ -309,7 +223,7 @@ namespace Samples.Offscreen
 
             // describe the vertices of the cube
             // quad 1
-            const uint color1 = 0xFF8080FF;
+            var color1 = Rgba32F.Red;
             vertices[0].Position = new Vector3(-1.0f, -1.0f, -1.0f);
             vertices[0].Color = color1;
             vertices[0].TextureCoordinate = new Vector2(0.0f, 0.0f);
@@ -323,7 +237,7 @@ namespace Samples.Offscreen
             vertices[3].Color = color1;
             vertices[3].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 2
-            const uint color2 = 0x80FF80FF;
+            var color2 = Rgba32F.Lime;
             vertices[4].Position = new Vector3(-1.0f, -1.0f, 1.0f);
             vertices[4].Color = color2;
             vertices[4].TextureCoordinate = new Vector2(0.0f, 0.0f);
@@ -337,7 +251,7 @@ namespace Samples.Offscreen
             vertices[7].Color = color2;
             vertices[7].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 3
-            const uint color3 = 0x8080FFFF;
+            var color3 = Rgba32F.Blue;
             vertices[8].Position = new Vector3(-1.0f, -1.0f, -1.0f);
             vertices[8].Color = color3;
             vertices[8].TextureCoordinate = new Vector2(0.0f, 0.0f);
@@ -351,7 +265,7 @@ namespace Samples.Offscreen
             vertices[11].Color = color3;
             vertices[11].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 4
-            const uint color4 = 0xFF8000FF;
+            var color4 = new Rgba32F(1f, 0.5f, 0f, 1f);
             vertices[12].Position = new Vector3(1.0f, -1.0f, -1.0f);
             vertices[12].Color = color4;
             vertices[12].TextureCoordinate = new Vector2(0.0f, 0.0f);
@@ -365,7 +279,7 @@ namespace Samples.Offscreen
             vertices[15].Color = color4;
             vertices[15].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 5
-            const int color5 = 0x0080FFFF;
+            var color5 = new Rgba32F(0f, 0.5f, 1f, 1f);
             vertices[16].Position = new Vector3(-1.0f, -1.0f, -1.0f);
             vertices[16].Color = color5;
             vertices[16].TextureCoordinate = new Vector2(0.0f, 0.0f);
@@ -379,7 +293,7 @@ namespace Samples.Offscreen
             vertices[19].Color = color5;
             vertices[19].TextureCoordinate = new Vector2(0.0f, 1.0f);
             // quad 6
-            const uint color6 = 0xFF0080FF;
+            var color6 = new Rgba32F(1.0f, 0.0f, 0.5f, 1f);
             vertices[20].Position = new Vector3(-1.0f, 1.0f, -1.0f);
             vertices[20].Color = color6;
             vertices[20].TextureCoordinate = new Vector2(0.0f, 0.0f);

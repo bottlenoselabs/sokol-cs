@@ -7,7 +7,7 @@ namespace Samples.Cube
     {
         private static void Main()
         {
-            var app = new Application();
+            var app = new CubeApplication();
             app.Run();
         }
     }

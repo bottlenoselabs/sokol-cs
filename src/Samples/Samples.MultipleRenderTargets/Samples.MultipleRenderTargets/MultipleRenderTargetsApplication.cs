@@ -11,7 +11,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.MultipleRenderTargets
 {
-    internal sealed class Application : App
+    internal sealed class MultipleRenderTargetsApplication : App
     {
         private readonly Image[] _offScreenRenderTargets;
         private readonly Buffer _cubeIndexBuffer;
@@ -32,7 +32,7 @@ namespace Samples.MultipleRenderTargets
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public Application()
+        public MultipleRenderTargetsApplication()
         {
             DrawableSizeChanged += OnDrawableSizeChanged;
 

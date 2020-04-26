@@ -6,11 +6,11 @@ using Sokol.Graphics;
 
 namespace Samples.Clear
 {
-    internal sealed class Application : App
+    internal sealed class ClearApplication : App
     {
         private Rgba32F _clearColor;
 
-        public Application()
+        public ClearApplication()
         {
             // initially set the frame buffer clear color to red
             _clearColor = Rgba32F.Red;

@@ -7,7 +7,7 @@ namespace Samples.MultipleRenderTargets
     {
         private static void Main()
         {
-            var app = new Application();
+            var app = new MultipleRenderTargetsApplication();
             app.Run();
         }
     }

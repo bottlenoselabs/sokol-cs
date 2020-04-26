@@ -7,7 +7,7 @@ namespace Samples.Triangle
     {
         private static void Main()
         {
-            var app = new Application();
+            var app = new TriangleApplication();
             app.Run();
         }
     }

@@ -7,7 +7,7 @@ namespace Samples.Offscreen
     {
         private static void Main()
         {
-            var app = new Application();
+            var app = new OffscreenApplication();
             app.Run();
         }
     }
