@@ -1,7 +1,13 @@
-# `sokol`.NET
+<p align="center">
+  <b>Sokol.NET</b> - .NET wrapper for <a href="https://github.com/floooh/sokol">https://github.com/floooh/sokol</a>
+</p>
 
-![.NET CI/CD](https://github.com/lithiumtoast/Sokol.NET/workflows/.NET%20Core%20CI/CD/badge.svg)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET?ref=badge_shield)
+<p align="center">
+    <img src="https://github.com/lithiumtoast/Sokol.NET/workflows/.NET%20Core%20CI/CD/badge.svg"/>
+    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET.svg?type=shield"/></a>
+</p>
+
+## Background
 
 A .NET wrapper for https://github.com/floooh/sokol, primarily `sokol_gfx`; a simple and modern wrapper around GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 and Metal.
 
