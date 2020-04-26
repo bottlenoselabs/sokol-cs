@@ -16,4 +16,4 @@ Please make a draft pull request. The draft is used to start a discussion and re
 
 ### Changes in Code
 
-Please create an issue to start a conversation about the code changes and triage the issue. If the issue is indentified and a clear course of action is available, please create a pull request.
+Please create an issue to start a conversation about the code changes and triage the issue. If the issue is indentified and a clear course of action is available, please create a pull request. Maintainers may need to commit changes on your pull request for refinement.
