@@ -2,9 +2,9 @@
 
 Please read the [code of conduct](CONTRIBUTING-CODE-CONDUCT.md) before contributing.
 
-Contributing to this project is pretty simple as it follows [`sokol`](https://github.com/floooh/sokol); any documentation, new code, bug fixes, etc, are going to be gravitating around `sokol`, which doesn't change too frequently.
+Please familiar yourslef with the [GitHub projects on this repository](https://github.com/lithiumtoast/Sokol.NET/projects).
 
-Maintainers respond to issues or comments in under 72 hours.
+At least one maintainer will respond to issues or comments in under 72 hours; see the [list of maintainers](https://github.com/lithiumtoast/Sokol.NET/blob/develop/MAINTAINERS.md).
 
 ### Crash or Bug
 
@@ -16,4 +16,4 @@ Please make a draft pull request. The draft is used to start a discussion and re
 
 ### Changes in Code
 
-Please create a draft pull request. The draft is used to start a conversation about the code changes.
+Please create an issue to start a conversation about the code changes and triage the issue. If the issue is indentified and a clear course of action is available, please create a pull request.
