@@ -1,6 +1,7 @@
 # `sokol`.NET
 
 ![.NET CI/CD](https://github.com/lithiumtoast/Sokol.NET/workflows/.NET%20Core%20CI/CD/badge.svg)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET?ref=badge_shield)
 
 A .NET wrapper for https://github.com/floooh/sokol, primarily `sokol_gfx`; a simple and modern wrapper around GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 and Metal.
 
@@ -120,6 +121,8 @@ For a complete list of the release versions, see the [tags on this repository](h
 `Sokol.NET` is licensed under the MIT License - see the [LICENSE file](LICENSE) for details.
 
 For information about 3rd party licenses, see [the latest complete open source license report](https://app.fossa.com/reports/f01b41f3-1a78-4d1d-89b3-9a54b12733e2) provided by [FOSSA](https://fossa.com).
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET)
 
 ## Contributing
 
