@@ -83,32 +83,24 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 ### [Graphics](https://github.com/lithiumtoast/Sokol.NET/projects/2)
 
-|NuGet Package|
----
-|[`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)|
-|[`Sokol.Graphics.OpenGL`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)|
-|[`Sokol.Graphics.OpenGL.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL.Native)|
-|[`Sokol.Graphics.Metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)|
-|[`Sokol.Graphics.Metal.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal.Native)|
+- [`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)
+- [`Sokol.Graphics.OpenGL`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)
+- [`Sokol.Graphics.OpenGL.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL.Native)
+- [`Sokol.Graphics.Metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)
+- [`Sokol.Graphics.Metal.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal.Native)
 
 ### [SDL2](https://github.com/lithiumtoast/Sokol.NET/projects/3)
 
-|NuGet Package|
----
-[`Sokol.SDL2`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2)|
-[`Sokol.SDL2.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2.Native)|
+- [`Sokol.SDL2`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2)
+- [`Sokol.SDL2.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2.Native)
 
 ### [App](https://github.com/lithiumtoast/Sokol.NET/projects/1)
 
-|NuGet Package|
----
-|[`Sokol.App`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.App)|
+- [`Sokol.App`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.App)
 
 ### [ImGui](https://github.com/lithiumtoast/Sokol.NET/projects/4)
 
-|NuGet Package|
----
-|[`Sokol.ImGui`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.ImGui)|
+- [`Sokol.ImGui`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.ImGui)
 
 
 ## Versioning
