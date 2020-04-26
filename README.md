@@ -32,24 +32,22 @@ All the types are [.NET value types](https://docs.microsoft.com/en-us/dotnet/csh
 
 ### Samples
 
-To learn how to use the .NET API, check out the [samples](htree/master/src/Samples), which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
-
-The following is a table of the same .NET API samples ordered by their complexity.
+To learn how to use the .NET API, check out the following samples, which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
 
 Name|Description|GIF/Screenshot
 :---:|:---:|:---:
 [Clear](src/Samples/Samples.Clear/Samples.Clear/ClearApplication.cs)|[Clears the frame buffer with a specific color.](src/Samples/Samples.Clear/Samples.Clear/ClearApplication.cs)|<img src="screenshots/clear.gif" width="350">
-[Triangle](src/Samples/Samples.Triangle/Samples.Triangle/Application.cs)|[Draw a triangle in clip space using a vertex buffer and a index buffer.](src/Samples/Samples.Triangle/Samples.Triangle/Application.cs)|<img src="screenshots/triangle.png" width="350">
-[Quad](src/Samples/Samples.Quad/Samples.Quad/Application.cs)|[Draw a quad in clip space using a vertex buffer and a index buffer.](src/Samples/Samples.Quad/Samples.Quad/Application.cs)|<img src="screenshots/quad.png" width="350">
-[BufferOffsets](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|[Draw a triangle and a quad in clip space using the same vertex buffer and and index buffer.](src/Samples/Samples.BufferOffsets/Samples.BufferOffsets/Application.cs)|<img src="screenshots/buffer-offsets.png" width="350">
-[Cube](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|[Draw a cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|<img src="screenshots/cube.gif" width="350">
-[NonInterleaved](src/Samples/Samples.NonInterleaved/Samples.NonInterleaved/Application.cs)|[Draw a cube using a vertex buffer with non-interleaved vertices, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.Cube/Samples.Cube/Application.cs)|<img src="screenshots/non-interleaved.gif" width="350">
-[TexCube](src/Samples/Samples.TexCube/Samples.TextCube/Application.cs)|[Draw a textured cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.TexCube/Samples.TexCube/Application.cs)|<img src="screenshots/tex-cube.gif" width="350">
-[Offscreen](src/Samples/Samples.Offscreen/Samples.Offscreen/Application.cs)|[Draw a non-textured cube off screen to a render target and use the result as as the texture when drawing a cube to the framebuffer.](src/Samples/Samples.Offscreen/Samples.Offscreen/Application.cs)|<img src="screenshots/off-screen.gif" width="350">
-[Instancing](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|[Draw multiple particles using one immutable vertex, one immutable index buffer, and one vertex buffer with streamed instance data.](src/Samples/Samples.Instancing/Samples.Instancing/Application.cs)|<img src="screenshots/instancing.gif" width="350">
-[MultipleRenderTargets](src/Samples/Samples.MultipleRenderTargets/Samples.Instancing/Application.cs)|[Draw a cube to multiple render targets and then blend the results.](src/Samples/Samples.Instancing/Samples.MultipleRenderTargets//Application.cs)|<img src="screenshots/mrt.gif" width="350">
-[ArrayTexture](src/Samples/Samples.ArrayTex/Samples.ArrayTex/Application.cs)|[Draw a cube with multiple 2D textures using one continous block of texture data (texture array).](src/Samples/Samples.ArrayTex/Samples.ArrayTex/Application.cs)|<img src="screenshots/array-tex.gif" width="350">
-[DynamicTexture](src/Samples/Samples.DynTex/Samples.DynTex/Application.cs)|[Draw a cube with streamed 2D texture data. The data is updated to with the rules of Conway's Game of Life.](src/Samples/Samples.DynTex/Samples.DynTex/Application.cs)|<img src="screenshots/dyn-tex.gif" width="350">
+[Triangle](src/Samples/Samples.Triangle/Samples.Triangle/TriangleApplication.cs)|[Draw a triangle in clip space using a vertex buffer and a index buffer.](src/Samples/Samples.Triangle/Samples.Triangle/TriangleApplication.cs)|<img src="screenshots/triangle.png" width="350">
+[Quad](src/Samples/Samples.Quad/Samples.Quad/QuadApplication.cs)|[Draw a quad in clip space using a vertex buffer and a index buffer.](src/Samples/Samples.Quad/Samples.Quad/QuadApplication.cs)|<img src="screenshots/quad.png" width="350">
+[BufferOffsets](src/Samples/Samples.Cube/Samples.BufferOffsets/BufferOffsetsApplication.cs)|[Draw a triangle and a quad in clip space using the same vertex buffer and and index buffer.](src/Samples/Samples.BufferOffsets/Samples.BufferOffsets/BufferOffsetsApplication.cs)|<img src="screenshots/buffer-offsets.png" width="350">
+[Cube](src/Samples/Samples.Cube/Samples.Cube/CubeApplication.cs)|[Draw a cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.Cube/Samples.Cube/CubeApplication.cs)|<img src="screenshots/cube.gif" width="350">
+[NonInterleaved](src/Samples/Samples.NonInterleaved/Samples.NonInterleaved/NonInterleavedApplication.cs)|[Draw a cube using a vertex buffer with non-interleaved vertices, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.Cube/Samples.Cube/NonInterleavedApplication.cs)|<img src="screenshots/non-interleaved.gif" width="350">
+[TexCube](src/Samples/Samples.TexCube/Samples.TextCube/TextureCubeApplication.cs)|[Draw a textured cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.TexCube/Samples.TexCube/TextureCubeApplication.cs)|<img src="screenshots/tex-cube.gif" width="350">
+[Offscreen](src/Samples/Samples.Offscreen/Samples.Offscreen/OffscreenApplication.cs)|[Draw a non-textured cube off screen to a render target and use the result as as the texture when drawing a cube to the framebuffer.](src/Samples/Samples.Offscreen/Samples.Offscreen/OffscreenApplication.cs)|<img src="screenshots/off-screen.gif" width="350">
+[Instancing](src/Samples/Samples.Instancing/Samples.Instancing/InstancingApplication.cs)|[Draw multiple particles using one immutable vertex, one immutable index buffer, and one vertex buffer with streamed instance data.](src/Samples/Samples.Instancing/Samples.Instancing/InstancingApplication.cs)|<img src="screenshots/instancing.gif" width="350">
+[MultipleRenderTargets](src/Samples/Samples.MultipleRenderTargets/Samples.MultipleRenderTargets/MultipleRenderTargetsApplication.cs)|[Draw a cube to multiple render targets and then blend the results.](src/Samples/Samples.Instancing/Samples.MultipleRenderTargets/MultipleRenderTargetsApplication.cs)|<img src="screenshots/mrt.gif" width="350">
+[ArrayTexture](src/Samples/Samples.ArrayTex/Samples.ArrayTex/ArrayTexApplication.cs)|[Draw a cube with multiple 2D textures using one continous block of texture data (texture array).](src/Samples/Samples.ArrayTex/Samples.ArrayTex/ArrayTexApplication.cs)|<img src="screenshots/array-tex.gif" width="350">
+[DynamicTexture](src/Samples/Samples.DynTex/Samples.DynTex/DynTexApplication.cs)|[Draw a cube with streamed 2D texture data. The data is updated to with the rules of Conway's Game of Life.](src/Samples/Samples.DynTex/Samples.DynTex/DynTexApplication.cs)|<img src="screenshots/dyn-tex.gif" width="350">
 
 ## Supported Platforms & 3D APIs
 
@@ -77,20 +75,41 @@ Console PlayStation 4|:white_check_mark:|:x:|:x:|:x:|:x:|:o:|:x:
 - :exclamation: means the graphics API is deprecated on that platform but can still work with `sokol_gfx`. OpenGL is deprecated for macOS. It is recommended to only use Metal for macOS if hardware supports it. All Apple platforms support Metal.
 - :question: means the graphics API is unofficially supported. [Vulkan has limited support on macOS and iOS.](https://github.com/KhronosGroup/MoltenVK) [Vulkan is not yet supported on tvOS](https://github.com/KhronosGroup/MoltenVK/issues/541).
 
-## NuGet
+## GitHub Projects & NuGet Packages
+
+The following is the list of NuGet packages available by the [GitHub projects](https://github.com/lithiumtoast/Sokol.NET/projects) for `Sokol.NET`. Each NuGet package is an individual product. Each GitHub project is a complete suite of products that are commonly used together or otherwise are related in some fashion.
 
 To get the NuGet packages, add the following feed: `https://www.myget.org/F/lithiumtoast/api/v3/index.json`
 
-Name|Description
-:---|:---:
-[`Sokol.App`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.App)|Application framework for `sokol_gfx` using SDL2. Includes the basics like loading necessary libraries, a loop, keyboard input, mouse input, etc. 
-[`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)|PInvoke code for `sokol_gfx`.
-[`Sokol.Graphics.OpenGL`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)|PInvoke code for getting `sokol_gfx` working with OpenGL.
-[`Sokol.Graphics.OpenGL.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL.Native)|Shared libraries for getting `sokol_gfx` working with OpenGL.
-[`Sokol.Graphics.Metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)|PInvoke code for getting `sokol_gfx` working with Metal.
-[`Sokol.Graphics.Metal.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)|Shared libraries for getting `sokol_gfx` working with Metal.
-[`Sokol.SDL2`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2)|PInvoke code for getting `sokol_gfx` working with SDL2.
-[`Sokol.SDL2.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2.Native)|Shared libraries for getting `sokol_gfx` working with SDL2.
+### [Graphics](https://github.com/lithiumtoast/Sokol.NET/projects/2)
+
+|NuGet Package|
+---
+|[`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)|
+|[`Sokol.Graphics.OpenGL`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)|
+|[`Sokol.Graphics.OpenGL.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL.Native)|
+|[`Sokol.Graphics.Metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)|
+|[`Sokol.Graphics.Metal.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal.Native)|
+
+### [SDL2](https://github.com/lithiumtoast/Sokol.NET/projects/3)
+
+|NuGet Package|
+---
+[`Sokol.SDL2`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2)|
+[`Sokol.SDL2.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2.Native)|
+
+### [App](https://github.com/lithiumtoast/Sokol.NET/projects/1)
+
+|NuGet Package|
+---
+|[`Sokol.App`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.App)|
+
+### [ImGui](https://github.com/lithiumtoast/Sokol.NET/projects/4)
+
+|NuGet Package|
+---
+|[`Sokol.ImGui`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.ImGui)|
+
 
 ## Versioning
 
@@ -104,9 +123,17 @@ How `GitVersion` is configured for `Sokol.NET`, the version is automatically bum
 
 For a complete list of the release versions, see the [tags on this repository](https://github.com/lithiumtoast/Sokol.NET/tags).
 
-## License
+## Licenses
 
-`Sokol.NET` is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+`Sokol.NET` is licensed under the MIT License - see the [LICENSE file](LICENSE) for details.
+
+The following are 1st level dependencies for `Sokol.NET` which have their own licenses:
+
+Direct Dependency|License
+:---|:---:
+[`sokol`](https://github.com/floooh/sokol)|[ZLIB](https://github.com/floooh/sokol/blob/master/LICENSE) 
+[`SDL2-CS`](https://github.com/flibitijibibo/SDL2-CS)|[ZLIB](https://github.com/flibitijibibo/SDL2-CS/blob/master/LICENSE) 
+[`SDL2`](https://www.libsdl.org/index.php)|[ZLIB](https://www.libsdl.org/license.php)
 
 ## Contributing
 
