@@ -33,7 +33,7 @@ To learn how to use the C API, check out the [official C samples](https://github
 
 The .NET style API is a modification of the C bindings (from the side of .NET) to be more idiomatic and overall easier to use. The `unsafe` keyword is not required.
 
-The .NET API currently targets [.NET Core 3.1 (LTS)](https://devblogs.microsoft.com/dotnet/announcing-net-core-3-1/). Included with .NET Core is the `System.Numerics` namespace which `Vector2`, `Vector3`, `Matrix4x4`, are used. `Span<T>`, `Memory<T>`, and friends are also used which live in the `System.Memory` namespace that is also part of .NET Core. This results in code remaining small, highly performant, and easy to use without re-inventing the wheel. Using .NET Core also allows for easy support for desktop platforms and soon mobile, browser, and console platforms. More about platforms in the next section.
+The .NET API currently targets [.NET Core 3.1 (LTS)](https://devblogs.microsoft.com/dotnet/announcing-net-core-3-1/). Included with .NET Core is the `System.Numerics` namespace which `Sokol.NET` makes use of `Vector2`, `Vector3` and `Matrix4x4`. `Span<T>`, `Memory<T>`, and friends are also used which live in the `System.Memory` namespace which is also part of .NET Core. These and other .NET Core libraries results in the `Sokol.NET` code remaining small, highly performant, and easy to use without re-inventing the wheel. Using .NET Core also allows for easy support for desktop platforms and soon mobile, browser, and console platforms. More about platforms in the next section.
 
 All the types are [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other demanding, high performance, applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code).
 
@@ -118,11 +118,11 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 `Sokol.NET` uses [`GitVersion`](https://github.com/GitTools/GitVersion) to determine the exact semantic version for each build in Continuous Integration (CI) and Continuous Deployment (CD). 
 
-How `GitVersion` is configured for `Sokol.NET`, the version is automatically bumped by `+0.0.1` after each pull-request. Also, tags are considered releases; when a new tag is created, the version is automatically bumped to the specified version on the tag.
+How `GitVersion` is configured for `Sokol.NET`, the version is automatically bumped by `+0.0.1` after each pull-request. Also, tags are considered releases; when a new tag is created, the version is automatically bumped by `+0.1.0` to the specified version on the tag.
 
 For a complete list of the release versions, see the [tags on this repository](https://github.com/lithiumtoast/Sokol.NET/tags).
 
-## Licenses
+## License
 
 `Sokol.NET` is licensed under the MIT License - see the [LICENSE file](LICENSE) for details.
 
@@ -130,10 +130,18 @@ For information about 3rd party licenses, see [the latest complete open source l
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET)
 
+## Support
+
+For details about how to get support for `Sokol.NET`, see the [SUPPORT](.github/SUPPORT.md) file.
+
+At least one maintainer will respond to an issue or comment in under 48 hours under normal circumstances. See the [list of MAINTAINERS](https://github.com/lithiumtoast/Sokol.NET/blob/develop/MAINTAINERS.md) for details about time-zones, countries of living, and circumstances of maintainers.
+
 ## Contributing
 
-Do you want to contribute? Awesome! To get started please read the [CONTRIBUTING](CONTRIBUTING.md) file for details on our code of conduct, the process for creating issues, and submitting pull requests.
+Do you want to contribute? Awesome! To get started please read the [CONTRIBUTING](.github/CONTRIBUTING.md) file for details on our code of conduct, the process for creating issues, and submitting pull requests.
 
-## Authors, Contributors & Maintainers
+For a list of contributors, see the [CONTRIBUTORS](CONTRIBUTORS.md) file.
 
-For information about the authors, contributors, and maintainers, see the [MAINTAINERS](MAINTAINERS.md) file.
+## Authors
+
+For information about the authors, see the [AUTHORS](AUTHORS.md) file.
