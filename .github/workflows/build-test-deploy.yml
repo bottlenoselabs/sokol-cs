@@ -1,4 +1,4 @@
-name: 'Build, Test, & Deploy'
+name: 'CI/CD'
 
 env:
   DOTNET_SOLUTION: './src/Sokol.sln'
