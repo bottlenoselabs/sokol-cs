@@ -1,6 +1,7 @@
-name: 'Commit sokol_gfx binaries'
+name: 'Upate sokol_gfx libs'
 
-on: repository_dispatch
+on: 
+  repository_dispatch:
     types: [sokol_gfx-bin]
 
 jobs:
@@ -11,8 +12,8 @@ jobs:
     steps:
 
     - uses: actions/checkout@master
-        with:
-          fetch-depth: 0
+      with:
+        fetch-depth: 0
 
     - name: 'Get latest release meta data'
       id: latest-release-meta
@@ -39,10 +40,10 @@ jobs:
         unzip linux-x64.zip -d lib/libsokol_gfx/linux-x64
         rm linux-x64.zip
 
-    -name: 'Create pull request'
+    - name: 'Create pull request'
       uses: peter-evans/create-pull-request@v2
-        with:
-          commit-message: 'Update `sokol_gfx` binaries to `${{ steps.latest-release-meta.outputs.name }}`'
-          title: 'build: Update `sokol_gfx` binaries to `${{ steps.latest-release-meta.outputs.name }}`'
-          body: 'A build for `sokol_gfx` was released: [`${{ steps.latest-release-meta.outputs.name }}`](https://github.com/lithiumtoast/sokol_gfx-bin/releases/latest).\n\nThis updates the `sokol_gfx` binaries for this repository.'
-          branch: sokol_gfx-bin
+      with:
+        commit-message: 'Update `sokol_gfx` binaries to `${{ steps.latest-release-meta.outputs.name }}`'
+        title: 'build: Update `sokol_gfx` binaries to `${{ steps.latest-release-meta.outputs.name }}`'
+        body: 'A build for `sokol_gfx` was released: [`${{ steps.latest-release-meta.outputs.name }}`](https://github.com/lithiumtoast/sokol_gfx-bin/releases/latest).\n\nThis updates the `sokol_gfx` binaries for this repository.'
+        branch: sokol_gfx-bin
