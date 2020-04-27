@@ -1,7 +1,7 @@
-name: 'build/test/deploy Sokol.NET'
+name: 'build/test/deploy'
 
 env:
-  SOLUTION: './src/Sokol.sln'
+  DOTNET_SOLUTION: './src/Sokol.sln'
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CORE_SDK_VERSION: 3.1.100
@@ -12,11 +12,148 @@ on:
   pull_request:
     branches:
       - master
-      - develop 
+      - develop
 
 jobs:
-  build-job:
-    name: 'Build & Test'
+
+  sokol-gfx-build-windows-job:
+    name: 'Build sokol_gfx for Windows'
+    runs-on: windows-latest
+    steps:
+    
+    - name: 'Checkout repository'
+      uses: actions/checkout@master
+
+    - name: 'Prepare'
+      run: |
+        mkdir workspace
+        cd workspace
+        git clone https://github.com/lithiumtoast/fips-sokol_gfx.git
+        cd fips-sokol_gfx
+
+    - name: win64-dummy-debug
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build win64-dummy-debug
+        
+    - name: win64-dummy-release
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build win64-dummy-release
+    
+    - name: win64-opengl-debug
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build win64-opengl-debug
+        
+    - name: win64-opengl-release
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build win64-opengl-release
+        
+    - name: win64-d3d11-debug
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build win64-d3d11-debug
+        
+    - name: win64-d3d11-release
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build win64-d3d11-release
+        
+  sokol-gfx-build-macos-job:
+    name: 'Build sokol_gfx for macOS'
+    runs-on: macos-latest
+    steps:
+    
+    - name: 'Checkout repository'
+      uses: actions/checkout@master
+
+    - name: 'Prepare'
+      run: |
+        mkdir workspace
+        cd workspace
+        git clone https://github.com/lithiumtoast/fips-sokol_gfx.git
+        cd fips-sokol_gfx
+
+    - name: macos-dummy-debug
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build macos-dummy-debug
+        
+    - name: macos-dummy-release
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build macos-dummy-release
+    
+    - name: macos-opengl-debug
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build macos-opengl-debug
+        
+    - name: macos-opengl-release
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build macos-opengl-release
+        
+    - name: macos-metal-debug
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build macos-d3d11-debug
+        
+    - name: macos-metal-release
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build macos-d3d11-release
+        
+  sokol-gfx-build-linux-job:
+    name: 'Build sokol_gfx for Linux'
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: 'Checkout repository'
+      uses: actions/checkout@master
+
+    - name: 'Prepare'
+      run: |
+        mkdir workspace
+        cd workspace
+        git clone https://github.com/lithiumtoast/fips-sokol_gfx.git
+        cd fips-sokol_gfx
+
+    - name: linux-dummy-debug
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build linux-dummy-debug
+        
+    - name: linux-dummy-release
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build linux-dummy-release
+    
+    - name: linux-opengl-debug
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build linux-opengl-debug
+        
+    - name: linux-opengl-release
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build linux-opengl-release
+        
+    - name: linux-metal-debug
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build linux-d3d11-debug
+        
+    - name: linux-metal-release
+      run: |
+        cd workspace/fips-sokol_gfx
+        python fips build linux-d3d11-release
+
+  dotnet-build-test-job:
+    name: 'Build & Test .NET'
+    needs: [sokol-gfx-build-windows-job, sokol-gfx-build-macos-job, sokol-gfx-build-linux-job]
     runs-on: ubuntu-latest
     steps:
 
@@ -76,16 +213,16 @@ jobs:
         dotnet-version: '${{ env.DOTNET_CORE_SDK_VERSION }}'
 
     - name: 'Restore Solution'
-      run: dotnet restore $SOLUTION --verbosity quiet
+      run: dotnet restore $DOTNET_SOLUTION --verbosity quiet
 
     - name: 'Build Solution'
-      run: dotnet build $SOLUTION --verbosity minimal --configuration Release --no-restore /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+      run: dotnet build $DOTNET_SOLUTION --verbosity minimal --configuration Release --no-restore /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
 
     - name: 'Test Solution'
-      run: dotnet test $SOLUTION --verbosity normal --configuration Release --no-build
+      run: dotnet test $DOTNET_SOLUTION --verbosity normal --configuration Release --no-build
 
     - name: 'Pack Solution'
-      run: dotnet pack $SOLUTION --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
+      run: dotnet pack $DOTNET_SOLUTION --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
 
     - name: 'Upload Packed Artifacts'
       uses: actions/upload-artifact@v2-preview
@@ -94,8 +231,8 @@ jobs:
         path: './nuget-packages/*/**'
 
   deploy-job:
-    name: 'Deploy'
-    needs: [build-job]
+    name: 'Deploy .NET'
+    needs: [dotnet-build-test-job]
     runs-on: ubuntu-latest
     steps:
 
