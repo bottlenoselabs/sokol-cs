@@ -2,3 +2,6 @@
 	path = ext/SDL2-CS
 	url = https://github.com/lithiumtoast/SDL2-CS.git
 	shallow = true
+[submodule "ext/sokol"]
+	path = ext/sokol
+	url = https://github.com/lithiumtoast/sokol.git
