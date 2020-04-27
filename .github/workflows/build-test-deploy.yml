@@ -99,12 +99,12 @@ jobs:
     - name: 'macos-metal-debug'
       run: |
         cd workspace/fips-sokol_gfx
-        python fips build macos-d3d11-debug
+        python fips build macos-metal-debug
         
     - name: 'macos-metal-release'
       run: |
         cd workspace/fips-sokol_gfx
-        python fips build macos-d3d11-release
+        python fips build macos-metal-release
         
   sokol-gfx-build-linux-job:
     name: 'Build sokol_gfx for Linux'
