@@ -25,38 +25,38 @@ jobs:
       uses: actions/checkout@master
 
     - name: 'Prepare'
-      run: |
-        mkdir workspace
-        cd workspace
-        git clone https://github.com/lithiumtoast/fips-sokol_gfx.git
-        cd fips-sokol_gfx
+      uses: actions/checkout@master
+      with:
+        name: lithiumtoast/fips-sokol_gfx
+        submodules: true
+        path: 'workspace/fips-sokol_gfx'
 
-    - name: win64-dummy-debug
+    - name: 'win64-dummy-debug'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build win64-dummy-debug
         
-    - name: win64-dummy-release
+    - name: 'win64-dummy-release'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build win64-dummy-release
     
-    - name: win64-opengl-debug
+    - name: 'win64-opengl-debug'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build win64-opengl-debug
         
-    - name: win64-opengl-release
+    - name: 'win64-opengl-release'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build win64-opengl-release
         
-    - name: win64-d3d11-debug
+    - name: 'win64-d3d11-debug'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build win64-d3d11-debug
         
-    - name: win64-d3d11-release
+    - name: 'win64-d3d11-release'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build win64-d3d11-release
@@ -70,38 +70,38 @@ jobs:
       uses: actions/checkout@master
 
     - name: 'Prepare'
-      run: |
-        mkdir workspace
-        cd workspace
-        git clone https://github.com/lithiumtoast/fips-sokol_gfx.git
-        cd fips-sokol_gfx
+      uses: actions/checkout@master
+      with:
+        name: lithiumtoast/fips-sokol_gfx
+        submodules: true
+        path: 'workspace/fips-sokol_gfx'
 
-    - name: macos-dummy-debug
+    - name: 'macos-dummy-debug'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build macos-dummy-debug
         
-    - name: macos-dummy-release
+    - name: 'macos-dummy-release'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build macos-dummy-release
     
-    - name: macos-opengl-debug
+    - name: 'macos-opengl-debug'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build macos-opengl-debug
         
-    - name: macos-opengl-release
+    - name: 'macos-opengl-release'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build macos-opengl-release
         
-    - name: macos-metal-debug
+    - name: 'macos-metal-debug'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build macos-d3d11-debug
         
-    - name: macos-metal-release
+    - name: 'macos-metal-release'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build macos-d3d11-release
@@ -115,38 +115,38 @@ jobs:
       uses: actions/checkout@master
 
     - name: 'Prepare'
-      run: |
-        mkdir workspace
-        cd workspace
-        git clone https://github.com/lithiumtoast/fips-sokol_gfx.git
-        cd fips-sokol_gfx
+      uses: actions/checkout@master
+      with:
+        name: lithiumtoast/fips-sokol_gfx
+        submodules: true
+        path: 'workspace/fips-sokol_gfx'
 
-    - name: linux-dummy-debug
+    - name: 'linux-dummy-debug'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build linux-dummy-debug
         
-    - name: linux-dummy-release
+    - name: 'linux-dummy-release'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build linux-dummy-release
     
-    - name: linux-opengl-debug
+    - name: 'linux-opengl-debug'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build linux-opengl-debug
         
-    - name: linux-opengl-release
+    - name: 'linux-opengl-release'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build linux-opengl-release
         
-    - name: linux-metal-debug
+    - name: 'linux-metal-debug'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build linux-d3d11-debug
         
-    - name: linux-metal-release
+    - name: 'linux-metal-release'
       run: |
         cd workspace/fips-sokol_gfx
         python fips build linux-d3d11-release
