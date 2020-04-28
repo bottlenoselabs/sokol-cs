@@ -54,7 +54,7 @@ branches:
     track-merge-target: false
     tracks-release-branches: false
     is-release-branch: false
-develop:
+  develop:
     regex: dev(elop)?(ment)?$
     mode: ContinuousDeployment
     tag: unstable
