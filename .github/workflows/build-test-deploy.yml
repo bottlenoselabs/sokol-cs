@@ -33,13 +33,13 @@ jobs:
       run: git fetch --prune --unshallow
 
     - name: 'Setup GitVersion'
-      uses: gittools/actions/gitversion/setup@v0.9.2
+      uses: gittools/actions/gitversion/setup@master
       with:
           versionSpec: '5.2.x'
 
     - name: 'Use GitVersion'
       id: gitversion # step id used as reference for output values
-      uses: gittools/actions/gitversion/execute@v0.9.2
+      uses: gittools/actions/gitversion/execute@master
 
     - name: 'Echo GitVersion'
       run: |
