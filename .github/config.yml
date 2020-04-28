@@ -11,10 +11,14 @@ newIssueWelcomeComment: >
 # Comment to be posted to on PRs from first time contributors in your repository
 newPRWelcomeComment: >
   Thanks for opening this pull request!
+  
   We use [semantic commit messages](https://github.com/commitizen/conventional-commit-types/blob/master/index.json) to streamline the release process. Before your pull request can be merged, you should **update your pull request title** to start with a semantic prefix.
   Examples of commit messages with semantic prefixes:
+  
   - `fix: nasty bug`
+
   - `feat: add App.DoSomething() method`
+
   - `docs: App.SpecificThing() is now available on Linux`
 
 # Configuration for first-pr-merge - https://github.com/behaviorbot/first-pr-merge
