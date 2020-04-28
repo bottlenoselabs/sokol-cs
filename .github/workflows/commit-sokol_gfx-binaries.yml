@@ -17,7 +17,7 @@ jobs:
 
     - name: 'Get latest release meta data'
       id: latest-release-meta
-      run: echo "::set-output name=name::$(curl https://github.com/lithiumtoast/sokol_gfx-bin/releases/latest -s | jq .name -r)"
+      run: echo "::set-output name=tag_name::$(curl --silent "https://api.github.com/repos/lithiumtoast/sokol_gfx-bin/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
 
     - name: 'Download latest release: Windows'
       run: |
@@ -46,7 +46,7 @@ jobs:
     - name: 'Create pull request'
       uses: peter-evans/create-pull-request@v2
       with:
-        commit-message: 'Update `sokol_gfx` binaries to `${{ steps.latest-release-meta.outputs.name }}`'
-        title: 'build: Update `sokol_gfx` binaries to `${{ steps.latest-release-meta.outputs.name }}`'
-        body: 'A build for `sokol_gfx` was released: [`${{ steps.latest-release-meta.outputs.name }}`](https://github.com/lithiumtoast/sokol_gfx-bin/releases/latest).\n\nThis updates the `sokol_gfx` binaries for this repository.'
+        commit-message: 'Update `sokol_gfx` binaries to `${{ steps.latest-release-meta.outputs.tag_name }}`'
+        title: 'build: Update `sokol_gfx` binaries to `${{ steps.latest-release-meta.outputs.tag_name }}`'
+        body: "A build for `sokol_gfx` was released: [`${{ steps.latest-release-meta.outputs.tag_name }}`](https://github.com/lithiumtoast/sokol_gfx-bin/releases/latest).\nThis updates the `sokol_gfx` binaries for this repository."
         branch: sokol_gfx-bin
