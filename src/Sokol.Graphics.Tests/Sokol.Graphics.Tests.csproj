@@ -32,23 +32,23 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\..\lib\libsokol_gfx-2019.10.08\linux-x64\dummy\libsokol_gfx.so">
+        <None Include="..\..\lib\libsokol_gfx-2019\linux-x64\dummy\libsokol_gfx.so">
             <Link>runtimes/linux-x64/native/libsokol_gfx.so</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\dummy\libsokol_gfx.dylib">
+        <None Include="..\..\lib\libsokol_gfx-2019\osx-x64\dummy\libsokol_gfx.dylib">
             <Link>runtimes/osx-x64/native/libsokol_gfx.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\dummy\sokol_gfx.dll">
+        <None Include="..\..\lib\libsokol_gfx-2019\win-x64\dummy\sokol_gfx.dll">
             <Link>runtimes/win-x64/native/sokol_gfx.dll</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\dummy\sokol_gfx.ilk">
+        <None Include="..\..\lib\libsokol_gfx-2019\win-x64\dummy\sokol_gfx.ilk">
             <Link>runtimes/win-x64/native/sokol_gfx.ilk</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="..\..\lib\libsokol_gfx-2019.10.08\win-x64\dummy\sokol_gfx.pdb">
+        <None Include="..\..\lib\libsokol_gfx-2019\win-x64\dummy\sokol_gfx.pdb">
             <Link>runtimes/win-x64/native/sokol_gfx.pdb</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
