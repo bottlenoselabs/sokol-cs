@@ -34,13 +34,13 @@ jobs:
     - name: 'Organize downloaded files'
       run: |
         mkdir -p lib/libsokol_gfx/win-x64
-        unzip win-x64.zip -d lib/libsokol_gfx/win-x64
+        unzip win-x64.zip -d lib/libsokol_gfx
         rm win-x64.zip
         mkdir -p lib/libsokol_gfx/osx-x64
-        unzip osx-x64.zip -d lib/libsokol_gfx/osx-x64
+        unzip osx-x64.zip -d lib/libsokol_gfx
         rm osx-x64.zip
         mkdir -p lib/libsokol_gfx/linux-x64
-        unzip linux-x64.zip -d lib/libsokol_gfx/linux-x64
+        unzip linux-x64.zip -d lib/libsokol_gfx
         rm linux-x64.zip
 
     - name: 'Create pull request'
