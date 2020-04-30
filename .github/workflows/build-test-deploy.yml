@@ -91,8 +91,9 @@ jobs:
         name: nuget-version
 
     - name: 'Read NuGetVersion artifact'
+      id: version
       run: |
-        echo ::set-env name=NUGET_VERSION::$(type ./nuget-version/nuget-version.txt)
+        echo ::set-output name=nuGetVersion::$(type ./nuget-version/nuget-version.txt)
 
     - name: 'Checkout repository'
       uses: actions/checkout@master
@@ -108,18 +109,20 @@ jobs:
       run: dotnet restore ./src --verbosity quiet
 
     - name: 'Build Solution'
-      run: dotnet build ./src --nologo --verbosity minimal --configuration Release --no-restore /p:Version=${{ env.NUGET_VERSION }}
+      run: dotnet build ./src --nologo --verbosity minimal --configuration Release --no-restore /p:Version=${{ steps.version.outputs.nuGetVersion }}
 
     - name: 'Test Solution'
       run: dotnet test ./src --nologo --verbosity normal --configuration Release --no-build
 
     - name: 'Pack Solution'
-      run: dotnet pack ./src --nologo --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion=${{ env.NUGET_VERSION }}
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet pack ./src --nologo --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion=${{ steps.version.outputs.nuGetVersion }}
 
     - name: 'Upload packed artifacts'
+      if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v2-preview
       with:
-        name: 'nuget-packages-${{ matrix.os }}'
+        name: nuget-packages
         path: './nuget-packages/*/**'
 
   deploy-job:
@@ -134,7 +137,7 @@ jobs:
     - name: 'Download NuGet Packages'
       uses: actions/download-artifact@v1
       with:
-        name: nuget-packages-ubuntu-latest
+        name: nuget-packages
 
     - name: 'Echo Packages'
       run: find ./nuget-packages/ -not -type d -exec basename {} \;
