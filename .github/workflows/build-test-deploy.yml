@@ -15,12 +15,9 @@ on:
 
 jobs:
 
-  dotnet-build-test-job:
-    name: 'Build & Test .NET'
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+  dotnet-build-job:
+    name: 'Build & Pack .NET Core solution'
+    runs-on: ubuntu-latest
     steps:
 
     - name: 'Checkout repository'
@@ -82,19 +79,38 @@ jobs:
       run: dotnet restore ./src --verbosity quiet
 
     - name: 'Build Solution'
-      run: dotnet build ./src --verbosity minimal --configuration Release --no-restore /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
-
-    - name: 'Test Solution'
-      run: dotnet test ./src --verbosity normal --configuration Release --no-build
+      run: dotnet build ./src --nologo --verbosity minimal --configuration Release --no-restore /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
 
     - name: 'Pack Solution'
-      run: dotnet pack ./src --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
+      run: dotnet pack ./src --nologo --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
 
-    - name: 'Upload Packed Artifacts'
+    - name: 'Upload build artifacts'
       uses: actions/upload-artifact@v2-preview
       with:
-        name: 'nuget-packages-${{ matrix.os }}'
+        name: 'src'
+        path: './src/*/**'
+
+    - name: 'Upload packed artifacts'
+      uses: actions/upload-artifact@v2-preview
+      with:
+        name: 'nuget-packages'
         path: './nuget-packages/*/**'
+
+  dotnet-test-job:
+    name: 'Test .NET solution'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    steps:
+
+    - name: 'Download build artifacts'
+      uses: actions/download-artifact@v1
+      with:
+        name: src
+
+    - name: 'Test Solution'
+      run: dotnet test ./src --nologo --verbosity normal --configuration Release --no-build
 
   deploy-job:
     name: 'Deploy .NET'
@@ -108,7 +124,7 @@ jobs:
     - name: 'Download NuGet Packages'
       uses: actions/download-artifact@v1
       with:
-        name: nuget-packages-ubuntu-latest
+        name: nuget-packages
 
     - name: 'Echo Packages'
       run: find ./nuget-packages/ -not -type d -exec basename {} \;
