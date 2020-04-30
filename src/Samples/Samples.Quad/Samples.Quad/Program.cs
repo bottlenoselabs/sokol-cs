@@ -7,7 +7,7 @@ namespace Samples.Quad
     {
         private static void Main()
         {
-            var app = new Application();
+            var app = new QuadApplication();
             app.Run();
         }
     }

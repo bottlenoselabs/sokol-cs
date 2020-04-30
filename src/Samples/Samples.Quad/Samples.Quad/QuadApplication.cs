@@ -10,14 +10,14 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Quad
 {
-    internal sealed class Application : App
+    internal sealed class QuadApplication : App
     {
         private readonly Pipeline _pipeline;
         private readonly Buffer _indexBuffer;
         private readonly Buffer _vertexBuffer;
         private readonly Shader _shader;
 
-        public Application()
+        public QuadApplication()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();

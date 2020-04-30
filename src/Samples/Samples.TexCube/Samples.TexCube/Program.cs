@@ -7,7 +7,7 @@ namespace Samples.TexCube
     {
         private static void Main()
         {
-            var app = new TexCubeApplication();
+            var app = new TextureCubeApplication();
             app.Run();
         }
     }

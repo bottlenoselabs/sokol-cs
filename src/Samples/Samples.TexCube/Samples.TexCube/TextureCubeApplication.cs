@@ -11,7 +11,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.TexCube
 {
-    internal sealed class TexCubeApplication : App
+    internal sealed class TextureCubeApplication : App
     {
         private readonly Buffer _vertexBuffer;
         private readonly Buffer _indexBuffer;
@@ -25,7 +25,7 @@ namespace Samples.TexCube
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public TexCubeApplication()
+        public TextureCubeApplication()
         {
             DrawableSizeChanged += OnDrawableSizeChanged;
 
@@ -130,7 +130,7 @@ namespace Samples.TexCube
             ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
-            var shaderImage = shaderDesc.FragmentStage.Image();
+            ref var shaderImage = ref shaderDesc.FragmentStage.Image();
             shaderImage.Name = "tex";
             shaderImage.Type = ImageType.Texture2D;
 
