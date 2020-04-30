@@ -15,15 +15,13 @@ on:
 
 jobs:
 
-  dotnet-build-job:
-    name: 'Build & Pack .NET Core solution'
+  gitversion-job:
+    name: 'Git Version'
     runs-on: ubuntu-latest
     steps:
 
     - name: 'Checkout repository'
       uses: actions/checkout@master
-      with:
-        submodules: true
 
     - name: 'Fetch all history for all tags and branches'
       run: git fetch --prune --unshallow
@@ -69,6 +67,37 @@ jobs:
         echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.commitsSinceVersionSource }}"
         echo "CommitsSinceVersionSourcePadded: ${{ steps.gitversion.outputs.commitsSinceVersionSourcePadded }}"
         echo "CommitDate: ${{ steps.gitversion.outputs.commitDate }}"
+        echo "${{ steps.gitversion.outputs.nuGetVersion }}"  >> nuget-version.txt
+
+    - name: 'Upload NuGetVersion artifact'
+        uses: actions/upload-artifact@v2-preview
+        with:
+          name: nuget-version
+          path: nuget-version.txt
+
+  dotnet-build-job:
+    name: 'Build, Test & Pack .NET Core solution'
+    needs: [gitversion-job]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    steps:
+
+    - name: 'Download NuGetVersion artifact'
+        uses: actions/download-artifact@v2-preview
+        with:
+          name: nuget-version
+
+    - name: 'Read NuGetVersion artifact'
+      run: |
+        echo ::set-env name=NUGET_VERSION::$(type nuget-version.txt)
+
+    - name: 'Checkout repository'
+      uses: actions/checkout@master
+      with:
+        submodules: true
 
     - name: 'Setup .NET Core CLI'
       uses: actions/setup-dotnet@v1
@@ -79,39 +108,19 @@ jobs:
       run: dotnet restore ./src --verbosity quiet
 
     - name: 'Build Solution'
-      run: dotnet build ./src --nologo --verbosity minimal --configuration Release --no-restore /p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+      run: dotnet build ./src --nologo --verbosity minimal --configuration Release --no-restore /p:Version=${{ env.NUGET_VERSION }}}
+
+    - name: 'Test Solution'
+      run: dotnet test ./src --nologo --verbosity normal --configuration Release --no-build
 
     - name: 'Pack Solution'
-      run: dotnet pack ./src --nologo --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersion }}
-
-    - name: 'Upload build artifacts'
-      uses: actions/upload-artifact@v2-preview
-      with:
-        name: 'src'
-        path: './src/*/**'
+      run: dotnet pack ./src --nologo --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion=${{ env.NUGET_VERSION }}
 
     - name: 'Upload packed artifacts'
       uses: actions/upload-artifact@v2-preview
       with:
-        name: 'nuget-packages'
+        name: 'nuget-packages-${{ matrix.os }}'
         path: './nuget-packages/*/**'
-
-  dotnet-test-job:
-    name: 'Test .NET solution'
-    needs: [dotnet-build-job]
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
-    steps:
-
-    - name: 'Download build artifacts'
-      uses: actions/download-artifact@v1
-      with:
-        name: src
-
-    - name: 'Test Solution'
-      run: dotnet test ./src --nologo --verbosity normal --configuration Release --no-build
 
   deploy-job:
     name: 'Deploy .NET'
@@ -125,7 +134,7 @@ jobs:
     - name: 'Download NuGet Packages'
       uses: actions/download-artifact@v1
       with:
-        name: nuget-packages
+        name: nuget-packages-ubuntu-latest
 
     - name: 'Echo Packages'
       run: find ./nuget-packages/ -not -type d -exec basename {} \;
