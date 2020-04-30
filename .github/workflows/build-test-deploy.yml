@@ -92,8 +92,10 @@ jobs:
 
     - name: 'Read NuGetVersion artifact'
       id: version
+      shell: bash
       run: |
-        echo ::set-output name=nuGetVersion::$(type ./nuget-version/nuget-version.txt)
+        export NUGET_VERSION=$(type ./nuget-version/nuget-version.txt)
+        echo ::set-output name=nuGetVersion::$NUGET_VERSION
 
     - name: 'Checkout repository'
       uses: actions/checkout@master
