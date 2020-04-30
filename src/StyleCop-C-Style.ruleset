@@ -154,7 +154,7 @@
 
         <Rule Id="SA1600" Action="Hidden" />
         <Rule Id="SA1601" Action="Hidden" />
-        <Rule Id="SA1602" Action="Error" />
+        <Rule Id="SA1602" Action="Hidden" />
         <Rule Id="SA1603" Action="Error" />
         <Rule Id="SA1604" Action="Error" />
         <Rule Id="SA1605" Action="Error" />

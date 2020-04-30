@@ -1,7 +1,7 @@
 branches:
   master:
-    regex: master
-    mode: Mainline
+    regex: ^master
+    mode: ContinuousDelivery
     tag: ''
     increment: Patch
     prevent-increment-of-merged-branch-version: true
@@ -9,7 +9,7 @@ branches:
     tracks-release-branches: false
     is-release-branch: false
   release:
-    regex: releases?[/-]
+    regex: ^releases?[/-]
     mode: ContinuousDelivery
     tag: beta
     increment: Patch
@@ -17,8 +17,9 @@ branches:
     track-merge-target: false
     tracks-release-branches: false
     is-release-branch: true
+    pre-release-weight: 1000
   feature:
-    regex: features?[/-]
+    regex: ^features?[/-]
     mode: ContinuousDelivery
     tag: useBranchName
     increment: Inherit
@@ -27,7 +28,7 @@ branches:
     tracks-release-branches: false
     is-release-branch: false
   pull-request:
-    regex: (pull|pull\-requests|pr)[/-]
+    regex: ^(pull|pull\-requests|pr)[/-]
     mode: ContinuousDelivery
     tag: PullRequest
     increment: Inherit
@@ -37,7 +38,7 @@ branches:
     tracks-release-branches: false
     is-release-branch: false
   hotfix:
-    regex: hotfix(es)?[/-]
+    regex: ^hotfix(es)?[/-]
     mode: ContinuousDelivery
     tag: beta
     increment: Patch
@@ -46,7 +47,7 @@ branches:
     tracks-release-branches: false
     is-release-branch: false
   support:
-    regex: support[/-]
+    regex: ^support[/-]
     mode: ContinuousDelivery
     tag: ''
     increment: Patch
@@ -54,8 +55,8 @@ branches:
     track-merge-target: false
     tracks-release-branches: false
     is-release-branch: false
-develop:
-    regex: dev(elop)?(ment)?$
+  develop:
+    regex: ^dev(elop)?(ment)?$
     mode: ContinuousDeployment
     tag: unstable
     increment: Minor
@@ -63,9 +64,3 @@ develop:
     track-merge-target: true
     tracks-release-branches: true
     is-release-branch: false
-major-version-bump-message: '\+semver:\s?(breaking|major)'
-minor-version-bump-message: '\+semver:\s?(feature|minor)'
-patch-version-bump-message: '\+semver:\s?(fix|patch)'
-no-bump-message: '\+semver:\s?(none|skip)'
-ignore:
-  sha: []

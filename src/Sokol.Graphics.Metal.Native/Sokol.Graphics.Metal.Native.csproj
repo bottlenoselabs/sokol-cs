@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
-        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\metal\debug\libsokol_gfx.dylib">
+        <Content Include="..\..\lib\libsokol_gfx\osx-x64\metal\libsokol_gfx.dylib">
             <Link>runtimes/osx-x64/native/libsokol_gfx-metal.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/osx-x64/native/libsokol_gfx-metal.dylib</PackagePath>
@@ -31,7 +31,7 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)' == 'Release' ">
-        <Content Include="..\..\lib\libsokol_gfx-2019.10.08\osx-x64\metal\release\libsokol_gfx.dylib">
+        <Content Include="..\..\lib\libsokol_gfx\osx-x64\metal\libsokol_gfx.dylib">
             <Link>runtimes/osx-x64/native/libsokol_gfx-metal.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/osx-x64/native/libsokol_gfx-metal.dylib</PackagePath>

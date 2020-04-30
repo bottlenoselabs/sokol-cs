@@ -24,16 +24,14 @@ internal static class NativeLibraries
     {
         var resolver = StartPreLoading();
 
-        var platform = UseSDL2(resolver);
+        var platform = UseSdl2(resolver);
         var backend = UseSokolGfx(resolver, platform, requestedBackend);
-        UseGLEW(platform, backend);
 
         EndPreLoading();
-
         return (platform, backend);
     }
 
-    private static GraphicsPlatform UseSDL2(DllImportResolver resolver)
+    private static GraphicsPlatform UseSdl2(DllImportResolver resolver)
     {
         var exportsToIgnore = new List<string>();
 
@@ -51,28 +49,38 @@ internal static class NativeLibraries
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            throw new NotImplementedException();
+            AddLibraryPath("SDL2", "runtimes/linux-x64/native/libSDL2.so");
         }
 
-        // ReSharper disable StringLiteralTypo
-        // exports required to ignore for macOS, needs more testing on other platforms
+        // Hardware specific
+        exportsToIgnore.Add("SDL_IsChromebook");
+        // ReSharper disable once StringLiteralTypo
+        exportsToIgnore.Add("SDL_HasARMSIMD");
+
+        // Windows RT specific
         exportsToIgnore.Add("SDL_WinRTGetDeviceFamily");
-        exportsToIgnore.Add("SDL_SetWindowsMessageHook");
+        exportsToIgnore.Add("SDL_WinRTRunApp");
+
+        // Metal specific
+        exportsToIgnore.Add("SDL_Metal_CreateView");
+        exportsToIgnore.Add("SDL_Metal_DestroyView");
+
+        // iOS specific
+        exportsToIgnore.Add("SDL_UIKitRunApp");
         exportsToIgnore.Add("SDL_iPhoneSetAnimationCallback");
         exportsToIgnore.Add("SDL_iPhoneSetEventPump");
+
+        // Android specific
         exportsToIgnore.Add("SDL_AndroidGetJNIEnv");
         exportsToIgnore.Add("SDL_AndroidGetActivity");
-        exportsToIgnore.Add("SDL_IsAndroidTV");
-        exportsToIgnore.Add("SDL_IsChromebook");
-        exportsToIgnore.Add("SDL_IsDeXMode");
         exportsToIgnore.Add("SDL_AndroidBackButton");
         exportsToIgnore.Add("SDL_AndroidGetInternalStoragePath");
         exportsToIgnore.Add("SDL_AndroidGetExternalStorageState");
         exportsToIgnore.Add("SDL_GetAndroidSDKVersion");
-        exportsToIgnore.Add("SDL_WinRTRunApp");
-        exportsToIgnore.Add("SDL_UIKitRunApp");
+        exportsToIgnore.Add("SDL_IsAndroidTV");
+        exportsToIgnore.Add("SDL_IsDeXMode");
 
-        exportsToIgnore.Add("SDL_HasARMSIMD");
+        // New bindings not in SDL2 v2.0.10
         exportsToIgnore.Add("SDL_GameControllerTypeForIndex");
         exportsToIgnore.Add("SDL_GameControllerGetType");
         exportsToIgnore.Add("SDL_GameControllerFromPlayerIndex");
@@ -80,14 +88,11 @@ internal static class NativeLibraries
         exportsToIgnore.Add("SDL_JoystickFromPlayerIndex");
         exportsToIgnore.Add("SDL_JoystickSetPlayerIndex");
         exportsToIgnore.Add("SDL_LockTextureToSurface");
-        exportsToIgnore.Add("SDL_Metal_CreateView");
-        exportsToIgnore.Add("SDL_Metal_DestroyView");
         exportsToIgnore.Add("SDL_SetTextureScaleMode");
         exportsToIgnore.Add("SDL_GetTextureScaleMode");
-        // ReSharper restore StringLiteralTypo
 
         NativeLibrary.SetDllImportResolver(typeof(SDL).Assembly, resolver);
-        PreLoadLibrary("SDL2", typeof(SDL), exportsToIgnore.ToArray());
+        PreLoadDllImports(typeof(SDL), exportsToIgnore.ToArray());
 
         // SDL2 platforms: https://github.com/spurious/SDL-mirror/blob/6b6170caf69b4189c9a9d14fca96e97f09bbcc41/src/SDL.c#L459
         var platformString = SDL.SDL_GetPlatform();
@@ -113,35 +118,14 @@ internal static class NativeLibraries
 
         AddLibraryPath("sokol_gfx", libraryPath);
 
-        NativeLibrary.SetDllImportResolver(typeof(PInvoke).Assembly, resolver);
-        PreLoadLibrary("sokol_gfx", typeof(PInvoke));
+        NativeLibrary.SetDllImportResolver(typeof(PInvoke).Assembly, resolver); // Sokol.Graphics
+        NativeLibrary.SetDllImportResolver(typeof(gl).Assembly, resolver); // Sokol.Graphics.OpenGL
+
+        PreLoadDllImports(typeof(PInvoke));
+        PreLoadDllImports(typeof(gl));
+        PreLoadDllImports(typeof(glew));
 
         return backend;
-    }
-
-    private static void UseGLEW(GraphicsPlatform platform, GraphicsBackend backend)
-    {
-        if (backend != GraphicsBackend.OpenGL)
-        {
-            return;
-        }
-
-        switch (platform)
-        {
-            case GraphicsPlatform.Windows:
-                AddLibraryPath("glew", "runtimes/win-x64/native/glew32.dll");
-                break;
-            case GraphicsPlatform.Linux:
-                AddLibraryPath("glew", "runtimes/linux-x64/native/libGLEW.so");
-                break;
-            case GraphicsPlatform.Unknown:
-            case GraphicsPlatform.macOS:
-                return;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(platform), platform, null);
-        }
-
-        PreLoadLibrary("glew", typeof(glew));
     }
 
     private static DllImportResolver StartPreLoading()
@@ -161,31 +145,33 @@ internal static class NativeLibraries
     }
 
     [SuppressMessage("ReSharper", "SA1011", Justification = "C# 8")]
-    private static void PreLoadLibrary(string libraryName, Type type, params string[]? exportsToIgnore)
+    private static void PreLoadDllImports(Type type, params string[]? exportsToIgnore)
     {
-        try
+        var methods = type.GetRuntimeMethods();
+        foreach (var method in methods)
         {
-            var methods = type.GetRuntimeMethods();
-            foreach (var method in methods)
+            var dllImportAttribute = method.GetCustomAttribute<DllImportAttribute>();
+            if (dllImportAttribute == null)
             {
-                var dllImportAttribute = method.GetCustomAttribute<DllImportAttribute>();
-                if (dllImportAttribute == null)
-                {
-                    continue;
-                }
+                continue;
+            }
 
-                var exportName = dllImportAttribute.EntryPoint ?? method!.Name;
-                if (exportsToIgnore?.Contains(exportName) == true)
-                {
-                    continue;
-                }
+            var libraryName = dllImportAttribute.Value;
 
+            var exportName = dllImportAttribute.EntryPoint ?? method!.Name;
+            if (exportsToIgnore?.Contains(exportName) == true)
+            {
+                continue;
+            }
+
+            try
+            {
                 Marshal.Prelink(method!);
             }
-        }
-        catch (EntryPointNotFoundException e)
-        {
-            throw new Exception($"The `{libraryName}` library is out of date.", e);
+            catch (EntryPointNotFoundException e)
+            {
+                throw new Exception($"The `{libraryName}` library is out of date.", e);
+            }
         }
     }
 
@@ -198,8 +184,8 @@ internal static class NativeLibraries
             return handle;
         }
 
-        var list = LibraryPathsByLibraryName[libraryName];
-        foreach (var libraryPath in list)
+        var libraryPaths = LibraryPathsByLibraryName[libraryName];
+        foreach (var libraryPath in libraryPaths)
         {
             if (NativeLibrary.TryLoad(libraryPath, out handle))
             {
@@ -208,7 +194,7 @@ internal static class NativeLibraries
         }
 
         var exceptions = new List<Exception>();
-        foreach (var libraryPath in list)
+        foreach (var libraryPath in libraryPaths)
         {
             var exception = new FileNotFoundException(null, libraryPath);
             exceptions.Add(exception);
@@ -219,6 +205,11 @@ internal static class NativeLibraries
 
     private static void AddLibraryPath(string libraryName, string libraryPath)
     {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            libraryPath = libraryPath.Replace("/", @"\");
+        }
+
         if (!Path.IsPathFullyQualified(libraryPath))
         {
             libraryPath = Path.Combine(Environment.CurrentDirectory, libraryPath);
@@ -300,7 +291,7 @@ internal static class NativeLibraries
         {
             backend = platform switch
             {
-                GraphicsPlatform.Windows => GraphicsBackend.Direct3D11,
+                GraphicsPlatform.Windows => GraphicsBackend.OpenGL, // TODO: Use Direct3D11
                 GraphicsPlatform.macOS => GraphicsBackend.Metal,
                 GraphicsPlatform.Linux => GraphicsBackend.OpenGL,
                 GraphicsPlatform.Unknown => throw new NotImplementedException(),

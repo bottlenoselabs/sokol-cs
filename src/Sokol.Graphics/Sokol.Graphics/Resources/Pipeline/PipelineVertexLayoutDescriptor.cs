@@ -38,7 +38,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index of the vertex <see cref="Buffer" />.</param>
         /// <returns>A <see cref="PipelineVertexBufferLayoutDescriptor"/> by reference.</returns>
-        public readonly ref PipelineVertexBufferLayoutDescriptor Buffer(int index)
+        public readonly ref PipelineVertexBufferLayoutDescriptor Buffer(int index = 0)
         {
             fixed (PipelineVertexLayoutDescriptor* layoutDescription = &this)
             {
@@ -53,7 +53,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index of the vertex <see cref="Buffer" />.</param>
         /// <returns>A <see cref="PipelineVertexBufferLayoutDescriptor"/> by reference.</returns>
-        public readonly ref PipelineVertexAttributeDescriptor Attribute(int index)
+        public readonly ref PipelineVertexAttributeDescriptor Attribute(int index = 0)
         {
             fixed (PipelineVertexLayoutDescriptor* layoutDescription = &this)
             {
