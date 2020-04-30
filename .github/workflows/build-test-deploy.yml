@@ -98,6 +98,7 @@ jobs:
 
   dotnet-test-job:
     name: 'Test .NET solution'
+    needs: [dotnet-build-job]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -114,7 +115,7 @@ jobs:
 
   deploy-job:
     name: 'Deploy .NET'
-    needs: [dotnet-build-test-job]
+    needs: [dotnet-test-job]
     runs-on: ubuntu-latest
     steps:
 
