@@ -50,7 +50,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="PassAttachmentDescriptor"/> by reference.</returns>
-        public readonly ref PassAttachmentDescriptor ColorAttachment(int index)
+        public readonly ref PassAttachmentDescriptor ColorAttachment(int index = 0)
         {
             fixed (PassDescriptor* passDescription = &this)
             {

@@ -44,7 +44,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="ShaderUniformBlockDescriptor" /> by reference.</returns>
-        public readonly ref ShaderUniformDescriptor Uniform(int index)
+        public readonly ref ShaderUniformDescriptor Uniform(int index = 0)
         {
             fixed (ShaderUniformBlockDescriptor* uniformBlockDescription = &this)
             {
