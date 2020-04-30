@@ -94,6 +94,7 @@ jobs:
       id: version
       shell: bash
       run: |
+        ls -a
         export NUGET_VERSION=$(type ./nuget-version.txt)
         echo ::set-output name=nuGetVersion::$NUGET_VERSION
 
