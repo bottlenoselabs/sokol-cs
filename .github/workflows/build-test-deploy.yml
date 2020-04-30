@@ -22,8 +22,8 @@ jobs:
 
     - name: 'Checkout repository'
       uses: actions/checkout@master
-        with:
-          lfs: false
+      with:
+        lfs: false
 
     - name: 'Fetch all history for all tags and branches'
       run: git fetch --prune --unshallow
