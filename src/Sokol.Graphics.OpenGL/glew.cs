@@ -4,9 +4,10 @@
 using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable once InconsistentNaming
 public static class glew
 {
-    private const string LIBRARY_NAME = "glew";
+    private const string LIBRARY_NAME = "sokol_gfx";
 
     [DllImport(LIBRARY_NAME)]
     public static extern int glewInit();
