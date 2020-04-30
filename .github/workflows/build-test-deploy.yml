@@ -71,9 +71,9 @@ jobs:
 
     - name: 'Upload NuGetVersion artifact'
       uses: actions/upload-artifact@v2-preview
-        with:
-          name: nuget-version
-          path: nuget-version.txt
+      with:
+        name: nuget-version
+        path: nuget-version.txt
 
   dotnet-build-job:
     name: 'Build, Test & Pack .NET Core solution'
