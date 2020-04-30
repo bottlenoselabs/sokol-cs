@@ -70,7 +70,7 @@ jobs:
         echo "${{ steps.gitversion.outputs.nuGetVersion }}"  >> nuget-version.txt
 
     - name: 'Upload NuGetVersion artifact'
-        uses: actions/upload-artifact@v2-preview
+      uses: actions/upload-artifact@v2-preview
         with:
           name: nuget-version
           path: nuget-version.txt
