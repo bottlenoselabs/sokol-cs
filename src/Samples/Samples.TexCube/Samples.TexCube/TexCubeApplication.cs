@@ -130,7 +130,9 @@ namespace Samples.TexCube
             ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
-            shaderDesc.FragmentStage.Image().Type = ImageType.Texture2D;
+            var shaderImage = shaderDesc.FragmentStage.Image();
+            shaderImage.Name = "tex";
+            shaderImage.Type = ImageType.Texture2D;
 
             switch (Backend)
             {
