@@ -92,7 +92,7 @@ jobs:
 
     - name: 'Read NuGetVersion artifact'
       run: |
-        echo ::set-env name=NUGET_VERSION::$(type nuget-version.txt)
+        echo ::set-env name=NUGET_VERSION::$(type ./nuget-version/nuget-version.txt)
 
     - name: 'Checkout repository'
       uses: actions/checkout@master
@@ -108,7 +108,7 @@ jobs:
       run: dotnet restore ./src --verbosity quiet
 
     - name: 'Build Solution'
-      run: dotnet build ./src --nologo --verbosity minimal --configuration Release --no-restore /p:Version=${{ env.NUGET_VERSION }}}
+      run: dotnet build ./src --nologo --verbosity minimal --configuration Release --no-restore /p:Version=${{ env.NUGET_VERSION }}
 
     - name: 'Test Solution'
       run: dotnet test ./src --nologo --verbosity normal --configuration Release --no-build
