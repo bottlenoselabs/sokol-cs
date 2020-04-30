@@ -70,12 +70,12 @@ jobs:
         echo "${{ steps.gitversion.outputs.nuGetVersion }}"  >> nuget-version.txt
 
     - name: 'Upload NuGetVersion artifact'
-      uses: actions/upload-artifact@v2-preview
+      uses: actions/upload-artifact@v2
       with:
         name: nuget-version
         path: nuget-version.txt
 
-  dotnet-build-job:
+  dotnet-build-test-pack-job:
     name: 'Build, Test & Pack .NET Core solution'
     needs: [gitversion-job]
     runs-on: ${{ matrix.os }}
@@ -86,7 +86,7 @@ jobs:
     steps:
 
     - name: 'Download NuGetVersion artifact'
-      uses: actions/download-artifact@v2-preview
+      uses: actions/download-artifact@v2
       with:
         name: nuget-version
 
@@ -94,7 +94,7 @@ jobs:
       id: version
       shell: bash
       run: |
-        export NUGET_VERSION=$(type ./nuget-version/nuget-version.txt)
+        export NUGET_VERSION=$(type ./nuget-version.txt)
         echo ::set-output name=nuGetVersion::$NUGET_VERSION
 
     - name: 'Checkout repository'
@@ -122,14 +122,14 @@ jobs:
 
     - name: 'Upload packed artifacts'
       if: matrix.os == 'ubuntu-latest'
-      uses: actions/upload-artifact@v2-preview
+      uses: actions/upload-artifact@v2
       with:
         name: nuget-packages
         path: './nuget-packages/*/**'
 
   deploy-job:
     name: 'Deploy .NET'
-    needs: [gitversion-job]
+    needs: [dotnet-build-test-pack-job]
     runs-on: ubuntu-latest
     steps:
 
@@ -140,6 +140,7 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: nuget-packages
+        path: './nuget-packages'
 
     - name: 'Echo Packages'
       run: find ./nuget-packages/ -not -type d -exec basename {} \;
