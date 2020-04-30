@@ -24,17 +24,15 @@ internal static class NativeLibraries
     {
         var resolver = StartPreLoading();
 
-        var platform = UseSdl2(resolver);
-        var backend = UseSokolGfx(resolver, platform, requestedBackend);
+        var platform = LoadSdl2(resolver);
+        var backend = LoadSokolGfx(resolver, platform, requestedBackend);
 
         EndPreLoading();
         return (platform, backend);
     }
 
-    private static GraphicsPlatform UseSdl2(DllImportResolver resolver)
+    private static GraphicsPlatform LoadSdl2(DllImportResolver resolver)
     {
-        var exportsToIgnore = new List<string>();
-
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             AddLibraryPath("SDL2", "runtimes/win-x64/native/SDL2.dll");
@@ -50,6 +48,31 @@ internal static class NativeLibraries
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             AddLibraryPath("SDL2", "runtimes/linux-x64/native/libSDL2.so");
+        }
+
+        var exportsToIgnore = Sdl2ExportsToIgnore();
+
+        NativeLibrary.SetDllImportResolver(typeof(SDL).Assembly, resolver);
+        PreLoadDllImports(typeof(SDL), exportsToIgnore.ToArray());
+
+        // SDL2 platforms: https://github.com/spurious/SDL-mirror/blob/6b6170caf69b4189c9a9d14fca96e97f09bbcc41/src/SDL.c#L459
+        var platformString = SDL.SDL_GetPlatform();
+        var platform = platformString switch
+        {
+            "Windows" => GraphicsPlatform.Windows,
+            "Mac OS X" => GraphicsPlatform.macOS,
+            "Linux" => GraphicsPlatform.Linux,
+            _ => GraphicsPlatform.Unknown
+        };
+        return platform;
+    }
+
+    private static List<string> Sdl2ExportsToIgnore()
+    {
+        var exportsToIgnore = new List<string>();
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            exportsToIgnore.Add("SDL_SetWindowsMessageHook");
         }
 
         // Hardware specific
@@ -91,22 +114,10 @@ internal static class NativeLibraries
         exportsToIgnore.Add("SDL_SetTextureScaleMode");
         exportsToIgnore.Add("SDL_GetTextureScaleMode");
 
-        NativeLibrary.SetDllImportResolver(typeof(SDL).Assembly, resolver);
-        PreLoadDllImports(typeof(SDL), exportsToIgnore.ToArray());
-
-        // SDL2 platforms: https://github.com/spurious/SDL-mirror/blob/6b6170caf69b4189c9a9d14fca96e97f09bbcc41/src/SDL.c#L459
-        var platformString = SDL.SDL_GetPlatform();
-        var platform = platformString switch
-        {
-            "Windows" => GraphicsPlatform.Windows,
-            "Mac OS X" => GraphicsPlatform.macOS,
-            "Linux" => GraphicsPlatform.Linux,
-            _ => GraphicsPlatform.Unknown
-        };
-        return platform;
+        return exportsToIgnore;
     }
 
-    private static GraphicsBackend UseSokolGfx(DllImportResolver resolver, GraphicsPlatform platform, GraphicsBackend? requestedBackend)
+    private static GraphicsBackend LoadSokolGfx(DllImportResolver resolver, GraphicsPlatform platform, GraphicsBackend? requestedBackend)
     {
         var backend = GetUseableGraphicsBackend(platform, requestedBackend);
 
@@ -123,7 +134,11 @@ internal static class NativeLibraries
 
         PreLoadDllImports(typeof(PInvoke));
         PreLoadDllImports(typeof(gl));
-        PreLoadDllImports(typeof(glew));
+
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            PreLoadDllImports(typeof(glew));
+        }
 
         return backend;
     }
