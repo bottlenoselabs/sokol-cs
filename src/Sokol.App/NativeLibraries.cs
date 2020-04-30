@@ -49,28 +49,38 @@ internal static class NativeLibraries
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            throw new NotImplementedException();
+            AddLibraryPath("SDL2", "runtimes/linux-x64/native/libSDL2.so");
         }
 
-        // ReSharper disable StringLiteralTypo
-        // exports required to ignore for macOS, needs more testing on other platforms
+        // Hardware specific
+        exportsToIgnore.Add("SDL_IsChromebook");
+        // ReSharper disable once StringLiteralTypo
+        exportsToIgnore.Add("SDL_HasARMSIMD");
+
+        // Windows RT specific
         exportsToIgnore.Add("SDL_WinRTGetDeviceFamily");
-        exportsToIgnore.Add("SDL_SetWindowsMessageHook");
+        exportsToIgnore.Add("SDL_WinRTRunApp");
+
+        // Metal specific
+        exportsToIgnore.Add("SDL_Metal_CreateView");
+        exportsToIgnore.Add("SDL_Metal_DestroyView");
+
+        // iOS specific
+        exportsToIgnore.Add("SDL_UIKitRunApp");
         exportsToIgnore.Add("SDL_iPhoneSetAnimationCallback");
         exportsToIgnore.Add("SDL_iPhoneSetEventPump");
+
+        // Android specific
         exportsToIgnore.Add("SDL_AndroidGetJNIEnv");
         exportsToIgnore.Add("SDL_AndroidGetActivity");
-        exportsToIgnore.Add("SDL_IsAndroidTV");
-        exportsToIgnore.Add("SDL_IsChromebook");
-        exportsToIgnore.Add("SDL_IsDeXMode");
         exportsToIgnore.Add("SDL_AndroidBackButton");
         exportsToIgnore.Add("SDL_AndroidGetInternalStoragePath");
         exportsToIgnore.Add("SDL_AndroidGetExternalStorageState");
         exportsToIgnore.Add("SDL_GetAndroidSDKVersion");
-        exportsToIgnore.Add("SDL_WinRTRunApp");
-        exportsToIgnore.Add("SDL_UIKitRunApp");
+        exportsToIgnore.Add("SDL_IsAndroidTV");
+        exportsToIgnore.Add("SDL_IsDeXMode");
 
-        exportsToIgnore.Add("SDL_HasARMSIMD");
+        // New bindings not in SDL2 v2.0.10
         exportsToIgnore.Add("SDL_GameControllerTypeForIndex");
         exportsToIgnore.Add("SDL_GameControllerGetType");
         exportsToIgnore.Add("SDL_GameControllerFromPlayerIndex");
@@ -78,11 +88,8 @@ internal static class NativeLibraries
         exportsToIgnore.Add("SDL_JoystickFromPlayerIndex");
         exportsToIgnore.Add("SDL_JoystickSetPlayerIndex");
         exportsToIgnore.Add("SDL_LockTextureToSurface");
-        exportsToIgnore.Add("SDL_Metal_CreateView");
-        exportsToIgnore.Add("SDL_Metal_DestroyView");
         exportsToIgnore.Add("SDL_SetTextureScaleMode");
         exportsToIgnore.Add("SDL_GetTextureScaleMode");
-        // ReSharper restore StringLiteralTypo
 
         NativeLibrary.SetDllImportResolver(typeof(SDL).Assembly, resolver);
         PreLoadDllImports(typeof(SDL), exportsToIgnore.ToArray());
