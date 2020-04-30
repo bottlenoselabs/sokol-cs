@@ -73,13 +73,13 @@ namespace Sokol.App
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="App" /> class using an optional
-        ///     <see cref="AppLoop" />, <see cref="Backend " /> and <see cref="GraphicsDescriptor " />.
+        ///     <see cref="AppLoop" />, <see cref="GraphicsBackend " /> and <see cref="GraphicsDescriptor " />.
         /// </summary>
-        /// <param name="backend">The graphics backend.</param>
+        /// <param name="requestedBackend">The graphics backend requested.</param>
         /// <param name="loop">The app loop.</param>
         /// <param name="descriptor">The `sokol_gfx` initialize descriptor.</param>
         protected App(
-            GraphicsBackend? backend = null,
+            GraphicsBackend? requestedBackend = null,
             AppLoop? loop = null,
             GraphicsDescriptor? descriptor = null)
         {
@@ -90,7 +90,7 @@ namespace Sokol.App
 
             Instance = this;
 
-            var (platform, backendUsed) = NativeLibraries.Load(backend);
+            var (platform, backendUsed) = NativeLibraries.Load(requestedBackend);
             Platform = platform;
             Backend = backendUsed;
 
