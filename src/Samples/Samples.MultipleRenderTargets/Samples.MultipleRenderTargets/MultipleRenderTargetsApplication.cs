@@ -156,7 +156,7 @@ namespace Samples.MultipleRenderTargets
         private Pipeline CreateDebugPipeline(int msaaSampleCount)
         {
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float2;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float2;
             pipelineDesc.Shader = _debugShader;
             pipelineDesc.PrimitiveType = PipelineVertexPrimitiveType.TriangleStrip;
             pipelineDesc.Rasterizer.SampleCount = msaaSampleCount;
@@ -175,7 +175,7 @@ namespace Samples.MultipleRenderTargets
                 // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debug.vert");
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debug.frag");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debug.frag");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/debugVert.metal");
@@ -211,8 +211,9 @@ namespace Samples.MultipleRenderTargets
         {
             // describe the fullscreen shader program
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Vector2>();
-            ref var offsetUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
+            ref var uniformBlock = ref shaderDesc.VertexStage.UniformBlock();
+            uniformBlock.Size = Marshal.SizeOf<Vector2>();
+            ref var offsetUniform = ref uniformBlock.Uniform();
             offsetUniform.Name = "offset";
             offsetUniform.Type = ShaderUniformType.Float2;
             shaderDesc.FragmentStage.Image().Name = "tex0";
@@ -320,8 +321,9 @@ namespace Samples.MultipleRenderTargets
         {
             // describe the off screen shader program
             var shaderDesc = default(ShaderDescriptor);
-            shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
+            ref var uniformBlock = ref shaderDesc.VertexStage.UniformBlock();
+            uniformBlock.Size = Marshal.SizeOf<Matrix4x4>();
+            ref var mvpUniform = ref uniformBlock.Uniform();
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
 
