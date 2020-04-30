@@ -205,6 +205,11 @@ internal static class NativeLibraries
 
     private static void AddLibraryPath(string libraryName, string libraryPath)
     {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            libraryPath = libraryPath.Replace("/", @"\");
+        }
+
         if (!Path.IsPathFullyQualified(libraryPath))
         {
             libraryPath = Path.Combine(Environment.CurrentDirectory, libraryPath);
