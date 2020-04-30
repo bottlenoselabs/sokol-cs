@@ -69,7 +69,7 @@ jobs:
         echo "CommitDate: ${{ steps.gitversion.outputs.commitDate }}"
         echo "${{ steps.gitversion.outputs.nuGetVersion }}"  >> nuget-version.txt
 
-    - name: 'Upload NuGetVersion artifact'
+    - name: 'Upload NuGetVersion version artifact'
       uses: actions/upload-artifact@v2
       with:
         name: nuget-version
@@ -85,7 +85,7 @@ jobs:
 
     steps:
 
-    - name: 'Download NuGetVersion artifact'
+    - name: 'Download NuGetVersion version artifact'
       uses: actions/download-artifact@v2
       with:
         name: nuget-version
@@ -117,11 +117,11 @@ jobs:
     - name: 'Test Solution'
       run: dotnet test ./src --nologo --verbosity normal --configuration Release --no-build
 
-    - name: 'Pack Solution'
+    - name: 'Pack Solution (ubuntu only)'
       if: matrix.os == 'ubuntu-latest'
       run: dotnet pack ./src --nologo --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion=${{ steps.version.outputs.nuGetVersion }}
 
-    - name: 'Upload packed artifacts'
+    - name: 'Upload packed artifacts (ubuntu only)'
       if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v2
       with:
@@ -129,7 +129,7 @@ jobs:
         path: './nuget-packages/*/**'
 
   deploy-job:
-    name: 'Deploy .NET'
+    name: 'Deploy .NET solution NuGet packages'
     needs: [dotnet-build-test-pack-job]
     runs-on: ubuntu-latest
     steps:
