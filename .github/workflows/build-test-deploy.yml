@@ -86,9 +86,9 @@ jobs:
     steps:
 
     - name: 'Download NuGetVersion artifact'
-        uses: actions/download-artifact@v2-preview
-        with:
-          name: nuget-version
+      uses: actions/download-artifact@v2-preview
+      with:
+        name: nuget-version
 
     - name: 'Read NuGetVersion artifact'
       run: |
