@@ -95,7 +95,7 @@ jobs:
       shell: bash
       run: |
         ls -a
-        export NUGET_VERSION=$(type ./nuget-version.txt)
+        export NUGET_VERSION=$(cat nuget-version.txt)
         echo ::set-output name=nuGetVersion::$NUGET_VERSION
 
     - name: 'Checkout repository'
