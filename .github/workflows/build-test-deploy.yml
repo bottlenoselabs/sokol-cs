@@ -124,7 +124,7 @@ jobs:
 
   deploy-job:
     name: 'Deploy .NET'
-    needs: [dotnet-test-job]
+    needs: [gitversion-job]
     runs-on: ubuntu-latest
     steps:
 
