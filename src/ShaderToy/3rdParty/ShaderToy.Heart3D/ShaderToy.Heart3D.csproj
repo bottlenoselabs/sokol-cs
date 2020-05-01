@@ -24,4 +24,16 @@
         </None>
     </ItemGroup>
 
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>..\..\..\StyleCop-Disabled.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\..\..\StyleCop-Disabled.ruleset">
+            <Link>StyleCop-Disabled.ruleset</Link>
+        </Content>
+        <AdditionalFiles Include="..\..\..\StyleCop.json">
+            <Link>StyleCop.json</Link>
+        </AdditionalFiles>
+    </ItemGroup>
+
 </Project>
