@@ -37,9 +37,16 @@ namespace ShaderToy.App
 
         protected override void HandleInput(InputState state)
         {
-            var mousePosition = state.MousePosition;
+            var height = _uniforms.iResolution.Y;
+            var mousePosition = new Vector2(state.MousePosition.X, height - state.MousePosition.Y);
             _uniforms.iMouse.X = mousePosition.X;
             _uniforms.iMouse.Y = mousePosition.Y;
+
+            if (state.MouseButton(MouseButton.Left).IsDown)
+            {
+                _uniforms.iMouse.Z = mousePosition.X;
+                _uniforms.iMouse.W = mousePosition.Y;
+            }
         }
 
         protected override void Update(AppTime time)
