@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Sokol.App
 {
@@ -16,6 +17,8 @@ namespace Sokol.App
         private readonly Dictionary<KeyboardKey, bool> _previousActiveKeys = new Dictionary<KeyboardKey, bool>();
 
         public KeyboardModifierKeys ModifiersKeys { get; internal set; }
+
+        public Vector2 MousePosition { get; private set; }
 
         internal InputState()
         {
@@ -31,9 +34,15 @@ namespace Sokol.App
             return _buttonStates[256 + (int)mouseButton];
         }
 
-        internal void HandleKeyboardEvent(KeyboardKey key, bool isDown)
+        internal void HandleKeyboardEvent(KeyboardKey key, bool isDown, KeyboardModifierKeys modifiers)
         {
+            ModifiersKeys = modifiers;
             _activeKeys[key] = isDown;
+        }
+
+        internal void HandleMouseMotion(int x, int y)
+        {
+            MousePosition = new Vector2(x, y);
         }
 
         internal void Update(in TimeSpan elapsedTime)
