@@ -12,5 +12,6 @@ namespace ShaderToy.App
     {
         public Vector3 iResolution;
         public float iTime;
+        public Vector4 iMouse;
     }
 }

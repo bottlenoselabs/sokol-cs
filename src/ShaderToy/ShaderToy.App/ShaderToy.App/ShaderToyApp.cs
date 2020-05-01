@@ -20,7 +20,11 @@ namespace ShaderToy.App
         private FragmentStageParams _uniforms;
 
         public ShaderToyApp(string shaderToySourceCode)
-            : base(GraphicsBackend.OpenGL)
+            : base(new AppDescriptor
+            {
+                RequestedBackend = GraphicsBackend.OpenGL,
+                AllowHighDpi = false
+            })
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
@@ -33,6 +37,9 @@ namespace ShaderToy.App
 
         protected override void HandleInput(InputState state)
         {
+            var mousePosition = state.MousePosition;
+            _uniforms.iMouse.X = mousePosition.X;
+            _uniforms.iMouse.Y = mousePosition.Y;
         }
 
         protected override void Update(AppTime time)
@@ -70,13 +77,17 @@ namespace ShaderToy.App
             ref var uniformBlock = ref shaderDesc.FragmentStage.UniformBlock();
             uniformBlock.Size = Marshal.SizeOf<FragmentStageParams>();
 
-            ref var resolution = ref uniformBlock.Uniform();
+            ref var resolution = ref uniformBlock.Uniform(0);
             resolution.Name = "iResolution";
             resolution.Type = ShaderUniformType.Float3;
 
             ref var time = ref uniformBlock.Uniform(1);
             time.Name = "iTime";
             time.Type = ShaderUniformType.Float;
+
+            ref var mouse = ref uniformBlock.Uniform(2);
+            mouse.Name = "iMouse";
+            mouse.Type = ShaderUniformType.Float4;
 
             // ReSharper disable StringLiteralTypo
             const string vertexStageSourceCode = @"
@@ -96,6 +107,7 @@ precision mediump float;
 
 uniform vec3 iResolution;
 uniform float iTime;
+uniform vec4 iMouse;
 out vec4 frag_color;
 
 " + shaderToySourceCode + @"
@@ -113,7 +125,7 @@ void main() {
 
         private void OnDrawableSizeChanged(Sokol.App.App app, int width, int height)
         {
-            var aspectRatio = width / height;
+            var aspectRatio = width / (float)height;
             _uniforms.iResolution.X = width;
             _uniforms.iResolution.Y = height;
             _uniforms.iResolution.Z = aspectRatio;
