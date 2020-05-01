@@ -185,8 +185,7 @@ namespace Sokol.App
             var modifiers = MapModifierKeys(e.keysym.mod);
             var isDown = e.state == 1;
 
-            InputState.ModifiersKeys = modifiers;
-            InputState.HandleKeyboardEvent(key, isDown);
+            InputState.HandleKeyboardEvent(key, isDown, modifiers);
 
             if (isDown)
             {
@@ -353,7 +352,7 @@ namespace Sokol.App
         // ReSharper disable once UnusedParameter.Local
         private static void HandleMouseMotionEvent(SDL_MouseMotionEvent e)
         {
-            // TODO
+            InputState.HandleMouseMotion(e.x, e.y);
         }
 
         // ReSharper disable once UnusedParameter.Local
