@@ -75,13 +75,8 @@ namespace Sokol.App
         ///     Initializes a new instance of the <see cref="App" /> class using an optional
         ///     <see cref="AppLoop" />, <see cref="GraphicsBackend " /> and <see cref="GraphicsDescriptor " />.
         /// </summary>
-        /// <param name="requestedBackend">The graphics backend requested.</param>
-        /// <param name="loop">The app loop.</param>
-        /// <param name="descriptor">The `sokol_gfx` initialize descriptor.</param>
-        protected App(
-            GraphicsBackend? requestedBackend = null,
-            AppLoop? loop = null,
-            GraphicsDescriptor? descriptor = null)
+        /// <param name="descriptor">The parameters for creating the app.</param>
+        protected App(AppDescriptor? descriptor = null)
         {
             if (Interlocked.CompareExchange(ref _isInitialized, 1, 0) == 1)
             {
@@ -90,19 +85,20 @@ namespace Sokol.App
 
             Instance = this;
 
-            var (platform, backendUsed) = NativeLibraries.Load(requestedBackend);
+            var appDesc = descriptor ?? default;
+            var (platform, backendUsed) = NativeLibraries.Load(appDesc.RequestedBackend);
             Platform = platform;
             Backend = backendUsed;
 
             SDL_Init(SDL_INIT_VIDEO);
-            Window = new AppWindow(string.Empty, 800, 600);
+            Window = new AppWindow(800, 600, appDesc.AllowHighDpi ?? true);
 
-            var desc = descriptor ?? default;
-            _renderer = CreateRenderer(Backend, ref desc, Window.Handle);
+            var graphicsDesc = appDesc.Graphics ?? default;
+            _renderer = CreateRenderer(Backend, ref graphicsDesc, Window.Handle);
 
-            GraphicsDevice.Setup(ref desc);
+            GraphicsDevice.Setup(ref graphicsDesc);
 
-            _loop = loop ?? new FixedTimeStepLoop();
+            _loop = appDesc.Loop ?? new FixedTimeStepLoop();
         }
 
         /// <summary>

@@ -40,7 +40,7 @@ namespace Sokol.App
 
         public event Action<KeyboardEventData>? KeyUp;
 
-        public AppWindow(string title, int width, int height)
+        public AppWindow(int width, int height, bool allowHighDpi = true)
         {
             var app = App.Instance;
             if (app == null)
@@ -49,18 +49,21 @@ namespace Sokol.App
             }
 
             var windowFlags = SDL_WindowFlags.SDL_WINDOW_SHOWN |
-                              SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI |
                               SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
+
+            if (allowHighDpi)
+            {
+                windowFlags |= SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI;
+            }
+
             switch (app.Backend)
             {
                 case GraphicsBackend.OpenGL:
                     windowFlags |= SDL_WindowFlags.SDL_WINDOW_OPENGL;
                     break;
-                case GraphicsBackend.Metal:
-                    windowFlags |= SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI;
-                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.Metal:
                 case GraphicsBackend.Direct3D11:
                 case GraphicsBackend.Dummy:
                     break;
@@ -69,7 +72,7 @@ namespace Sokol.App
             }
 
             Handle = SDL_CreateWindow(
-                title,
+                string.Empty,
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,
                 width,
