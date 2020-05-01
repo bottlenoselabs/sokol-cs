@@ -37,8 +37,5 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Sokol.App\Sokol.App.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="assets" />
-    </ItemGroup>
 
 </Project>
