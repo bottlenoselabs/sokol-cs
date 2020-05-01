@@ -7,7 +7,7 @@ internal static class Program
 {
     private static void Main()
     {
-        var sourceCode = File.ReadAllText("assets/WarpingProcedural4.txt");
+        var sourceCode = File.ReadAllText("assets/WarpingProcedural4.frag");
         var app = new ShaderToyApp(sourceCode);
         app.Run();
     }

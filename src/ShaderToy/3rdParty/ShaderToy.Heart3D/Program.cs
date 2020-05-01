@@ -7,7 +7,7 @@ internal static class Program
 {
     private static void Main()
     {
-        var sourceCode = File.ReadAllText("assets/Heart3D.txt");
+        var sourceCode = File.ReadAllText("assets/Heart3D.frag");
         var app = new ShaderToyApp(sourceCode);
         app.Run();
     }

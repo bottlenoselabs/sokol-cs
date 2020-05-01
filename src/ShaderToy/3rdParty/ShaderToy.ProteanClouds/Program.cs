@@ -7,7 +7,7 @@ internal static class Program
 {
     private static void Main()
     {
-        var sourceCode = File.ReadAllText("assets/ProteanClouds.txt");
+        var sourceCode = File.ReadAllText("assets/ProteanClouds.frag");
         var app = new ShaderToyApp(sourceCode);
         app.Run();
     }

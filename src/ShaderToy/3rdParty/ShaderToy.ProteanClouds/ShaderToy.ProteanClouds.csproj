@@ -22,9 +22,6 @@
         <None Update="assets\**\*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="assets\VortexStreet.txt">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
     <PropertyGroup>
