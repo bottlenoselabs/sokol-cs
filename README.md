@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-    <img src="https://github.com/lithiumtoast/Sokol.NET/workflows/.NET%20Core%20CI/CD/badge.svg"/>
+    <img src="https://github.com/lithiumtoast/Sokol.NET/workflows/CI/CD/badge.svg"/>
     <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Flithiumtoast%2FSokol.NET.svg?type=shield"/></a>
 </p>
 
