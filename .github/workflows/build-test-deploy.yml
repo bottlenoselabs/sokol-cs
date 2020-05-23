@@ -12,6 +12,8 @@ on:
     branches: [master, develop]
   pull_request:
     branches: [master, develop]
+  release:
+    types: [published, created, edited]
 
 jobs:
 
