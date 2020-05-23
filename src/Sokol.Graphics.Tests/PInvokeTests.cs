@@ -11,7 +11,7 @@ using static sokol_gfx;
 namespace Sokol.Graphics.Tests
 {
     [SuppressMessage("ReSharper", "SA1600", Justification = "Tests")]
-    public unsafe partial class PInvokeTests
+    public sealed unsafe partial class PInvokeTests
     {
         [Fact]
         public void AllocFailDestroyBuffers()
@@ -20,7 +20,7 @@ namespace Sokol.Graphics.Tests
             {
                 buffer_pool_size = 3
             };
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -65,7 +65,7 @@ namespace Sokol.Graphics.Tests
             {
                 image_pool_size = 3
             };
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -109,7 +109,7 @@ namespace Sokol.Graphics.Tests
             {
                 pass_pool_size = 3
             };
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -153,7 +153,7 @@ namespace Sokol.Graphics.Tests
             {
                 pipeline_pool_size = 3
             };
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -197,7 +197,7 @@ namespace Sokol.Graphics.Tests
             {
                 shader_pool_size = 3
             };
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -241,7 +241,7 @@ namespace Sokol.Graphics.Tests
             {
                 pass_pool_size = 1
             };
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var data = stackalloc float[4];
             data[0] = 1.0f;
@@ -257,7 +257,7 @@ namespace Sokol.Graphics.Tests
                     content = data
                 };
 
-                var buffer = sg_make_buffer(ref desc);
+                var buffer = sg_make_buffer(&desc);
                 Assert.True(buffer.id != SG_INVALID_ID);
 
                 var bufferState = sg_query_buffer_state(buffer);
@@ -275,7 +275,7 @@ namespace Sokol.Graphics.Tests
         public void InitShutdown()
         {
             var setupDesc = default(sg_desc);
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var isValidAfterSetup = sg_isvalid();
             Assert.True(isValidAfterSetup);
@@ -289,7 +289,7 @@ namespace Sokol.Graphics.Tests
         public void QueryBackend()
         {
             var setupDesc = default(sg_desc);
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var backend = sg_query_backend();
             Assert.True(backend == sg_backend.SG_BACKEND_DUMMY);
@@ -304,10 +304,10 @@ namespace Sokol.Graphics.Tests
             {
                 pass_pool_size = 1
             };
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var bufferDesc = default(sg_buffer_desc);
-            var desc = sg_query_buffer_defaults(ref bufferDesc);
+            var desc = sg_query_buffer_defaults(&bufferDesc);
 
             Assert.True(desc.type == sg_buffer_type.SG_BUFFERTYPE_VERTEXBUFFER);
             Assert.True(desc.usage == sg_usage.SG_USAGE_IMMUTABLE);
@@ -316,7 +316,7 @@ namespace Sokol.Graphics.Tests
             {
                 type = sg_buffer_type.SG_BUFFERTYPE_INDEXBUFFER
             };
-            desc = sg_query_buffer_defaults(ref bufferDesc);
+            desc = sg_query_buffer_defaults(&bufferDesc);
 
             Assert.True(desc.type == sg_buffer_type.SG_BUFFERTYPE_INDEXBUFFER);
             Assert.True(desc.usage == sg_usage.SG_USAGE_IMMUTABLE);
@@ -325,7 +325,7 @@ namespace Sokol.Graphics.Tests
             {
                 usage = sg_usage.SG_USAGE_DYNAMIC
             };
-            desc = sg_query_buffer_defaults(ref bufferDesc);
+            desc = sg_query_buffer_defaults(&bufferDesc);
 
             Assert.True(desc.type == sg_buffer_type.SG_BUFFERTYPE_VERTEXBUFFER);
             Assert.True(desc.usage == sg_usage.SG_USAGE_DYNAMIC);
@@ -342,18 +342,18 @@ namespace Sokol.Graphics.Tests
                 shader_pool_size = 128,
                 pass_pool_size = 64
             };
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var desc = sg_query_desc();
 
             Assert.True(desc.buffer_pool_size == 1024);
-            Assert.True(desc.image_pool_size == _SG_DEFAULT_IMAGE_POOL_SIZE);
+            Assert.True(desc.image_pool_size == 128);
             Assert.True(desc.shader_pool_size == 128);
-            Assert.True(desc.pipeline_pool_size == _SG_DEFAULT_PIPELINE_POOL_SIZE);
+            Assert.True(desc.pipeline_pool_size == 64);
             Assert.True(desc.pass_pool_size == 64);
-            Assert.True(desc.context_pool_size == _SG_DEFAULT_CONTEXT_POOL_SIZE);
-            Assert.True(desc.mtl_global_uniform_buffer_size == _SG_MTL_DEFAULT_UB_SIZE);
-            Assert.True(desc.mtl_sampler_cache_size == _SG_MTL_DEFAULT_SAMPLER_CACHE_CAPACITY);
+            Assert.True(desc.context_pool_size == 16);
+            Assert.True(desc.uniform_buffer_size == 4 * 1024 * 1024);
+            Assert.True(desc.sampler_cache_size == 64);
 
             sg_shutdown();
         }
@@ -362,10 +362,10 @@ namespace Sokol.Graphics.Tests
         public void QueryImageDefaults()
         {
             var setupDesc = default(sg_desc);
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var desc = default(sg_image_desc);
-            desc = sg_query_image_defaults(ref desc);
+            desc = sg_query_image_defaults(&desc);
 
             Assert.True(desc.type == sg_image_type.SG_IMAGETYPE_2D);
             Assert.True(!desc.render_target);
@@ -388,12 +388,12 @@ namespace Sokol.Graphics.Tests
         public void QueryPassDefaults()
         {
             var setupDesc = default(sg_desc);
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var desc = default(sg_pass_desc);
-            desc = sg_query_pass_defaults(ref desc);
+            desc = sg_query_pass_defaults(&desc);
 
-            ref var colorAttachment0 = ref desc.color_attachment(0);
+            ref var colorAttachment0 = ref desc.color_attachment();
             Assert.True(colorAttachment0.image.id == SG_INVALID_ID);
             Assert.True(colorAttachment0.mip_level == 0);
 
@@ -404,16 +404,16 @@ namespace Sokol.Graphics.Tests
         public void QueryPipelineDefaults()
         {
             var setupDesc = default(sg_desc);
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var desc = default(sg_pipeline_desc);
-            ref var attr0 = ref desc.layout.attr(0);
+            ref var attr0 = ref desc.layout.attr();
             attr0.format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT3;
             ref var attr1 = ref desc.layout.attr(1);
             attr1.format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT4;
-            desc = sg_query_pipeline_defaults(ref desc);
+            desc = sg_query_pipeline_defaults(&desc);
 
-            ref var buffer0 = ref desc.layout.buffer(0);
+            ref var buffer0 = ref desc.layout.buffer();
             Assert.True(buffer0.stride == 28);
             Assert.True(buffer0.step_rate == 1);
             Assert.True(buffer0.step_func == sg_vertex_step.SG_VERTEXSTEP_PER_VERTEX);
@@ -446,7 +446,7 @@ namespace Sokol.Graphics.Tests
             Assert.True(desc.blend.src_factor_alpha == sg_blend_factor.SG_BLENDFACTOR_ONE);
             Assert.True(desc.blend.dst_factor_alpha == sg_blend_factor.SG_BLENDFACTOR_ZERO);
             Assert.True(desc.blend.op_alpha == sg_blend_op.SG_BLENDOP_ADD);
-            Assert.True((int)desc.blend.color_write_mask == 0xF);
+            Assert.True(desc.blend.color_write_mask == 0xF);
             Assert.True(desc.blend.color_attachment_count == 1);
             Assert.True(desc.blend.color_format == sg_pixel_format.SG_PIXELFORMAT_RGBA8);
             Assert.True(desc.blend.depth_format == sg_pixel_format.SG_PIXELFORMAT_DEPTH_STENCIL);
@@ -466,10 +466,10 @@ namespace Sokol.Graphics.Tests
         public void QueryShaderDefaults()
         {
             var setupDesc = default(sg_desc);
-            sg_setup(ref setupDesc);
+            sg_setup(&setupDesc);
 
             var desc = default(sg_shader_desc);
-            desc = sg_query_shader_defaults(ref desc);
+            desc = sg_query_shader_defaults(&desc);
 
             var vertexShaderEntry = Marshal.PtrToStringAnsi((IntPtr)desc.vs.entry);
             Assert.True(vertexShaderEntry == "main");

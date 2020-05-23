@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace Sokol.Graphics.Tests
 {
-    public partial class PInvokeTests
+    public sealed partial class PInvokeTests
     {
         static PInvokeTests()
         {
