@@ -36,22 +36,20 @@ namespace Samples.MultipleRenderTargets
         {
             DrawableSizeChanged += OnDrawableSizeChanged;
 
-            var msaaSampleCount = GraphicsDevice.Features.MsaaRenderTargets ? 4 : 1;
-
             _cubeVertexBuffer = CreateCubeVertexBuffer();
             _cubeIndexBuffer = CreateCubeIndexBuffer();
             _quadVertexBuffer = CreateQuadVertexBuffer();
 
             _offScreenShader = CreateOffScreenShader();
-            _offScreenPipeline = CreateOffScreenPipeline(msaaSampleCount);
-            _offScreenRenderTargets = CreateOffScreenRenderTargets(msaaSampleCount);
+            _offScreenPipeline = CreateOffScreenPipeline();
+            _offScreenRenderTargets = CreateOffScreenRenderTargets();
             _offScreenPass = CreateOffScreenRenderPass();
 
             _fullScreenShader = CreateFullScreenShader();
-            _fullScreenPipeline = CreateFullScreenPipeline(msaaSampleCount);
+            _fullScreenPipeline = CreateFullScreenPipeline();
 
             _debugShader = CreateDebugShader();
-            _debugPipeline = CreateDebugPipeline(msaaSampleCount);
+            _debugPipeline = CreateDebugPipeline();
 
             // Free any strings we implicitly allocated when creating resources
             // Only call this method AFTER resources are created
@@ -153,13 +151,12 @@ namespace Samples.MultipleRenderTargets
             return GraphicsDevice.CreatePass(ref passDesc);
         }
 
-        private Pipeline CreateDebugPipeline(int msaaSampleCount)
+        private Pipeline CreateDebugPipeline()
         {
             var pipelineDesc = default(PipelineDescriptor);
             pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float2;
             pipelineDesc.Shader = _debugShader;
             pipelineDesc.PrimitiveType = PipelineVertexPrimitiveType.TriangleStrip;
-            pipelineDesc.Rasterizer.SampleCount = msaaSampleCount;
 
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);
         }
@@ -169,7 +166,7 @@ namespace Samples.MultipleRenderTargets
             // describe the fullscreen shader program
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.FragmentStage.Image().Name = "tex";
-            shaderDesc.FragmentStage.Image().Type = ImageType.Texture2D;
+            shaderDesc.FragmentStage.Image().ImageType = ImageType.Texture2D;
             switch (Backend)
             {
                 // specify shader stage source code for each graphics backend
@@ -194,14 +191,13 @@ namespace Samples.MultipleRenderTargets
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
-        private Pipeline CreateFullScreenPipeline(int msaaSampleCount)
+        private Pipeline CreateFullScreenPipeline()
         {
             // describe the off screen render pipeline
             var pipelineDesc = default(PipelineDescriptor);
             pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float2;
             pipelineDesc.Shader = _fullScreenShader;
             pipelineDesc.PrimitiveType = PipelineVertexPrimitiveType.TriangleStrip;
-            pipelineDesc.Rasterizer.SampleCount = msaaSampleCount;
 
             // create the offscreen pipeline resource from the description
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);
@@ -217,11 +213,11 @@ namespace Samples.MultipleRenderTargets
             offsetUniform.Name = "offset";
             offsetUniform.Type = ShaderUniformType.Float2;
             shaderDesc.FragmentStage.Image().Name = "tex0";
-            shaderDesc.FragmentStage.Image().Type = ImageType.Texture2D;
+            shaderDesc.FragmentStage.Image().ImageType = ImageType.Texture2D;
             shaderDesc.FragmentStage.Image(1).Name = "tex1";
-            shaderDesc.FragmentStage.Image(1).Type = ImageType.Texture2D;
+            shaderDesc.FragmentStage.Image(1).ImageType = ImageType.Texture2D;
             shaderDesc.FragmentStage.Image(2).Name = "tex2";
-            shaderDesc.FragmentStage.Image(2).Type = ImageType.Texture2D;
+            shaderDesc.FragmentStage.Image(2).ImageType = ImageType.Texture2D;
 
             switch (Backend)
             {
@@ -272,7 +268,7 @@ namespace Samples.MultipleRenderTargets
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private static Image[] CreateOffScreenRenderTargets(int msaaSampleCount)
+        private static Image[] CreateOffScreenRenderTargets()
         {
             // describe the off screen render target images
             var colorImageDesc = default(ImageDescriptor);
@@ -283,7 +279,6 @@ namespace Samples.MultipleRenderTargets
             colorImageDesc.MagnificationFilter = ImageFilter.Linear;
             colorImageDesc.WrapU = ImageWrap.ClampToEdge;
             colorImageDesc.WrapV = ImageWrap.ClampToEdge;
-            colorImageDesc.SampleCount = msaaSampleCount;
 
             // describe the off screen depth render target image
             var depthImageDesc = colorImageDesc;
@@ -298,7 +293,7 @@ namespace Samples.MultipleRenderTargets
             return renderTargets;
         }
 
-        private Pipeline CreateOffScreenPipeline(int msaaSampleCount)
+        private Pipeline CreateOffScreenPipeline()
         {
             // describe the off screen render pipeline
             var pipelineDesc = default(PipelineDescriptor);
@@ -311,7 +306,6 @@ namespace Samples.MultipleRenderTargets
             pipelineDesc.Blend.ColorAttachmentCount = 3;
             pipelineDesc.Blend.DepthFormat = PixelFormat.Depth;
             pipelineDesc.Rasterizer.CullMode = PipelineTriangleCullMode.Back;
-            pipelineDesc.Rasterizer.SampleCount = msaaSampleCount;
 
             // create the offscreen pipeline resource from the description
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);

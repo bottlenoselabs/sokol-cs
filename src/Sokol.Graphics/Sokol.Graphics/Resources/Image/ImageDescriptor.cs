@@ -20,7 +20,7 @@ namespace Sokol.Graphics
     ///         <see cref="ImageDescriptor" /> is blittable to the C `sg_image_desc` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
-    [StructLayout(LayoutKind.Explicit, Size = 1664, Pack = 8, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Explicit, Size = 1672, Pack = 8, CharSet = CharSet.Ansi)]
     public unsafe struct ImageDescriptor
     {
         /// <summary>
@@ -175,6 +175,10 @@ namespace Sokol.Graphics
         [FieldOffset(1648)]
         internal IntPtr D3D11Texture;
 
+        // TODO: Native 3D textures
+        [FieldOffset(1656)]
+        internal IntPtr WebGPUTexture;
+
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
@@ -184,7 +188,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
-        [FieldOffset(1656)]
+        [FieldOffset(1664)]
         internal uint _endCanary;
 
         /// <summary>

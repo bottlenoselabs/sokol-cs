@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Instancing", "Sampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.MultipleRenderTargets", "Samples\Samples.MultipleRenderTargets\Samples.MultipleRenderTargets.csproj", "{C8A64B7F-606C-4739-918F-2ED95BC31F67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.SDL2.Native", "Sokol.SDL2.Native\Sokol.SDL2.Native.csproj", "{451C9C4E-3455-47D5-830B-D1F06051201C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libsdl2", "libsdl2\libsdl2.csproj", "{451C9C4E-3455-47D5-830B-D1F06051201C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.App", "Sokol.App\Sokol.App.csproj", "{9023C19C-3818-4988-BDD4-14E757DF40EC}"
 EndProject
@@ -38,9 +38,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.SDL2", "Sokol.SDL2\So
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDL2", "SDL2", "{B3189854-F935-40F9-84F7-F074AB32E0FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.Metal.Native", "Sokol.Graphics.Metal.Native\Sokol.Graphics.Metal.Native.csproj", "{EC00EDDB-A7A2-4D17-989E-FF4ACB8F24DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libsokol_gfx.metal", "libsokol_gfx.metal\libsokol_gfx.metal.csproj", "{EC00EDDB-A7A2-4D17-989E-FF4ACB8F24DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Graphics.OpenGL.Native", "Sokol.Graphics.OpenGL.Native\Sokol.Graphics.OpenGL.Native.csproj", "{BD7C4352-BCAA-460E-9BBA-3E1A959A9C4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libsokol_gfx.opengl", "libsokol_gfx.opengl\libsokol_gfx.opengl.csproj", "{BD7C4352-BCAA-460E-9BBA-3E1A959A9C4B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.ArrayTex", "Samples\Samples.ArrayTex\Samples.ArrayTex.csproj", "{F451F011-24B0-497C-B6D3-2B3555B4C6D1}"
 EndProject
@@ -67,6 +67,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderToy.VeryFastProceduralOcean", "ShaderToy\3rdParty\ShaderToy.VeryFastProceduralOcean\ShaderToy.VeryFastProceduralOcean.csproj", "{1E443BF6-84EE-4FB7-B7D4-F3904EBA83B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderToy.ProteanClouds", "ShaderToy\3rdParty\ShaderToy.ProteanClouds\ShaderToy.ProteanClouds.csproj", "{C16A5542-0F32-40E4-80FB-29AB32EEDEBA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Native", "Native", "{7D3FD2CA-8C4C-4DA4-8AC1-203E94201112}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -220,5 +222,7 @@ Global
 		{9EBCAF27-0E86-4E48-A801-ECEA626C90DC} = {1A826C37-54C0-4AA7-824D-90589FB1FD03}
 		{1E443BF6-84EE-4FB7-B7D4-F3904EBA83B7} = {1A826C37-54C0-4AA7-824D-90589FB1FD03}
 		{C16A5542-0F32-40E4-80FB-29AB32EEDEBA} = {1A826C37-54C0-4AA7-824D-90589FB1FD03}
+		{EC00EDDB-A7A2-4D17-989E-FF4ACB8F24DF} = {7D3FD2CA-8C4C-4DA4-8AC1-203E94201112}
+		{BD7C4352-BCAA-460E-9BBA-3E1A959A9C4B} = {7D3FD2CA-8C4C-4DA4-8AC1-203E94201112}
 	EndGlobalSection
 EndGlobal

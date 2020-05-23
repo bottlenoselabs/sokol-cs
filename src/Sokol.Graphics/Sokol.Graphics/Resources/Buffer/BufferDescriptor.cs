@@ -23,7 +23,7 @@ namespace Sokol.Graphics
     ///         <see cref="BufferDescriptor" /> is blittable to the C `sg_buffer_desc` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
-    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8, CharSet = CharSet.Ansi)]
+    [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8, CharSet = CharSet.Ansi)]
     public unsafe struct BufferDescriptor
     {
         /// <summary>
@@ -69,6 +69,10 @@ namespace Sokol.Graphics
         [FieldOffset(56)]
         internal IntPtr _d3d11_buffer;
 
+        // TODO: Native 3D Buffers.
+        [FieldOffset(64)]
+        internal IntPtr _wgpu_buffer;
+
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
@@ -78,7 +82,7 @@ namespace Sokol.Graphics
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
         /// </summary>
-        [FieldOffset(64)]
+        [FieldOffset(72)]
         internal uint _end_canary;
 
         /// <summary>

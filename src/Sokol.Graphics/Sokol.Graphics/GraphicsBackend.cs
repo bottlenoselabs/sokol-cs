@@ -46,9 +46,14 @@ namespace Sokol.Graphics
         Metal = 4,
 
         /// <summary>
+        ///     The WebGPU back-end. Used for Web applications.
+        /// </summary>
+        WebGPU = 5,
+
+        /// <summary>
         ///     The dummy back-end. Used for testing and other applications which don't want a real implementation of a
         ///     back-end.
         /// </summary>
-        Dummy = 5
+        Dummy = 6
     }
 }

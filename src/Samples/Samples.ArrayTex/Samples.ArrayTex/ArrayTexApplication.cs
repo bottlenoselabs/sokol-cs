@@ -154,11 +154,11 @@ namespace Samples.ArrayTex
             uniformBlock.Uniform(3).Type = ShaderUniformType.Float3;
             uniformBlock.Uniform(4).Name = "weights";
             uniformBlock.Uniform(4).Type = ShaderUniformType.Float3;
-            shaderDesc.FragmentStage.Image().Type = ImageType.TextureArray;
+            shaderDesc.FragmentStage.Image().ImageType = ImageType.TextureArray;
 
             ref var image = ref shaderDesc.FragmentStage.Image();
             image.Name = "tex";
-            image.Type = ImageType.TextureArray;
+            image.ImageType = ImageType.TextureArray;
 
             switch (Backend)
             {

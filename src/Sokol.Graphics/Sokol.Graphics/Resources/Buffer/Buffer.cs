@@ -108,8 +108,7 @@ namespace Sokol.Graphics
 
         /// <summary>
         ///     Overwrites the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" />
-        ///     must
-        ///     have been created with <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
+        ///     must have been created with <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
         /// </summary>
         /// <param name="dataPointer">A pointer to the starting address of a block of bytes to copy data.</param>
         /// <param name="dataSize">The number of bytes to copy.</param>
@@ -186,8 +185,7 @@ namespace Sokol.Graphics
 
         /// <summary>
         ///     Appends to the contents of the <see cref="Buffer" /> by copying memory. The <see cref="Buffer" />
-        ///     must
-        ///     have been created with <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
+        ///     must have been created with <see cref="ResourceUsage.Dynamic" /> or <see cref="ResourceUsage.Stream" />.
         /// </summary>
         /// <param name="data">The region of memory to copy.</param>
         /// <param name="count">The optional amount of elements to copy. Use <c>null</c> to copy all the elements.</param>

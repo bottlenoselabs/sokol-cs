@@ -47,6 +47,7 @@ namespace Sokol.Graphics
                     sokol_gfx.sg_backend.SG_BACKEND_METAL_IOS => GraphicsBackend.Metal,
                     sokol_gfx.sg_backend.SG_BACKEND_METAL_MACOS => GraphicsBackend.Metal,
                     sokol_gfx.sg_backend.SG_BACKEND_METAL_SIMULATOR => GraphicsBackend.Metal,
+                    sokol_gfx.sg_backend.SG_BACKEND_WGPU => GraphicsBackend.WebGPU,
                     sokol_gfx.sg_backend.SG_BACKEND_DUMMY => GraphicsBackend.Dummy,
                     _ => throw new ArgumentOutOfRangeException()
                 };

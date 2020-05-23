@@ -148,7 +148,6 @@ namespace Samples.Offscreen
             frameBufferPipelineDesc.DepthStencil.DepthCompareFunction = PipelineDepthCompareFunction.LessEqual;
             frameBufferPipelineDesc.DepthStencil.DepthWriteIsEnabled = true;
             frameBufferPipelineDesc.Rasterizer.CullMode = PipelineTriangleCullMode.Back;
-            frameBufferPipelineDesc.Rasterizer.SampleCount = GraphicsDevice.Features.MsaaRenderTargets ? 4 : 1;
 
             // create the frame buffer pipeline resource from the description
             return GraphicsDevice.CreatePipeline(ref frameBufferPipelineDesc);
@@ -169,7 +168,6 @@ namespace Samples.Offscreen
             pipelineDesc.Blend.ColorFormat = PixelFormat.RGBA8;
             pipelineDesc.Blend.DepthFormat = PixelFormat.Depth;
             pipelineDesc.Rasterizer.CullMode = PipelineTriangleCullMode.Back;
-            pipelineDesc.Rasterizer.SampleCount = GraphicsDevice.Features.MsaaRenderTargets ? 4 : 1;
 
             // create the offscreen pipeline resource from the description
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);
@@ -183,7 +181,7 @@ namespace Samples.Offscreen
             frameBufferMvpUniform.Name = "mvp";
             frameBufferMvpUniform.Type = ShaderUniformType.Matrix4x4;
             shaderDesc.FragmentStage.Image().Name = "tex";
-            shaderDesc.FragmentStage.Image().Type = ImageType.Texture2D;
+            shaderDesc.FragmentStage.Image().ImageType = ImageType.Texture2D;
 
             // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
             switch (Backend)
@@ -261,7 +259,6 @@ namespace Samples.Offscreen
             imageDesc.Format = PixelFormat.RGBA8;
             imageDesc.MinificationFilter = ImageFilter.Linear;
             imageDesc.MagnificationFilter = ImageFilter.Linear;
-            imageDesc.SampleCount = GraphicsDevice.Features.MsaaRenderTargets ? 4 : 1;
 
             // create the color render target image from the description
             var renderTarget = GraphicsDevice.CreateImage(ref imageDesc);

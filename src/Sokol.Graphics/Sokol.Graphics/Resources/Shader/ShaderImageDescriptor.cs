@@ -26,10 +26,16 @@ namespace Sokol.Graphics
     public struct ShaderImageDescriptor
     {
         /// <summary>
-        ///     The <see cref="ImageType" /> of the <see cref="Image" /> that will be as input.
+        ///     The <see cref="Graphics.ImageType" /> of the <see cref="Image" /> that will be used as input.
         /// </summary>
         [FieldOffset(8)]
-        public ImageType Type;
+        public ImageType ImageType;
+
+        /// <summary>
+        ///     The <see cref="ShaderImageSamplerType" /> describing how the <see cref="Image" /> will be sampled.
+        /// </summary>
+        [FieldOffset(12)]
+        public ShaderImageSamplerType SamplerType;
 
         [FieldOffset(0)]
         private IntPtr _name;

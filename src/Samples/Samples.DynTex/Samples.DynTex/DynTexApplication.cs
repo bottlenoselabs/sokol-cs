@@ -221,7 +221,7 @@ namespace Samples.DynTex
 
             ref var image = ref shaderDesc.FragmentStage.Image();
             image.Name = "tex";
-            image.Type = ImageType.Texture2D;
+            image.ImageType = ImageType.Texture2D;
 
             switch (Backend)
             {

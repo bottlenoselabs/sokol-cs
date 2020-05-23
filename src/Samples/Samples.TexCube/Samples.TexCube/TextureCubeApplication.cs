@@ -117,7 +117,6 @@ namespace Samples.TexCube
             pipelineDesc.DepthStencil.DepthCompareFunction = PipelineDepthCompareFunction.LessEqual;
             pipelineDesc.DepthStencil.DepthWriteIsEnabled = true;
             pipelineDesc.Rasterizer.CullMode = PipelineTriangleCullMode.Back;
-            pipelineDesc.Rasterizer.SampleCount = GraphicsDevice.Features.MsaaRenderTargets ? 4 : 1;
 
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);
         }
@@ -132,7 +131,7 @@ namespace Samples.TexCube
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
             ref var shaderImage = ref shaderDesc.FragmentStage.Image();
             shaderImage.Name = "tex";
-            shaderImage.Type = ImageType.Texture2D;
+            shaderImage.ImageType = ImageType.Texture2D;
 
             switch (Backend)
             {

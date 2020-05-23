@@ -11,6 +11,11 @@ namespace Sokol.Graphics
     ///     Runtime information about a <see cref="PixelFormat" />. Result of calling
     ///     <see cref="GraphicsDevice.QueryPixelFormat" />.
     /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         <see cref="PixelFormatInfo" /> is blittable to the C `sg_pixelformat_info` struct found in `sokol_gfx`.
+    ///     </para>
+    /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 6, Pack = 1)]
     public struct PixelFormatInfo
     {

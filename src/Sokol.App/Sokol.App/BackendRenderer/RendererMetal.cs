@@ -63,10 +63,11 @@ namespace Sokol.App
             _getMetalRenderPassDescriptorGCHandle = GCHandle.Alloc(getMetalRenderPassDescriptor);
             _getMetalDrawableGCHandle = GCHandle.Alloc(getMetalDrawable);
 
-            descriptor.MTLDevice = _metalLayer.device.Handle;
-            descriptor.MTLRenderPassDescriptorCallback =
+            ref var metal = ref descriptor.Backend.Metal;
+            metal.MTLDevice = _metalLayer.device.Handle;
+            metal.MTLRenderPassDescriptorCallback =
                 Marshal.GetFunctionPointerForDelegate(getMetalRenderPassDescriptor);
-            descriptor.MTLDrawableCallback = Marshal.GetFunctionPointerForDelegate(getMetalDrawable);
+            metal.MTLDrawableCallback = Marshal.GetFunctionPointerForDelegate(getMetalDrawable);
         }
 
         public override (int width, int height) GetDrawableSize()

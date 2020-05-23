@@ -26,12 +26,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Sokol.Graphics.Metal.Native\Sokol.Graphics.Metal.Native.csproj" />
+        <ProjectReference Include="..\libsdl2\libsdl2.csproj" />
+        <ProjectReference Include="..\libsokol_gfx.metal\libsokol_gfx.metal.csproj" />
+        <ProjectReference Include="..\libsokol_gfx.opengl\libsokol_gfx.opengl.csproj" />
         <ProjectReference Include="..\Sokol.Graphics.Metal\Sokol.Graphics.Metal.csproj" />
-        <ProjectReference Include="..\Sokol.Graphics.OpenGL.Native\Sokol.Graphics.OpenGL.Native.csproj" />
         <ProjectReference Include="..\Sokol.Graphics.OpenGL\Sokol.Graphics.OpenGL.csproj" />
         <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
-        <ProjectReference Include="..\Sokol.SDL2.Native\Sokol.SDL2.Native.csproj" />
         <ProjectReference Include="..\Sokol.SDL2\Sokol.SDL2.csproj" />
     </ItemGroup>
 
