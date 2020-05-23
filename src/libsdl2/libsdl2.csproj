@@ -35,7 +35,7 @@
             <PackagePath>runtimes/osx-x64/native</PackagePath>
         </Content>
         <Content Include="..\..\lib\libSDL2-2.0.10\linux-x64\libSDL2.so">
-            <Link>runtimes/osx-x64/native/libSDL2.so</Link>
+            <Link>runtimes/linux-x64/native/libSDL2.so</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/osx-x64/native</PackagePath>
         </Content>
