@@ -22,21 +22,44 @@
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
     </ItemGroup>
     
-    <ItemGroup>
-        <Content Include="..\..\lib\libsokol_gfx\win-x64\opengl\sokol_gfx.dll">
+    <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
+        <Content Include="..\..\lib\libsokol_gfx\linux-x64\opengl\debug\libsokol_gfx.so">
+            <Link>runtimes/linux-x64/native/libsokol_gfx-opengl.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/linux-x64/native/sokol_gfx-opengl.so</PackagePath>
+        </Content>
+        <Content Include="..\..\lib\libsokol_gfx\osx-x64\opengl\debug\libsokol_gfx.dylib">
+            <Link>runtimes/osx-x64/native/libsokol_gfx-opengl.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/osx-x64/native/sokol_gfx-opengl.dylib</PackagePath>
+        </Content>
+        <Content Include="..\..\lib\libsokol_gfx\win-x64\opengl\debug\sokol_gfx.dll">
             <Link>runtimes/win-x64/native/sokol_gfx-opengl.dll</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/win-x64/native/sokol_gfx-opengl.dll</PackagePath>
         </Content>
-        <Content Include="..\..\lib\libsokol_gfx\linux-x64\opengl\libsokol_gfx.so">
+        <Content Include="..\..\lib\libsokol_gfx\win-x64\opengl\debug\sokol_gfx.pdb">
+            <Link>runtimes/win-x64/native/sokol_gfx-opengl.pdb</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/win-x64/native/sokol_gfx-opengl.pdb</PackagePath>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release' ">
+        <Content Include="..\..\lib\libsokol_gfx\linux-x64\opengl\release\libsokol_gfx.so">
             <Link>runtimes/linux-x64/native/libsokol_gfx-opengl.so</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/linux-x64/native.sokol_gfx-opengl.so</PackagePath>
         </Content>
-        <Content Include="..\..\lib\libsokol_gfx\osx-x64\opengl\libsokol_gfx.dylib">
+        <Content Include="..\..\lib\libsokol_gfx\osx-x64\opengl\release\libsokol_gfx.dylib">
             <Link>runtimes/osx-x64/native/libsokol_gfx-opengl.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/osx-x64/native/sokol_gfx-opengl.dylib</PackagePath>
+        </Content>
+        <Content Include="..\..\lib\libsokol_gfx\win-x64\opengl\release\sokol_gfx.dll">
+            <Link>runtimes/win-x64/native/sokol_gfx-opengl.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/win-x64/native/sokol_gfx-opengl.dll</PackagePath>
         </Content>
     </ItemGroup>
 

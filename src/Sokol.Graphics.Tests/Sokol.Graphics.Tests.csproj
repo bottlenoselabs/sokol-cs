@@ -32,15 +32,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\..\lib\libsokol_gfx\win-x64\dummy\sokol_gfx.dll">
+        <None Include="..\..\lib\libsokol_gfx\win-x64\dummy\debug\sokol_gfx.dll">
             <Link>runtimes/win-x64/native/sokol_gfx.dll</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="..\..\lib\libsokol_gfx\linux-x64\dummy\libsokol_gfx.so">
+        <None Include="..\..\lib\libsokol_gfx\linux-x64\dummy\debug\libsokol_gfx.so">
             <Link>runtimes/linux-x64/native/libsokol_gfx.so</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="..\..\lib\libsokol_gfx\osx-x64\dummy\libsokol_gfx.dylib">
+        <None Include="..\..\lib\libsokol_gfx\osx-x64\dummy\debug\libsokol_gfx.dylib">
             <Link>runtimes/osx-x64/native/libsokol_gfx.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
