@@ -56,6 +56,10 @@ Name|Description|GIF/Screenshot
 [ArrayTexture](src/Samples/Samples.ArrayTex/Samples.ArrayTex/ArrayTexApplication.cs)|[Draw a cube with multiple 2D textures using one continous block of texture data (texture array).](src/Samples/Samples.ArrayTex/Samples.ArrayTex/ArrayTexApplication.cs)|<img src="screenshots/array-tex.gif" width="350">
 [DynamicTexture](src/Samples/Samples.DynTex/Samples.DynTex/DynTexApplication.cs)|[Draw a cube with streamed 2D texture data. The data is updated to with the rules of Conway's Game of Life.](src/Samples/Samples.DynTex/Samples.DynTex/DynTexApplication.cs)|<img src="screenshots/dyn-tex.gif" width="350">
 
+### ShaderToy
+
+There are also some [3rd party ShaderToy samples](src/ShaderToy/3rdParty) using `Sokol.NET`.
+
 ## Supported Platforms & 3D APIs
 
 Since `sokol_gfx` is a C library technically any platform is possible. However, currently only desktop platforms (Windows, macOS, and Linux) are supported with `Sokol.NET` by using .NET Core 3.1. In November 2020, `Sokol.NET` will move to .NET 5 and support mobile (iOS, Android), browser (WebAssembly), consoles (Nintendo Switch, Xbox One, PlayStation 4), and micro-consoles (tvOS). See [.NET 5 annoucement as the next .NET Core that will unify desktop, mobile, browser, consoles, and other platforms](https://devblogs.microsoft.com/dotnet/introducing-net-5/).
@@ -92,14 +96,14 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 - [`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)
 - [`Sokol.Graphics.OpenGL`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)
-- [`Sokol.Graphics.OpenGL.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL.Native)
+- [`libsokol_gfx.opengl`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_gfx.opengl)
 - [`Sokol.Graphics.Metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)
-- [`Sokol.Graphics.Metal.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal.Native)
+- [`libsokol_gfx.metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_gfx.metal)
 
 ### [SDL2](https://github.com/lithiumtoast/Sokol.NET/projects/3)
 
 - [`Sokol.SDL2`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2)
-- [`Sokol.SDL2.Native`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2.Native)
+- [`libsdl2`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsdl2)
 
 ### [App](https://github.com/lithiumtoast/Sokol.NET/projects/1)
 
