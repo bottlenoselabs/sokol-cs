@@ -88,7 +88,7 @@ Console PlayStation 4|:white_check_mark:|:x:|:x:|:x:|:x:|:o:|:x:
 
 ## GitHub Projects & NuGet Packages
 
-The following is the list of NuGet packages available by the [GitHub projects](https://github.com/lithiumtoast/Sokol.NET/projects) for `Sokol.NET`. Each NuGet package is an individual product. Each GitHub project is a complete suite of products that are commonly used together or otherwise are related in some fashion.
+The following is the list of NuGet packages available by the [GitHub projects](https://github.com/lithiumtoast/Sokol.NET/projects) for `Sokol.NET`. Each NuGet package is an individual product. Each GitHub project is a complete suite of products that are commonly used together or otherwise are related in some fashion. NuGet packages which have the name "lib*" are only used to package native libraries and don't have any code.
 
 To get the NuGet packages, add the following feed: `https://www.myget.org/F/lithiumtoast/api/v3/index.json`
 
@@ -112,7 +112,6 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 ### [ImGui](https://github.com/lithiumtoast/Sokol.NET/projects/4)
 
 - [`Sokol.ImGui`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.ImGui)
-
 
 ## Versioning
 
