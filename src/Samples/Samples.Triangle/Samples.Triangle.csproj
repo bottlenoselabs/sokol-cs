@@ -7,6 +7,8 @@
         <Nullable>enable</Nullable>
         <RootNamespace />
         <IsPackable>false</IsPackable>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <TieredCompilation>false</TieredCompilation>
     </PropertyGroup>
 
     <ItemGroup>
