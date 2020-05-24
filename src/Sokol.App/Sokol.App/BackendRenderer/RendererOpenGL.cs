@@ -3,10 +3,11 @@
 
 using System;
 using System.Runtime.InteropServices;
-using static SDL2.SDL;
+using OpenGL;
 
-namespace Sokol.App
+namespace Sokol.Graphics
 {
+    // ReSharper disable once InconsistentNaming
     internal sealed class RendererOpenGL : BackendRenderer
     {
         private readonly IntPtr _contextHandle;
@@ -29,8 +30,8 @@ namespace Sokol.App
             }
         }
 
-        public RendererOpenGL(IntPtr windowHandle)
-            : base(windowHandle)
+        public RendererOpenGL(IntPtr windowHandle, ref GraphicsBackendDescriptor descriptor)
+            : base(windowHandle, ref descriptor)
         {
             SetSDL2Attributes();
 
@@ -94,6 +95,7 @@ namespace Sokol.App
             }
         }
 
+        // ReSharper disable once InconsistentNaming
         private static void SetSDL2Attributes()
         {
             SDL_GL_SetAttribute(

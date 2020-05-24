@@ -4,24 +4,24 @@
 using System;
 using System.Threading;
 
-namespace Sokol.App
+namespace Sokol.Graphics
 {
-    internal abstract class BackendRenderer : IDisposable
+    public abstract partial class BackendRenderer : IDisposable
     {
         private int _disposedState;
 
-        public IntPtr WindowHandle { get; }
+        public IntPtr Window { get; }
 
         public abstract bool VerticalSyncIsEnabled { get; set; }
 
-        protected BackendRenderer(IntPtr windowHandle)
+        protected BackendRenderer(IntPtr window, ref GraphicsBackendDescriptor descriptor)
         {
-            if (windowHandle == IntPtr.Zero)
+            if (window == IntPtr.Zero)
             {
-                throw new ArgumentException("Window handle is invalid.", nameof(windowHandle));
+                throw new ArgumentException("The Window handle is invalid.", nameof(window));
             }
 
-            WindowHandle = windowHandle;
+            Window = window;
         }
 
         public void Dispose()

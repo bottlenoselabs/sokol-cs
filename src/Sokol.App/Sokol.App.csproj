@@ -29,8 +29,6 @@
         <ProjectReference Include="..\libsdl2\libsdl2.csproj" />
         <ProjectReference Include="..\libsokol_gfx.metal\libsokol_gfx.metal.csproj" />
         <ProjectReference Include="..\libsokol_gfx.opengl\libsokol_gfx.opengl.csproj" />
-        <ProjectReference Include="..\Sokol.Graphics.Metal\Sokol.Graphics.Metal.csproj" />
-        <ProjectReference Include="..\Sokol.Graphics.OpenGL\Sokol.Graphics.OpenGL.csproj" />
         <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
         <ProjectReference Include="..\Sokol.SDL2\Sokol.SDL2.csproj" />
     </ItemGroup>
@@ -45,6 +43,11 @@
         <AdditionalFiles Include="..\StyleCop.json">
             <Link>StyleCop.json</Link>
         </AdditionalFiles>
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Sokol.App\BackendRenderer\BackendRenderer.Static.cs">
+        <DependentUpon>BackendRenderer.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

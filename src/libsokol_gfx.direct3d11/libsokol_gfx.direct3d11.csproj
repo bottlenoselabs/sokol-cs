@@ -5,7 +5,7 @@
         <RootNamespace />
         <LangVersion>8</LangVersion>
         <Nullable>enable</Nullable>
-        <Description>Sokol.NET; a modern and simple 3D graphics API. This specific package includes the `sokol_gfx` Metal native shared libraries.</Description>
+        <Description>Sokol.NET; a modern and simple 3D graphics API. This specific package includes the `sokol_gfx` Direct3D11 native shared libraries.</Description>
         <Authors>Lucas Girouard-Stranks</Authors>
         <RootNamespace />
         <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
@@ -23,18 +23,23 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
-        <Content Include="..\..\lib\libsokol_gfx\osx-x64\metal\debug\libsokol_gfx.dylib">
-            <Link>runtimes/osx-x64/native/libsokol_gfx-metal.dylib</Link>
+        <Content Include="..\..\lib\libsokol_gfx\win-x64\d3d11\debug\sokol_gfx.dll">
+            <Link>runtimes/win-x64/native/sokol_gfx-direct3d11.dll</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/osx-x64/native/libsokol_gfx-metal.dylib</PackagePath>
+            <PackagePath>runtimes/win-x64/native/sokol_gfx-direct3d11.dll</PackagePath>
+        </Content>
+        <Content Include="..\..\lib\libsokol_gfx\win-x64\d3d11\debug\sokol_gfx.pdb">
+            <Link>runtimes/win-x64/native/sokol_gfx-direct3d11.pdb</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/win-x64/native/sokol_gfx-direct3d11.pdb</PackagePath>
         </Content>
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)' == 'Release' ">
-        <Content Include="..\..\lib\libsokol_gfx\osx-x64\metal\release\libsokol_gfx.dylib">
-            <Link>runtimes/osx-x64/native/libsokol_gfx-metal.dylib</Link>
+        <Content Include="..\..\lib\libsokol_gfx\win-x64\d3d11\release\sokol_gfx.dll">
+            <Link>runtimes/win-x64/native/sokol_gfx-direct3d11.dll</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/osx-x64/native/libsokol_gfx-metal.dylib</PackagePath>
+            <PackagePath>runtimes/win-x64/native/sokol_gfx-direct3d11.dll</PackagePath>
         </Content>
     </ItemGroup>
 

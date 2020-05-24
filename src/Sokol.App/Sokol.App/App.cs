@@ -94,7 +94,7 @@ namespace Sokol.App
             Window = new AppWindow(800, 600, appDesc.AllowHighDpi ?? true);
 
             var graphicsDesc = appDesc.Graphics ?? default;
-            _renderer = CreateRenderer(Backend, ref graphicsDesc, Window.Handle);
+            _renderer = BackendRenderer.Create(Backend, ref graphicsDesc.Backend, Window.Handle);
 
             GraphicsDevice.Setup(ref graphicsDesc);
 
@@ -188,28 +188,6 @@ namespace Sokol.App
         protected abstract void Update(AppTime time);
 
         protected abstract void Draw(AppTime time);
-
-        private static BackendRenderer CreateRenderer(
-            GraphicsBackend backend,
-            ref GraphicsDescriptor descriptor,
-            IntPtr windowHandle)
-        {
-            // ReSharper disable once ConvertSwitchStatementToSwitchExpression
-            switch (backend)
-            {
-                case GraphicsBackend.OpenGL:
-                    return new RendererOpenGL(windowHandle);
-                case GraphicsBackend.Metal:
-                    return new RendererMetal(ref descriptor, windowHandle);
-                case GraphicsBackend.Direct3D11:
-                case GraphicsBackend.OpenGLES2:
-                case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Dummy:
-                    throw new NotImplementedException();
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(backend), backend, null);
-            }
-        }
 
         private void ReleaseResources()
         {

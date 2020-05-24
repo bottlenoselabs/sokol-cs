@@ -7,10 +7,8 @@ using System.Threading;
 using CoreAnimation;
 using Metal;
 using ObjCRuntime;
-using Sokol.Graphics;
-using static SDL2.SDL;
 
-namespace Sokol.App
+namespace Sokol.Graphics
 {
     internal sealed class RendererMetal : BackendRenderer
     {
@@ -18,8 +16,9 @@ namespace Sokol.App
         private static RendererMetal _instance = null!;
 
         private CAMetalDrawable _drawable;
+        // ReSharper disable once InconsistentNaming
         private GCHandle _getMetalDrawableGCHandle;
-
+        // ReSharper disable once InconsistentNaming
         private GCHandle _getMetalRenderPassDescriptorGCHandle;
         private readonly CAMetalLayer _metalLayer;
         private MTLRenderPassDescriptor _renderPassDescriptor;
@@ -30,8 +29,8 @@ namespace Sokol.App
             set => _metalLayer.displaySyncEnabled = value;
         }
 
-        public RendererMetal(ref GraphicsDescriptor descriptor, IntPtr windowHandle)
-            : base(windowHandle)
+        public RendererMetal(IntPtr windowHandle, ref GraphicsBackendDescriptor descriptor)
+            : base(windowHandle, ref descriptor)
         {
             EnsureIsNotAlreadyInitialized();
 
@@ -63,7 +62,7 @@ namespace Sokol.App
             _getMetalRenderPassDescriptorGCHandle = GCHandle.Alloc(getMetalRenderPassDescriptor);
             _getMetalDrawableGCHandle = GCHandle.Alloc(getMetalDrawable);
 
-            ref var metal = ref descriptor.Backend.Metal;
+            ref var metal = ref descriptor.Metal;
             metal.MTLDevice = _metalLayer.device.Handle;
             metal.MTLRenderPassDescriptorCallback =
                 Marshal.GetFunctionPointerForDelegate(getMetalRenderPassDescriptor);

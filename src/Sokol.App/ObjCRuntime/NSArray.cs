@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using static ObjCRuntime.Messaging;
 
@@ -9,6 +10,9 @@ using static ObjCRuntime.Messaging;
 
 namespace ObjCRuntime
 {
+    [SuppressMessage("ReSharper", "SA1300", Justification = "PInvoke.")]
+    [SuppressMessage("ReSharper", "SA1310", Justification = "PInvoke.")]
+    [SuppressMessage("ReSharper", "SA1311", Justification = "PInvoke.")]
     internal static class NSArray
     {
         public static unsafe T objectAtIndexedSubscript<T>(IntPtr receiver, UIntPtr index)

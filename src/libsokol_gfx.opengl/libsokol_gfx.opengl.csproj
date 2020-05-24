@@ -5,7 +5,7 @@
         <RootNamespace />
         <LangVersion>8</LangVersion>
         <Nullable>enable</Nullable>
-        <Description>Sokol.NET; a modern and simple 3D graphics API. This specific package includes the OpenGL PInvoke shared libraries.</Description>
+        <Description>Sokol.NET; a modern and simple 3D graphics API. This specific package includes the `sokol_gfx` OpenGL native shared libraries.</Description>
         <Authors>Lucas Girouard-Stranks</Authors>
         <RootNamespace />
         <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>

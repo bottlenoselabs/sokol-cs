@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using CoreGraphics;
@@ -11,6 +12,7 @@ using CoreGraphics;
 
 namespace ObjCRuntime
 {
+    [SuppressMessage("ReSharper", "SA1300", Justification = "PInvoke.")]
     internal static unsafe class Messaging
     {
         [DllImport(Constants.ObjCLibrary, EntryPoint = "objc_msgSend")]

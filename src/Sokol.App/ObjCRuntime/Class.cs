@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,6 +10,10 @@ using static ObjCRuntime.Messaging;
 
 namespace ObjCRuntime
 {
+    [SuppressMessage("ReSharper", "SA1300", Justification = "PInvoke.")]
+    [SuppressMessage("ReSharper", "SA1310", Justification = "PInvoke.")]
+    [SuppressMessage("ReSharper", "SA1311", Justification = "PInvoke.")]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "PInvoke.")]
     internal readonly unsafe struct Class
     {
         private readonly IntPtr _handle;

@@ -3,8 +3,13 @@
 
 // ReSharper disable UnusedMember.Global
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace CoreGraphics
 {
+    [SuppressMessage("ReSharper", "SA1600", Justification = "PInvoke.")]
+    [SuppressMessage("ReSharper", "SA1307", Justification = "PInvoke.")]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "PInvoke.")]
     public struct CGSize
     {
         public CGFloat width;

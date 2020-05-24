@@ -2,11 +2,13 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace ObjCRuntime
 {
+    [SuppressMessage("ReSharper", "SA1300", Justification = "PInvoke.")]
     internal readonly unsafe struct Selector
     {
         private readonly IntPtr _handle;

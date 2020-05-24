@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using OpenGL;
 using SDL2;
 using Sokol.Graphics;
 
@@ -129,15 +130,17 @@ internal static class NativeLibraries
 
         AddLibraryPath("sokol_gfx", libraryPath);
 
-        NativeLibrary.SetDllImportResolver(typeof(PInvoke).Assembly, resolver); // Sokol.Graphics
-        NativeLibrary.SetDllImportResolver(typeof(gl).Assembly, resolver); // Sokol.Graphics.OpenGL
-
+        NativeLibrary.SetDllImportResolver(typeof(GraphicsBackend).Assembly, resolver);
         PreLoadDllImports(typeof(PInvoke));
-        PreLoadDllImports(typeof(gl));
 
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        if (backend == GraphicsBackend.OpenGL || backend == GraphicsBackend.OpenGLES2 || backend == GraphicsBackend.OpenGLES3)
         {
-            PreLoadDllImports(typeof(glew));
+            PreLoadDllImports(typeof(gl));
+
+            if (platform == GraphicsPlatform.Windows || platform == GraphicsPlatform.Linux)
+            {
+                PreLoadDllImports(typeof(glew));
+            }
         }
 
         return backend;
