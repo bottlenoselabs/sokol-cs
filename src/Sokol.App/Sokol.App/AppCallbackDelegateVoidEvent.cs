@@ -1,16 +1,10 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System;
+using System.Runtime.InteropServices;
 
 namespace Sokol.App
 {
-    [Flags]
-    public enum KeyboardModifierKeys
-    {
-        None = 0,
-        Alt = 1,
-        Control = 2,
-        Shift = 4
-    }
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void AppCallbackDelegateVoidEvent(ref Event @event);
 }

@@ -4,8 +4,8 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Sokol.Graphics
+namespace Sokol.App
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate IntPtr GetPointerDelegate();
+    internal delegate IntPtr AppCallbackDelegateIntPtr();
 }

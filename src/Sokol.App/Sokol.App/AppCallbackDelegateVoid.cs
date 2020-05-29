@@ -1,10 +1,10 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace ObjCRuntime
+using System.Runtime.InteropServices;
+
+namespace Sokol.App
 {
-    internal static class Constants
-    {
-        public const string ObjCLibrary = "/usr/lib/libobjc.dylib";
-    }
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void AppCallbackDelegateVoid();
 }

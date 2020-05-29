@@ -3,11 +3,10 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Sokol.Graphics;
-using static SDL2.SDL;
+using static Sokol.App.PInvoke;
 
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable UnusedParameter.Global
@@ -20,7 +19,7 @@ using static SDL2.SDL;
 namespace Sokol.App
 {
     /// <summary>
-    ///     The base class for Sokol.NET applications that use SDL2.
+    ///     The base class for Sokol.NET applications that use `sokol_app`.
     /// </summary>
     public abstract class App
     {
@@ -28,55 +27,34 @@ namespace Sokol.App
         internal static App Instance = null!;
 
         private static int _isInitialized;
-        private static int _drawableWidth;
-        private static int _drawableHeight;
-        private readonly AppLoop _loop;
-        private readonly BackendRenderer _renderer;
 
-        /// <summary>
-        ///     Gets the main <see cref="AppWindow" />.
-        /// </summary>
-        /// <value>The main <see cref="AppWindow" />.</value>
-        public AppWindow Window { get; }
+        private static GCHandle _getMetalRenderPassDescriptorCallbackHandle;
+        private static GCHandle _getMetalDrawableCallbackHandle;
 
-        /// <summary>
-        ///     Gets the current <see cref="GraphicsPlatform" />.
-        /// </summary>
-        /// <value>The current <see cref="GraphicsPlatform" />.</value>
-        public GraphicsPlatform Platform { get; }
+        private static GCHandle _initializeCallbackHandle;
+        private static GCHandle _frameCallbackHandle;
+        private static GCHandle _cleanUpCallbackHandle;
+        private static GCHandle _eventCallbackHandle;
 
         /// <summary>
         ///     Gets the current <see cref="GraphicsBackend" />.
         /// </summary>
         /// <value>The current <see cref="GraphicsBackend" />.</value>
-        public GraphicsBackend Backend { get; }
+        // ReSharper disable once MemberCanBeMadeStatic.Global
+        public GraphicsBackend Backend => GraphicsDevice.Backend;
+
+        public int Width => sapp_width();
+
+        public int Height => sapp_height();
 
         /// <summary>
-        ///     Occurs when the application is about to close.
+        ///     Initializes a new instance of the <see cref="App" /> class using an optional <see cref="GraphicsBackend " />.
         /// </summary>
-        public event Action<App>? Closing;
-
-        /// <summary>
-        ///     Occurs when a keyboard key is pushed down while the application has focus.
-        /// </summary>
-        public event Action<App, KeyboardEventData>? KeyDown;
-
-        /// <summary>
-        ///     Occurs when a keyboard key is released while the application has focus.
-        /// </summary>
-        public event Action<App, KeyboardEventData>? KeyUp;
-
-        /// <summary>
-        ///     Occurs when the size of the application's frame buffer changes.
-        /// </summary>
-        public event Action<App, int, int>? DrawableSizeChanged;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="App" /> class using an optional
-        ///     <see cref="AppLoop" />, <see cref="GraphicsBackend " /> and <see cref="GraphicsDescriptor " />.
-        /// </summary>
-        /// <param name="descriptor">The parameters for creating the app.</param>
-        protected App(AppDescriptor? descriptor = null)
+        /// <param name="backend">
+        ///     The requested back-end for the app. May be overriden if <paramref name="backend" />doesn't make
+        ///     sense for the platform.
+        /// </param>
+        protected App(GraphicsBackend? backend = null)
         {
             if (Interlocked.CompareExchange(ref _isInitialized, 1, 0) == 1)
             {
@@ -85,40 +63,24 @@ namespace Sokol.App
 
             Instance = this;
 
-            var appDesc = descriptor ?? default;
-            var (platform, backendUsed) = NativeLibraries.Load(appDesc.RequestedBackend);
-            Platform = platform;
-            Backend = backendUsed;
-
-            SDL_Init(SDL_INIT_VIDEO);
-            Window = new AppWindow(800, 600, appDesc.AllowHighDpi ?? true);
-
-            var graphicsDesc = appDesc.Graphics ?? default;
-            _renderer = BackendRenderer.Create(Backend, ref graphicsDesc.Backend, Window.Handle);
-
-            GraphicsDevice.Setup(ref graphicsDesc);
-
-            _loop = appDesc.Loop ?? new FixedTimeStepLoop();
+            var backend1 = backend ?? GraphicsHelper.DefaultBackend();
+            Sokol.Graphics.Native.LoadApi(backend1);
+            Native.LoadApi(backend1);
         }
 
         /// <summary>
-        ///     Starts running the <see cref="App" />.
+        ///     Starts the <see cref="App" />.
         /// </summary>
         public void Run()
         {
-            Window.Show();
-            _loop.Run();
-            Window.Close();
-            Closing?.Invoke(this);
-            ReleaseResources();
+            var appDesc = default(AppDescriptor);
+            CreateCallbacks(ref appDesc);
+            sapp_run(ref appDesc);
         }
 
-        /// <summary>
-        ///     Stops running the <see cref="App" /> at the next frame.
-        /// </summary>
-        public void Exit()
+        public void RequestQuit()
         {
-            _loop.Stop();
+            sapp_request_quit();
         }
 
         /// <summary>
@@ -128,8 +90,7 @@ namespace Sokol.App
         /// <returns>The frame buffer <see cref="Pass" />.</returns>
         public static Pass BeginDefaultPass()
         {
-            var passAction = PassAction.DontCare;
-            return BeginDefaultPass(ref passAction);
+            return GraphicsDevice.BeginDefaultPass(sapp_width(), sapp_height());
         }
 
         /// <summary>
@@ -140,66 +101,116 @@ namespace Sokol.App
         /// <returns>The frame buffer <see cref="Pass" />.</returns>
         public static Pass BeginDefaultPass(Rgba32F clearColor)
         {
-            var passAction = PassAction.Clear(clearColor);
-            return BeginDefaultPass(ref passAction);
+            return GraphicsDevice.BeginDefaultPass(sapp_width(), sapp_height(), clearColor);
         }
 
         /// <summary>
-        ///     Begins and returns the frame buffer <see cref="Pass"/> with the specified width, height, and
+        ///     Begins and returns the frame buffer <see cref="Pass" /> with the specified width, height, and
         ///     <see cref="PassAction" />.
         /// </summary>
         /// <param name="passAction">The frame buffer pass action.</param>
         /// <returns>The frame buffer <see cref="Pass" />.</returns>
         public static Pass BeginDefaultPass([In] ref PassAction passAction)
         {
-            return GraphicsDevice.BeginDefaultPass(_drawableWidth, _drawableHeight, ref passAction);
+            return GraphicsDevice.BeginDefaultPass(sapp_width(), sapp_height(), ref passAction);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void DoInput(InputState state)
+        protected virtual void Initialize()
         {
-            HandleInput(state);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void DoUpdate(AppTime time)
+        protected abstract void Frame();
+
+        protected virtual void Event(ref Event @event)
         {
-            Update(time);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void DoDraw(AppTime time)
+        protected virtual void CleanUp()
         {
-            var (width, height) = _renderer.GetDrawableSize();
-            if (_drawableWidth != width || _drawableHeight != height)
-            {
-                _drawableWidth = width;
-                _drawableHeight = height;
-                OnDrawableSizeChanged(width, height);
-            }
-
-            Draw(time);
-            GraphicsDevice.Commit();
-            _renderer.Present();
         }
 
-        protected abstract void HandleInput(InputState state);
-
-        protected abstract void Update(AppTime time);
-
-        protected abstract void Draw(AppTime time);
-
-        private void ReleaseResources()
+        private static void CreateCallbacks(ref AppDescriptor desc)
         {
-            _renderer.Dispose();
+            var initializeCallbackDelegate = new AppCallbackDelegateVoid(InitializeCallback);
+            _initializeCallbackHandle = GCHandle.Alloc(initializeCallbackDelegate);
+            desc.InitializeCallback = Marshal.GetFunctionPointerForDelegate(initializeCallbackDelegate);
+
+            var frameCallbackDelegate = new AppCallbackDelegateVoid(FrameCallback);
+            _frameCallbackHandle = GCHandle.Alloc(frameCallbackDelegate);
+            desc.FrameCallback = Marshal.GetFunctionPointerForDelegate(frameCallbackDelegate);
+
+            var cleanUpCallbackDelegate = new AppCallbackDelegateVoid(CleanUpCallback);
+            _cleanUpCallbackHandle = GCHandle.Alloc(cleanUpCallbackDelegate);
+            desc.CleanUpCallback = Marshal.GetFunctionPointerForDelegate(cleanUpCallbackDelegate);
+
+            var eventCallbackDelegate = new AppCallbackDelegateVoidEvent(EventCallback);
+            _eventCallbackHandle = GCHandle.Alloc(eventCallbackDelegate);
+            desc.EventCallback = Marshal.GetFunctionPointerForDelegate(eventCallbackDelegate);
+        }
+
+        private static IntPtr GetMetalRenderPassDescriptorCallback()
+        {
+            return sapp_metal_get_renderpass_descriptor();
+        }
+
+        private static IntPtr GetMetalDrawableCallback()
+        {
+            return sapp_metal_get_drawable();
+        }
+
+        private static void InitializeCallback()
+        {
+            InitializeGraphics();
+            Instance.Initialize();
+        }
+
+        private static void FrameCallback()
+        {
+            Instance.Frame();
+        }
+
+        private static void CleanUpCallback()
+        {
+            Instance.CleanUp();
             GraphicsDevice.Shutdown();
-            Window.Dispose();
-            SDL_Quit();
         }
 
-        private void OnDrawableSizeChanged(int width, int height)
+        private static void EventCallback(ref Event @event)
         {
-            DrawableSizeChanged?.Invoke(this, width, height);
+            Instance.Event(ref @event);
+        }
+
+        private static void InitializeGraphics()
+        {
+            var getMetalRenderPassDescriptorCallbackDelegate =
+                new AppCallbackDelegateIntPtr(GetMetalRenderPassDescriptorCallback);
+            _getMetalRenderPassDescriptorCallbackHandle = GCHandle.Alloc(getMetalRenderPassDescriptorCallbackDelegate);
+            var getMetalRenderPassDescriptor =
+                Marshal.GetFunctionPointerForDelegate(getMetalRenderPassDescriptorCallbackDelegate);
+
+            var getMetalDrawableCallbackDelegate = new AppCallbackDelegateIntPtr(GetMetalDrawableCallback);
+            _getMetalDrawableCallbackHandle = GCHandle.Alloc(getMetalDrawableCallbackDelegate);
+            var getMetalDrawableCallback = Marshal.GetFunctionPointerForDelegate(getMetalDrawableCallbackDelegate);
+
+            var graphicsDescriptor = default(GraphicsDescriptor);
+            ref var context = ref graphicsDescriptor.Context;
+            context.ColorFormat = (PixelFormat)sapp_color_format();
+            context.DepthFormat = (PixelFormat)sapp_depth_format();
+            context.SampleCount = sapp_sample_count();
+            context.GL.ForceGLES2 = sapp_gles2();
+            context.Metal.Device = sapp_metal_get_device();
+            context.Metal.RenderPassDescriptorCallback = getMetalRenderPassDescriptor;
+            context.Metal.DrawableCallback = getMetalDrawableCallback;
+            // desc.Direct3D11.device = sapp_d3d11_get_device();
+            // desc.Direct3D11.device_context = sapp_d3d11_get_device_context();
+            // desc.Direct3D11.render_target_view_cb = sapp_d3d11_get_render_target_view;
+            // desc.Direct3D11.depth_stencil_view_cb = sapp_d3d11_get_depth_stencil_view;
+            // desc.WebGPU.Device = sapp_wgpu_get_device();
+            // desc.WebGPU.RenderViewCallback = sapp_wgpu_get_render_view();
+            // desc.WebGPU.ResolveViewCallback = sapp_wgpu_get_resolve_view();
+            // desc.WebGPU.DepthStencilViewCallback = sapp_wgpu_get_depth_stencil_view();
+
+            GraphicsDevice.Setup(ref graphicsDescriptor);
         }
     }
 }
