@@ -27,7 +27,7 @@ namespace Sokol.Graphics
         public PassAttachmentDescriptor DepthStencilAttachment;
 
         [FieldOffset(4)]
-        private fixed int _color_attachments[12 * sokol_gfx.SG_MAX_COLOR_ATTACHMENTS / 4];
+        private fixed int _color_attachments[12 * Constants.MaximumColorAttachments / 4];
 
         // TODO: Trace hooks
         [FieldOffset(64)]

@@ -12,11 +12,11 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="GraphicsBackendDescriptor" /> is blittable to the C `sg_context_desc` struct found in `sokol_gfx`.
+    ///         <see cref="GraphicsContextDescriptor" /> is blittable to the C `sg_context_desc` struct found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 8)]
-    public struct GraphicsBackendDescriptor
+    public struct GraphicsContextDescriptor
     {
         /// <summary>
         ///     The color <see cref="PixelFormat" /> of the frame buffer.
@@ -50,24 +50,24 @@ namespace Sokol.Graphics
         ///     <see cref="GraphicsBackend.OpenGLES2" />, or <see cref="GraphicsBackend.OpenGLES3" /> back-end.
         /// </summary>
         [FieldOffset(12)]
-        public GraphicsBackendDescriptorOpenGL OpenGL;
+        public GraphicsContextDescriptorOpenGL GL;
 
         /// <summary>
         ///     The parameters used for initializing a <see cref="GraphicsBackend.Metal" /> back-end.
         /// </summary>
         [FieldOffset(16)]
-        public GraphicsBackendDescriptorMetal Metal;
+        public GraphicsContextDescriptorMetal Metal;
 
         /// <summary>
         ///     The parameters used for initializing a <see cref="GraphicsBackend.Direct3D11" /> back-end.
         /// </summary>
         [FieldOffset(40)]
-        public GraphicsBackendDescriptorDirect3D11 Direct3D11;
+        public GraphicsContextDescriptorDirect3D11 Direct3D11;
 
         /// <summary>
         ///     The parameters used for initializing a <see cref="GraphicsBackend.WebGPU" /> back-end.
         /// </summary>
         [FieldOffset(72)]
-        public sokol_gfx.sg_wgpu_context_desc WebGPU;
+        public GraphicsContextDescriptorWebGPU WebGPU;
     }
 }

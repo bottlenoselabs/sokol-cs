@@ -55,7 +55,7 @@ namespace Sokol.Graphics
         public int PassPoolSize;
 
         /// <summary>
-        ///     The maximum number of available <see cref="Context" /> instances for the life-time of a `sokol_gfx`
+        ///     The maximum number of available <see cref="Graphics.Context" /> instances for the life-time of a `sokol_gfx`
         ///     application. Default is 16.
         /// </summary>
         [FieldOffset(24)]
@@ -90,7 +90,7 @@ namespace Sokol.Graphics
         ///     The parameters for initializing a 3D graphics API back-end.
         /// </summary>
         [FieldOffset(40)]
-        public GraphicsBackendDescriptor Backend;
+        public GraphicsContextDescriptor Context;
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.

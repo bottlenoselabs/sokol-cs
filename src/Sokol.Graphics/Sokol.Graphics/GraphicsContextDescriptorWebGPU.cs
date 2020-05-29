@@ -13,12 +13,12 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="GraphicsBackendDescriptorWebGPU" /> is blittable to the C `sg_wgpu_context_desc` struct found
+    ///         <see cref="GraphicsContextDescriptorWebGPU" /> is blittable to the C `sg_wgpu_context_desc` struct found
     ///         in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
-    public struct GraphicsBackendDescriptorWebGPU
+    public struct GraphicsContextDescriptorWebGPU
     {
         /// <summary>
         /// TODO.

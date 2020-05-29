@@ -26,20 +26,18 @@
       <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="Sokol.Graphics.csproj.DotSettings" />
-    </ItemGroup>
-
     <PropertyGroup>
         <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
-        <Content Include="..\StyleCop.ruleset">
-            <Link>StyleCop.ruleset</Link>
-        </Content>
         <AdditionalFiles Include="..\StyleCop.json">
             <Link>StyleCop.json</Link>
+            <Visible>false</Visible>
         </AdditionalFiles>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Sokol.Graphics.csproj.DotSettings" />
     </ItemGroup>
     
     <ItemGroup>
@@ -66,6 +64,21 @@
       </Compile>
       <Compile Update="Sokol.Graphics\PixelFormats\Rgba8U.Colors.cs">
         <DependentUpon>Rgba8U.cs</DependentUpon>
+      </Compile>
+      <Compile Include="..\sokol_gfx\BlittableBoolean.cs">
+        <Link>BlittableBoolean.cs</Link>
+      </Compile>
+      <Compile Include="..\sokol_gfx\GraphicsHelper.cs">
+        <Link>GraphicsHelper.cs</Link>
+      </Compile>
+      <Compile Include="..\sokol_gfx\GraphicsBackend.cs">
+        <Link>GraphicsBackend.cs</Link>
+      </Compile>
+      <Compile Include="..\sokol_gfx\GraphicsPlatform.cs">
+        <Link>GraphicsPlatform.cs</Link>
+      </Compile>
+      <Compile Include="..\sokol_gfx\NativeLibrary.cs">
+        <Link>NativeLibrary.cs</Link>
       </Compile>
     </ItemGroup>
 

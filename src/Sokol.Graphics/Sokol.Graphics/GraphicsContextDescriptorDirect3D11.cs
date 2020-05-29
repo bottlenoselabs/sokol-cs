@@ -13,12 +13,12 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="GraphicsBackendDescriptorDirect3D11" /> is blittable to the C `sg_d3d11_context_desc` struct
+    ///         <see cref="GraphicsContextDescriptorDirect3D11" /> is blittable to the C `sg_d3d11_context_desc` struct
     ///         found in `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
-    public struct GraphicsBackendDescriptorDirect3D11
+    public struct GraphicsContextDescriptorDirect3D11
     {
         /// <summary>
         ///     The pointer to a D3D11 device. For more information see

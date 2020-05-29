@@ -34,7 +34,7 @@ namespace Sokol.Graphics
         public ShaderStageDescriptor FragmentStage;
 
         [FieldOffset(8)]
-        private fixed ulong _attributes[24 * sokol_gfx.SG_MAX_VERTEX_ATTRIBUTES / 8];
+        private fixed ulong _attributes[24 * Constants.MaximumVertexAttributes / 8];
 
         // TODO: Trace hooks.
         [FieldOffset(2952)]

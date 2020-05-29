@@ -21,7 +21,7 @@ namespace Sokol.Graphics
     public unsafe struct ImageContent
     {
         [FieldOffset(0)]
-        private fixed ulong _subImage[16 * (int)sokol_gfx.sg_cube_face.SG_CUBEFACE_NUM * sokol_gfx.SG_MAX_MIPMAPS / 8];
+        private fixed ulong _subImage[16 * 6 * 16 / 8];
 
         /// <summary>
         ///     Gets the <see cref="ImageSubContent" /> by reference given the specified cube-face index and mipmap
@@ -35,7 +35,7 @@ namespace Sokol.Graphics
             fixed (ImageContent* imageContent = &this)
             {
                 var ptr = (ImageSubContent*)&imageContent->_subImage[0];
-                var pointerOffset = ((int)cubeFaceIndex * (int)sokol_gfx.sg_cube_face.SG_CUBEFACE_NUM) + mipMapIndex;
+                var pointerOffset = ((int)cubeFaceIndex * 6) + mipMapIndex;
                 return ref *(ptr + pointerOffset);
             }
         }

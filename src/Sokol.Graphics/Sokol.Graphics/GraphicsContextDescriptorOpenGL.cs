@@ -14,12 +14,12 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="GraphicsBackendDescriptorOpenGL" /> is blittable to the C `sg_gl_context_desc` struct found in
+    ///         <see cref="GraphicsContextDescriptorOpenGL" /> is blittable to the C `sg_gl_context_desc` struct found in
     ///         `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
-    public struct GraphicsBackendDescriptorOpenGL
+    public struct GraphicsContextDescriptorOpenGL
     {
         /// <summary>
         ///     A <see cref="bool" /> value indicating whether the <see cref="GraphicsBackend.OpenGLES3" /> back-end

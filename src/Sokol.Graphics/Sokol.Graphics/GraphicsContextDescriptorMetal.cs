@@ -13,12 +13,12 @@ namespace Sokol.Graphics
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="GraphicsBackendDescriptorMetal" /> is blittable to the C `sg_mtl_context_desc` struct found in
+    ///         <see cref="GraphicsContextDescriptorMetal" /> is blittable to the C `sg_mtl_context_desc` struct found in
     ///         `sokol_gfx`.
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct GraphicsBackendDescriptorMetal
+    public struct GraphicsContextDescriptorMetal
     {
         /// <summary>
         ///     The pointer to a Metal device. For more information see
@@ -26,7 +26,7 @@ namespace Sokol.Graphics
         ///     developer documentation.
         /// </summary>
         [FieldOffset(0)]
-        public IntPtr MTLDevice;
+        public IntPtr Device;
 
         /// <summary>
         ///     The pointer to a C style callback function to obtain a Metal render pass descriptor for the current
@@ -35,7 +35,7 @@ namespace Sokol.Graphics
         ///     on Apple's developer documentation.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr MTLRenderPassDescriptorCallback;
+        public IntPtr RenderPassDescriptorCallback;
 
         /// <summary>
         ///     The pointer to a C style callback function to obtain a Metal drawable for the current
@@ -44,6 +44,6 @@ namespace Sokol.Graphics
         ///     on Apple's developer documentation.
         /// </summary>
         [FieldOffset(16)]
-        public IntPtr MTLDrawableCallback;
+        public IntPtr DrawableCallback;
     }
 }

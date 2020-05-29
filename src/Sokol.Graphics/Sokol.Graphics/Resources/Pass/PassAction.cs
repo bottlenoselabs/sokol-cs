@@ -1,6 +1,7 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace Sokol.Graphics
@@ -14,6 +15,8 @@ namespace Sokol.Graphics
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 4)]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
     public unsafe struct PassAction
     {
         /// <summary>
@@ -42,7 +45,7 @@ namespace Sokol.Graphics
             get
             {
                 var passAction = default(PassAction);
-                for (var i = 0; i < sokol_gfx.SG_MAX_COLOR_ATTACHMENTS; i++)
+                for (var i = 0; i < Constants.MaximumColorAttachments; i++)
                 {
                     passAction.Color(i).Action = PassAttachmentAction.DontCare;
                 }
@@ -68,7 +71,7 @@ namespace Sokol.Graphics
         public PassStencilAttachmentAction Stencil;
 
         [FieldOffset(4)]
-        private fixed int _colors[20 * sokol_gfx.SG_MAX_COLOR_ATTACHMENTS / 4];
+        private fixed int _colors[20 * Constants.MaximumColorAttachments / 4];
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
