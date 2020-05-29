@@ -6,6 +6,7 @@
         <LangVersion>8</LangVersion>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <RootNamespace>Sokol.Graphics.Tests</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -28,7 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
+        <ProjectReference Include="..\sokol_gfx\sokol_gfx.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -56,14 +57,6 @@
         <AdditionalFiles Include="..\StyleCop.json">
             <Link>StyleCop.json</Link>
         </AdditionalFiles>
-    </ItemGroup>
-    <ItemGroup>
-      <Compile Update="PInvokeTests.Data.cs">
-        <DependentUpon>PInvokeTests.cs</DependentUpon>
-      </Compile>
-      <Compile Update="StructTests.Data.cs">
-        <DependentUpon>StructTests.cs</DependentUpon>
-      </Compile>
     </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Runtime.InteropServices;
 using Xunit;
 using static sokol_gfx;
@@ -13,6 +14,27 @@ namespace Sokol.Graphics.Tests
     [SuppressMessage("ReSharper", "SA1600", Justification = "Tests")]
     public sealed unsafe partial class PInvokeTests
     {
+        public PInvokeTests()
+        {
+            var libsPath = Path.Combine(AppContext.BaseDirectory, "runtimes");
+            var filePath = string.Empty;
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                filePath = Path.Combine(libsPath, "win-x64", "native", "sokol_gfx.dll");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                filePath = Path.Combine(libsPath, "osx-x64", "native", $"libsokol_gfx.dylib");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                filePath = Path.Combine(libsPath, "linux-x64", "native", $"libsokol_gfx.so");
+            }
+
+            LoadApi(filePath);
+        }
+
         [Fact]
         public void AllocFailDestroyBuffers()
         {
@@ -292,7 +314,7 @@ namespace Sokol.Graphics.Tests
             sg_setup(&setupDesc);
 
             var backend = sg_query_backend();
-            Assert.True(backend == sg_backend.SG_BACKEND_DUMMY);
+            Assert.True(backend == sokol_gfx.sg_backend.SG_BACKEND_DUMMY);
 
             sg_shutdown();
         }
