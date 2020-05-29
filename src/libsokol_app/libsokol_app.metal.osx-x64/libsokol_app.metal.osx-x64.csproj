@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace />
+        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
+        <Description>Sokol.NET; this specific package includes the `sokol_app` Metal native shared libraries for macOS.</Description>
+        <Authors>Lucas Girouard-Stranks</Authors>
+        <RootNamespace />
+        <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
+        <License>MIT</License>
+        <PackageProjectUrl>https://github.com/lithiumtoast/sokol.net</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lithiumtoast/sokol.net</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
+        <IsPackable>true</IsPackable>
+        <IncludeSymbols>false</IncludeSymbols>
+        <RuntimeIdentifiers>osx-x64</RuntimeIdentifiers>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+    </PropertyGroup>
+    
+    <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
+        <Content Include="..\..\..\lib\libsokol_app\osx-x64\metal\debug\libsokol_app.dylib">
+            <Link>runtimes/osx-x64/native/libsokol_app-metal.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/osx-x64/native/libsokol_app-metal.dylib</PackagePath>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release' ">
+        <Content Include="..\..\..\lib\libsokol_app\osx-x64\metal\release\libsokol_app.dylib">
+            <Link>runtimes/osx-x64/native/libsokol_app-metal.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/osx-x64/native/libsokol_app-metal.dylib</PackagePath>
+        </Content>
+    </ItemGroup>
+
+</Project>
