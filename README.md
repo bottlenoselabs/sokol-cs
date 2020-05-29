@@ -9,56 +9,26 @@
 
 ## Background
 
-A .NET wrapper for https://github.com/floooh/sokol, primarily `sokol_gfx`; a simple and modern wrapper around GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 and Metal.
+A .NET wrapper for https://github.com/floooh/sokol. Includes the C style API precisely as it is and a .NET style API for convenience.
 
-Includes the C style API precisely as it is and a .NET style API for convenience.
+Name|Description
+:---:|:---:
+[`sokol_gfx`](https://github.com/floooh/sokol#sokol_gfxh)|A simple and modern wrapper around GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 and Metal.
+[`sokol_app`](https://github.com/floooh/sokol#sokol_apph)|A minimal cross-platform application-wrapper library.
 
 To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written Andre Weissflog, the owner of `sokol`. 
 
-## C API
+## C APIs
 
-The [P/Invoke](https://docs.microsoft.com/en-us/dotnet/framework/interop/consuming-unmanaged-dll-functions) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained.
+The C APIs [P/Invoke](https://docs.microsoft.com/en-us/dotnet/framework/interop/consuming-unmanaged-dll-functions) bindings are a pure port of the C headers; they exactly match what is in C, and the naming conventions used in C are maintained.
 
-The structs in C# are blittable, meaning they have the [same memory layout as the C structs](https://docs.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types). This allows the structs to be passed by value (copy of data) or reference (akin to copy of pointer) from the managed world of .NET to the unmanaged world of C [as is](https://docs.microsoft.com/en-us/dotnet/framework/interop/copying-and-pinning#formatted-blittable-classes).
+To learn more about the C APIs, including how to get started, examples, and documentation, see the [README-C-CPI.md](README-C-API.md).
 
-In .NET, the `unsafe` keyword will most often be necessary for using the C structs and calling the C functions. Also, for practicality, it's recommended to import the module with all the bindings, structs, and enums like so:
-
-```cs
-using static sokol_gfx;
-```
-
-To learn how to use the C API, check out the [official C samples](https://github.com/floooh/sokol-samples). You can also find the same examples that run in [your browser](https://floooh.github.io/sokol-html5/index.html). The comments in the [`sokol_gfx.h`](https://github.com/floooh/sokol/blob/master/sokol_gfx.h) file are also a good reference.
-
-## .NET API
+## .NET APIs
 
 The .NET style API is a modification of the C bindings (from the side of .NET) to be more idiomatic and overall easier to use. The `unsafe` keyword is not required.
 
-The .NET API currently targets [.NET Core 3.1 (LTS)](https://devblogs.microsoft.com/dotnet/announcing-net-core-3-1/). Included with .NET Core is the `System.Numerics` namespace which `Sokol.NET` makes use of `Vector2`, `Vector3` and `Matrix4x4`. `Span<T>`, `Memory<T>`, and friends are also used which live in the `System.Memory` namespace which is also part of .NET Core. These and other .NET Core libraries results in the `Sokol.NET` code remaining small, highly performant, and easy to use without re-inventing the wheel. Using .NET Core also allows for easy support for desktop platforms and soon mobile, browser, and console platforms. More about platforms in the next section.
-
-All the types are [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is to get as close as possible to zero allocations on the managed heap during the long running state of the application's loop. [This is often desirable in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other demanding, high performance, applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code).
-
-### Samples
-
-To learn how to use the .NET API, check out the following samples, which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
-
-Name|Description|GIF/Screenshot
-:---:|:---:|:---:
-[Clear](src/Samples/Samples.Clear/Samples.Clear/ClearApplication.cs)|[Clears the frame buffer with a specific color.](src/Samples/Samples.Clear/Samples.Clear/ClearApplication.cs)|<img src="screenshots/clear.gif" width="350">
-[Triangle](src/Samples/Samples.Triangle/Samples.Triangle/TriangleApplication.cs)|[Draw a triangle in clip space using a vertex buffer and a index buffer.](src/Samples/Samples.Triangle/Samples.Triangle/TriangleApplication.cs)|<img src="screenshots/triangle.png" width="350">
-[Quad](src/Samples/Samples.Quad/Samples.Quad/QuadApplication.cs)|[Draw a quad in clip space using a vertex buffer and a index buffer.](src/Samples/Samples.Quad/Samples.Quad/QuadApplication.cs)|<img src="screenshots/quad.png" width="350">
-[BufferOffsets](src/Samples/Samples.Cube/Samples.BufferOffsets/BufferOffsetsApplication.cs)|[Draw a triangle and a quad in clip space using the same vertex buffer and and index buffer.](src/Samples/Samples.BufferOffsets/Samples.BufferOffsets/BufferOffsetsApplication.cs)|<img src="screenshots/buffer-offsets.png" width="350">
-[Cube](src/Samples/Samples.Cube/Samples.Cube/CubeApplication.cs)|[Draw a cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.Cube/Samples.Cube/CubeApplication.cs)|<img src="screenshots/cube.gif" width="350">
-[NonInterleaved](src/Samples/Samples.NonInterleaved/Samples.NonInterleaved/NonInterleavedApplication.cs)|[Draw a cube using a vertex buffer with non-interleaved vertices, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.NonInterleaved/Samples.NonInterleaved/NonInterleavedApplication.cs)|<img src="screenshots/non-interleaved.gif" width="350">
-[TexCube](src/Samples/Samples.TexCube/Samples.TexCube/TextureCubeApplication.cs)|[Draw a textured cube using a vertex buffer, a index buffer, and a Model, View, Projection matrix (MVP).](src/Samples/Samples.TexCube/Samples.TexCube/TextureCubeApplication.cs)|<img src="screenshots/tex-cube.gif" width="350">
-[Offscreen](src/Samples/Samples.Offscreen/Samples.Offscreen/OffscreenApplication.cs)|[Draw a non-textured cube off screen to a render target and use the result as as the texture when drawing a cube to the framebuffer.](src/Samples/Samples.Offscreen/Samples.Offscreen/OffscreenApplication.cs)|<img src="screenshots/off-screen.gif" width="350">
-[Instancing](src/Samples/Samples.Instancing/Samples.Instancing/InstancingApplication.cs)|[Draw multiple particles using one immutable vertex, one immutable index buffer, and one vertex buffer with streamed instance data.](src/Samples/Samples.Instancing/Samples.Instancing/InstancingApplication.cs)|<img src="screenshots/instancing.gif" width="350">
-[MultipleRenderTargets](src/Samples/Samples.MultipleRenderTargets/Samples.MultipleRenderTargets/MultipleRenderTargetsApplication.cs)|[Draw a cube to multiple render targets and then blend the results.](src/Samples/Samples.MultipleRenderTargets/Samples.MultipleRenderTargets/MultipleRenderTargetsApplication.cs)|<img src="screenshots/mrt.gif" width="350">
-[ArrayTexture](src/Samples/Samples.ArrayTex/Samples.ArrayTex/ArrayTexApplication.cs)|[Draw a cube with multiple 2D textures using one continous block of texture data (texture array).](src/Samples/Samples.ArrayTex/Samples.ArrayTex/ArrayTexApplication.cs)|<img src="screenshots/array-tex.gif" width="350">
-[DynamicTexture](src/Samples/Samples.DynTex/Samples.DynTex/DynTexApplication.cs)|[Draw a cube with streamed 2D texture data. The data is updated to with the rules of Conway's Game of Life.](src/Samples/Samples.DynTex/Samples.DynTex/DynTexApplication.cs)|<img src="screenshots/dyn-tex.gif" width="350">
-
-### ShaderToy
-
-There are also some [3rd party ShaderToy samples](src/ShaderToy/3rdParty) using `Sokol.NET`.
+To learn more about the .NET APIs, including how to get started, examples, and documentation, see the [README-DOTNET-CPI.md](README-DOTNET-API.md).
 
 ## Supported Platforms & 3D APIs
 
@@ -92,24 +62,26 @@ The following is the list of NuGet packages available by the [GitHub projects](h
 
 To get the NuGet packages, add the following feed: `https://www.myget.org/F/lithiumtoast/api/v3/index.json`
 
-### [Graphics](https://github.com/lithiumtoast/Sokol.NET/projects/2)
+### [Sokol.Graphics](https://github.com/lithiumtoast/Sokol.NET/projects/2)
 
+- [`sokol_gfx`](https://www.myget.org/feed/lithiumtoast/package/nuget/sokol_gfx)
 - [`Sokol.Graphics`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics)
-- [`Sokol.Graphics.OpenGL`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.OpenGL)
-- [`libsokol_gfx.opengl`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_gfx.opengl)
-- [`Sokol.Graphics.Metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.Graphics.Metal)
-- [`libsokol_gfx.metal`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_gfx.metal)
+- [`libsokol_gfx`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_gfx)
 
-### [SDL2](https://github.com/lithiumtoast/Sokol.NET/projects/3)
+### [Sokol.App](https://github.com/lithiumtoast/Sokol.NET/projects/1)
 
+- [`sokol_app`](https://www.myget.org/feed/lithiumtoast/package/nuget/sokol_app)
+- [`Sokol.App`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.App)
+- [`libsokol_app`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_app)
+
+### [Sokol.SDL2](https://github.com/lithiumtoast/Sokol.NET/projects/3)
+
+- [`sokol_sdl2`](https://www.myget.org/feed/lithiumtoast/package/nuget/sokol_sdl2)
 - [`Sokol.SDL2`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2)
+- [`libsokol_sdl2`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_sdl2)
 - [`libsdl2`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsdl2)
 
-### [App](https://github.com/lithiumtoast/Sokol.NET/projects/1)
-
-- [`Sokol.App`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.App)
-
-### [ImGui](https://github.com/lithiumtoast/Sokol.NET/projects/4)
+### [Sokol.ImGui](https://github.com/lithiumtoast/Sokol.NET/projects/4)
 
 - [`Sokol.ImGui`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.ImGui)
 
@@ -121,7 +93,7 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 
 `Sokol.NET` uses [`GitVersion`](https://github.com/GitTools/GitVersion) to determine the exact semantic version for each build in Continuous Integration (CI) and Continuous Deployment (CD). 
 
-How `GitVersion` is configured for `Sokol.NET`, the version is automatically bumped by `+0.0.1` after each pull-request. Also, tags are considered releases; when a new tag is created, the version is automatically bumped by `+0.1.0` to the specified version on the tag.
+How `GitVersion` is configured for `Sokol.NET`, the version is automatically bumped by `+0.0.1` after each pull-request. Also, tags are considered releases; when a new tag is created, the version is automatically bumped automatically to the specified tag version.
 
 For a complete list of the release versions, see the [tags on this repository](https://github.com/lithiumtoast/Sokol.NET/tags).
 
