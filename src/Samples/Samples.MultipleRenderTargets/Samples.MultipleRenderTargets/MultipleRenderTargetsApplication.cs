@@ -13,29 +13,26 @@ namespace Samples.MultipleRenderTargets
 {
     internal sealed class MultipleRenderTargetsApplication : App
     {
-        private readonly Image[] _offScreenRenderTargets;
-        private readonly Buffer _cubeIndexBuffer;
-        private readonly Buffer _cubeVertexBuffer;
-        private readonly Buffer _quadVertexBuffer;
-        private readonly Pipeline _debugPipeline;
-        private readonly Shader _debugShader;
-        private readonly Pipeline _fullScreenPipeline;
-        private readonly Shader _fullScreenShader;
-        private readonly Pass _offScreenPass;
-        private readonly Pipeline _offScreenPipeline;
-        private readonly Shader _offScreenShader;
+        private Image[] _offScreenRenderTargets;
+        private Buffer _cubeIndexBuffer;
+        private Buffer _cubeVertexBuffer;
+        private Buffer _quadVertexBuffer;
+        private Pipeline _debugPipeline;
+        private Shader _debugShader;
+        private Pipeline _fullScreenPipeline;
+        private Shader _fullScreenShader;
+        private Pass _offScreenPass;
+        private Pipeline _offScreenPipeline;
+        private Shader _offScreenShader;
 
-        private bool _paused;
         private Vector2 _offset;
         private float _rotationX;
         private float _rotationY;
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public MultipleRenderTargetsApplication()
+        protected override void Initialize()
         {
-            DrawableSizeChanged += OnDrawableSizeChanged;
-
             _cubeVertexBuffer = CreateCubeVertexBuffer();
             _cubeIndexBuffer = CreateCubeIndexBuffer();
             _quadVertexBuffer = CreateQuadVertexBuffer();
@@ -56,38 +53,14 @@ namespace Samples.MultipleRenderTargets
             GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
-            {
-                _paused = !_paused;
-            }
+            Update();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
-        {
-            if (_paused)
-            {
-                return;
-            }
-
-            var deltaSeconds = time.ElapsedSeconds;
-
-            // rotate cube and create vertex shader mvp matrix
-            _rotationX += 1.0f * deltaSeconds;
-            _rotationY += 2.0f * deltaSeconds;
-            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
-            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
-            var modelMatrix = rotationMatrixX * rotationMatrixY;
-            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
-
-            // update offset used in shader
-            ref var offset = ref _offset;
-            offset.X = (float)(0.1 * Math.Sin(_rotationX));
-            offset.Y = (float)(0.1 * Math.Sin(_rotationY));
-        }
-
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
             // render cube into offscreen render targets
             var offScreenPassAction = default(PassAction);
@@ -140,10 +113,34 @@ namespace Samples.MultipleRenderTargets
             pass.End();
         }
 
+        private void Update()
+        {
+            CreateViewProjectionMatrix(Width, Height);
+            RotateCube();
+        }
+
+        private void RotateCube()
+        {
+            const float deltaSeconds = 1 / 60f;
+
+            // rotate cube and create vertex shader mvp matrix
+            _rotationX += 1.0f * deltaSeconds;
+            _rotationY += 2.0f * deltaSeconds;
+            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
+            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
+            var modelMatrix = rotationMatrixX * rotationMatrixY;
+            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
+
+            // update offset used in shader
+            ref var offset = ref _offset;
+            offset.X = (float)(0.1 * Math.Sin(_rotationX));
+            offset.Y = (float)(0.1 * Math.Sin(_rotationY));
+        }
+
         private Pass CreateOffScreenRenderPass()
         {
             var passDesc = default(PassDescriptor);
-            passDesc.ColorAttachment(0).Image = _offScreenRenderTargets[0];
+            passDesc.ColorAttachment().Image = _offScreenRenderTargets[0];
             passDesc.ColorAttachment(1).Image = _offScreenRenderTargets[1];
             passDesc.ColorAttachment(2).Image = _offScreenRenderTargets[2];
             passDesc.DepthStencilAttachment.Image = _offScreenRenderTargets[3];
@@ -167,6 +164,8 @@ namespace Samples.MultipleRenderTargets
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.FragmentStage.Image().Name = "tex";
             shaderDesc.FragmentStage.Image().ImageType = ImageType.Texture2D;
+
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
             switch (Backend)
             {
                 // specify shader stage source code for each graphics backend
@@ -178,13 +177,6 @@ namespace Samples.MultipleRenderTargets
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/debugVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/debugFrag.metal");
                     break;
-                case GraphicsBackend.OpenGLES2:
-                case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
-                case GraphicsBackend.Dummy:
-                    throw new NotImplementedException();
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
             // create the fullscreen shader resource from the description
@@ -195,7 +187,7 @@ namespace Samples.MultipleRenderTargets
         {
             // describe the off screen render pipeline
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float2;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float2;
             pipelineDesc.Shader = _fullScreenShader;
             pipelineDesc.PrimitiveType = PipelineVertexPrimitiveType.TriangleStrip;
 
@@ -219,6 +211,7 @@ namespace Samples.MultipleRenderTargets
             shaderDesc.FragmentStage.Image(2).Name = "tex2";
             shaderDesc.FragmentStage.Image(2).ImageType = ImageType.Texture2D;
 
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
             switch (Backend)
             {
                 // specify shader stage source code for each graphics backend
@@ -230,13 +223,6 @@ namespace Samples.MultipleRenderTargets
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/fullScreenVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/fullScreenFrag.metal");
                     break;
-                case GraphicsBackend.OpenGLES2:
-                case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
-                case GraphicsBackend.Dummy:
-                    throw new NotImplementedException();
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
             // create the fullscreen shader resource from the description
@@ -297,7 +283,7 @@ namespace Samples.MultipleRenderTargets
         {
             // describe the off screen render pipeline
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float;
             pipelineDesc.Shader = _offScreenShader;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
@@ -321,6 +307,7 @@ namespace Samples.MultipleRenderTargets
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
 
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
             switch (Backend)
             {
                 // specify shader stage source code for each graphics backend
@@ -332,13 +319,6 @@ namespace Samples.MultipleRenderTargets
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offScreenVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offScreenFrag.metal");
                     break;
-                case GraphicsBackend.OpenGLES2:
-                case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
-                case GraphicsBackend.Dummy:
-                    throw new NotImplementedException();
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
             // create the off screen shader resource from the description
@@ -455,7 +435,7 @@ namespace Samples.MultipleRenderTargets
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private void OnDrawableSizeChanged(App app, int width, int height)
+        private void CreateViewProjectionMatrix(int width, int height)
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(

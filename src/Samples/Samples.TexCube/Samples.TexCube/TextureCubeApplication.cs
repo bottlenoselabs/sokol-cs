@@ -13,22 +13,19 @@ namespace Samples.TexCube
 {
     internal sealed class TextureCubeApplication : App
     {
-        private readonly Buffer _vertexBuffer;
-        private readonly Buffer _indexBuffer;
-        private readonly Image _texture;
-        private readonly Shader _shader;
-        private readonly Pipeline _pipeline;
+        private Buffer _vertexBuffer;
+        private Buffer _indexBuffer;
+        private Image _texture;
+        private Shader _shader;
+        private Pipeline _pipeline;
 
-        private bool _paused;
         private float _rotationX;
         private float _rotationY;
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public TextureCubeApplication()
+        protected override void Initialize()
         {
-            DrawableSizeChanged += OnDrawableSizeChanged;
-
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _texture = CreateTexture();
@@ -40,33 +37,14 @@ namespace Samples.TexCube
             GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
-            {
-                _paused = !_paused;
-            }
+            Update();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
-        {
-            if (_paused)
-            {
-                return;
-            }
-
-            var deltaSeconds = time.ElapsedSeconds;
-
-            // rotate cube and create vertex shader mvp matrix
-            _rotationX += 1.0f * deltaSeconds;
-            _rotationY += 2.0f * deltaSeconds;
-            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
-            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
-            var modelMatrix = rotationMatrixX * rotationMatrixY;
-            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
-        }
-
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
             // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Gray);
@@ -91,7 +69,24 @@ namespace Samples.TexCube
             pass.End();
         }
 
-        private void OnDrawableSizeChanged(App app, int width, int height)
+        private void Update()
+        {
+            CreateViewProjectionMatrix(Width, Height);
+            RotateCube();
+        }
+
+        private void RotateCube()
+        {
+            const float deltaSeconds = 1 / 60f;
+            _rotationX += 1.0f * deltaSeconds;
+            _rotationY += 2.0f * deltaSeconds;
+            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
+            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
+            var modelMatrix = rotationMatrixX * rotationMatrixY;
+            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
+        }
+
+        private void CreateViewProjectionMatrix(int width, int height)
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
@@ -109,7 +104,7 @@ namespace Samples.TexCube
         private Pipeline CreatePipeline()
         {
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
             pipelineDesc.Layout.Attribute(2).Format = PipelineVertexAttributeFormat.Float2;
             pipelineDesc.Shader = _shader;
@@ -126,13 +121,14 @@ namespace Samples.TexCube
             // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
+            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform();
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
             ref var shaderImage = ref shaderDesc.FragmentStage.Image();
             shaderImage.Name = "tex";
             shaderImage.ImageType = ImageType.Texture2D;
 
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
             switch (Backend)
             {
                 case GraphicsBackend.OpenGL:
@@ -143,13 +139,6 @@ namespace Samples.TexCube
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
-                case GraphicsBackend.OpenGLES2:
-                case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
-                case GraphicsBackend.Dummy:
-                    throw new NotImplementedException();
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
             // create the shader resource from the description

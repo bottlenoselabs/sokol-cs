@@ -13,21 +13,18 @@ namespace Samples.Cube
 {
     internal sealed class CubeApplication : App
     {
-        private readonly Shader _shader;
-        private readonly Buffer _vertexBuffer;
-        private readonly Buffer _indexBuffer;
-        private readonly Pipeline _pipeline;
+        private Shader _shader;
+        private Buffer _vertexBuffer;
+        private Buffer _indexBuffer;
+        private Pipeline _pipeline;
 
-        private bool _paused;
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
         private float _rotationX;
         private float _rotationY;
 
-        public CubeApplication()
+        protected override void Initialize()
         {
-            DrawableSizeChanged += OnDrawableSizeChanged;
-
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _shader = CreateShader();
@@ -38,33 +35,14 @@ namespace Samples.Cube
             GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
-            {
-                _paused = !_paused;
-            }
+            Update();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
-        {
-            if (_paused)
-            {
-                return;
-            }
-
-            var deltaSeconds = time.ElapsedSeconds;
-
-            // rotate cube and create vertex shader mvp matrix
-            _rotationX += 1.0f * deltaSeconds;
-            _rotationY += 2.0f * deltaSeconds;
-            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
-            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
-            var modelMatrix = rotationMatrixX * rotationMatrixY;
-            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
-        }
-
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
             // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Gray);
@@ -87,9 +65,25 @@ namespace Samples.Cube
             pass.End();
         }
 
-        private void OnDrawableSizeChanged(App app, int width, int height)
+        private void Update()
         {
-            // create camera projection and view matrix
+            CreateViewProjectionMatrix(Width, Height);
+            RotateCube();
+        }
+
+        private void RotateCube()
+        {
+            const float deltaSeconds = 1 / 60f;
+            _rotationX += 1.0f * deltaSeconds;
+            _rotationY += 2.0f * deltaSeconds;
+            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
+            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
+            var modelMatrix = rotationMatrixX * rotationMatrixY;
+            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
+        }
+
+        private void CreateViewProjectionMatrix(int width, int height)
+        {
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
                 (float)width / height,
@@ -105,7 +99,7 @@ namespace Samples.Cube
         private Pipeline CreatePipeline()
         {
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
             pipelineDesc.Shader = _shader;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
@@ -120,10 +114,11 @@ namespace Samples.Cube
         {
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
+            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform();
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
 
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
             switch (Backend)
             {
                 case GraphicsBackend.OpenGL:
@@ -134,13 +129,6 @@ namespace Samples.Cube
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
-                case GraphicsBackend.OpenGLES2:
-                case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
-                case GraphicsBackend.Dummy:
-                    throw new NotImplementedException();
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
             return GraphicsDevice.CreateShader(ref shaderDesc);

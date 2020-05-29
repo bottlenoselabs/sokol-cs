@@ -13,14 +13,14 @@ namespace Samples.BufferOffsets
 {
     internal sealed class BufferOffsetsApplication : App
     {
-        private readonly Buffer _vertexBuffer;
-        private readonly Buffer _indexBuffer;
-        private readonly Shader _shader;
-        private readonly Pipeline _pipeline;
+        private Buffer _vertexBuffer;
+        private Buffer _indexBuffer;
+        private Shader _shader;
+        private Pipeline _pipeline;
 
         private ResourceBindings _resourceBindings;
 
-        public BufferOffsetsApplication()
+        protected override void Initialize()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
@@ -32,15 +32,7 @@ namespace Samples.BufferOffsets
             GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
-        {
-        }
-
-        protected override void Update(AppTime time)
-        {
-        }
-
-        protected override void Draw(AppTime time)
+        protected override void Frame()
         {
             // begin a frame buffer render pass
             Rgba32F clearColor = 0x8080FFFF;
@@ -71,6 +63,8 @@ namespace Samples.BufferOffsets
 
             // end the frame buffer render pass
             pass.End();
+
+            GraphicsDevice.Commit();
         }
 
         private Pipeline CreatePipeline()

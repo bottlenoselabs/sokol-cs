@@ -12,12 +12,12 @@ namespace Samples.Quad
 {
     internal sealed class QuadApplication : App
     {
-        private readonly Pipeline _pipeline;
-        private readonly Buffer _indexBuffer;
-        private readonly Buffer _vertexBuffer;
-        private readonly Shader _shader;
+        private Pipeline _pipeline;
+        private Buffer _indexBuffer;
+        private Buffer _vertexBuffer;
+        private Shader _shader;
 
-        public QuadApplication()
+        protected override void Initialize()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
@@ -29,15 +29,7 @@ namespace Samples.Quad
             GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
-        {
-        }
-
-        protected override void Update(AppTime time)
-        {
-        }
-
-        protected override void Draw(AppTime time)
+        protected override void Frame()
         {
             // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Black);
@@ -56,6 +48,8 @@ namespace Samples.Quad
 
             // end frame buffer render pass
             pass.End();
+
+            GraphicsDevice.Commit();
         }
 
         private Pipeline CreatePipeline()
@@ -90,6 +84,7 @@ namespace Samples.Quad
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
                 case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:
@@ -130,7 +125,7 @@ namespace Samples.Quad
             // ReSharper disable once RedundantCast
             var vertices = (Span<Vertex>)stackalloc Vertex[4];
 
-            // describe the vertices of the quad
+            // describe the vertices of the quad in clip space
             vertices[0].Position = new Vector3(-0.5f, 0.5f, 0.5f);
             vertices[0].Color = Rgba32F.Red;
             vertices[1].Position = new Vector3(0.5f, 0.5f, 0.5f);

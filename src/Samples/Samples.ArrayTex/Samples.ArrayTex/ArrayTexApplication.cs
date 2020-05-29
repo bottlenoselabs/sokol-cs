@@ -18,23 +18,20 @@ namespace Samples.ArrayTex
         private const int _textureWidth = 16;
         private const int _textureHeight = 16;
 
-        private readonly Buffer _vertexBuffer;
-        private readonly Buffer _indexBuffer;
-        private readonly Image _texture;
-        private readonly Shader _shader;
-        private readonly Pipeline _pipeline;
+        private Buffer _vertexBuffer;
+        private Buffer _indexBuffer;
+        private Image _texture;
+        private Shader _shader;
+        private Pipeline _pipeline;
 
-        private bool _paused;
         private float _rotationX;
         private float _rotationY;
         private Matrix4x4 _viewProjectionMatrix;
         private int _frameIndex;
         private VertexStageParams _vertexStageParams;
 
-        public ArrayTexApplication()
+        protected override void Initialize()
         {
-            DrawableSizeChanged += OnDrawableSizeChanged;
-
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _texture = CreateTexture();
@@ -46,42 +43,14 @@ namespace Samples.ArrayTex
             GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
-            {
-                _paused = !_paused;
-            }
+            Update();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
-        {
-            if (_paused)
-            {
-                return;
-            }
-
-            var deltaSeconds = time.ElapsedSeconds;
-
-            // rotate cube and create vertex shader mvp matrix
-            _rotationX += 0.25f * deltaSeconds;
-            _rotationY += 0.5f * deltaSeconds;
-            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
-            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
-            var modelMatrix = rotationMatrixX * rotationMatrixY;
-            _vertexStageParams.MVP = modelMatrix * _viewProjectionMatrix;
-
-            // calculate texture coordinate offsets (xy = uv, z = texture layer)
-            var offset = _frameIndex * 0.0001f;
-            _vertexStageParams.Offset0 = new Vector3(-offset, offset, 0);
-            _vertexStageParams.Offset1 = new Vector3(offset, -offset, 1);
-            _vertexStageParams.Offset2 = new Vector3(0, 0, 2);
-
-            // calculate color interpolation weight
-            _vertexStageParams.Weights = new Vector3(1f, 1f, 1f);
-        }
-
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
             // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Black);
@@ -108,9 +77,36 @@ namespace Samples.ArrayTex
             _frameIndex++;
         }
 
-        private void OnDrawableSizeChanged(App app, int width, int height)
+        private void Update()
         {
-            // create camera projection and view matrix
+            CreateViewProjectionMatrix(Width, Height);
+            RotateCube();
+            CalculateTextureCoordinates();
+        }
+
+        private void CalculateTextureCoordinates()
+        {
+            // xy = uv, z = texture layer
+            var offset = _frameIndex * 0.0001f;
+            _vertexStageParams.Offset0 = new Vector3(-offset, offset, 0);
+            _vertexStageParams.Offset1 = new Vector3(offset, -offset, 1);
+            _vertexStageParams.Offset2 = new Vector3(0, 0, 2);
+            _vertexStageParams.Weights = new Vector3(1f, 1f, 1f);
+        }
+
+        private void RotateCube()
+        {
+            const float deltaSeconds = 1 / 60f;
+            _rotationX += 0.25f * deltaSeconds;
+            _rotationY += 0.5f * deltaSeconds;
+            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
+            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
+            var modelMatrix = rotationMatrixX * rotationMatrixY;
+            _vertexStageParams.MVP = modelMatrix * _viewProjectionMatrix;
+        }
+
+        private void CreateViewProjectionMatrix(int width, int height)
+        {
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(35.0f * Math.PI / 180),
                 (float)width / height,
@@ -139,7 +135,6 @@ namespace Samples.ArrayTex
 
         private Shader CreateShader()
         {
-            // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
 
             ref var uniformBlock = ref shaderDesc.VertexStage.UniformBlock();
@@ -160,9 +155,9 @@ namespace Samples.ArrayTex
             image.Name = "tex";
             image.ImageType = ImageType.TextureArray;
 
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
@@ -171,16 +166,8 @@ namespace Samples.ArrayTex
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
-                case GraphicsBackend.OpenGLES2:
-                case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
-                case GraphicsBackend.Dummy:
-                    throw new NotImplementedException();
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
-            // create the shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
