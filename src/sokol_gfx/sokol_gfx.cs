@@ -1,8 +1,11 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using static NativeLibrary;
 
 // ReSharper disable MemberCanBeInternal
 // ReSharper disable CheckNamespace
@@ -30,24 +33,299 @@ using System.Runtime.InteropServices;
 [SuppressMessage("ReSharper", "SA1300", Justification = "C style code.")]
 [SuppressMessage("ReSharper", "SA1307", Justification = "C style code.")]
 [SuppressMessage("ReSharper", "SA1310", Justification = "C style code.")]
+[SuppressMessage("ReSharper", "SA1311", Justification = "C style code.")]
+[SuppressMessage("ReSharper", "SA1401", Justification = "Public API.")]
 [SuppressMessage("ReSharper", "SA1600", Justification = "C style code.")]
 [SuppressMessage("ReSharper", "SA1602", Justification = "C style code.")]
 [SuppressMessage("ReSharper", "CommentTypo", Justification = "C style code.")]
+[SuppressMessage("ReSharper", "NotAccessedField.Global", Justification = "Public API.")]
 public static unsafe class sokol_gfx
 {
-    public const int SG_INVALID_ID = 0;
-    public const int SG_NUM_SHADER_STAGES = 2;
-    public const int SG_NUM_INFLIGHT_FRAMES = 2;
-    public const int SG_MAX_COLOR_ATTACHMENTS = 4;
-    public const int SG_MAX_SHADERSTAGE_BUFFERS = 8;
-    public const int SG_MAX_SHADERSTAGE_IMAGES = 12;
-    public const int SG_MAX_SHADERSTAGE_UBS = 4;
-    public const int SG_MAX_UB_MEMBERS = 16;
-    public const int SG_MAX_VERTEX_ATTRIBUTES = 16;
-    public const int SG_MAX_MIPMAPS = 16;
-    public const int SG_MAX_TEXTUREARRAY_LAYERS = 128;
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_activate_context(sg_context ctx_id);
 
-    private const string LibraryName = "sokol_gfx";
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_buffer d_sg_alloc_buffer();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_image d_sg_alloc_image();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_pass d_sg_alloc_pass();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_pipeline d_sg_alloc_pipeline();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_shader d_sg_alloc_shader();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate int d_sg_append_buffer(sg_buffer buf, [In] void* data_ptr, int data_size);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_apply_bindings([In] sg_bindings* bindings);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_apply_pipeline(sg_pipeline pip);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_apply_scissor_rect(int x, int y, int width, int height, BlittableBoolean origin_top_left);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_apply_uniforms(sg_shader_stage stage, int ub_index, [In] void* data, int num_bytes);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_apply_viewport(int x, int y, int width, int height, BlittableBoolean origin_top_left);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_begin_default_pass([In] sg_pass_action* pass_action, int width, int height);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_begin_pass(sg_pass pass, [In] sg_pass_action* pass_action);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_commit();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_destroy_buffer(sg_buffer buf);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_destroy_image(sg_image img);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_destroy_pass(sg_pass pass);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_destroy_pipeline(sg_pipeline pip);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_destroy_shader(sg_shader shd);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_discard_context(sg_context ctx_id);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_draw(int base_element, int num_elements, int num_instances);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_end_pass();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_fail_buffer(sg_buffer buf_id);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_fail_image(sg_image img_id);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_fail_pass(sg_pass pass_id);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_fail_pipeline(sg_pipeline pip_id);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_fail_shader(sg_shader shd_id);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_init_buffer(sg_buffer buf_id, [In] sg_buffer_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_init_image(sg_image img_id, [In] sg_image_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_init_pass(sg_pass pass_id, [In] sg_pass_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_init_pipeline(sg_pipeline pip_id, [In] sg_pipeline_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_init_shader(sg_shader shd_id, [In] sg_shader_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_trace_hooks d_sg_install_trace_hooks([In] sg_trace_hooks* trace_hooks);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate BlittableBoolean d_sg_isvalid();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_buffer d_sg_make_buffer([In] sg_buffer_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_image d_sg_make_image([In] sg_image_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_pass d_sg_make_pass([In] sg_pass_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_pipeline d_sg_make_pipeline([In] sg_pipeline_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_shader d_sg_make_shader([In] sg_shader_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_pop_debug_group([In] byte* name);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_push_debug_group([In] byte* name);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_backend d_sg_query_backend();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_buffer_desc d_sg_query_buffer_defaults([In] sg_buffer_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_buffer_info d_sg_query_buffer_info(sg_buffer buf);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate BlittableBoolean d_sg_query_buffer_overflow(sg_buffer buf);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_resource_state d_sg_query_buffer_state(sg_buffer buf);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_desc d_sg_query_desc();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_features d_sg_query_features();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_image_desc d_sg_query_image_defaults([In] sg_image_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_image_info d_sg_query_image_info(sg_image img);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_resource_state d_sg_query_image_state(sg_image img);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_limits d_sg_query_limits();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_pass_desc d_sg_query_pass_defaults([In] sg_pass_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_pass_info d_sg_query_pass_info(sg_pass pass);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_resource_state d_sg_query_pass_state(sg_pass pass);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_pipeline_desc d_sg_query_pipeline_defaults([In] sg_pipeline_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_pipeline_info d_sg_query_pipeline_info(sg_pipeline pip);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_resource_state d_sg_query_pipeline_state(sg_pipeline pip);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_pixelformat_info d_sg_query_pixelformat(sg_pixel_format fmt);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_shader_desc d_sg_query_shader_defaults([In] sg_shader_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_shader_info d_sg_query_shader_info(sg_shader shd);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_resource_state d_sg_query_shader_state(sg_shader shd);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_reset_state_cache();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_setup([In] sg_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sg_context d_sg_setup_context();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_shutdown();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_update_buffer(sg_buffer buf, [In] void* data_ptr, int data_size);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sg_update_image(sg_image img, [In] sg_image_content* data);
+
+    public enum sg_action : uint
+    {
+        _SG_ACTION_DEFAULT = 0U,
+        SG_ACTION_CLEAR = 1U,
+        SG_ACTION_LOAD = 2U,
+        SG_ACTION_DONTCARE = 3U,
+        _SG_ACTION_NUM = 4U,
+        _SG_ACTION_FORCE_U32 = 2147483647U
+    }
 
     public enum sg_backend : uint
     {
@@ -60,6 +338,150 @@ public static unsafe class sokol_gfx
         SG_BACKEND_METAL_SIMULATOR = 6U,
         SG_BACKEND_WGPU = 7U,
         SG_BACKEND_DUMMY = 8U
+    }
+
+    public enum sg_blend_factor : uint
+    {
+        _SG_BLENDFACTOR_DEFAULT = 0U,
+        SG_BLENDFACTOR_ZERO = 1U,
+        SG_BLENDFACTOR_ONE = 2U,
+        SG_BLENDFACTOR_SRC_COLOR = 3U,
+        SG_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4U,
+        SG_BLENDFACTOR_SRC_ALPHA = 5U,
+        SG_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6U,
+        SG_BLENDFACTOR_DST_COLOR = 7U,
+        SG_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8U,
+        SG_BLENDFACTOR_DST_ALPHA = 9U,
+        SG_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10U,
+        SG_BLENDFACTOR_SRC_ALPHA_SATURATED = 11U,
+        SG_BLENDFACTOR_BLEND_COLOR = 12U,
+        SG_BLENDFACTOR_ONE_MINUS_BLEND_COLOR = 13U,
+        SG_BLENDFACTOR_BLEND_ALPHA = 14U,
+        SG_BLENDFACTOR_ONE_MINUS_BLEND_ALPHA = 15U,
+        _SG_BLENDFACTOR_NUM = 16U,
+        _SG_BLENDFACTOR_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_blend_op : uint
+    {
+        _SG_BLENDOP_DEFAULT = 0U,
+        SG_BLENDOP_ADD = 1U,
+        SG_BLENDOP_SUBTRACT = 2U,
+        SG_BLENDOP_REVERSE_SUBTRACT = 3U,
+        _SG_BLENDOP_NUM = 4U,
+        _SG_BLENDOP_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_border_color : uint
+    {
+        _SG_BORDERCOLOR_DEFAULT = 0U,
+        SG_BORDERCOLOR_TRANSPARENT_BLACK = 1U,
+        SG_BORDERCOLOR_OPAQUE_BLACK = 2U,
+        SG_BORDERCOLOR_OPAQUE_WHITE = 3U,
+        _SG_BORDERCOLOR_NUM = 4U,
+        _SG_BORDERCOLOR_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_buffer_type : uint
+    {
+        _SG_BUFFERTYPE_DEFAULT = 0U,
+        SG_BUFFERTYPE_VERTEXBUFFER = 1U,
+        SG_BUFFERTYPE_INDEXBUFFER = 2U,
+        _SG_BUFFERTYPE_NUM = 3U,
+        _SG_BUFFERTYPE_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_color_mask : uint
+    {
+        _SG_COLORMASK_DEFAULT = 0U,
+        SG_COLORMASK_NONE = 16U,
+        SG_COLORMASK_R = 1U,
+        SG_COLORMASK_G = 2U,
+        SG_COLORMASK_B = 4U,
+        SG_COLORMASK_A = 8U,
+        SG_COLORMASK_RGB = 7U,
+        SG_COLORMASK_RGBA = 15U,
+        _SG_COLORMASK_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_compare_func : uint
+    {
+        _SG_COMPAREFUNC_DEFAULT = 0U,
+        SG_COMPAREFUNC_NEVER = 1U,
+        SG_COMPAREFUNC_LESS = 2U,
+        SG_COMPAREFUNC_EQUAL = 3U,
+        SG_COMPAREFUNC_LESS_EQUAL = 4U,
+        SG_COMPAREFUNC_GREATER = 5U,
+        SG_COMPAREFUNC_NOT_EQUAL = 6U,
+        SG_COMPAREFUNC_GREATER_EQUAL = 7U,
+        SG_COMPAREFUNC_ALWAYS = 8U,
+        _SG_COMPAREFUNC_NUM = 9U,
+        _SG_COMPAREFUNC_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_cube_face : uint
+    {
+        SG_CUBEFACE_POS_X = 0U,
+        SG_CUBEFACE_NEG_X = 1U,
+        SG_CUBEFACE_POS_Y = 2U,
+        SG_CUBEFACE_NEG_Y = 3U,
+        SG_CUBEFACE_POS_Z = 4U,
+        SG_CUBEFACE_NEG_Z = 5U,
+        SG_CUBEFACE_NUM = 6U,
+        _SG_CUBEFACE_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_cull_mode : uint
+    {
+        _SG_CULLMODE_DEFAULT = 0U,
+        SG_CULLMODE_NONE = 1U,
+        SG_CULLMODE_FRONT = 2U,
+        SG_CULLMODE_BACK = 3U,
+        _SG_CULLMODE_NUM = 4U,
+        _SG_CULLMODE_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_face_winding : uint
+    {
+        _SG_FACEWINDING_DEFAULT = 0U,
+        SG_FACEWINDING_CCW = 1U,
+        SG_FACEWINDING_CW = 2U,
+        _SG_FACEWINDING_NUM = 3U,
+        _SG_FACEWINDING_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_filter : uint
+    {
+        _SG_FILTER_DEFAULT = 0U,
+        SG_FILTER_NEAREST = 1U,
+        SG_FILTER_LINEAR = 2U,
+        SG_FILTER_NEAREST_MIPMAP_NEAREST = 3U,
+        SG_FILTER_NEAREST_MIPMAP_LINEAR = 4U,
+        SG_FILTER_LINEAR_MIPMAP_NEAREST = 5U,
+        SG_FILTER_LINEAR_MIPMAP_LINEAR = 6U,
+        _SG_FILTER_NUM = 7U,
+        _SG_FILTER_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_image_type : uint
+    {
+        _SG_IMAGETYPE_DEFAULT = 0U,
+        SG_IMAGETYPE_2D = 1U,
+        SG_IMAGETYPE_CUBE = 2U,
+        SG_IMAGETYPE_3D = 3U,
+        SG_IMAGETYPE_ARRAY = 4U,
+        _SG_IMAGETYPE_NUM = 5U,
+        _SG_IMAGETYPE_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_index_type : uint
+    {
+        _SG_INDEXTYPE_DEFAULT = 0U,
+        SG_INDEXTYPE_NONE = 1U,
+        SG_INDEXTYPE_UINT16 = 2U,
+        SG_INDEXTYPE_UINT32 = 3U,
+        _SG_INDEXTYPE_NUM = 4U,
+        _SG_INDEXTYPE_FORCE_U32 = 2147483647U
     }
 
     public enum sg_pixel_format : uint
@@ -130,83 +552,6 @@ public static unsafe class sokol_gfx
         _SG_PIXELFORMAT_FORCE_U32 = 2147483647U
     }
 
-    public enum sg_resource_state : uint
-    {
-        SG_RESOURCESTATE_INITIAL = 0U,
-        SG_RESOURCESTATE_ALLOC = 1U,
-        SG_RESOURCESTATE_VALID = 2U,
-        SG_RESOURCESTATE_FAILED = 3U,
-        SG_RESOURCESTATE_INVALID = 4U,
-        _SG_RESOURCESTATE_FORCE_U32 = 2147483647U
-    }
-
-    public enum sg_usage : uint
-    {
-        _SG_USAGE_DEFAULT = 0U,
-        SG_USAGE_IMMUTABLE = 1U,
-        SG_USAGE_DYNAMIC = 2U,
-        SG_USAGE_STREAM = 3U,
-        _SG_USAGE_NUM = 4U,
-        _SG_USAGE_FORCE_U32 = 2147483647U
-    }
-
-    public enum sg_buffer_type : uint
-    {
-        _SG_BUFFERTYPE_DEFAULT = 0U,
-        SG_BUFFERTYPE_VERTEXBUFFER = 1U,
-        SG_BUFFERTYPE_INDEXBUFFER = 2U,
-        _SG_BUFFERTYPE_NUM = 3U,
-        _SG_BUFFERTYPE_FORCE_U32 = 2147483647U
-    }
-
-    public enum sg_index_type : uint
-    {
-        _SG_INDEXTYPE_DEFAULT = 0U,
-        SG_INDEXTYPE_NONE = 1U,
-        SG_INDEXTYPE_UINT16 = 2U,
-        SG_INDEXTYPE_UINT32 = 3U,
-        _SG_INDEXTYPE_NUM = 4U,
-        _SG_INDEXTYPE_FORCE_U32 = 2147483647U
-    }
-
-    public enum sg_image_type : uint
-    {
-        _SG_IMAGETYPE_DEFAULT = 0U,
-        SG_IMAGETYPE_2D = 1U,
-        SG_IMAGETYPE_CUBE = 2U,
-        SG_IMAGETYPE_3D = 3U,
-        SG_IMAGETYPE_ARRAY = 4U,
-        _SG_IMAGETYPE_NUM = 5U,
-        _SG_IMAGETYPE_FORCE_U32 = 2147483647U
-    }
-
-    public enum sg_sampler_type : uint
-    {
-        _SG_SAMPLERTYPE_DEFAULT = 0U,
-        SG_SAMPLERTYPE_FLOAT = 1U,
-        SG_SAMPLERTYPE_SINT = 2U,
-        SG_SAMPLERTYPE_UINT = 3U
-    }
-
-    public enum sg_cube_face : uint
-    {
-        SG_CUBEFACE_POS_X = 0U,
-        SG_CUBEFACE_NEG_X = 1U,
-        SG_CUBEFACE_POS_Y = 2U,
-        SG_CUBEFACE_NEG_Y = 3U,
-        SG_CUBEFACE_POS_Z = 4U,
-        SG_CUBEFACE_NEG_Z = 5U,
-        SG_CUBEFACE_NUM = 6U,
-        _SG_CUBEFACE_FORCE_U32 = 2147483647U
-    }
-
-    public enum sg_shader_stage : uint
-    {
-        SG_SHADERSTAGE_VS = 0U,
-        SG_SHADERSTAGE_FS = 1U,
-        _SG_SHADERSTAGE_FORCE_U32 = 2147483647U
-    }
-
     public enum sg_primitive_type : uint
     {
         _SG_PRIMITIVETYPE_DEFAULT = 0U,
@@ -219,38 +564,66 @@ public static unsafe class sokol_gfx
         _SG_PRIMITIVETYPE_FORCE_U32 = 2147483647U
     }
 
-    public enum sg_filter : uint
+    public enum sg_resource_state : uint
     {
-        _SG_FILTER_DEFAULT = 0U,
-        SG_FILTER_NEAREST = 1U,
-        SG_FILTER_LINEAR = 2U,
-        SG_FILTER_NEAREST_MIPMAP_NEAREST = 3U,
-        SG_FILTER_NEAREST_MIPMAP_LINEAR = 4U,
-        SG_FILTER_LINEAR_MIPMAP_NEAREST = 5U,
-        SG_FILTER_LINEAR_MIPMAP_LINEAR = 6U,
-        _SG_FILTER_NUM = 7U,
-        _SG_FILTER_FORCE_U32 = 2147483647U
+        SG_RESOURCESTATE_INITIAL = 0U,
+        SG_RESOURCESTATE_ALLOC = 1U,
+        SG_RESOURCESTATE_VALID = 2U,
+        SG_RESOURCESTATE_FAILED = 3U,
+        SG_RESOURCESTATE_INVALID = 4U,
+        _SG_RESOURCESTATE_FORCE_U32 = 2147483647U
     }
 
-    public enum sg_wrap : uint
+    public enum sg_sampler_type : uint
     {
-        _SG_WRAP_DEFAULT = 0U,
-        SG_WRAP_REPEAT = 1U,
-        SG_WRAP_CLAMP_TO_EDGE = 2U,
-        SG_WRAP_CLAMP_TO_BORDER = 3U,
-        SG_WRAP_MIRRORED_REPEAT = 4U,
-        _SG_WRAP_NUM = 5U,
-        _SG_WRAP_FORCE_U32 = 2147483647U
+        _SG_SAMPLERTYPE_DEFAULT = 0U,
+        SG_SAMPLERTYPE_FLOAT = 1U,
+        SG_SAMPLERTYPE_SINT = 2U,
+        SG_SAMPLERTYPE_UINT = 3U
     }
 
-    public enum sg_border_color : uint
+    public enum sg_shader_stage : uint
     {
-        _SG_BORDERCOLOR_DEFAULT = 0U,
-        SG_BORDERCOLOR_TRANSPARENT_BLACK = 1U,
-        SG_BORDERCOLOR_OPAQUE_BLACK = 2U,
-        SG_BORDERCOLOR_OPAQUE_WHITE = 3U,
-        _SG_BORDERCOLOR_NUM = 4U,
-        _SG_BORDERCOLOR_FORCE_U32 = 2147483647U
+        SG_SHADERSTAGE_VS = 0U,
+        SG_SHADERSTAGE_FS = 1U,
+        _SG_SHADERSTAGE_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_stencil_op : uint
+    {
+        _SG_STENCILOP_DEFAULT = 0U,
+        SG_STENCILOP_KEEP = 1U,
+        SG_STENCILOP_ZERO = 2U,
+        SG_STENCILOP_REPLACE = 3U,
+        SG_STENCILOP_INCR_CLAMP = 4U,
+        SG_STENCILOP_DECR_CLAMP = 5U,
+        SG_STENCILOP_INVERT = 6U,
+        SG_STENCILOP_INCR_WRAP = 7U,
+        SG_STENCILOP_DECR_WRAP = 8U,
+        _SG_STENCILOP_NUM = 9U,
+        _SG_STENCILOP_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_uniform_type : uint
+    {
+        SG_UNIFORMTYPE_INVALID = 0U,
+        SG_UNIFORMTYPE_FLOAT = 1U,
+        SG_UNIFORMTYPE_FLOAT2 = 2U,
+        SG_UNIFORMTYPE_FLOAT3 = 3U,
+        SG_UNIFORMTYPE_FLOAT4 = 4U,
+        SG_UNIFORMTYPE_MAT4 = 5U,
+        _SG_UNIFORMTYPE_NUM = 6U,
+        _SG_UNIFORMTYPE_FORCE_U32 = 2147483647U
+    }
+
+    public enum sg_usage : uint
+    {
+        _SG_USAGE_DEFAULT = 0U,
+        SG_USAGE_IMMUTABLE = 1U,
+        SG_USAGE_DYNAMIC = 2U,
+        SG_USAGE_STREAM = 3U,
+        _SG_USAGE_NUM = 4U,
+        _SG_USAGE_FORCE_U32 = 2147483647U
     }
 
     public enum sg_vertex_format : uint
@@ -284,121 +657,166 @@ public static unsafe class sokol_gfx
         _SG_VERTEXSTEP_FORCE_U32 = 2147483647U
     }
 
-    public enum sg_uniform_type : uint
+    public enum sg_wrap : uint
     {
-        SG_UNIFORMTYPE_INVALID = 0U,
-        SG_UNIFORMTYPE_FLOAT = 1U,
-        SG_UNIFORMTYPE_FLOAT2 = 2U,
-        SG_UNIFORMTYPE_FLOAT3 = 3U,
-        SG_UNIFORMTYPE_FLOAT4 = 4U,
-        SG_UNIFORMTYPE_MAT4 = 5U,
-        _SG_UNIFORMTYPE_NUM = 6U,
-        _SG_UNIFORMTYPE_FORCE_U32 = 2147483647U
+        _SG_WRAP_DEFAULT = 0U,
+        SG_WRAP_REPEAT = 1U,
+        SG_WRAP_CLAMP_TO_EDGE = 2U,
+        SG_WRAP_CLAMP_TO_BORDER = 3U,
+        SG_WRAP_MIRRORED_REPEAT = 4U,
+        _SG_WRAP_NUM = 5U,
+        _SG_WRAP_FORCE_U32 = 2147483647U
     }
 
-    public enum sg_cull_mode : uint
-    {
-        _SG_CULLMODE_DEFAULT = 0U,
-        SG_CULLMODE_NONE = 1U,
-        SG_CULLMODE_FRONT = 2U,
-        SG_CULLMODE_BACK = 3U,
-        _SG_CULLMODE_NUM = 4U,
-        _SG_CULLMODE_FORCE_U32 = 2147483647U
-    }
+    public const int SG_INVALID_ID = 0;
+    public const int SG_NUM_SHADER_STAGES = 2;
+    public const int SG_NUM_INFLIGHT_FRAMES = 2;
+    public const int SG_MAX_COLOR_ATTACHMENTS = 4;
+    public const int SG_MAX_SHADERSTAGE_BUFFERS = 8;
+    public const int SG_MAX_SHADERSTAGE_IMAGES = 12;
+    public const int SG_MAX_SHADERSTAGE_UBS = 4;
+    public const int SG_MAX_UB_MEMBERS = 16;
+    public const int SG_MAX_VERTEX_ATTRIBUTES = 16;
+    public const int SG_MAX_MIPMAPS = 16;
+    public const int SG_MAX_TEXTUREARRAY_LAYERS = 128;
 
-    public enum sg_face_winding : uint
-    {
-        _SG_FACEWINDING_DEFAULT = 0U,
-        SG_FACEWINDING_CCW = 1U,
-        SG_FACEWINDING_CW = 2U,
-        _SG_FACEWINDING_NUM = 3U,
-        _SG_FACEWINDING_FORCE_U32 = 2147483647U
-    }
+    public static d_sg_setup sg_setup;
 
-    public enum sg_compare_func : uint
-    {
-        _SG_COMPAREFUNC_DEFAULT = 0U,
-        SG_COMPAREFUNC_NEVER = 1U,
-        SG_COMPAREFUNC_LESS = 2U,
-        SG_COMPAREFUNC_EQUAL = 3U,
-        SG_COMPAREFUNC_LESS_EQUAL = 4U,
-        SG_COMPAREFUNC_GREATER = 5U,
-        SG_COMPAREFUNC_NOT_EQUAL = 6U,
-        SG_COMPAREFUNC_GREATER_EQUAL = 7U,
-        SG_COMPAREFUNC_ALWAYS = 8U,
-        _SG_COMPAREFUNC_NUM = 9U,
-        _SG_COMPAREFUNC_FORCE_U32 = 2147483647U
-    }
+    public static d_sg_shutdown sg_shutdown;
 
-    public enum sg_stencil_op : uint
-    {
-        _SG_STENCILOP_DEFAULT = 0U,
-        SG_STENCILOP_KEEP = 1U,
-        SG_STENCILOP_ZERO = 2U,
-        SG_STENCILOP_REPLACE = 3U,
-        SG_STENCILOP_INCR_CLAMP = 4U,
-        SG_STENCILOP_DECR_CLAMP = 5U,
-        SG_STENCILOP_INVERT = 6U,
-        SG_STENCILOP_INCR_WRAP = 7U,
-        SG_STENCILOP_DECR_WRAP = 8U,
-        _SG_STENCILOP_NUM = 9U,
-        _SG_STENCILOP_FORCE_U32 = 2147483647U
-    }
+    public static d_sg_isvalid sg_isvalid;
 
-    public enum sg_blend_factor : uint
-    {
-        _SG_BLENDFACTOR_DEFAULT = 0U,
-        SG_BLENDFACTOR_ZERO = 1U,
-        SG_BLENDFACTOR_ONE = 2U,
-        SG_BLENDFACTOR_SRC_COLOR = 3U,
-        SG_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4U,
-        SG_BLENDFACTOR_SRC_ALPHA = 5U,
-        SG_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6U,
-        SG_BLENDFACTOR_DST_COLOR = 7U,
-        SG_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8U,
-        SG_BLENDFACTOR_DST_ALPHA = 9U,
-        SG_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10U,
-        SG_BLENDFACTOR_SRC_ALPHA_SATURATED = 11U,
-        SG_BLENDFACTOR_BLEND_COLOR = 12U,
-        SG_BLENDFACTOR_ONE_MINUS_BLEND_COLOR = 13U,
-        SG_BLENDFACTOR_BLEND_ALPHA = 14U,
-        SG_BLENDFACTOR_ONE_MINUS_BLEND_ALPHA = 15U,
-        _SG_BLENDFACTOR_NUM = 16U,
-        _SG_BLENDFACTOR_FORCE_U32 = 2147483647U
-    }
+    public static d_sg_reset_state_cache sg_reset_state_cache;
 
-    public enum sg_blend_op : uint
-    {
-        _SG_BLENDOP_DEFAULT = 0U,
-        SG_BLENDOP_ADD = 1U,
-        SG_BLENDOP_SUBTRACT = 2U,
-        SG_BLENDOP_REVERSE_SUBTRACT = 3U,
-        _SG_BLENDOP_NUM = 4U,
-        _SG_BLENDOP_FORCE_U32 = 2147483647U
-    }
+    public static d_sg_install_trace_hooks sg_install_trace_hooks;
 
-    public enum sg_color_mask : uint
-    {
-        _SG_COLORMASK_DEFAULT = 0U,
-        SG_COLORMASK_NONE = 16U,
-        SG_COLORMASK_R = 1U,
-        SG_COLORMASK_G = 2U,
-        SG_COLORMASK_B = 4U,
-        SG_COLORMASK_A = 8U,
-        SG_COLORMASK_RGB = 7U,
-        SG_COLORMASK_RGBA = 15U,
-        _SG_COLORMASK_FORCE_U32 = 2147483647U
-    }
+    public static d_sg_push_debug_group sg_push_debug_group;
 
-    public enum sg_action : uint
-    {
-        _SG_ACTION_DEFAULT = 0U,
-        SG_ACTION_CLEAR = 1U,
-        SG_ACTION_LOAD = 2U,
-        SG_ACTION_DONTCARE = 3U,
-        _SG_ACTION_NUM = 4U,
-        _SG_ACTION_FORCE_U32 = 2147483647U
-    }
+    public static d_sg_pop_debug_group sg_pop_debug_group;
+
+    public static d_sg_make_buffer sg_make_buffer;
+
+    public static d_sg_make_image sg_make_image;
+
+    public static d_sg_make_shader sg_make_shader;
+
+    public static d_sg_make_pipeline sg_make_pipeline;
+
+    public static d_sg_make_pass sg_make_pass;
+
+    public static d_sg_destroy_buffer sg_destroy_buffer;
+
+    public static d_sg_destroy_image sg_destroy_image;
+
+    public static d_sg_destroy_shader sg_destroy_shader;
+
+    public static d_sg_destroy_pipeline sg_destroy_pipeline;
+
+    public static d_sg_destroy_pass sg_destroy_pass;
+
+    public static d_sg_update_buffer sg_update_buffer;
+
+    public static d_sg_update_image sg_update_image;
+
+    public static d_sg_append_buffer sg_append_buffer;
+
+    public static d_sg_query_buffer_overflow sg_query_buffer_overflow;
+
+    public static d_sg_begin_default_pass sg_begin_default_pass;
+
+    public static d_sg_begin_pass sg_begin_pass;
+
+    public static d_sg_apply_viewport sg_apply_viewport;
+
+    public static d_sg_apply_scissor_rect sg_apply_scissor_rect;
+
+    public static d_sg_apply_pipeline sg_apply_pipeline;
+
+    public static d_sg_apply_bindings sg_apply_bindings;
+
+    public static d_sg_apply_uniforms sg_apply_uniforms;
+
+    public static d_sg_draw sg_draw;
+
+    public static d_sg_end_pass sg_end_pass;
+
+    public static d_sg_commit sg_commit;
+
+    public static d_sg_query_desc sg_query_desc;
+
+    public static d_sg_query_backend sg_query_backend;
+
+    public static d_sg_query_features sg_query_features;
+
+    public static d_sg_query_limits sg_query_limits;
+
+    public static d_sg_query_pixelformat sg_query_pixelformat;
+
+    public static d_sg_query_buffer_state sg_query_buffer_state;
+
+    public static d_sg_query_image_state sg_query_image_state;
+
+    public static d_sg_query_shader_state sg_query_shader_state;
+
+    public static d_sg_query_pipeline_state sg_query_pipeline_state;
+
+    public static d_sg_query_pass_state sg_query_pass_state;
+
+    public static d_sg_query_buffer_info sg_query_buffer_info;
+
+    public static d_sg_query_image_info sg_query_image_info;
+
+    public static d_sg_query_shader_info sg_query_shader_info;
+
+    public static d_sg_query_pipeline_info sg_query_pipeline_info;
+
+    public static d_sg_query_pass_info sg_query_pass_info;
+
+    public static d_sg_query_buffer_defaults sg_query_buffer_defaults;
+
+    public static d_sg_query_image_defaults sg_query_image_defaults;
+
+    public static d_sg_query_shader_defaults sg_query_shader_defaults;
+
+    public static d_sg_query_pipeline_defaults sg_query_pipeline_defaults;
+
+    public static d_sg_query_pass_defaults sg_query_pass_defaults;
+
+    public static d_sg_alloc_buffer sg_alloc_buffer;
+
+    public static d_sg_alloc_image sg_alloc_image;
+
+    public static d_sg_alloc_shader sg_alloc_shader;
+
+    public static d_sg_alloc_pipeline sg_alloc_pipeline;
+
+    public static d_sg_alloc_pass sg_alloc_pass;
+
+    public static d_sg_init_buffer sg_init_buffer;
+
+    public static d_sg_init_image sg_init_image;
+
+    public static d_sg_init_shader sg_init_shader;
+
+    public static d_sg_init_pipeline sg_init_pipeline;
+
+    public static d_sg_init_pass sg_init_pass;
+
+    public static d_sg_fail_buffer sg_fail_buffer;
+
+    public static d_sg_fail_image sg_fail_image;
+
+    public static d_sg_fail_shader sg_fail_shader;
+
+    public static d_sg_fail_pipeline sg_fail_pipeline;
+
+    public static d_sg_fail_pass sg_fail_pass;
+
+    public static d_sg_setup_context sg_setup_context;
+
+    public static d_sg_activate_context sg_activate_context;
+
+    public static d_sg_discard_context sg_discard_context;
 
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_buffer
@@ -1506,210 +1924,174 @@ public static unsafe class sokol_gfx
         public uint _end_canary;
     }
 
-    [DllImport(LibraryName)]
-    public static extern void sg_setup([In] sg_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_shutdown();
-
-    [DllImport(LibraryName)]
-    public static extern BlittableBoolean sg_isvalid();
-
-    [DllImport(LibraryName)]
-    public static extern void sg_reset_state_cache();
-
-    [DllImport(LibraryName)]
-    public static extern sg_trace_hooks sg_install_trace_hooks([In] sg_trace_hooks* trace_hooks);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_push_debug_group([In] byte* name);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_pop_debug_group();
-
-    [DllImport(LibraryName)]
-    public static extern sg_buffer sg_make_buffer([In] sg_buffer_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern sg_image sg_make_image([In] sg_image_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern sg_shader sg_make_shader([In] sg_shader_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern sg_pipeline sg_make_pipeline([In] sg_pipeline_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern sg_pass sg_make_pass([In] sg_pass_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_destroy_buffer(sg_buffer buf);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_destroy_image(sg_image img);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_destroy_shader(sg_shader shd);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_destroy_pipeline(sg_pipeline pip);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_destroy_pass(sg_pass pass);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_update_buffer(sg_buffer buf, [In] void* data_ptr, int data_size);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_update_image(sg_image img, [In] sg_image_content* data);
-
-    [DllImport(LibraryName)]
-    public static extern int sg_append_buffer(sg_buffer buf, [In] void* data_ptr, int data_size);
-
-    [DllImport(LibraryName)]
-    public static extern BlittableBoolean sg_query_buffer_overflow(sg_buffer buf);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_begin_default_pass([In] sg_pass_action* pass_action, int width, int height);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_begin_pass(sg_pass pass, [In] sg_pass_action* pass_action);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_apply_viewport(int x, int y, int width, int height, BlittableBoolean origin_top_left);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, BlittableBoolean origin_top_left);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_apply_pipeline(sg_pipeline pip);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_apply_bindings([In] sg_bindings* bindings);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, [In] void* data, int num_bytes);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_draw(int base_element, int num_elements, int num_instances);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_end_pass();
-
-    [DllImport(LibraryName)]
-    public static extern void sg_commit();
-
-    [DllImport(LibraryName)]
-    public static extern sg_desc sg_query_desc();
-
-    [DllImport(LibraryName)]
-    public static extern sg_backend sg_query_backend();
-
-    [DllImport(LibraryName)]
-    public static extern sg_features sg_query_features();
-
-    [DllImport(LibraryName)]
-    public static extern sg_limits sg_query_limits();
-
-    [DllImport(LibraryName)]
-    public static extern sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
-
-    [DllImport(LibraryName)]
-    public static extern sg_resource_state sg_query_buffer_state(sg_buffer buf);
-
-    [DllImport(LibraryName)]
-    public static extern sg_resource_state sg_query_image_state(sg_image img);
-
-    [DllImport(LibraryName)]
-    public static extern sg_resource_state sg_query_shader_state(sg_shader shd);
-
-    [DllImport(LibraryName)]
-    public static extern sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
-
-    [DllImport(LibraryName)]
-    public static extern sg_resource_state sg_query_pass_state(sg_pass pass);
-
-    [DllImport(LibraryName)]
-    public static extern sg_buffer_info sg_query_buffer_info(sg_buffer buf);
-
-    [DllImport(LibraryName)]
-    public static extern sg_image_info sg_query_image_info(sg_image img);
-
-    [DllImport(LibraryName)]
-    public static extern sg_shader_info sg_query_shader_info(sg_shader shd);
-
-    [DllImport(LibraryName)]
-    public static extern sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
-
-    [DllImport(LibraryName)]
-    public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
-
-    [DllImport(LibraryName)]
-    public static extern sg_buffer_desc sg_query_buffer_defaults([In] sg_buffer_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern sg_image_desc sg_query_image_defaults([In] sg_image_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern sg_shader_desc sg_query_shader_defaults([In] sg_shader_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern sg_pipeline_desc sg_query_pipeline_defaults([In] sg_pipeline_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern sg_pass_desc sg_query_pass_defaults([In] sg_pass_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern sg_buffer sg_alloc_buffer();
-
-    [DllImport(LibraryName)]
-    public static extern sg_image sg_alloc_image();
-
-    [DllImport(LibraryName)]
-    public static extern sg_shader sg_alloc_shader();
-
-    [DllImport(LibraryName)]
-    public static extern sg_pipeline sg_alloc_pipeline();
-
-    [DllImport(LibraryName)]
-    public static extern sg_pass sg_alloc_pass();
-
-    [DllImport(LibraryName)]
-    public static extern void sg_init_buffer(sg_buffer buf_id, [In] sg_buffer_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_init_image(sg_image img_id, [In] sg_image_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_init_shader(sg_shader shd_id, [In] sg_shader_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_init_pipeline(sg_pipeline pip_id, [In] sg_pipeline_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_init_pass(sg_pass pass_id, [In] sg_pass_desc* desc);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_fail_buffer(sg_buffer buf_id);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_fail_image(sg_image img_id);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_fail_shader(sg_shader shd_id);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_fail_pipeline(sg_pipeline pip_id);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_fail_pass(sg_pass pass_id);
-
-    [DllImport(LibraryName)]
-    public static extern sg_context sg_setup_context();
-
-    [DllImport(LibraryName)]
-    public static extern void sg_activate_context(sg_context ctx_id);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_discard_context(sg_context ctx_id);
+    private static IntPtr _libraryHandle;
+
+    public static void LoadApi(string libraryPath)
+    {
+        GraphicsHelper.EnsureIs64BitArchitecture();
+
+        _libraryHandle = LoadLibrary(libraryPath);
+
+        sg_setup = GetLibraryFunction<d_sg_setup>(_libraryHandle);
+        sg_shutdown = GetLibraryFunction<d_sg_shutdown>(_libraryHandle);
+        sg_isvalid = GetLibraryFunction<d_sg_isvalid>(_libraryHandle);
+        sg_reset_state_cache = GetLibraryFunction<d_sg_reset_state_cache>(_libraryHandle);
+        sg_install_trace_hooks = GetLibraryFunction<d_sg_install_trace_hooks>(_libraryHandle);
+        sg_push_debug_group = GetLibraryFunction<d_sg_push_debug_group>(_libraryHandle);
+        sg_pop_debug_group = GetLibraryFunction<d_sg_pop_debug_group>(_libraryHandle);
+        sg_make_buffer = GetLibraryFunction<d_sg_make_buffer>(_libraryHandle);
+        sg_make_image = GetLibraryFunction<d_sg_make_image>(_libraryHandle);
+        sg_make_shader = GetLibraryFunction<d_sg_make_shader>(_libraryHandle);
+        sg_make_pipeline = GetLibraryFunction<d_sg_make_pipeline>(_libraryHandle);
+        sg_make_pass = GetLibraryFunction<d_sg_make_pass>(_libraryHandle);
+        sg_destroy_buffer = GetLibraryFunction<d_sg_destroy_buffer>(_libraryHandle);
+        sg_destroy_image = GetLibraryFunction<d_sg_destroy_image>(_libraryHandle);
+        sg_destroy_shader = GetLibraryFunction<d_sg_destroy_shader>(_libraryHandle);
+        sg_destroy_pipeline = GetLibraryFunction<d_sg_destroy_pipeline>(_libraryHandle);
+        sg_destroy_pass = GetLibraryFunction<d_sg_destroy_pass>(_libraryHandle);
+        sg_update_buffer = GetLibraryFunction<d_sg_update_buffer>(_libraryHandle);
+        sg_update_image = GetLibraryFunction<d_sg_update_image>(_libraryHandle);
+        sg_append_buffer = GetLibraryFunction<d_sg_append_buffer>(_libraryHandle);
+        sg_query_buffer_overflow = GetLibraryFunction<d_sg_query_buffer_overflow>(_libraryHandle);
+        sg_begin_default_pass = GetLibraryFunction<d_sg_begin_default_pass>(_libraryHandle);
+        sg_begin_pass = GetLibraryFunction<d_sg_begin_pass>(_libraryHandle);
+        sg_apply_viewport = GetLibraryFunction<d_sg_apply_viewport>(_libraryHandle);
+        sg_apply_scissor_rect = GetLibraryFunction<d_sg_apply_scissor_rect>(_libraryHandle);
+        sg_apply_pipeline = GetLibraryFunction<d_sg_apply_pipeline>(_libraryHandle);
+        sg_apply_bindings = GetLibraryFunction<d_sg_apply_bindings>(_libraryHandle);
+        sg_apply_uniforms = GetLibraryFunction<d_sg_apply_uniforms>(_libraryHandle);
+        sg_draw = GetLibraryFunction<d_sg_draw>(_libraryHandle);
+        sg_end_pass = GetLibraryFunction<d_sg_end_pass>(_libraryHandle);
+        sg_commit = GetLibraryFunction<d_sg_commit>(_libraryHandle);
+        sg_query_desc = GetLibraryFunction<d_sg_query_desc>(_libraryHandle);
+        sg_query_backend = GetLibraryFunction<d_sg_query_backend>(_libraryHandle);
+        sg_query_features = GetLibraryFunction<d_sg_query_features>(_libraryHandle);
+        sg_query_limits = GetLibraryFunction<d_sg_query_limits>(_libraryHandle);
+        sg_query_pixelformat = GetLibraryFunction<d_sg_query_pixelformat>(_libraryHandle);
+        sg_query_buffer_state = GetLibraryFunction<d_sg_query_buffer_state>(_libraryHandle);
+        sg_query_image_state = GetLibraryFunction<d_sg_query_image_state>(_libraryHandle);
+        sg_query_shader_state = GetLibraryFunction<d_sg_query_shader_state>(_libraryHandle);
+        sg_query_pipeline_state = GetLibraryFunction<d_sg_query_pipeline_state>(_libraryHandle);
+        sg_query_pass_state = GetLibraryFunction<d_sg_query_pass_state>(_libraryHandle);
+        sg_query_buffer_info = GetLibraryFunction<d_sg_query_buffer_info>(_libraryHandle);
+        sg_query_image_info = GetLibraryFunction<d_sg_query_image_info>(_libraryHandle);
+        sg_query_shader_info = GetLibraryFunction<d_sg_query_shader_info>(_libraryHandle);
+        sg_query_pipeline_info = GetLibraryFunction<d_sg_query_pipeline_info>(_libraryHandle);
+        sg_query_pass_info = GetLibraryFunction<d_sg_query_pass_info>(_libraryHandle);
+        sg_query_buffer_defaults = GetLibraryFunction<d_sg_query_buffer_defaults>(_libraryHandle);
+        sg_query_image_defaults = GetLibraryFunction<d_sg_query_image_defaults>(_libraryHandle);
+        sg_query_shader_defaults = GetLibraryFunction<d_sg_query_shader_defaults>(_libraryHandle);
+        sg_query_pipeline_defaults = GetLibraryFunction<d_sg_query_pipeline_defaults>(_libraryHandle);
+        sg_query_pass_defaults = GetLibraryFunction<d_sg_query_pass_defaults>(_libraryHandle);
+        sg_alloc_buffer = GetLibraryFunction<d_sg_alloc_buffer>(_libraryHandle);
+        sg_alloc_image = GetLibraryFunction<d_sg_alloc_image>(_libraryHandle);
+        sg_alloc_shader = GetLibraryFunction<d_sg_alloc_shader>(_libraryHandle);
+        sg_alloc_pipeline = GetLibraryFunction<d_sg_alloc_pipeline>(_libraryHandle);
+        sg_alloc_pass = GetLibraryFunction<d_sg_alloc_pass>(_libraryHandle);
+        sg_init_buffer = GetLibraryFunction<d_sg_init_buffer>(_libraryHandle);
+        sg_init_image = GetLibraryFunction<d_sg_init_image>(_libraryHandle);
+        sg_init_shader = GetLibraryFunction<d_sg_init_shader>(_libraryHandle);
+        sg_init_pipeline = GetLibraryFunction<d_sg_init_pipeline>(_libraryHandle);
+        sg_init_pass = GetLibraryFunction<d_sg_init_pass>(_libraryHandle);
+        sg_fail_buffer = GetLibraryFunction<d_sg_fail_buffer>(_libraryHandle);
+        sg_fail_image = GetLibraryFunction<d_sg_fail_image>(_libraryHandle);
+        sg_fail_shader = GetLibraryFunction<d_sg_fail_shader>(_libraryHandle);
+        sg_fail_pipeline = GetLibraryFunction<d_sg_fail_pipeline>(_libraryHandle);
+        sg_fail_pass = GetLibraryFunction<d_sg_fail_pass>(_libraryHandle);
+        sg_setup_context = GetLibraryFunction<d_sg_setup_context>(_libraryHandle);
+        sg_activate_context = GetLibraryFunction<d_sg_activate_context>(_libraryHandle);
+        sg_discard_context = GetLibraryFunction<d_sg_discard_context>(_libraryHandle);
+
+        // Perform a garbage collection as we are using a bunch of C# strings
+        GC.Collect();
+        // To perform a "full" GC, we have to empty the finalizer queue then call again
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+    }
+
+    public static void UnloadApi()
+    {
+        if (_libraryHandle == IntPtr.Zero)
+        {
+            return;
+        }
+
+        FreeLibrary(_libraryHandle);
+
+        sg_setup = default;
+        sg_shutdown = default;
+        sg_isvalid = default;
+        sg_reset_state_cache = default;
+        sg_install_trace_hooks = default;
+        sg_push_debug_group = default;
+        sg_pop_debug_group = default;
+        sg_make_buffer = default;
+        sg_make_image = default;
+        sg_make_shader = default;
+        sg_make_pipeline = default;
+        sg_make_pass = default;
+        sg_destroy_buffer = default;
+        sg_destroy_image = default;
+        sg_destroy_shader = default;
+        sg_destroy_pipeline = default;
+        sg_destroy_pass = default;
+        sg_update_buffer = default;
+        sg_update_image = default;
+        sg_append_buffer = default;
+        sg_query_buffer_overflow = default;
+        sg_begin_default_pass = default;
+        sg_begin_pass = default;
+        sg_apply_viewport = default;
+        sg_apply_scissor_rect = default;
+        sg_apply_pipeline = default;
+        sg_apply_bindings = default;
+        sg_apply_uniforms = default;
+        sg_draw = default;
+        sg_end_pass = default;
+        sg_commit = default;
+        sg_query_desc = default;
+        sg_query_backend = default;
+        sg_query_features = default;
+        sg_query_limits = default;
+        sg_query_pixelformat = default;
+        sg_query_buffer_state = default;
+        sg_query_image_state = default;
+        sg_query_shader_state = default;
+        sg_query_pipeline_state = default;
+        sg_query_pass_state = default;
+        sg_query_buffer_info = default;
+        sg_query_image_info = default;
+        sg_query_shader_info = default;
+        sg_query_pipeline_info = default;
+        sg_query_pass_info = default;
+        sg_query_buffer_defaults = default;
+        sg_query_image_defaults = default;
+        sg_query_shader_defaults = default;
+        sg_query_pipeline_defaults = default;
+        sg_query_pass_defaults = default;
+        sg_alloc_buffer = default;
+        sg_alloc_image = default;
+        sg_alloc_shader = default;
+        sg_alloc_pipeline = default;
+        sg_alloc_pass = default;
+        sg_init_buffer = default;
+        sg_init_image = default;
+        sg_init_shader = default;
+        sg_init_pipeline = default;
+        sg_init_pass = default;
+        sg_fail_buffer = default;
+        sg_fail_image = default;
+        sg_fail_shader = default;
+        sg_fail_pipeline = default;
+        sg_fail_pass = default;
+        sg_setup_context = default;
+        sg_activate_context = default;
+        sg_discard_context = default;
+    }
+
+    public static void LoadApi(GraphicsBackend graphicsBackend)
+    {
+        var libraryPath = GraphicsHelper.GetLibraryPath(graphicsBackend, "sokol_gfx");
+        LoadApi(libraryPath);
+    }
 }
