@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-// ReSharper disable MemberCanBeInternal
+#pragma warning disable 1591
 #nullable disable
 
 namespace Sokol.App
@@ -18,6 +18,8 @@ namespace Sokol.App
     [SuppressMessage("ReSharper", "SA1310", Justification = "C style.")]
     [SuppressMessage("ReSharper", "SA1401", Justification = "Public API.")]
     [SuppressMessage("ReSharper", "SA1600", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "NotAccessedField.Global", Justification = "Public API.")]
     public static class PInvoke
     {
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -103,14 +105,6 @@ namespace Sokol.App
         [EditorBrowsable(EditorBrowsableState.Never)]
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr d_sapp_metal_get_device();
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr d_sapp_metal_get_drawable();
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr d_sapp_metal_get_renderpass_descriptor();
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
@@ -226,9 +220,9 @@ namespace Sokol.App
 
         public static d_sapp_metal_get_device sapp_metal_get_device;
 
-        public static d_sapp_metal_get_renderpass_descriptor sapp_metal_get_renderpass_descriptor;
+        public static IntPtr sapp_metal_get_renderpass_descriptor;
 
-        public static d_sapp_metal_get_drawable sapp_metal_get_drawable;
+        public static IntPtr sapp_metal_get_drawable;
 
         public static d_sapp_macos_get_window sapp_macos_get_window;
 
@@ -238,19 +232,19 @@ namespace Sokol.App
 
         public static d_sapp_d3d11_get_device_context sapp_d3d11_get_device_context;
 
-        public static d_sapp_d3d11_get_render_target_view sapp_d3d11_get_render_target_view;
+        public static IntPtr sapp_d3d11_get_render_target_view;
 
-        public static d_sapp_d3d11_get_depth_stencil_view sapp_d3d11_get_depth_stencil_view;
+        public static IntPtr sapp_d3d11_get_depth_stencil_view;
 
         public static d_sapp_win32_get_hwnd sapp_win32_get_hwnd;
 
         public static d_sapp_wgpu_get_device sapp_wgpu_get_device;
 
-        public static d_sapp_wgpu_get_render_view sapp_wgpu_get_render_view;
+        public static IntPtr sapp_wgpu_get_render_view;
 
-        public static d_sapp_wgpu_get_resolve_view sapp_wgpu_get_resolve_view;
+        public static IntPtr sapp_wgpu_get_resolve_view;
 
-        public static d_sapp_wgpu_get_depth_stencil_view sapp_wgpu_get_depth_stencil_view;
+        public static IntPtr sapp_wgpu_get_depth_stencil_view;
 
         public static d_sapp_android_get_native_activity sapp_android_get_native_activity;
     }

@@ -4,83 +4,96 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using System.Threading;
 using Sokol.Graphics;
 using static Sokol.App.PInvoke;
-
-// ReSharper disable MemberCanBeProtected.Global
-// ReSharper disable UnusedParameter.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable MemberCanBeInternal
-// ReSharper disable EventNeverSubscribedTo.Global
-#pragma warning disable 67
 
 namespace Sokol.App
 {
     /// <summary>
-    ///     The base class for Sokol.NET applications that use `sokol_app`.
+    ///     The static methods of `sokol_app`.
     /// </summary>
-    public abstract class App
+    [SuppressMessage("ReSharper", "VirtualMemberNeverOverridden.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "MemberCanBeProtected.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
+    public static class App
     {
-        [SuppressMessage("ReSharper", "SA1401", Justification = "Internal")]
-        internal static App Instance = null!;
-
-        private static int _isInitialized;
-
-        private static GCHandle _getMetalRenderPassDescriptorCallbackHandle;
-        private static GCHandle _getMetalDrawableCallbackHandle;
-
         private static GCHandle _initializeCallbackHandle;
-        private static GCHandle _frameCallbackHandle;
         private static GCHandle _cleanUpCallbackHandle;
         private static GCHandle _eventCallbackHandle;
+        private static GCHandle _frameCallbackHandle;
 
         /// <summary>
-        ///     Gets the current <see cref="GraphicsBackend" />.
+        ///     Gets the <see cref="GraphicsBackend" /> of the `sokol_app` application.
         /// </summary>
         /// <value>The current <see cref="GraphicsBackend" />.</value>
         // ReSharper disable once MemberCanBeMadeStatic.Global
-        public GraphicsBackend Backend => GraphicsDevice.Backend;
-
-        public int Width => sapp_width();
-
-        public int Height => sapp_height();
+        public static GraphicsBackend Backend => GraphicsDevice.Backend;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="App" /> class using an optional <see cref="GraphicsBackend " />.
+        ///     Occurs when the application window, 3D rendering context, and
+        ///     swapchain have been created and the application should create any resources.
         /// </summary>
-        /// <param name="backend">
-        ///     The requested back-end for the app. May be overriden if <paramref name="backend" />doesn't make
-        ///     sense for the platform.
-        /// </param>
-        protected App(GraphicsBackend? backend = null)
-        {
-            if (Interlocked.CompareExchange(ref _isInitialized, 1, 0) == 1)
-            {
-                throw new InvalidOperationException("Another application has already been initialized.");
-            }
-
-            Instance = this;
-
-            var backend1 = backend ?? GraphicsHelper.DefaultBackend();
-            Sokol.Graphics.Native.LoadApi(backend1);
-            Native.LoadApi(backend1);
-        }
+        public static event AppDelegate? CreateResources;
 
         /// <summary>
-        ///     Starts the <see cref="App" />.
+        ///     Occurs before the application quits and the application should destroy any resources.
         /// </summary>
-        public void Run()
+        public static event AppDelegate? DestroyResources;
+
+        /// <summary>
+        ///     Occurs when the application should update per-frame state and perform all rendering.
+        /// </summary>
+        public static event AppDelegate? Frame;
+
+        /// <summary>
+        ///     Occurs when the application state changed such as when the mouse state changes, keyboard state
+        ///     changes, etc.
+        /// </summary>
+        public static event AppEventDelegate? Event;
+
+        /// <summary>
+        ///     Occurs when the <see cref="Framebuffer.Width" /> or the <see cref="Framebuffer.Height" /> change.
+        /// </summary>
+        public static event AppResizedDelegate? Resized;
+
+        /// <summary>
+        ///     Starts the application.
+        /// </summary>
+        [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global", Justification = "C# wrapper.")]
+        public static void Run()
         {
             var appDesc = default(AppDescriptor);
-            CreateCallbacks(ref appDesc);
+            FillDescriptor(ref appDesc);
             sapp_run(ref appDesc);
         }
 
-        public void RequestQuit()
+        /// <summary>
+        ///     Requests a quit of the application.
+        /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///         Calling <see cref="RequestQuit" /> sends the <see cref="EventType.QuitRequested" /> to the
+        ///         <see cref="EventCallback" />. This allows the quit process to be cancelled by user code.
+        ///     </para>
+        /// </remarks>
+        public static void RequestQuit()
         {
             sapp_request_quit();
+        }
+
+        /// <summary>
+        ///     Quits the application immediately.
+        /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///         Calling <see cref="Quit" /> does not send the <see cref="EventType.QuitRequested" /> to the
+        ///         <see cref="EventCallback" />.
+        ///     </para>
+        /// </remarks>
+        public static void Quit()
+        {
+            sapp_quit();
         }
 
         /// <summary>
@@ -115,83 +128,57 @@ namespace Sokol.App
             return GraphicsDevice.BeginDefaultPass(sapp_width(), sapp_height(), ref passAction);
         }
 
-        protected virtual void Initialize()
+        private static void FillDescriptor(ref AppDescriptor desc)
         {
-        }
-
-        protected abstract void Frame();
-
-        protected virtual void Event(ref Event @event)
-        {
-        }
-
-        protected virtual void CleanUp()
-        {
-        }
-
-        private static void CreateCallbacks(ref AppDescriptor desc)
-        {
-            var initializeCallbackDelegate = new AppCallbackDelegateVoid(InitializeCallback);
+            var initializeCallbackDelegate = new AppCallbackDelegate(InitializeCallback);
             _initializeCallbackHandle = GCHandle.Alloc(initializeCallbackDelegate);
             desc.InitializeCallback = Marshal.GetFunctionPointerForDelegate(initializeCallbackDelegate);
 
-            var frameCallbackDelegate = new AppCallbackDelegateVoid(FrameCallback);
+            var frameCallbackDelegate = new AppCallbackDelegate(FrameCallback);
             _frameCallbackHandle = GCHandle.Alloc(frameCallbackDelegate);
             desc.FrameCallback = Marshal.GetFunctionPointerForDelegate(frameCallbackDelegate);
 
-            var cleanUpCallbackDelegate = new AppCallbackDelegateVoid(CleanUpCallback);
+            var cleanUpCallbackDelegate = new AppCallbackDelegate(CleanUpCallback);
             _cleanUpCallbackHandle = GCHandle.Alloc(cleanUpCallbackDelegate);
             desc.CleanUpCallback = Marshal.GetFunctionPointerForDelegate(cleanUpCallbackDelegate);
 
-            var eventCallbackDelegate = new AppCallbackDelegateVoidEvent(EventCallback);
+            var eventCallbackDelegate = new AppCallbackDelegateEvent(EventCallback);
             _eventCallbackHandle = GCHandle.Alloc(eventCallbackDelegate);
             desc.EventCallback = Marshal.GetFunctionPointerForDelegate(eventCallbackDelegate);
-        }
-
-        private static IntPtr GetMetalRenderPassDescriptorCallback()
-        {
-            return sapp_metal_get_renderpass_descriptor();
-        }
-
-        private static IntPtr GetMetalDrawableCallback()
-        {
-            return sapp_metal_get_drawable();
         }
 
         private static void InitializeCallback()
         {
             InitializeGraphics();
-            Instance.Initialize();
+            CreateResources?.Invoke();
+            UnmanagedStringMemoryManager.Clear();
+            Resized?.Invoke(Framebuffer.Width, Framebuffer.Height);
         }
 
         private static void FrameCallback()
         {
-            Instance.Frame();
+            Frame?.Invoke();
         }
 
         private static void CleanUpCallback()
         {
-            Instance.CleanUp();
+            ReleaseUnmanagedResources();
+            DestroyResources?.Invoke();
             GraphicsDevice.Shutdown();
         }
 
-        private static void EventCallback(ref Event @event)
+        private static void EventCallback(in Event @event)
         {
-            Instance.Event(ref @event);
+            if (@event.Type == EventType.Resized)
+            {
+                Resized?.Invoke(@event.FramebufferWidth, @event.FramebufferHeight);
+            }
+
+            Event?.Invoke(in @event);
         }
 
         private static void InitializeGraphics()
         {
-            var getMetalRenderPassDescriptorCallbackDelegate =
-                new AppCallbackDelegateIntPtr(GetMetalRenderPassDescriptorCallback);
-            _getMetalRenderPassDescriptorCallbackHandle = GCHandle.Alloc(getMetalRenderPassDescriptorCallbackDelegate);
-            var getMetalRenderPassDescriptor =
-                Marshal.GetFunctionPointerForDelegate(getMetalRenderPassDescriptorCallbackDelegate);
-
-            var getMetalDrawableCallbackDelegate = new AppCallbackDelegateIntPtr(GetMetalDrawableCallback);
-            _getMetalDrawableCallbackHandle = GCHandle.Alloc(getMetalDrawableCallbackDelegate);
-            var getMetalDrawableCallback = Marshal.GetFunctionPointerForDelegate(getMetalDrawableCallbackDelegate);
-
             var graphicsDescriptor = default(GraphicsDescriptor);
             ref var context = ref graphicsDescriptor.Context;
             context.ColorFormat = (PixelFormat)sapp_color_format();
@@ -199,18 +186,69 @@ namespace Sokol.App
             context.SampleCount = sapp_sample_count();
             context.GL.ForceGLES2 = sapp_gles2();
             context.Metal.Device = sapp_metal_get_device();
-            context.Metal.RenderPassDescriptorCallback = getMetalRenderPassDescriptor;
-            context.Metal.DrawableCallback = getMetalDrawableCallback;
-            // desc.Direct3D11.device = sapp_d3d11_get_device();
-            // desc.Direct3D11.device_context = sapp_d3d11_get_device_context();
-            // desc.Direct3D11.render_target_view_cb = sapp_d3d11_get_render_target_view;
-            // desc.Direct3D11.depth_stencil_view_cb = sapp_d3d11_get_depth_stencil_view;
-            // desc.WebGPU.Device = sapp_wgpu_get_device();
-            // desc.WebGPU.RenderViewCallback = sapp_wgpu_get_render_view();
-            // desc.WebGPU.ResolveViewCallback = sapp_wgpu_get_resolve_view();
-            // desc.WebGPU.DepthStencilViewCallback = sapp_wgpu_get_depth_stencil_view();
+            context.Metal.RenderPassDescriptorCallback = sapp_metal_get_renderpass_descriptor;
+            context.Metal.DrawableCallback = sapp_metal_get_drawable;
+            context.Direct3D11.Device = sapp_d3d11_get_device();
+            context.Direct3D11.DeviceContext = sapp_d3d11_get_device_context();
+            context.Direct3D11.RenderTargetViewCallback = sapp_d3d11_get_render_target_view;
+            context.Direct3D11.DepthStencilViewCallback = sapp_d3d11_get_depth_stencil_view;
+            context.WebGPU.Device = sapp_wgpu_get_device();
+            context.WebGPU.RenderViewCallback = sapp_wgpu_get_render_view;
+            context.WebGPU.ResolveViewCallback = sapp_wgpu_get_resolve_view;
+            context.WebGPU.DepthStencilViewCallback = sapp_wgpu_get_depth_stencil_view;
 
             GraphicsDevice.Setup(ref graphicsDescriptor);
         }
+
+        // ReSharper disable once MemberCanBeMadeStatic.Local
+        private static void ReleaseUnmanagedResources()
+        {
+            if (_initializeCallbackHandle.IsAllocated)
+            {
+                _initializeCallbackHandle.Free();
+            }
+
+            if (_frameCallbackHandle.IsAllocated)
+            {
+                _frameCallbackHandle.Free();
+            }
+
+            if (_cleanUpCallbackHandle.IsAllocated)
+            {
+                _cleanUpCallbackHandle.Free();
+            }
+
+            if (_eventCallbackHandle.IsAllocated)
+            {
+                _eventCallbackHandle.Free();
+            }
+        }
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AppCallbackDelegate();
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AppCallbackDelegateEvent(in Event @event);
+
+        /// <summary>
+        ///     The default delegate for `sokol_app`.
+        /// </summary>
+        [SuppressMessage("ReSharper", "SA1202", Justification = "Delegates are details.")]
+        public delegate void AppDelegate();
+
+        /// <summary>
+        ///     The event delegate for `sokol_app`.
+        /// </summary>
+        /// <param name="event">The <see cref="Event" />.</param>
+        [SuppressMessage("ReSharper", "SA1202", Justification = "Delegates are details.")]
+        public delegate void AppEventDelegate(in Event @event);
+
+        /// <summary>
+        ///     The resized delegate for `sokol_app`.
+        /// </summary>
+        /// <param name="width">The new width of the <see cref="Framebuffer" />.</param>
+        /// <param name="height">The new height of the <see cref="Framebuffer" />.</param>
+        [SuppressMessage("ReSharper", "SA1202", Justification = "Delegates are details.")]
+        public delegate void AppResizedDelegate(int width, int height);
     }
 }

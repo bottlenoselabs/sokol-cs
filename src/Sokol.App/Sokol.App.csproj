@@ -15,7 +15,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <IsPackable>true</IsPackable>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <PropertyGroup>
-        <CodeAnalysisRuleSet>..\StyleCop-No-Documentation.ruleset</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
         <AdditionalFiles Include="..\StyleCop.json">
