@@ -17,6 +17,11 @@ namespace Samples.Quad
         private Buffer _vertexBuffer;
         private Shader _shader;
 
+        public QuadApplication()
+            : base(GraphicsBackend.Direct3D11)
+        {
+        }
+
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
@@ -53,9 +58,15 @@ namespace Samples.Quad
             // describe the render pipeline
             var pipelineDesc = default(PipelineDescriptor);
             pipelineDesc.Shader = _shader;
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
-            pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
+
+            ref var attribute0 = ref pipelineDesc.Layout.Attribute();
+            attribute0.Format = PipelineVertexAttributeFormat.Float3;
+            attribute0.Offset = 0;
+
+            ref var attribute1 = ref pipelineDesc.Layout.Attribute(1);
+            attribute1.Format = PipelineVertexAttributeFormat.Float4;
+            attribute1.Offset = 12;
 
             // create the pipeline resource from the description
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);
@@ -66,20 +77,31 @@ namespace Samples.Quad
             // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
 
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            attribute0.Name = "position";
+            attribute0.SemanticName = "POS"; // used only for Direct3D11
+
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+            attribute1.Name = "color0";
+            attribute1.SemanticName = "COLOR"; // used only for Direct3D11
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
                 case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
@@ -87,7 +109,7 @@ namespace Samples.Quad
                     throw new ArgumentOutOfRangeException();
             }
 
-            // create the shader resource from the description
+            // create the shader resource from the descriptor
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
