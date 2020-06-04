@@ -17,11 +17,6 @@ namespace Samples.Quad
         private Buffer _vertexBuffer;
         private Shader _shader;
 
-        public QuadApplication()
-            : base(GraphicsBackend.Direct3D11)
-        {
-        }
-
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
@@ -62,11 +57,9 @@ namespace Samples.Quad
 
             ref var attribute0 = ref pipelineDesc.Layout.Attribute();
             attribute0.Format = PipelineVertexAttributeFormat.Float3;
-            attribute0.Offset = 0;
 
             ref var attribute1 = ref pipelineDesc.Layout.Attribute(1);
             attribute1.Format = PipelineVertexAttributeFormat.Float4;
-            attribute1.Offset = 12;
 
             // create the pipeline resource from the description
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);
