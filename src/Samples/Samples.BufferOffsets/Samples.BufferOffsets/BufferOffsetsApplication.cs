@@ -68,9 +68,13 @@ namespace Samples.BufferOffsets
             var pipelineDesc = default(PipelineDescriptor);
 
             pipelineDesc.Shader = _shader;
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float2;
-            pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float3;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
+
+            ref var attribute0 = ref pipelineDesc.Layout.Attribute();
+            attribute0.Format = PipelineVertexAttributeFormat.Float2;
+
+            ref var attribute1 = ref pipelineDesc.Layout.Attribute(1);
+            attribute1.Format = PipelineVertexAttributeFormat.Float3;
 
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);
         }
@@ -79,19 +83,32 @@ namespace Samples.BufferOffsets
         {
             var shaderDesc = default(ShaderDescriptor);
 
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            attribute0.Name = "position";
+            attribute0.SemanticName = "POSITION"; // used only for Direct3D11
+
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+            attribute1.Name = "color0";
+            attribute1.SemanticName = "COLOR"; // used only for Direct3D11
+
             switch (Backend)
             {
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:
