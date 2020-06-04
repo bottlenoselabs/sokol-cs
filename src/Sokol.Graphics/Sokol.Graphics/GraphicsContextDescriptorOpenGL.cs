@@ -1,6 +1,7 @@
 // Copyright (c) Lucas Girouard-Stranks. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
@@ -19,6 +20,7 @@ namespace Sokol.Graphics
     ///     </para>
     /// </remarks>
     [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
+    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
     public struct GraphicsContextDescriptorOpenGL
     {
         /// <summary>

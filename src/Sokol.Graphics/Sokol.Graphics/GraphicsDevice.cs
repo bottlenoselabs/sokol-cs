@@ -67,15 +67,12 @@ namespace Sokol.Graphics
         public static GraphicsLimits Limits => QueryLimits();
 
         /// <summary>
-        ///     Frees any memory allocated by `sokol.NET` for strings used in descriptors. Only call this method
+        ///     Frees any memory allocated by Sokol.NET for strings used in descriptors. Only call this method
         ///     after resources are created.
         /// </summary>
         public static void FreeStrings()
         {
             UnmanagedStringMemoryManager.Clear();
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
         }
 
         /// <summary>
@@ -90,12 +87,12 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Destroys `sokol_gfx` for the life-time of an application. Should be called before an application exits
+        ///     Shutdown `sokol_gfx` for the life-time of an application. Should be called before an application exits
         ///     which the application previously called <see cref="Setup" />.
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         If you need to destroy a resource before calling <see cref="Shutdown" />, call one the following:
+        ///         If you need to destroy a resource before calling <see cref="Destroy" />, call one the following:
         ///         <list type="bullet">
         ///             <item>
         ///                 <description>
@@ -241,7 +238,7 @@ namespace Sokol.Graphics
         ///     Gets a <see cref="bool" /> indicating whether the current state of `sokol_gfx` is initialized or not.
         /// </summary>
         /// <returns>
-        ///     <c>true</c> when <see cref="Setup" /> was called successfully and <see cref="Shutdown" /> has not yet been
+        ///     <c>true</c> when <see cref="Setup" /> was called successfully and <see cref="Destroy" /> has not yet been
         ///     called; otherwise <c>false</c>.
         /// </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

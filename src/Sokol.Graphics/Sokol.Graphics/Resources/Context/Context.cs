@@ -28,9 +28,9 @@ namespace Sokol.Graphics
     ///     </para>
     ///     <para>
     ///         A default <see cref="Context" /> will be created and activated implicitly when calling
-    ///         <see cref="GraphicsDevice.Setup" />, and destroyed when calling <see cref="GraphicsDevice.Shutdown" />. This means for a typical
-    ///         application which does not use multiple contexts, nothing changes, and calling the context functions
-    ///         isn't necessary.
+    ///         <see cref="GraphicsDevice.Setup" />, and destroyed when calling <see cref="GraphicsDevice.Shutdown" />.
+    ///         This means for a typical application which does not use multiple contexts, nothing changes, and calling
+    ///         the context functions isn't necessary.
     ///     </para>
     ///     <para>
     ///         To create a <see cref="Context" />, call <see cref="GraphicsDevice.CreateContext" />.

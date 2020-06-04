@@ -26,7 +26,7 @@ namespace Sokol.Graphics
         ///     on Microsoft's developer documentation.
         /// </summary>
         [FieldOffset(0)]
-        public IntPtr D3D11Device;
+        public IntPtr Device;
 
         /// <summary>
         ///     The pointer to a D3D11 device context. For more information see
@@ -34,7 +34,7 @@ namespace Sokol.Graphics
         ///     on Microsoft's developer documentation.
         /// </summary>
         [FieldOffset(8)]
-        public IntPtr D3D11DeviceContext;
+        public IntPtr DeviceContext;
 
         /// <summary>
         ///     The pointer to a C style callback function to obtain the render target sub-resources of the default
@@ -43,7 +43,7 @@ namespace Sokol.Graphics
         ///     on Microsoft's developer documentation.
         /// </summary>
         [FieldOffset(16)]
-        public IntPtr D3D11RenderTargetViewCallback;
+        public IntPtr RenderTargetViewCallback;
 
         /// <summary>
         ///     The pointer to a C style callback function to obtain an accessor to a texture resource for depth-stencil
@@ -52,6 +52,6 @@ namespace Sokol.Graphics
         ///     on Microsoft's developer documentation.
         /// </summary>
         [FieldOffset(24)]
-        public IntPtr D3D11DepthStencilViewCallback;
+        public IntPtr DepthStencilViewCallback;
     }
 }

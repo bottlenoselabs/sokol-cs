@@ -3,7 +3,6 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using static NativeLibrary;
 using static Sokol.Graphics.PInvoke;
 
@@ -13,13 +12,14 @@ namespace Sokol.Graphics
     ///     Native utility methods for working with `sokol_gfx`.
     /// </summary>
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
     public static class Native
     {
         private static IntPtr _libraryHandle;
 
         /// <summary>
         ///     Loads the native library `sokol_gfx` and sets up the function pointers given a specified file path to
-        ///     `sokol_gfx`.
+        ///     the `sokol_gfx` native library.
         /// </summary>
         /// <param name="libraryPath">The library path to `sokol_gfx`.</param>
         public static void LoadApi(string libraryPath)
@@ -105,7 +105,7 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Unloads the native library of `sokol_gfx` and resets the function pointers.
+        ///     Unloads the native library `sokol_gfx`.
         /// </summary>
         public static void UnloadApi()
         {
@@ -195,7 +195,7 @@ namespace Sokol.Graphics
         /// <remarks>
         ///     <para>
         ///         <see cref="LoadApi(GraphicsBackend)" /> will attempt to find the library path for `sokol_gfx` given
-        ///         <paramref name="backend" /> and call <see cref="LoadApi(string)" />.
+        ///         <paramref name="backend" /> by calling <see cref="LoadApi(string)" />.
         ///     </para>
         /// </remarks>
         public static void LoadApi(GraphicsBackend backend)

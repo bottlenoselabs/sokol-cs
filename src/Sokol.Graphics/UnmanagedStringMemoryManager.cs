@@ -38,5 +38,9 @@ internal static class UnmanagedStringMemoryManager
 
         PointersToStrings.Clear();
         StringsToPointers.Clear();
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
     }
 }
