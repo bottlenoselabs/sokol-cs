@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\libsokol_app\libsokol_app\libsokol_app.csproj" />
         <ProjectReference Include="..\..\Sokol.App\Sokol.App.csproj" />
     </ItemGroup>
 
@@ -34,11 +35,9 @@
         <CodeAnalysisRuleSet>..\..\StyleCop-No-Documentation.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
-        <Content Include="..\..\StyleCop-No-Documentation.ruleset">
-            <Link>StyleCop-No-Documentation.ruleset</Link>
-        </Content>
         <AdditionalFiles Include="..\..\StyleCop.json">
             <Link>StyleCop.json</Link>
+            <Visible>false</Visible>
         </AdditionalFiles>
     </ItemGroup>
 
