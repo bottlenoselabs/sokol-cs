@@ -3,6 +3,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+#pragma warning disable 1591
+
 namespace Sokol.App
 {
     /// <summary>
