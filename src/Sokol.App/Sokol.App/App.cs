@@ -180,22 +180,7 @@ namespace Sokol.App
         private static void InitializeGraphics()
         {
             var graphicsDescriptor = default(GraphicsDescriptor);
-            ref var context = ref graphicsDescriptor.Context;
-            context.ColorFormat = (PixelFormat)sapp_color_format();
-            context.DepthFormat = (PixelFormat)sapp_depth_format();
-            context.SampleCount = sapp_sample_count();
-            context.GL.ForceGLES2 = sapp_gles2();
-            context.Metal.Device = sapp_metal_get_device();
-            context.Metal.RenderPassDescriptorCallback = sapp_metal_get_renderpass_descriptor;
-            context.Metal.DrawableCallback = sapp_metal_get_drawable;
-            context.Direct3D11.Device = sapp_d3d11_get_device();
-            context.Direct3D11.DeviceContext = sapp_d3d11_get_device_context();
-            context.Direct3D11.RenderTargetViewCallback = sapp_d3d11_get_render_target_view;
-            context.Direct3D11.DepthStencilViewCallback = sapp_d3d11_get_depth_stencil_view;
-            context.WebGPU.Device = sapp_wgpu_get_device();
-            context.WebGPU.RenderViewCallback = sapp_wgpu_get_render_view;
-            context.WebGPU.ResolveViewCallback = sapp_wgpu_get_resolve_view;
-            context.WebGPU.DepthStencilViewCallback = sapp_wgpu_get_depth_stencil_view;
+            graphicsDescriptor.Context = sapp_sgcontext();
 
             GraphicsDevice.Setup(ref graphicsDescriptor);
         }

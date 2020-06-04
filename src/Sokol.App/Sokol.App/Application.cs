@@ -141,7 +141,6 @@ namespace Sokol.App
         private static void LoadApi(GraphicsBackend? backend)
         {
             var backend1 = backend ?? GraphicsHelper.DefaultBackend();
-            Graphics.Native.LoadApi(backend1);
             Native.LoadApi(backend1);
         }
 
