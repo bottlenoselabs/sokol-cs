@@ -48,19 +48,16 @@ var descriptor = default(sokol_gfx.sg_desc);
 sokol_gfx.sg_setup(&descriptor);
 ```
 
-### Initializing `sokol_gfx` with `sokol_app`
+### Initializing `sokol_app`
 
-If you are using `sokol_app`, initializing `sokol_gfx` is a a little bit simpler and a little more complex. It's a bit more simpler as you don't have to deal with creating the rendering context or the window yourself. It's a bit more complex cause you need to create some unmanged call-backs which are kinda ugly in C#. 
-
-To start you will need to load the API for `sokol_app` which is directly similar to loading the API for `sokol_gfx` except the methods are in `sokol_app`.
+If you are using `sokol_app`, you don't need to load the API for `sokol_gfx` directly. This is because `sokol_app` will load the API for `sokol_gfx`.
 
 ```cs
-sokol_gfx.LoadApi(GraphicsBackend.OpenGL);
 sokol_app.LoadApi(GraphicsBackend.OpenGL);
 ```
 
 Next you need to fill the descriptor for initializing the application and run the application.
-```
+```cs
 var desc = default(AppDescriptor);
 
 // The call-back handles need to be stored somewhere...
@@ -113,22 +110,7 @@ Then, in the call-back for initialize you need to initialize `sokol_gfx`.
 
 ```cs
 var desc = default(sokol_gfx.sg_desc);
-ref var context = ref des.context;
-context.color_format = sokol_app.sapp_color_format();
-context.depth_format = sokol_app.sapp_depth_format();
-context.sample_count = sokol_app.sapp_sample_count();
-context.gl.force_gles2 = sokol_app.sapp_gles2();
-context.mtl.device = sokol_app.sapp_metal_get_device();
-context.mtl.renderpass_descriptor_cb = sokol_app.sapp_metal_get_renderpass_descriptor;
-context.mtl.drawable_cb = sokol_app.sapp_metal_get_drawable;
-context.d3d11.device = sokol_app.sapp_d3d11_get_device();
-context.d3d11.device_context = sokol_app.sapp_d3d11_get_device_context();
-context.d3d11.render_target_view_cb = sokol_app.sapp_d3d11_get_render_target_view;
-context.d3d11.depth_stencil_view_cb = sokol_app.sapp_d3d11_get_depth_stencil_view;
-context.wgpu.device = sokol_app.sapp_wgpu_get_device();
-context.wgpu.render_view_cb = sokol_app.sapp_wgpu_get_render_view;
-context.wgpu.resolve_view_cb = sokol_app.sapp_wgpu_get_resolve_view;
-context.wgpu.depth_stencil_view_cb = sokol_app.sapp_wgpu_get_depth_stencil_view;
+ref var context = sokol_app.sapp_sgcontext();
 sokol_gfx.sg_setup(&descriptor);
 ```
 
