@@ -33,9 +33,104 @@ This will look for `sokol_gfx-d3d11.dll` for Windows Direct3D 11, `libsokol_gfx-
 
 - [`Environment.CurrentDirectory`](https://docs.microsoft.com/en-us/dotnet/api/system.environment.currentdirectory): The current working directory of the application.
 - [`AppDomain.CurrentDomain.BaseDirectory`](https://docs.microsoft.com/en-us/dotnet/api/system.appdomain.basedirectory): The base directory of the application.
-- `runtimes/{rid}/native`: A special folder where the `rid` is the [runtime identifier of a specific platform target](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog). For example, `runtimes/win-x64/native` for Windows.
+- `runtimes/{rid}/native`: A special relative folder where the `rid` is the [runtime identifier of a specific platform target](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog). For example, `runtimes/win-x64/native` for Windows.
 
 If you use the [`libsokol_gfx`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_gfx) NuGet package, the native libraries will be automatically be added to your project, and calling `LoadApi(GraphicsBackend backend)` will "just work".
+
+### Initialize `sokol_gfx`
+
+Once the API is loaded, the state of `sokol_gfx` needs to be initialized.
+
+```cs
+var descriptor = default(sokol_gfx.sg_desc);
+// Initialize the descriptor...
+// See the comments in sokol_gfx for setting up GL, Metal, D3D11, WebGPU, etc
+sokol_gfx.sg_setup(&descriptor);
+```
+
+### Initializing `sokol_gfx` with `sokol_app`
+
+If you are using `sokol_app`, initializing `sokol_gfx` is a a little bit simpler and a little more complex. It's a bit more simpler as you don't have to deal with creating the rendering context or the window yourself. It's a bit more complex cause you need to create some unmanged call-backs which are kinda ugly in C#. 
+
+To start you will need to load the API for `sokol_app` which is directly similar to loading the API for `sokol_gfx` except the methods are in `sokol_app`.
+
+```cs
+sokol_gfx.LoadApi(GraphicsBackend.OpenGL);
+sokol_app.LoadApi(GraphicsBackend.OpenGL);
+```
+
+Next you need to fill the descriptor for initializing the application and run the application.
+```
+var desc = default(AppDescriptor);
+
+// The call-back handles need to be stored somewhere...
+// This technique is to ensure that the delegate call-backs that are called from C code are not garbage collected
+// If they were garbage collected, the C code would crash
+
+var initializeCallbackDelegate = new sokol_app.NativeCallbackDelegate(InitializeCallback);
+_initializeCallbackHandle = GCHandle.Alloc(initializeCallbackDelegate);
+desc.InitializeCallback = Marshal.GetFunctionPointerForDelegate(initializeCallbackDelegate);
+
+var frameCallbackDelegate = new sokol_app.NativeCallbackDelegate(FrameCallback);
+_frameCallbackHandle = GCHandle.Alloc(frameCallbackDelegate);
+desc.FrameCallback = Marshal.GetFunctionPointerForDelegate(frameCallbackDelegate);
+
+var cleanUpCallbackDelegate = new sokol_app.NativeCallbackDelegate(CleanUpCallback);
+_cleanUpCallbackHandle = GCHandle.Alloc(cleanUpCallbackDelegate);
+desc.CleanUpCallback = Marshal.GetFunctionPointerForDelegate(cleanUpCallbackDelegate);
+
+var eventCallbackDelegate = new sokol_app.NativeCallbackDelegateEvent(EventCallback);
+_eventCallbackHandle = GCHandle.Alloc(eventCallbackDelegate);
+desc.EventCallback = Marshal.GetFunctionPointerForDelegate(eventCallbackDelegate);
+
+sokol_app.sapp_run(&desc);
+
+...
+
+private static void InitializeCallback()
+{
+    // your code here
+}
+
+private static void FrameCallback()
+{
+    // your code here
+}
+
+private static void CleanUpCallback()
+{
+    // your code here
+}
+
+private static void EventCallback(Event @event)
+{
+    // your code here
+}
+
+```
+
+Then, in the call-back for initialize you need to initialize `sokol_gfx`.
+
+```cs
+var desc = default(sokol_gfx.sg_desc);
+ref var context = ref des.context;
+context.color_format = sokol_app.sapp_color_format();
+context.depth_format = sokol_app.sapp_depth_format();
+context.sample_count = sokol_app.sapp_sample_count();
+context.gl.force_gles2 = sokol_app.sapp_gles2();
+context.mtl.device = sokol_app.sapp_metal_get_device();
+context.mtl.renderpass_descriptor_cb = sokol_app.sapp_metal_get_renderpass_descriptor;
+context.mtl.drawable_cb = sokol_app.sapp_metal_get_drawable;
+context.d3d11.device = sokol_app.sapp_d3d11_get_device();
+context.d3d11.device_context = sokol_app.sapp_d3d11_get_device_context();
+context.d3d11.render_target_view_cb = sokol_app.sapp_d3d11_get_render_target_view;
+context.d3d11.depth_stencil_view_cb = sokol_app.sapp_d3d11_get_depth_stencil_view;
+context.wgpu.device = sokol_app.sapp_wgpu_get_device();
+context.wgpu.render_view_cb = sokol_app.sapp_wgpu_get_render_view;
+context.wgpu.resolve_view_cb = sokol_app.sapp_wgpu_get_resolve_view;
+context.wgpu.depth_stencil_view_cb = sokol_app.sapp_wgpu_get_depth_stencil_view;
+sokol_gfx.sg_setup(&descriptor);
+```
 
 ### Import the Namespace
 
@@ -45,7 +140,11 @@ While not necessary, it's recommended to import the module with all the bindings
 using static sokol_gfx;
 ```
 
-This makes it possible to not have to type `sokol_gfx` for every function call.
+```cs
+using static sokol_app;
+```
+
+This makes it possible to not have to type `sokol_gfx` or `sokol_app` for every function call.
 
 ## Samples
 

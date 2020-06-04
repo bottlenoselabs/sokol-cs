@@ -10,36 +10,36 @@ All the types are [.NET value types](https://docs.microsoft.com/en-us/dotnet/csh
 
 ## Getting Started
 
-### Load the API
+The easiest and fastest way to get started is to create a class that inherits the `Application` class in the `Sokol.App` namespace.
 
-To call the C functions, the functions need to be loaded at runtime. This is done by calling one of the `LoadApi(...)` overloads.
-
-e.g.
 ```cs
-var pathToLibrary = ... // path to sokol_gfx.dll, libsokol_gfx.dylib, or libsokol_gfx.so
-Sokol.Graphics.LoadApi(pathToLibrary);
+using Sokol.App;
+using Sokol.Graphics;
+
+...
+
+public sealed class MyApplication : Application
+{
+    protected override void Frame()
+    {
+        var pass = BeginDefaultPass(Rgba32.Red);
+        pass.End();
+
+        GraphicsDevice.Commit();
+    }
+}
 ```
 
-Because each back-end for `sokol_gfx` is a seperate native library, there can be multiple native libraries with the same name. For example for Windows, there could be a `sokol_gfx.dll` for both Direct3D11 and OpenGL. For this reason it's recommended add the back-end to be apart of the file name. For example, `sokol_gfx-opengl.dll` or `sokol_gfx-d3d11.dll`.
+Then in your entry-point run the application.
 
-The `LoadApi(GraphicsBackend backend)` exists as a convience for loading the native library given the back-end and the current platform.
-
-e.g.
 ```cs
-Sokol.Graphics.LoadApi(GraphicsBackend.OpenGL);
+var app = new MyApplication();
+app.Run();
 ```
-
-This will look for `sokol_gfx-d3d11.dll` for Windows Direct3D 11, `libsokol_gfx-metal.dylib` for macOS Metal, `libsokol_gfx-opengl.so` for Linux OpenGL, etc. Where it looks for these native libraries will be in one the following paths until it finds one.
-
-- [`Environment.CurrentDirectory`](https://docs.microsoft.com/en-us/dotnet/api/system.environment.currentdirectory): The current working directory of the application.
-- [`AppDomain.CurrentDomain.BaseDirectory`](https://docs.microsoft.com/en-us/dotnet/api/system.appdomain.basedirectory): The base directory of the application.
-- `runtimes/{rid}/native`: A special folder where the `rid` is the [runtime identifier of a specific platform target](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog). For example, `runtimes/win-x64/native` for Windows.
-
-If you use the [`libsokol_gfx`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_gfx) NuGet package, the native libraries will be automatically be added to your project, and calling `LoadApi(GraphicsBackend backend)` will "just work".
 
 ## Samples
 
-To learn how to use the .NET API, check out the following samples, which are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
+To learn how to use the .NET API check out the following samples which expand on the getting started code mentioned earlier are in sync with the official [C samples](https://github.com/floooh/sokol-samples).
 
 Name|Description|GIF/Screenshot
 :---:|:---:|:---:
