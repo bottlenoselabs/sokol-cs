@@ -22,7 +22,7 @@
 
     <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
         <Content Include="..\..\..\lib\libsokol_app\osx-x64\opengl\debug\libsokol_app.dylib">
-            <Link>runtimes/win-x64/native/libsokol_app-opengl.dylib</Link>
+            <Link>runtimes/osx-x64/native/libsokol_app-opengl.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/osx-x64/native/libsokol_app-opengl.dylib</PackagePath>
         </Content>
@@ -30,7 +30,7 @@
 
     <ItemGroup Condition="'$(Configuration)' == 'Release' ">
         <Content Include="..\..\..\lib\libsokol_app\osx-x64\opengl\release\libsokol_app.dylib">
-            <Link>runtimes/win-x64/native/sokol_app-opengl.dylib</Link>
+            <Link>runtimes/osx-x64/native/sokol_app-opengl.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>runtimes/osx-x64/native/libsokol_app-opengl.dylib</PackagePath>
         </Content>

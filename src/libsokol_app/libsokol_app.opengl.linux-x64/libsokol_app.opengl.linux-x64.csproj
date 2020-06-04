@@ -21,21 +21,6 @@
     </PropertyGroup>
     
     <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
-        <Content Include="..\..\..\lib\libsokol_app\win-x64\opengl\debug\sokol_app.dll">
-            <Link>runtimes/win-x64/native/sokol_app-opengl.dll</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/win-x64/native/sokol_app-opengl.dll</PackagePath>
-        </Content>
-        <Content Include="..\..\..\lib\libsokol_app\win-x64\opengl\debug\sokol_app.pdb">
-            <Link>runtimes/win-x64/native/sokol_app-opengl.pdb</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/win-x64/native/sokol_app-opengl.pdb</PackagePath>
-        </Content>
-        <Content Include="..\..\..\lib\libsokol_app\osx-x64\opengl\debug\libsokol_app.dylib">
-            <Link>runtimes/osx-x64/native/libsokol_app-opengl.dylib</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/osx-x64/native/libsokol_app-opengl.dylib</PackagePath>
-        </Content>
         <Content Include="..\..\..\lib\libsokol_app\linux-x64\opengl\debug\libsokol_app.so">
             <Link>runtimes/linux-x64/native/libsokol_app-opengl.so</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -44,16 +29,6 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)' == 'Release' ">
-        <Content Include="..\..\..\lib\libsokol_app\win-x64\opengl\release\sokol_app.dll">
-            <Link>runtimes/win-x64/native/sokol_app-opengl.dll</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/win-x64/native/sokol_app-opengl.dll</PackagePath>
-        </Content>
-        <Content Include="..\..\..\lib\libsokol_app\osx-x64\opengl\release\libsokol_app.dylib">
-            <Link>runtimes/osx-x64/native/libsokol_app-opengl.dylib</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes/osx-x64/native/libsokol_app-opengl.dylib</PackagePath>
-        </Content>
         <Content Include="..\..\..\lib\libsokol_app\linux-x64\opengl\release\libsokol_app.so">
             <Link>runtimes/linux-x64/native/libsokol_app-opengl.so</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
