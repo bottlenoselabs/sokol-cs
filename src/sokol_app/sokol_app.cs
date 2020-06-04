@@ -37,17 +37,154 @@ using static NativeLibrary;
 [SuppressMessage("ReSharper", "SA1600", Justification = "C style code.")]
 [SuppressMessage("ReSharper", "SA1602", Justification = "C style code.")]
 [SuppressMessage("ReSharper", "CommentTypo", Justification = "C style code.")]
+[SuppressMessage("ReSharper", "NotAccessedField.Global", Justification = "Public API.")]
 public static unsafe class sokol_app
 {
-    public const int SAPP_MAX_TOUCHPOINTS = 8;
-    public const int SAPP_MAX_MOUSEBUTTONS = 3;
-    public const int SAPP_MAX_KEYCODES = 512;
-    public const int SAPP_MODIFIER_SHIFT = 1;
-    public const int SAPP_MODIFIER_CTRL = 2;
-    public const int SAPP_MODIFIER_ALT = 4;
-    public const int SAPP_MODIFIER_SUPER = 8;
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void NativeCallbackDelegate();
 
-    private const string LIBRARY_NAME = "sokol_app";
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void NativeCallbackDelegateEvent(in sapp_event @event);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_android_get_native_activity();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sapp_cancel_quit();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate int d_sapp_color_format();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sapp_consume_event();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_d3d11_get_device();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_d3d11_get_device_context();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate int d_sapp_depth_format();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate float d_sapp_dpi_scale();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate ulong d_sapp_frame_count();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate byte* d_sapp_get_clipboard_string();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate BlittableBoolean d_sapp_gles2();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate int d_sapp_height();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate BlittableBoolean d_sapp_high_dpi();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sapp_html5_ask_leave_site(BlittableBoolean ask);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_ios_get_window();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate BlittableBoolean d_sapp_isvalid();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate BlittableBoolean d_sapp_keyboard_shown();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_macos_get_window();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_metal_get_device();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate BlittableBoolean d_sapp_mouse_shown();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sapp_desc d_sapp_query_desc();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sapp_quit();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sapp_request_quit();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate int d_sapp_run([In] sapp_desc* desc);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate int d_sapp_sample_count();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sapp_set_clipboard_string([In] byte* str);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sapp_show_keyboard(BlittableBoolean visible);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void d_sapp_show_mouse(BlittableBoolean visible);
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_userdata();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_wgpu_get_depth_stencil_view();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_wgpu_get_device();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_wgpu_get_render_view();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_wgpu_get_resolve_view();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate int d_sapp_width();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate void* d_sapp_win32_get_hwnd();
 
     public enum sapp_event_type : uint
     {
@@ -210,83 +347,285 @@ public static unsafe class sokol_app
         SAPP_MOUSEBUTTON_MIDDLE = 2
     }
 
+    public const int SAPP_MAX_TOUCHPOINTS = 8;
+    public const int SAPP_MAX_MOUSEBUTTONS = 3;
+    public const int SAPP_MAX_KEYCODES = 512;
+    public const int SAPP_MODIFIER_SHIFT = 1;
+    public const int SAPP_MODIFIER_CTRL = 2;
+    public const int SAPP_MODIFIER_ALT = 4;
+    public const int SAPP_MODIFIER_SUPER = 8;
+
+    public static d_sapp_isvalid sapp_isvalid;
+
+    public static d_sapp_width sapp_width;
+
+    public static d_sapp_height sapp_height;
+
+    public static d_sapp_color_format sapp_color_format;
+
+    public static d_sapp_depth_format sapp_depth_format;
+
+    public static d_sapp_sample_count sapp_sample_count;
+
+    public static d_sapp_high_dpi sapp_high_dpi;
+
+    public static d_sapp_dpi_scale sapp_dpi_scale;
+
+    public static d_sapp_show_keyboard sapp_show_keyboard;
+
+    public static d_sapp_keyboard_shown sapp_keyboard_shown;
+
+    public static d_sapp_show_mouse sapp_show_mouse;
+
+    public static d_sapp_mouse_shown sapp_mouse_shown;
+
+    public static d_sapp_userdata sapp_userdata;
+
+    public static d_sapp_query_desc sapp_query_desc;
+
+    public static d_sapp_request_quit sapp_request_quit;
+
+    public static d_sapp_cancel_quit sapp_cancel_quit;
+
+    public static d_sapp_quit sapp_quit;
+
+    public static d_sapp_consume_event sapp_consume_event;
+
+    public static d_sapp_frame_count sapp_frame_count;
+
+    public static d_sapp_set_clipboard_string sapp_set_clipboard_string;
+
+    public static d_sapp_get_clipboard_string sapp_get_clipboard_string;
+
+    public static d_sapp_run sapp_run;
+
+    public static d_sapp_gles2 sapp_gles2;
+
+    public static d_sapp_html5_ask_leave_site sapp_html5_ask_leave_site;
+
+    public static d_sapp_metal_get_device sapp_metal_get_device;
+
+    public static IntPtr sapp_metal_get_renderpass_descriptor;
+
+    public static IntPtr sapp_metal_get_drawable;
+
+    public static d_sapp_macos_get_window sapp_macos_get_window;
+
+    public static d_sapp_ios_get_window sapp_ios_get_window;
+
+    public static d_sapp_d3d11_get_device sapp_d3d11_get_device;
+
+    public static d_sapp_d3d11_get_device_context sapp_d3d11_get_device_context;
+
+    public static IntPtr sapp_d3d11_get_render_target_view;
+
+    public static IntPtr sapp_d3d11_get_depth_stencil_view;
+
+    public static d_sapp_win32_get_hwnd sapp_win32_get_hwnd;
+
+    public static d_sapp_wgpu_get_device sapp_wgpu_get_device;
+
+    public static IntPtr sapp_wgpu_get_render_view;
+
+    public static IntPtr sapp_wgpu_get_resolve_view;
+
+    public static IntPtr sapp_wgpu_get_depth_stencil_view;
+
+    public static d_sapp_android_get_native_activity sapp_android_get_native_activity;
+
+    private static IntPtr _libraryHandle;
+
+    public static void LoadApi(string libraryPath)
+    {
+        GraphicsHelper.EnsureIs64BitArchitecture();
+
+        _libraryHandle = LoadLibrary(libraryPath);
+
+        sapp_isvalid = GetLibraryFunction<d_sapp_isvalid>(_libraryHandle);
+        sapp_width = GetLibraryFunction<d_sapp_width>(_libraryHandle);
+        sapp_height = GetLibraryFunction<d_sapp_height>(_libraryHandle);
+        sapp_color_format = GetLibraryFunction<d_sapp_color_format>(_libraryHandle);
+        sapp_depth_format = GetLibraryFunction<d_sapp_depth_format>(_libraryHandle);
+        sapp_sample_count = GetLibraryFunction<d_sapp_sample_count>(_libraryHandle);
+        sapp_high_dpi = GetLibraryFunction<d_sapp_high_dpi>(_libraryHandle);
+        sapp_dpi_scale = GetLibraryFunction<d_sapp_dpi_scale>(_libraryHandle);
+        sapp_show_keyboard = GetLibraryFunction<d_sapp_show_keyboard>(_libraryHandle);
+        sapp_keyboard_shown = GetLibraryFunction<d_sapp_keyboard_shown>(_libraryHandle);
+        sapp_show_mouse = GetLibraryFunction<d_sapp_show_mouse>(_libraryHandle);
+        sapp_mouse_shown = GetLibraryFunction<d_sapp_mouse_shown>(_libraryHandle);
+        sapp_userdata = GetLibraryFunction<d_sapp_userdata>(_libraryHandle);
+        sapp_query_desc = GetLibraryFunction<d_sapp_query_desc>(_libraryHandle);
+        sapp_request_quit = GetLibraryFunction<d_sapp_request_quit>(_libraryHandle);
+        sapp_cancel_quit = GetLibraryFunction<d_sapp_cancel_quit>(_libraryHandle);
+        sapp_quit = GetLibraryFunction<d_sapp_quit>(_libraryHandle);
+        sapp_consume_event = GetLibraryFunction<d_sapp_consume_event>(_libraryHandle);
+        sapp_frame_count = GetLibraryFunction<d_sapp_frame_count>(_libraryHandle);
+        sapp_set_clipboard_string = GetLibraryFunction<d_sapp_set_clipboard_string>(_libraryHandle);
+        sapp_get_clipboard_string = GetLibraryFunction<d_sapp_get_clipboard_string>(_libraryHandle);
+        sapp_run = GetLibraryFunction<d_sapp_run>(_libraryHandle);
+        sapp_gles2 = GetLibraryFunction<d_sapp_gles2>(_libraryHandle);
+        sapp_html5_ask_leave_site = GetLibraryFunction<d_sapp_html5_ask_leave_site>(_libraryHandle);
+        sapp_metal_get_device = GetLibraryFunction<d_sapp_metal_get_device>(_libraryHandle);
+        sapp_metal_get_renderpass_descriptor = GetLibraryFunctionPointer(
+            _libraryHandle, "sapp_metal_get_renderpass_descriptor");
+        sapp_metal_get_drawable = GetLibraryFunctionPointer(_libraryHandle, "sapp_metal_get_drawable");
+        sapp_macos_get_window = GetLibraryFunction<d_sapp_macos_get_window>(_libraryHandle);
+        sapp_ios_get_window = GetLibraryFunction<d_sapp_ios_get_window>(_libraryHandle);
+        sapp_d3d11_get_device = GetLibraryFunction<d_sapp_d3d11_get_device>(_libraryHandle);
+        sapp_d3d11_get_device_context = GetLibraryFunction<d_sapp_d3d11_get_device_context>(_libraryHandle);
+        sapp_d3d11_get_render_target_view =
+            GetLibraryFunctionPointer(_libraryHandle, "sapp_d3d11_get_render_target_view");
+        sapp_d3d11_get_depth_stencil_view =
+            GetLibraryFunctionPointer(_libraryHandle, "sapp_d3d11_get_depth_stencil_view");
+        sapp_win32_get_hwnd = GetLibraryFunction<d_sapp_win32_get_hwnd>(_libraryHandle);
+        sapp_wgpu_get_device = GetLibraryFunction<d_sapp_wgpu_get_device>(_libraryHandle);
+        sapp_wgpu_get_render_view =
+            GetLibraryFunctionPointer(_libraryHandle, "sapp_wgpu_get_render_view");
+        sapp_wgpu_get_resolve_view =
+            GetLibraryFunctionPointer(_libraryHandle, "sapp_wgpu_get_resolve_view");
+        sapp_wgpu_get_depth_stencil_view =
+            GetLibraryFunctionPointer(_libraryHandle, "sapp_wgpu_get_depth_stencil_view");
+        sapp_android_get_native_activity = GetLibraryFunction<d_sapp_android_get_native_activity>(_libraryHandle);
+
+        // Perform a garbage collection as we are using a bunch of C# strings
+        GC.Collect();
+        // To perform a "full" GC, we have to empty the finalizer queue then call again
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+    }
+
+    public static void UnloadApi()
+    {
+        if (_libraryHandle == IntPtr.Zero)
+        {
+            return;
+        }
+
+        FreeLibrary(_libraryHandle);
+
+        sapp_isvalid = default;
+        sapp_width = default;
+        sapp_height = default;
+        sapp_color_format = default;
+        sapp_depth_format = default;
+        sapp_sample_count = default;
+        sapp_high_dpi = default;
+        sapp_dpi_scale = default;
+        sapp_show_keyboard = default;
+        sapp_keyboard_shown = default;
+        sapp_show_mouse = default;
+        sapp_mouse_shown = default;
+        sapp_userdata = default;
+        sapp_query_desc = default;
+        sapp_request_quit = default;
+        sapp_cancel_quit = default;
+        sapp_quit = default;
+        sapp_consume_event = default;
+        sapp_frame_count = default;
+        sapp_set_clipboard_string = default;
+        sapp_get_clipboard_string = default;
+        sapp_run = default;
+        sapp_gles2 = default;
+        sapp_html5_ask_leave_site = default;
+        sapp_metal_get_device = default;
+        sapp_metal_get_renderpass_descriptor = default;
+        sapp_metal_get_drawable = default;
+        sapp_macos_get_window = default;
+        sapp_ios_get_window = default;
+        sapp_d3d11_get_device = default;
+        sapp_d3d11_get_device_context = default;
+        sapp_d3d11_get_render_target_view = default;
+        sapp_d3d11_get_depth_stencil_view = default;
+        sapp_win32_get_hwnd = default;
+        sapp_wgpu_get_device = default;
+        sapp_wgpu_get_render_view = default;
+        sapp_wgpu_get_resolve_view = default;
+        sapp_wgpu_get_depth_stencil_view = default;
+        sapp_android_get_native_activity = default;
+    }
+
+    public static void LoadApi(GraphicsBackend graphicsBackend)
+    {
+        var libraryPath = GraphicsHelper.GetLibraryPath(graphicsBackend, "sokol_app");
+        LoadApi(libraryPath);
+    }
+
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct sapp_touchpoint
+    public readonly struct sapp_touchpoint
     {
         [FieldOffset(0)] /* size = 8, padding = 0 */
-        public void* identifier;
+        public readonly void* identifier;
 
         [FieldOffset(8)] /* size = 4, padding = 0 */
-        public float pos_x;
+        public readonly float pos_x;
 
         [FieldOffset(12)] /* size = 4, padding = 0 */
-        public float pos_y;
+        public readonly float pos_y;
 
         [FieldOffset(16)] /* size = 1, padding = 7 */
-        public BlittableBoolean changed;
+        public readonly BlittableBoolean changed;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
-    public struct sapp_event
+    public readonly struct sapp_event
     {
         [FieldOffset(0)] /* size = 8, padding = 0 */
-        public ulong frame_count;
+        public readonly ulong frame_count;
 
         [FieldOffset(8)] /* size = 4, padding = 0 */
-        public sapp_event_type type;
+        public readonly sapp_event_type type;
 
         [FieldOffset(12)] /* size = 4, padding = 0 */
-        public sapp_keycode key_code;
+        public readonly sapp_keycode key_code;
 
         [FieldOffset(16)] /* size = 4, padding = 0 */
-        public uint char_code;
+        public readonly uint char_code;
 
         [FieldOffset(20)] /* size = 1, padding = 3 */
-        public BlittableBoolean key_repeat;
+        public readonly BlittableBoolean key_repeat;
 
         [FieldOffset(24)] /* size = 4, padding = 0 */
-        public uint modifiers;
+        public readonly uint modifiers;
 
         [FieldOffset(28)] /* size = 4, padding = 0 */
-        public sapp_mousebutton mouse_button;
+        public readonly sapp_mousebutton mouse_button;
 
         [FieldOffset(32)] /* size = 4, padding = 0 */
-        public float mouse_x;
+        public readonly float mouse_x;
 
         [FieldOffset(36)] /* size = 4, padding = 0 */
-        public float mouse_y;
+        public readonly float mouse_y;
 
         [FieldOffset(40)] /* size = 4, padding = 0 */
-        public float scroll_x;
+        public readonly float scroll_x;
 
         [FieldOffset(44)] /* size = 4, padding = 0 */
-        public float scroll_y;
+        public readonly float scroll_y;
 
         [FieldOffset(48)] /* size = 4, padding = 4 */
-        public int num_touches;
+        public readonly int num_touches;
 
         [FieldOffset(56)] /* size = 192, padding = 0 */
-        public fixed ulong _touches[192 / 8]; /* original type is `sapp_touchpoint [8]` */
+        public readonly ulong _touches; /* original type is `sapp_touchpoint [8]` */
 
         [FieldOffset(248)] /* size = 4, padding = 0 */
-        public int window_width;
+        public readonly int window_width;
 
         [FieldOffset(252)] /* size = 4, padding = 0 */
-        public int window_height;
+        public readonly int window_height;
 
         [FieldOffset(256)] /* size = 4, padding = 0 */
-        public int framebuffer_width;
+        public readonly int framebuffer_width;
 
         [FieldOffset(260)] /* size = 4, padding = 0 */
-        public int framebuffer_height;
+        public readonly int framebuffer_height;
 
-        public readonly ref sapp_touchpoint touch(int index = 0)
+        public ref sapp_touchpoint touch(int index = 0)
         {
             fixed (sapp_event* @this = &this)
             {
-                var pointer = (sapp_touchpoint*)&@this->_touches[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                var pointer = (sapp_touchpoint*)&@this->_touches;
+                return ref *(pointer + index);
             }
         }
     }
@@ -380,350 +719,5 @@ public static unsafe class sokol_app
 
         [FieldOffset(141)] /* size = 1, padding = 2 */
         public BlittableBoolean gl_force_gles2;
-    }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate BlittableBoolean d_sapp_isvalid();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate int d_sapp_width();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate int d_sapp_height();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate int d_sapp_color_format();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate int d_sapp_depth_format();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate int d_sapp_sample_count();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate BlittableBoolean d_sapp_high_dpi();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate float d_sapp_dpi_scale();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void d_sapp_show_keyboard(BlittableBoolean visible);
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate BlittableBoolean d_sapp_keyboard_shown();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void d_sapp_show_mouse(BlittableBoolean visible);
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate BlittableBoolean d_sapp_mouse_shown();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_userdata();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate sapp_desc d_sapp_query_desc();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void d_sapp_request_quit();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void d_sapp_cancel_quit();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void d_sapp_quit();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void d_sapp_consume_event();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate ulong d_sapp_frame_count();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void d_sapp_set_clipboard_string([In] byte* str);
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate byte* d_sapp_get_clipboard_string();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate int d_sapp_run([In] sapp_desc* desc);
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate BlittableBoolean d_sapp_gles2();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void d_sapp_html5_ask_leave_site(BlittableBoolean ask);
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_metal_get_device();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_metal_get_renderpass_descriptor();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_metal_get_drawable();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_macos_get_window();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_ios_get_window();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_d3d11_get_device();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_d3d11_get_device_context();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_d3d11_get_render_target_view();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_d3d11_get_depth_stencil_view();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_win32_get_hwnd();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_wgpu_get_device();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_wgpu_get_render_view();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_wgpu_get_resolve_view();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_wgpu_get_depth_stencil_view();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_android_get_native_activity();
-
-    public static d_sapp_isvalid sapp_isvalid;
-
-    public static d_sapp_width sapp_width;
-
-    public static d_sapp_height sapp_height;
-
-    public static d_sapp_color_format sapp_color_format;
-
-    public static d_sapp_depth_format sapp_depth_format;
-
-    public static d_sapp_sample_count sapp_sample_count;
-
-    public static d_sapp_high_dpi sapp_high_dpi;
-
-    public static d_sapp_dpi_scale sapp_dpi_scale;
-
-    public static d_sapp_show_keyboard sapp_show_keyboard;
-
-    public static d_sapp_keyboard_shown sapp_keyboard_shown;
-
-    public static d_sapp_show_mouse sapp_show_mouse;
-
-    public static d_sapp_mouse_shown sapp_mouse_shown;
-
-    public static d_sapp_userdata sapp_userdata;
-
-    public static d_sapp_query_desc sapp_query_desc;
-
-    public static d_sapp_request_quit sapp_request_quit;
-
-    public static d_sapp_cancel_quit sapp_cancel_quit;
-
-    public static d_sapp_quit sapp_quit;
-
-    public static d_sapp_consume_event sapp_consume_event;
-
-    public static d_sapp_frame_count sapp_frame_count;
-
-    public static d_sapp_set_clipboard_string sapp_set_clipboard_string;
-
-    public static d_sapp_get_clipboard_string sapp_get_clipboard_string;
-
-    public static d_sapp_run sapp_run;
-
-    public static d_sapp_gles2 sapp_gles2;
-
-    public static d_sapp_html5_ask_leave_site sapp_html5_ask_leave_site;
-
-    public static d_sapp_metal_get_device sapp_metal_get_device;
-
-    public static d_sapp_metal_get_renderpass_descriptor sapp_metal_get_renderpass_descriptor;
-
-    public static d_sapp_metal_get_drawable sapp_metal_get_drawable;
-
-    public static d_sapp_macos_get_window sapp_macos_get_window;
-
-    public static d_sapp_ios_get_window sapp_ios_get_window;
-
-    public static d_sapp_d3d11_get_device sapp_d3d11_get_device;
-
-    public static d_sapp_d3d11_get_device_context sapp_d3d11_get_device_context;
-
-    public static d_sapp_d3d11_get_render_target_view sapp_d3d11_get_render_target_view;
-
-    public static d_sapp_d3d11_get_depth_stencil_view sapp_d3d11_get_depth_stencil_view;
-
-    public static d_sapp_win32_get_hwnd sapp_win32_get_hwnd;
-
-    public static d_sapp_wgpu_get_device sapp_wgpu_get_device;
-
-    public static d_sapp_wgpu_get_render_view sapp_wgpu_get_render_view;
-
-    public static d_sapp_wgpu_get_resolve_view sapp_wgpu_get_resolve_view;
-
-    public static d_sapp_wgpu_get_depth_stencil_view sapp_wgpu_get_depth_stencil_view;
-
-    public static d_sapp_android_get_native_activity sapp_android_get_native_activity;
-
-    private static IntPtr _libraryHandle;
-
-    public static void LoadApi(string libraryPath)
-    {
-        GraphicsHelper.EnsureIs64BitArchitecture();
-
-        _libraryHandle = LoadLibrary(libraryPath);
-
-        sapp_isvalid = GetLibraryFunction<d_sapp_isvalid>(_libraryHandle);
-        sapp_width = GetLibraryFunction<d_sapp_width>(_libraryHandle);
-        sapp_height = GetLibraryFunction<d_sapp_height>(_libraryHandle);
-        sapp_color_format = GetLibraryFunction<d_sapp_color_format>(_libraryHandle);
-        sapp_depth_format = GetLibraryFunction<d_sapp_depth_format>(_libraryHandle);
-        sapp_sample_count = GetLibraryFunction<d_sapp_sample_count>(_libraryHandle);
-        sapp_high_dpi = GetLibraryFunction<d_sapp_high_dpi>(_libraryHandle);
-        sapp_dpi_scale = GetLibraryFunction<d_sapp_dpi_scale>(_libraryHandle);
-        sapp_show_keyboard = GetLibraryFunction<d_sapp_show_keyboard>(_libraryHandle);
-        sapp_keyboard_shown = GetLibraryFunction<d_sapp_keyboard_shown>(_libraryHandle);
-        sapp_show_mouse = GetLibraryFunction<d_sapp_show_mouse>(_libraryHandle);
-        sapp_mouse_shown = GetLibraryFunction<d_sapp_mouse_shown>(_libraryHandle);
-        sapp_userdata = GetLibraryFunction<d_sapp_userdata>(_libraryHandle);
-        sapp_query_desc = GetLibraryFunction<d_sapp_query_desc>(_libraryHandle);
-        sapp_request_quit = GetLibraryFunction<d_sapp_request_quit>(_libraryHandle);
-        sapp_cancel_quit = GetLibraryFunction<d_sapp_cancel_quit>(_libraryHandle);
-        sapp_quit = GetLibraryFunction<d_sapp_quit>(_libraryHandle);
-        sapp_consume_event = GetLibraryFunction<d_sapp_consume_event>(_libraryHandle);
-        sapp_frame_count = GetLibraryFunction<d_sapp_frame_count>(_libraryHandle);
-        sapp_set_clipboard_string = GetLibraryFunction<d_sapp_set_clipboard_string>(_libraryHandle);
-        sapp_get_clipboard_string = GetLibraryFunction<d_sapp_get_clipboard_string>(_libraryHandle);
-        sapp_run = GetLibraryFunction<d_sapp_run>(_libraryHandle);
-        sapp_gles2 = GetLibraryFunction<d_sapp_gles2>(_libraryHandle);
-        sapp_html5_ask_leave_site = GetLibraryFunction<d_sapp_html5_ask_leave_site>(_libraryHandle);
-        sapp_metal_get_device = GetLibraryFunction<d_sapp_metal_get_device>(_libraryHandle);
-        sapp_metal_get_renderpass_descriptor = GetLibraryFunction<d_sapp_metal_get_renderpass_descriptor>(_libraryHandle);
-        sapp_metal_get_drawable = GetLibraryFunction<d_sapp_metal_get_drawable>(_libraryHandle);
-        sapp_macos_get_window = GetLibraryFunction<d_sapp_macos_get_window>(_libraryHandle);
-        sapp_ios_get_window = GetLibraryFunction<d_sapp_ios_get_window>(_libraryHandle);
-        sapp_d3d11_get_device = GetLibraryFunction<d_sapp_d3d11_get_device>(_libraryHandle);
-        sapp_d3d11_get_device_context = GetLibraryFunction<d_sapp_d3d11_get_device_context>(_libraryHandle);
-        sapp_d3d11_get_render_target_view = GetLibraryFunction<d_sapp_d3d11_get_render_target_view>(_libraryHandle);
-        sapp_d3d11_get_depth_stencil_view = GetLibraryFunction<d_sapp_d3d11_get_depth_stencil_view>(_libraryHandle);
-        sapp_win32_get_hwnd = GetLibraryFunction<d_sapp_win32_get_hwnd>(_libraryHandle);
-        sapp_wgpu_get_device = GetLibraryFunction<d_sapp_wgpu_get_device>(_libraryHandle);
-        sapp_wgpu_get_render_view = GetLibraryFunction<d_sapp_wgpu_get_render_view>(_libraryHandle);
-        sapp_wgpu_get_resolve_view = GetLibraryFunction<d_sapp_wgpu_get_resolve_view>(_libraryHandle);
-        sapp_wgpu_get_depth_stencil_view = GetLibraryFunction<d_sapp_wgpu_get_depth_stencil_view>(_libraryHandle);
-        sapp_android_get_native_activity = GetLibraryFunction<d_sapp_android_get_native_activity>(_libraryHandle);
-
-        // Perform a garbage collection as we are using a bunch of C# strings
-        GC.Collect();
-        // To perform a "full" GC, we have to empty the finalizer queue then call again
-        GC.WaitForPendingFinalizers();
-        GC.Collect();
-    }
-
-    public static void UnloadApi()
-    {
-        if (_libraryHandle == IntPtr.Zero)
-        {
-            return;
-        }
-
-        FreeLibrary(_libraryHandle);
-
-        sapp_isvalid = default;
-        sapp_width = default;
-        sapp_height = default;
-        sapp_color_format = default;
-        sapp_depth_format = default;
-        sapp_sample_count = default;
-        sapp_high_dpi = default;
-        sapp_dpi_scale = default;
-        sapp_show_keyboard = default;
-        sapp_keyboard_shown = default;
-        sapp_show_mouse = default;
-        sapp_mouse_shown = default;
-        sapp_userdata = default;
-        sapp_query_desc = default;
-        sapp_request_quit = default;
-        sapp_cancel_quit = default;
-        sapp_quit = default;
-        sapp_consume_event = default;
-        sapp_frame_count = default;
-        sapp_set_clipboard_string = default;
-        sapp_get_clipboard_string = default;
-        sapp_run = default;
-        sapp_gles2 = default;
-        sapp_html5_ask_leave_site = default;
-        sapp_metal_get_device = default;
-        sapp_metal_get_renderpass_descriptor = default;
-        sapp_metal_get_drawable = default;
-        sapp_macos_get_window = default;
-        sapp_ios_get_window = default;
-        sapp_d3d11_get_device = default;
-        sapp_d3d11_get_device_context = default;
-        sapp_d3d11_get_render_target_view = default;
-        sapp_d3d11_get_depth_stencil_view = default;
-        sapp_win32_get_hwnd = default;
-        sapp_wgpu_get_device = default;
-        sapp_wgpu_get_render_view = default;
-        sapp_wgpu_get_resolve_view = default;
-        sapp_wgpu_get_depth_stencil_view = default;
-        sapp_android_get_native_activity = default;
-    }
-
-    public static void LoadApi(GraphicsBackend graphicsBackend)
-    {
-        var libraryPath = GraphicsHelper.GetLibraryPath(graphicsBackend, "sokol_app");
-        LoadApi(libraryPath);
     }
 }
