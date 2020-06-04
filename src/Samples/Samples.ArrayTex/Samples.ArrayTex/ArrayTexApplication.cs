@@ -12,7 +12,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.ArrayTex
 {
-    internal sealed class ArrayTexApplication : App
+    internal sealed class ArrayTexApplication : Application
     {
         private const int _textureLayersCount = 3;
         private const int _textureWidth = 16;
@@ -30,17 +30,13 @@ namespace Samples.ArrayTex
         private int _frameIndex;
         private VertexStageParams _vertexStageParams;
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _texture = CreateTexture();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
         protected override void Frame()
@@ -48,6 +44,11 @@ namespace Samples.ArrayTex
             Update();
             Draw();
             GraphicsDevice.Commit();
+        }
+
+        protected override void Resized(int width, int height)
+        {
+            CreateViewProjectionMatrix(width, height);
         }
 
         private void Draw()
@@ -79,7 +80,6 @@ namespace Samples.ArrayTex
 
         private void Update()
         {
-            CreateViewProjectionMatrix(Width, Height);
             RotateCube();
             CalculateTextureCoordinates();
         }
@@ -91,6 +91,8 @@ namespace Samples.ArrayTex
             _vertexStageParams.Offset0 = new Vector3(-offset, offset, 0);
             _vertexStageParams.Offset1 = new Vector3(offset, -offset, 1);
             _vertexStageParams.Offset2 = new Vector3(0, 0, 2);
+
+            // lerp weights
             _vertexStageParams.Weights = new Vector3(1f, 1f, 1f);
         }
 
@@ -122,7 +124,7 @@ namespace Samples.ArrayTex
         private Pipeline CreatePipeline()
         {
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float2;
             pipelineDesc.Shader = _shader;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
@@ -139,8 +141,8 @@ namespace Samples.ArrayTex
 
             ref var uniformBlock = ref shaderDesc.VertexStage.UniformBlock();
             uniformBlock.Size = Marshal.SizeOf<VertexStageParams>();
-            uniformBlock.Uniform(0).Name = "mvp";
-            uniformBlock.Uniform(0).Type = ShaderUniformType.Matrix4x4;
+            uniformBlock.Uniform().Name = "mvp";
+            uniformBlock.Uniform().Type = ShaderUniformType.Matrix4x4;
             uniformBlock.Uniform(1).Name = "offset0";
             uniformBlock.Uniform(1).Type = ShaderUniformType.Float3;
             uniformBlock.Uniform(2).Name = "offset1";

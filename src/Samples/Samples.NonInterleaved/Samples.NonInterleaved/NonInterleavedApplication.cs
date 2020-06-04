@@ -11,29 +11,24 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.NonInterleaved
 {
-    internal sealed class NonInterleavedApplication : App
+    internal sealed class NonInterleavedApplication : Application
     {
         private Buffer _vertexBuffer;
         private Buffer _indexBuffer;
         private Shader _shader;
         private Pipeline _pipeline;
 
-        private bool _paused;
         private float _rotationX;
         private float _rotationY;
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
         protected override void Frame()
@@ -70,7 +65,7 @@ namespace Samples.NonInterleaved
 
         private void Update()
         {
-            CreateViewProjectionMatrix(Width, Height);
+            CreateViewProjectionMatrix();
             RotateCube();
         }
 
@@ -87,12 +82,12 @@ namespace Samples.NonInterleaved
             _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
         }
 
-        private void CreateViewProjectionMatrix(int width, int height)
+        private void CreateViewProjectionMatrix()
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 10.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(
@@ -105,8 +100,8 @@ namespace Samples.NonInterleaved
         private Pipeline CreatePipeline()
         {
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
-            pipelineDesc.Layout.Attribute(0).BufferIndex = 0;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute().BufferIndex = 0;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
             pipelineDesc.Layout.Attribute(1).BufferIndex = 1;
             pipelineDesc.Shader = _shader;
@@ -122,7 +117,7 @@ namespace Samples.NonInterleaved
         {
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
+            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform();
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
 

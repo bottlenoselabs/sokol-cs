@@ -11,7 +11,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.BufferOffsets
 {
-    internal sealed class BufferOffsetsApplication : App
+    internal sealed class BufferOffsetsApplication : Application
     {
         private Buffer _vertexBuffer;
         private Buffer _indexBuffer;
@@ -20,16 +20,12 @@ namespace Samples.BufferOffsets
 
         private ResourceBindings _resourceBindings;
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
         protected override void Frame()

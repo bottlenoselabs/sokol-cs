@@ -11,7 +11,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace ShaderToy.App
 {
-    public sealed class ShaderToyApp : Sokol.App.App
+    public sealed class ShaderToyApp : Application
     {
         private const long TicksPerMillisecond = 10000;
         private const long TicksPerSecond = TicksPerMillisecond * 1000;
@@ -40,34 +40,35 @@ namespace ShaderToy.App
             _shaderToySourceCode = shaderToySourceCode;
         }
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _shader = CreateShader(_shaderToySourceCode);
             _pipeline = CreatePipeline();
-            GraphicsDevice.FreeStrings();
         }
 
         protected override void Frame()
         {
             Tick();
             HandleInput();
-            Update();
             Draw();
             GraphicsDevice.Commit();
         }
 
-        protected override void Event(ref Event e)
+        protected override void HandleEvent(in Event e)
         {
-            base.Event(ref e);
-
             _mousePosition = e.MousePosition;
             _mouseIsDown = e.MouseButton == MouseButton.Left;
         }
 
         private void Draw()
         {
+            var aspectRatio = Framebuffer.Width / (float)Framebuffer.Height;
+            _uniforms.iResolution.X = Framebuffer.Width;
+            _uniforms.iResolution.Y = Framebuffer.Height;
+            _uniforms.iResolution.Z = aspectRatio;
+
             var pass = BeginDefaultPass(Rgba32F.Black);
 
             var resourceBindings = default(ResourceBindings);
@@ -84,20 +85,12 @@ namespace ShaderToy.App
             pass.End();
         }
 
-        private void Update()
-        {
-            var aspectRatio = Width / (float)Height;
-            _uniforms.iResolution.X = Width;
-            _uniforms.iResolution.Y = Height;
-            _uniforms.iResolution.Z = aspectRatio;
-        }
-
         private void HandleInput()
         {
-            var height = _uniforms.iResolution.Y;
             _uniforms.iMouse.X = _mousePosition.X;
             _uniforms.iMouse.Y = _mousePosition.Y;
 
+            // ReSharper disable once InvertIf
             if (_mouseIsDown)
             {
                 _uniforms.iMouse.Z = _mousePosition.X;

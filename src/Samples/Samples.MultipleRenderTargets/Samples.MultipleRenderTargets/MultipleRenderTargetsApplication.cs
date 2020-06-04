@@ -11,9 +11,9 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.MultipleRenderTargets
 {
-    internal sealed class MultipleRenderTargetsApplication : App
+    internal sealed class MultipleRenderTargetsApplication : Application
     {
-        private Image[] _offScreenRenderTargets;
+        private Image[] _offScreenRenderTargets = null!;
         private Buffer _cubeIndexBuffer;
         private Buffer _cubeVertexBuffer;
         private Buffer _quadVertexBuffer;
@@ -31,7 +31,7 @@ namespace Samples.MultipleRenderTargets
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             _cubeVertexBuffer = CreateCubeVertexBuffer();
             _cubeIndexBuffer = CreateCubeIndexBuffer();
@@ -47,10 +47,6 @@ namespace Samples.MultipleRenderTargets
 
             _debugShader = CreateDebugShader();
             _debugPipeline = CreateDebugPipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
         protected override void Frame()
@@ -115,7 +111,7 @@ namespace Samples.MultipleRenderTargets
 
         private void Update()
         {
-            CreateViewProjectionMatrix(Width, Height);
+            CreateViewProjectionMatrix();
             RotateCube();
         }
 
@@ -435,12 +431,12 @@ namespace Samples.MultipleRenderTargets
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private void CreateViewProjectionMatrix(int width, int height)
+        private void CreateViewProjectionMatrix()
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 10.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(

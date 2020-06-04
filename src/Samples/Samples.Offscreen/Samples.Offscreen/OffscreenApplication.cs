@@ -11,7 +11,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Offscreen
 {
-    internal sealed class OffscreenApplication : App
+    internal sealed class OffscreenApplication : Application
     {
         private Buffer _indexBuffer;
         private Buffer _vertexBuffer;
@@ -27,7 +27,7 @@ namespace Samples.Offscreen
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
@@ -40,10 +40,6 @@ namespace Samples.Offscreen
 
             _frameBufferShader = CreateFrameBufferShader();
             _frameBufferPipeline = CreateFrameBufferPipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
         protected override void Frame()
@@ -103,7 +99,7 @@ namespace Samples.Offscreen
 
         private void Update()
         {
-            CreateViewProjectionMatrix(Width, Height);
+            CreateViewProjectionMatrix();
             RotateCube();
         }
 
@@ -120,12 +116,12 @@ namespace Samples.Offscreen
             _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
         }
 
-        private void CreateViewProjectionMatrix(int width, int height)
+        private void CreateViewProjectionMatrix()
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 10.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(

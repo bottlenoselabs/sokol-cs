@@ -10,23 +10,19 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Quad
 {
-    internal sealed class QuadApplication : App
+    internal sealed class QuadApplication : Application
     {
         private Pipeline _pipeline;
         private Buffer _indexBuffer;
         private Buffer _vertexBuffer;
         private Shader _shader;
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
         protected override void Frame()

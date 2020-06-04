@@ -10,19 +10,17 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Triangle
 {
-    internal sealed class TriangleApplication : App
+    internal sealed class TriangleApplication : Application
     {
         private Pipeline _pipeline;
         private Shader _shader;
         private Buffer _vertexBuffer;
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            GraphicsDevice.FreeStrings();
         }
 
         protected override void Frame()

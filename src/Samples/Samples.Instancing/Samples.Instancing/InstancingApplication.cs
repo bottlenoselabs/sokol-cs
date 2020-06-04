@@ -12,7 +12,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Instancing
 {
-    internal sealed class InstancingApplication : App
+    internal sealed class InstancingApplication : Application
     {
         private const int _maxParticlesCount = 512 * 1024;
         private const int _particlesCountEmittedPerFrame = 10;
@@ -31,7 +31,7 @@ namespace Samples.Instancing
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             Debug.Assert(
                 GraphicsDevice.Features.Instancing,
@@ -42,10 +42,6 @@ namespace Samples.Instancing
             _instanceBuffer = CreateInstanceBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
         protected override void Frame()
@@ -86,7 +82,7 @@ namespace Samples.Instancing
 
         private void Update()
         {
-            CreateViewProjectionMatrix(Width, Height);
+            CreateViewProjectionMatrix();
             EmitNewParticles();
             MoveParticles();
             RotateParticles();
@@ -142,12 +138,12 @@ namespace Samples.Instancing
             }
         }
 
-        private void CreateViewProjectionMatrix(int width, int height)
+        private void CreateViewProjectionMatrix()
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 50.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(

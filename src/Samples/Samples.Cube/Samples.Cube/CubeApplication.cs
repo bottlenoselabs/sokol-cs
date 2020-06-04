@@ -11,7 +11,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Cube
 {
-    internal sealed class CubeApplication : App
+    internal sealed class CubeApplication : Application
     {
         private Shader _shader;
         private Buffer _vertexBuffer;
@@ -23,16 +23,12 @@ namespace Samples.Cube
         private float _rotationX;
         private float _rotationY;
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
         protected override void Frame()
@@ -67,7 +63,7 @@ namespace Samples.Cube
 
         private void Update()
         {
-            CreateViewProjectionMatrix(Width, Height);
+            CreateViewProjectionMatrix();
             RotateCube();
         }
 
@@ -82,11 +78,11 @@ namespace Samples.Cube
             _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
         }
 
-        private void CreateViewProjectionMatrix(int width, int height)
+        private void CreateViewProjectionMatrix()
         {
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 10.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(

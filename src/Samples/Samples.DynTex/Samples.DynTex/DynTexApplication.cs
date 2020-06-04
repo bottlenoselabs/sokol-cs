@@ -11,7 +11,7 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.DynTex
 {
-    internal sealed class DynTexApplication : App
+    internal sealed class DynTexApplication : Application
     {
         private Buffer _vertexBuffer;
         private Buffer _indexBuffer;
@@ -34,17 +34,13 @@ namespace Samples.DynTex
         private readonly Rgba8U[] _textureData = new Rgba8U[_textureWidth * _textureHeight];
         private readonly Random _random = new Random();
 
-        protected override void Initialize()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _texture = CreateTexture();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
 
             ResetGameOfLife();
         }
@@ -86,7 +82,7 @@ namespace Samples.DynTex
 
         private void Update()
         {
-            CreateViewProjectionMatrix(Width, Height);
+            CreateViewProjectionMatrix();
             RotateCube();
             UpdateGameOfLife();
         }
@@ -174,12 +170,12 @@ namespace Samples.DynTex
             }
         }
 
-        private void CreateViewProjectionMatrix(int width, int height)
+        private void CreateViewProjectionMatrix()
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 10.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(
