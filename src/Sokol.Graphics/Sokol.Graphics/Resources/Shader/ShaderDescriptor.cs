@@ -59,7 +59,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="ShaderVertexAttributeDescriptor" /> by reference.</returns>
-        public readonly ref ShaderVertexAttributeDescriptor Attribute(int index)
+        public readonly ref ShaderVertexAttributeDescriptor Attribute(int index = 0)
         {
             fixed (ShaderDescriptor* shaderDescription = &this)
             {
