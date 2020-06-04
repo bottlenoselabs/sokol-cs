@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using Sokol.Graphics;
 
 #pragma warning disable 1591
 #nullable disable
@@ -40,19 +41,11 @@ namespace Sokol.App
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr d_sapp_d3d11_get_depth_stencil_view();
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr d_sapp_d3d11_get_device();
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr d_sapp_d3d11_get_device_context();
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr d_sapp_d3d11_get_render_target_view();
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
@@ -148,19 +141,7 @@ namespace Sokol.App
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr d_sapp_wgpu_get_depth_stencil_view();
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr d_sapp_wgpu_get_device();
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr d_sapp_wgpu_get_render_view();
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-        public delegate IntPtr d_sapp_wgpu_get_resolve_view();
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
@@ -169,6 +150,10 @@ namespace Sokol.App
         [EditorBrowsable(EditorBrowsableState.Never)]
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate IntPtr d_sapp_win32_get_hwnd();
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+        public delegate GraphicsContextDescriptor d_sapp_sgcontext();
 
         public static d_sapp_isvalid sapp_isvalid;
 
@@ -220,10 +205,6 @@ namespace Sokol.App
 
         public static d_sapp_metal_get_device sapp_metal_get_device;
 
-        public static IntPtr sapp_metal_get_renderpass_descriptor;
-
-        public static IntPtr sapp_metal_get_drawable;
-
         public static d_sapp_macos_get_window sapp_macos_get_window;
 
         public static d_sapp_ios_get_window sapp_ios_get_window;
@@ -232,20 +213,12 @@ namespace Sokol.App
 
         public static d_sapp_d3d11_get_device_context sapp_d3d11_get_device_context;
 
-        public static IntPtr sapp_d3d11_get_render_target_view;
-
-        public static IntPtr sapp_d3d11_get_depth_stencil_view;
-
         public static d_sapp_win32_get_hwnd sapp_win32_get_hwnd;
 
         public static d_sapp_wgpu_get_device sapp_wgpu_get_device;
 
-        public static IntPtr sapp_wgpu_get_render_view;
-
-        public static IntPtr sapp_wgpu_get_resolve_view;
-
-        public static IntPtr sapp_wgpu_get_depth_stencil_view;
-
         public static d_sapp_android_get_native_activity sapp_android_get_native_activity;
+
+        public static d_sapp_sgcontext sapp_sgcontext;
     }
 }

@@ -24,7 +24,7 @@ namespace Sokol.App
         /// <param name="libraryPath">The library path to `sokol_gfx`.</param>
         public static void LoadApi(string libraryPath)
         {
-            GraphicsHelper.EnsureIs64BitArchitecture();
+            Graphics.Native.LoadApi(libraryPath);
 
             _libraryHandle = LoadLibrary(libraryPath);
 
@@ -53,27 +53,14 @@ namespace Sokol.App
             sapp_gles2 = GetLibraryFunction<d_sapp_gles2>(_libraryHandle);
             sapp_html5_ask_leave_site = GetLibraryFunction<d_sapp_html5_ask_leave_site>(_libraryHandle);
             sapp_metal_get_device = GetLibraryFunction<d_sapp_metal_get_device>(_libraryHandle);
-            sapp_metal_get_renderpass_descriptor =
-                GetLibraryFunctionPointer(_libraryHandle, "sapp_metal_get_renderpass_descriptor");
-            sapp_metal_get_drawable =
-                GetLibraryFunctionPointer(_libraryHandle, "sapp_metal_get_drawable");
             sapp_macos_get_window = GetLibraryFunction<d_sapp_macos_get_window>(_libraryHandle);
             sapp_ios_get_window = GetLibraryFunction<d_sapp_ios_get_window>(_libraryHandle);
             sapp_d3d11_get_device = GetLibraryFunction<d_sapp_d3d11_get_device>(_libraryHandle);
             sapp_d3d11_get_device_context = GetLibraryFunction<d_sapp_d3d11_get_device_context>(_libraryHandle);
-            sapp_d3d11_get_render_target_view =
-                GetLibraryFunctionPointer(_libraryHandle, "sapp_d3d11_get_render_target_view");
-            sapp_d3d11_get_depth_stencil_view =
-                GetLibraryFunctionPointer(_libraryHandle, "sapp_d3d11_get_depth_stencil_view");
             sapp_win32_get_hwnd = GetLibraryFunction<d_sapp_win32_get_hwnd>(_libraryHandle);
             sapp_wgpu_get_device = GetLibraryFunction<d_sapp_wgpu_get_device>(_libraryHandle);
-            sapp_wgpu_get_render_view =
-                GetLibraryFunctionPointer(_libraryHandle, "sapp_wgpu_get_render_view");
-            sapp_wgpu_get_resolve_view =
-                GetLibraryFunctionPointer(_libraryHandle, "sapp_wgpu_get_resolve_view");
-            sapp_wgpu_get_depth_stencil_view =
-                GetLibraryFunctionPointer(_libraryHandle, "sapp_wgpu_get_depth_stencil_view");
             sapp_android_get_native_activity = GetLibraryFunction<d_sapp_android_get_native_activity>(_libraryHandle);
+            sapp_sgcontext = GetLibraryFunction<d_sapp_sgcontext>(_libraryHandle);
 
             // Perform a garbage collection as we are using a bunch of C# strings
             GC.Collect();
@@ -87,6 +74,8 @@ namespace Sokol.App
         /// </summary>
         public static void UnloadApi()
         {
+            Graphics.Native.UnloadApi();
+
             if (_libraryHandle == IntPtr.Zero)
             {
                 return;
@@ -119,19 +108,12 @@ namespace Sokol.App
             sapp_gles2 = default;
             sapp_html5_ask_leave_site = default;
             sapp_metal_get_device = default;
-            sapp_metal_get_renderpass_descriptor = default;
-            sapp_metal_get_drawable = default;
             sapp_macos_get_window = default;
             sapp_ios_get_window = default;
             sapp_d3d11_get_device = default;
             sapp_d3d11_get_device_context = default;
-            sapp_d3d11_get_render_target_view = default;
-            sapp_d3d11_get_depth_stencil_view = default;
             sapp_win32_get_hwnd = default;
             sapp_wgpu_get_device = default;
-            sapp_wgpu_get_render_view = default;
-            sapp_wgpu_get_resolve_view = default;
-            sapp_wgpu_get_depth_stencil_view = default;
             sapp_android_get_native_activity = default;
         }
 
