@@ -21,6 +21,7 @@ namespace Sokol.Graphics
     ///         <c>using static Sokol.Graphics.GraphicsDevice;</c>.
     ///     </para>
     /// </remarks>
+    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
     public static class GraphicsDevice
     {
         /// <summary>
@@ -92,7 +93,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         If you need to destroy a resource before calling <see cref="Destroy" />, call one the following:
+        ///         If you need to destroy a resource before calling <see cref="Shutdown" />, call one the following:
         ///         <list type="bullet">
         ///             <item>
         ///                 <description>
@@ -238,7 +239,7 @@ namespace Sokol.Graphics
         ///     Gets a <see cref="bool" /> indicating whether the current state of `sokol_gfx` is initialized or not.
         /// </summary>
         /// <returns>
-        ///     <c>true</c> when <see cref="Setup" /> was called successfully and <see cref="Destroy" /> has not yet been
+        ///     <c>true</c> when <see cref="Setup" /> was called successfully and <see cref="Shutdown" /> has not yet been
         ///     called; otherwise <c>false</c>.
         /// </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
