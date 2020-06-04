@@ -92,7 +92,12 @@ internal static class NativeLibrary
         return IntPtr.Zero;
     }
 
-    public static T GetLibraryFunction<T>(IntPtr handle, string functionName = null)
+    public static T GetLibraryFunction<T>(IntPtr handle)
+    {
+        return GetLibraryFunction<T>(handle, string.Empty);
+    }
+
+    public static T GetLibraryFunction<T>(IntPtr handle, string functionName)
     {
         if (string.IsNullOrEmpty(functionName))
         {
