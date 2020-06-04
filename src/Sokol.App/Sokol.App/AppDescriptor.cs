@@ -87,7 +87,7 @@ namespace Sokol.App
 
         /// <summary>
         ///     A <see cref="bool" /> value indicating whether the window cursor image is to be custom handled when
-        ///     <see cref="App.HandleEvent" /> is called with an event of the <see cref="EventType.UpdateCursor" />.
+        ///     <see cref="App.Event" /> is invoked with an event of the <see cref="EventType.UpdateCursor" />.
         ///     Default is <c>false</c>.
         /// </summary>
         [FieldOffset(120)] /* size = 1, padding = 0 */
