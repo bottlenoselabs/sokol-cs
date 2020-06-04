@@ -74,6 +74,7 @@ internal static class GraphicsHelper
 
     public static string GetDynamicLibraryExtension(GraphicsPlatform platform)
     {
+        // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
         return platform switch
         {
             GraphicsPlatform.Windows => "dll",
@@ -84,11 +85,24 @@ internal static class GraphicsHelper
         };
     }
 
+    public static string GetBackendString(GraphicsBackend backend)
+    {
+        // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
+        return backend switch
+        {
+            GraphicsBackend.OpenGL => "opengl",
+            GraphicsBackend.Metal => "metal",
+            GraphicsBackend.Direct3D11 => "d3d11",
+            GraphicsBackend.Dummy => "dummy",
+            _ => throw new ArgumentOutOfRangeException(nameof(backend), backend, null)
+        };
+    }
+
     public static string GetLibraryPath(GraphicsBackend backend, string libraryName)
     {
         var platform = Platform;
         var libraryPrefix = platform == GraphicsPlatform.Windows ? string.Empty : "lib";
-        var backendString = backend.ToString().ToLowerInvariant();
+        var backendString = GetBackendString(backend);
         var extension = GetDynamicLibraryExtension(platform);
         var libraryFileName = $"{libraryPrefix}{libraryName}-{backendString}.{extension}";
 
@@ -98,7 +112,8 @@ internal static class GraphicsHelper
             return workingDirectoryLibraryPath;
         }
 
-        var applicationDirectoryLibraryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, libraryName);
+        var baseDirectory = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
+        var applicationDirectoryLibraryPath = Path.Combine(baseDirectory, libraryName);
         if (File.Exists(applicationDirectoryLibraryPath))
         {
             return applicationDirectoryLibraryPath;
@@ -111,6 +126,6 @@ internal static class GraphicsHelper
             return runtimeLibraryPath;
         }
 
-        return string.Empty;
+        throw new Exception($"Could not find the library path for {libraryName} with the given {backend} back-end.");
     }
 }
