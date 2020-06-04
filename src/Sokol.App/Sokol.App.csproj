@@ -26,8 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\libsokol_app\libsokol_app\libsokol_app.csproj" />
-        <ProjectReference Include="..\libsokol_gfx\libsokol_gfx\libsokol_gfx.csproj" />
         <ProjectReference Include="..\Sokol.Graphics\Sokol.Graphics.csproj" />
     </ItemGroup>
 

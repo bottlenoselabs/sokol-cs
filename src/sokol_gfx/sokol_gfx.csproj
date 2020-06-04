@@ -27,10 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\libsokol_gfx\libsokol_gfx\libsokol_gfx.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
         <None Remove="sokol_gfx.csproj.DotSettings" />
     </ItemGroup>
 
