@@ -164,19 +164,7 @@ public static unsafe class sokol_app
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_wgpu_get_depth_stencil_view();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
     public delegate void* d_sapp_wgpu_get_device();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_wgpu_get_render_view();
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate void* d_sapp_wgpu_get_resolve_view();
 
     [EditorBrowsable(EditorBrowsableState.Never)]
     [UnmanagedFunctionPointer(CallingConvention.Winapi)]
@@ -185,6 +173,10 @@ public static unsafe class sokol_app
     [EditorBrowsable(EditorBrowsableState.Never)]
     [UnmanagedFunctionPointer(CallingConvention.Winapi)]
     public delegate void* d_sapp_win32_get_hwnd();
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    public delegate sokol_gfx.sg_desc d_sapp_sgcontext();
 
     public enum sapp_event_type : uint
     {
@@ -405,10 +397,6 @@ public static unsafe class sokol_app
 
     public static d_sapp_metal_get_device sapp_metal_get_device;
 
-    public static IntPtr sapp_metal_get_renderpass_descriptor;
-
-    public static IntPtr sapp_metal_get_drawable;
-
     public static d_sapp_macos_get_window sapp_macos_get_window;
 
     public static d_sapp_ios_get_window sapp_ios_get_window;
@@ -417,27 +405,19 @@ public static unsafe class sokol_app
 
     public static d_sapp_d3d11_get_device_context sapp_d3d11_get_device_context;
 
-    public static IntPtr sapp_d3d11_get_render_target_view;
-
-    public static IntPtr sapp_d3d11_get_depth_stencil_view;
-
     public static d_sapp_win32_get_hwnd sapp_win32_get_hwnd;
 
     public static d_sapp_wgpu_get_device sapp_wgpu_get_device;
 
-    public static IntPtr sapp_wgpu_get_render_view;
-
-    public static IntPtr sapp_wgpu_get_resolve_view;
-
-    public static IntPtr sapp_wgpu_get_depth_stencil_view;
-
     public static d_sapp_android_get_native_activity sapp_android_get_native_activity;
+
+    public static d_sapp_sgcontext sapp_sgcontext;
 
     private static IntPtr _libraryHandle;
 
     public static void LoadApi(string libraryPath)
     {
-        GraphicsHelper.EnsureIs64BitArchitecture();
+        sokol_gfx.LoadApi(libraryPath);
 
         _libraryHandle = LoadLibrary(libraryPath);
 
@@ -466,26 +446,14 @@ public static unsafe class sokol_app
         sapp_gles2 = GetLibraryFunction<d_sapp_gles2>(_libraryHandle);
         sapp_html5_ask_leave_site = GetLibraryFunction<d_sapp_html5_ask_leave_site>(_libraryHandle);
         sapp_metal_get_device = GetLibraryFunction<d_sapp_metal_get_device>(_libraryHandle);
-        sapp_metal_get_renderpass_descriptor = GetLibraryFunctionPointer(
-            _libraryHandle, "sapp_metal_get_renderpass_descriptor");
-        sapp_metal_get_drawable = GetLibraryFunctionPointer(_libraryHandle, "sapp_metal_get_drawable");
         sapp_macos_get_window = GetLibraryFunction<d_sapp_macos_get_window>(_libraryHandle);
         sapp_ios_get_window = GetLibraryFunction<d_sapp_ios_get_window>(_libraryHandle);
         sapp_d3d11_get_device = GetLibraryFunction<d_sapp_d3d11_get_device>(_libraryHandle);
         sapp_d3d11_get_device_context = GetLibraryFunction<d_sapp_d3d11_get_device_context>(_libraryHandle);
-        sapp_d3d11_get_render_target_view =
-            GetLibraryFunctionPointer(_libraryHandle, "sapp_d3d11_get_render_target_view");
-        sapp_d3d11_get_depth_stencil_view =
-            GetLibraryFunctionPointer(_libraryHandle, "sapp_d3d11_get_depth_stencil_view");
         sapp_win32_get_hwnd = GetLibraryFunction<d_sapp_win32_get_hwnd>(_libraryHandle);
         sapp_wgpu_get_device = GetLibraryFunction<d_sapp_wgpu_get_device>(_libraryHandle);
-        sapp_wgpu_get_render_view =
-            GetLibraryFunctionPointer(_libraryHandle, "sapp_wgpu_get_render_view");
-        sapp_wgpu_get_resolve_view =
-            GetLibraryFunctionPointer(_libraryHandle, "sapp_wgpu_get_resolve_view");
-        sapp_wgpu_get_depth_stencil_view =
-            GetLibraryFunctionPointer(_libraryHandle, "sapp_wgpu_get_depth_stencil_view");
         sapp_android_get_native_activity = GetLibraryFunction<d_sapp_android_get_native_activity>(_libraryHandle);
+        sapp_sgcontext = GetLibraryFunction<d_sapp_sgcontext>(_libraryHandle);
 
         // Perform a garbage collection as we are using a bunch of C# strings
         GC.Collect();
@@ -496,6 +464,8 @@ public static unsafe class sokol_app
 
     public static void UnloadApi()
     {
+        sokol_gfx.UnloadApi();
+
         if (_libraryHandle == IntPtr.Zero)
         {
             return;
@@ -528,20 +498,14 @@ public static unsafe class sokol_app
         sapp_gles2 = default;
         sapp_html5_ask_leave_site = default;
         sapp_metal_get_device = default;
-        sapp_metal_get_renderpass_descriptor = default;
-        sapp_metal_get_drawable = default;
         sapp_macos_get_window = default;
         sapp_ios_get_window = default;
         sapp_d3d11_get_device = default;
         sapp_d3d11_get_device_context = default;
-        sapp_d3d11_get_render_target_view = default;
-        sapp_d3d11_get_depth_stencil_view = default;
         sapp_win32_get_hwnd = default;
         sapp_wgpu_get_device = default;
-        sapp_wgpu_get_render_view = default;
-        sapp_wgpu_get_resolve_view = default;
-        sapp_wgpu_get_depth_stencil_view = default;
         sapp_android_get_native_activity = default;
+        sapp_sgcontext = default;
     }
 
     public static void LoadApi(GraphicsBackend graphicsBackend)
