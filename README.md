@@ -74,17 +74,6 @@ To get the NuGet packages, add the following feed: `https://www.myget.org/F/lith
 - [`Sokol.App`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.App)
 - [`libsokol_app`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_app)
 
-### [Sokol.SDL2](https://github.com/lithiumtoast/Sokol.NET/projects/3)
-
-- [`sokol_sdl2`](https://www.myget.org/feed/lithiumtoast/package/nuget/sokol_sdl2)
-- [`Sokol.SDL2`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.SDL2)
-- [`libsokol_sdl2`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsokol_sdl2)
-- [`libsdl2`](https://www.myget.org/feed/lithiumtoast/package/nuget/libsdl2)
-
-### [Sokol.ImGui](https://github.com/lithiumtoast/Sokol.NET/projects/4)
-
-- [`Sokol.ImGui`](https://www.myget.org/feed/lithiumtoast/package/nuget/Sokol.ImGui)
-
 ## Versioning
 
 `Sokol.NET` uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. For example, the version scheme used for native shared libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for `Sokol.NET` is `MAJOR.MINOR.PATCH-TAG`.
