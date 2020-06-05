@@ -27,11 +27,6 @@ namespace Samples.Offscreen
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public OffscreenApplication()
-            : base(GraphicsBackend.OpenGL)
-        {
-        }
-
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
@@ -189,16 +184,16 @@ namespace Samples.Offscreen
             switch (Backend)
             {
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreenVert.glsl");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreenFrag.glsl");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenVert.metal");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenFrag.metal");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
                 case GraphicsBackend.Direct3D11:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/offscreenVert.hlsl");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/offscreenFrag.hlsl");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
                     attribute0.SemanticName = "POSITION";
                     attribute1.SemanticName = "COLOR";
                     attribute2.SemanticName = "TEXCOORD";
