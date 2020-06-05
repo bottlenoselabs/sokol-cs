@@ -91,9 +91,6 @@ namespace Samples.ArrayTex
             _vertexStageParams.Offset0 = new Vector3(-offset, offset, 0);
             _vertexStageParams.Offset1 = new Vector3(offset, -offset, 1);
             _vertexStageParams.Offset2 = new Vector3(0, 0, 2);
-
-            // lerp weights
-            _vertexStageParams.Weights = new Vector3(1f, 1f, 1f);
         }
 
         private void RotateCube()
@@ -149,25 +146,39 @@ namespace Samples.ArrayTex
             uniformBlock.Uniform(2).Type = ShaderUniformType.Float3;
             uniformBlock.Uniform(3).Name = "offset2";
             uniformBlock.Uniform(3).Type = ShaderUniformType.Float3;
-            uniformBlock.Uniform(4).Name = "weights";
-            uniformBlock.Uniform(4).Type = ShaderUniformType.Float3;
             shaderDesc.FragmentStage.Image().ImageType = ImageType.TextureArray;
 
             ref var image = ref shaderDesc.FragmentStage.Image();
             image.Name = "tex";
             image.ImageType = ImageType.TextureArray;
 
-            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+
             switch (Backend)
             {
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    attribute1.SemanticName = "TEXCOORD";
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.WebGPU:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             return GraphicsDevice.CreateShader(ref shaderDesc);
@@ -177,14 +188,14 @@ namespace Samples.ArrayTex
         {
             var pixelData = ArrayPool<Rgba8U>.Shared.Rent(_textureLayersCount * _textureWidth * _textureHeight);
 
-            for (int layer = 0, even_odd = 0, index = 0; layer < _textureLayersCount; layer++)
+            for (int layer = 0, evenOdd = 0, index = 0; layer < _textureLayersCount; layer++)
             {
-                for (var y = 0; y < _textureHeight; y++, even_odd++)
+                for (var y = 0; y < _textureHeight; y++, evenOdd++)
                 {
-                    for (var x = 0; x < _textureWidth; x++, even_odd++, index++)
+                    for (var x = 0; x < _textureWidth; x++, evenOdd++, index++)
                     {
                         ref var color = ref pixelData[index];
-                        if ((int)(even_odd & 1) > 0)
+                        if ((int)(evenOdd & 1) > 0)
                         {
                             color = layer switch
                             {

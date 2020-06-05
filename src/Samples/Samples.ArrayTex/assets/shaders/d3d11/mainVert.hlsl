@@ -28,4 +28,4 @@ vs_out main(vs_in inp)
     outp.uv1 = float3(inp.uv + offset1, 1.0);
     outp.uv2 = float3(inp.uv + offset2, 2.0);
     return outp;
-}
+};

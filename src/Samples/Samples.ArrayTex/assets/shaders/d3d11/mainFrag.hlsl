@@ -14,4 +14,4 @@ float4 main(fs_in inp): SV_Target0
     float3 c1 = tex.Sample(smp, inp.uv1).xyz;
     float3 c2 = tex.Sample(smp, inp.uv2).xyz;
     return float4(c0 + c1 + c2, 1.0);
-}
+};
