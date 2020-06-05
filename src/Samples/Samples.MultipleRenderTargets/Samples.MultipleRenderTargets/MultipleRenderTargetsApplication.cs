@@ -31,11 +31,6 @@ namespace Samples.MultipleRenderTargets
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public MultipleRenderTargetsApplication()
-            : base(GraphicsBackend.OpenGL)
-        {
-        }
-
         protected override void CreateResources()
         {
             _cubeVertexBuffer = CreateCubeVertexBuffer();
