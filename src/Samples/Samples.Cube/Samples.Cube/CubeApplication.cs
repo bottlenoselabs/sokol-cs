@@ -23,6 +23,11 @@ namespace Samples.Cube
         private float _rotationX;
         private float _rotationY;
 
+        public CubeApplication()
+            : base(GraphicsBackend.OpenGL)
+        {
+        }
+
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
@@ -117,13 +122,7 @@ namespace Samples.Cube
 
             // describe the vertex shader attributes
             ref var attribute0 = ref shaderDesc.Attribute();
-            attribute0.Name = "position";
-            attribute0.SemanticName = "POSITION"; // used only for Direct3D11
-
             ref var attribute1 = ref shaderDesc.Attribute(1);
-            attribute1.Name = "color0";
-            attribute1.SemanticName = "COLOR"; // used only for Direct3D11
-            attribute1.SemanticIndex = 1; // used only for Direct3D11
 
             switch (Backend)
             {
@@ -138,6 +137,10 @@ namespace Samples.Cube
                 case GraphicsBackend.Direct3D11:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    // COLOR1
+                    attribute1.SemanticName = "COLOR";
+                    attribute1.SemanticIndex = 1;
                     break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
