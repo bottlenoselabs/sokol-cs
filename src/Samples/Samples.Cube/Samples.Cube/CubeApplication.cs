@@ -108,25 +108,47 @@ namespace Samples.Cube
 
         private Shader CreateShader()
         {
+            // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
             ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform();
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
 
-            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            attribute0.Name = "position";
+            attribute0.SemanticName = "POSITION"; // used only for Direct3D11
+
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+            attribute1.Name = "color0";
+            attribute1.SemanticName = "COLOR"; // used only for Direct3D11
+            attribute1.SemanticIndex = 1; // used only for Direct3D11
+
             switch (Backend)
             {
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.WebGPU:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
+            // create the shader resource from the descriptor
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
