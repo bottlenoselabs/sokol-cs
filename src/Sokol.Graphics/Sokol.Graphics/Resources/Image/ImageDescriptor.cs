@@ -165,11 +165,11 @@ namespace Sokol.Graphics
 
         // TODO: Native 3D textures
         [FieldOffset(1624)]
-        internal fixed uint GLTextures[sokol_gfx.SG_NUM_INFLIGHT_FRAMES];
+        internal fixed uint GLTextures[Constants.InflightFramesCount];
 
         // TODO: Native 3D textures
         [FieldOffset(1632)]
-        internal fixed ulong MTLTextures[sokol_gfx.SG_NUM_INFLIGHT_FRAMES];
+        internal fixed ulong MTLTextures[Constants.InflightFramesCount];
 
         // TODO: Native 3D textures
         [FieldOffset(1648)]

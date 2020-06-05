@@ -51,10 +51,10 @@ namespace Sokol.Graphics
         public IntPtr EntryFunctionName;
 
         [FieldOffset(32)]
-        internal fixed ulong _uniformBlocks[264 * sokol_gfx.SG_MAX_SHADERSTAGE_UBS / 8];
+        internal fixed ulong _uniformBlocks[264 * Constants.MaximumShaderStageUniformBuffers / 8];
 
         [FieldOffset(1088)]
-        internal fixed ulong _images[16 * sokol_gfx.SG_MAX_SHADERSTAGE_IMAGES / 8];
+        internal fixed ulong _images[16 * Constants.MaximumShaderStageImages / 8];
 
         [FieldOffset(0)]
         private IntPtr _sourceCode;

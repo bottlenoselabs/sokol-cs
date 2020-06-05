@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Sokol.App;
@@ -10,52 +11,64 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace ShaderToy.App
 {
-    public sealed class ShaderToyApp : Sokol.App.App
+    public sealed class ShaderToyApp : Application
     {
-        private readonly Pipeline _pipeline;
-        private readonly Buffer _indexBuffer;
-        private readonly Buffer _vertexBuffer;
-        private readonly Shader _shader;
+        private const long TicksPerMillisecond = 10000;
+        private const long TicksPerSecond = TicksPerMillisecond * 1000;
+        private static readonly double _dateTimeTicksFrequency = (double)TicksPerSecond / Stopwatch.Frequency;
+        private static long _rawTicksPrevious;
 
+        private readonly string _shaderToySourceCode;
+        private Pipeline _pipeline;
+        private Buffer _indexBuffer;
+        private Buffer _vertexBuffer;
+        private Shader _shader;
         private FragmentStageParams _uniforms;
 
+        private Vector2 _mousePosition;
+        private bool _mouseIsDown;
+
         public ShaderToyApp(string shaderToySourceCode)
-            : base(new AppDescriptor
+            : base(GraphicsBackend.OpenGL)
+        {
+            if (!Stopwatch.IsHighResolution)
             {
-                RequestedBackend = GraphicsBackend.OpenGL,
-                AllowHighDpi = false
-            })
+                throw new Exception("Timer is not high resolution.");
+            }
+
+            _rawTicksPrevious = Stopwatch.GetTimestamp();
+            _shaderToySourceCode = shaderToySourceCode;
+        }
+
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
-            _shader = CreateShader(shaderToySourceCode);
+            _shader = CreateShader(_shaderToySourceCode);
             _pipeline = CreatePipeline();
-            GraphicsDevice.FreeStrings();
-
-            DrawableSizeChanged += OnDrawableSizeChanged;
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            var height = _uniforms.iResolution.Y;
-            var mousePosition = new Vector2(state.MousePosition.X, height - state.MousePosition.Y);
-            _uniforms.iMouse.X = mousePosition.X;
-            _uniforms.iMouse.Y = mousePosition.Y;
-
-            if (state.MouseButton(MouseButton.Left).IsDown)
-            {
-                _uniforms.iMouse.Z = mousePosition.X;
-                _uniforms.iMouse.W = mousePosition.Y;
-            }
+            Tick();
+            HandleInput();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
+        protected override void HandleEvent(in Event e)
         {
-            _uniforms.iTime = time.TotalSeconds;
+            _mousePosition = e.MousePosition;
+            _mouseIsDown = e.MouseButton == MouseButton.Left;
         }
 
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
+            var aspectRatio = Framebuffer.Width / (float)Framebuffer.Height;
+            _uniforms.iResolution.X = Framebuffer.Width;
+            _uniforms.iResolution.Y = Framebuffer.Height;
+            _uniforms.iResolution.Z = aspectRatio;
+
             var pass = BeginDefaultPass(Rgba32F.Black);
 
             var resourceBindings = default(ResourceBindings);
@@ -72,6 +85,30 @@ namespace ShaderToy.App
             pass.End();
         }
 
+        private void HandleInput()
+        {
+            _uniforms.iMouse.X = _mousePosition.X;
+            _uniforms.iMouse.Y = _mousePosition.Y;
+
+            // ReSharper disable once InvertIf
+            if (_mouseIsDown)
+            {
+                _uniforms.iMouse.Z = _mousePosition.X;
+                _uniforms.iMouse.W = _mousePosition.Y;
+            }
+        }
+
+        private void Tick()
+        {
+            var rawTicksCurrent = Stopwatch.GetTimestamp();
+            var rawTicksElapsed = rawTicksCurrent - _rawTicksPrevious;
+            var dateTimeTicks = unchecked((long)(rawTicksElapsed * _dateTimeTicksFrequency));
+            var timeElapsed = new TimeSpan(dateTimeTicks);
+            _rawTicksPrevious = rawTicksCurrent;
+
+            _uniforms.iTime += (float)timeElapsed.TotalSeconds;
+        }
+
         private Shader CreateShader(string shaderToySourceCode)
         {
             if (Backend != GraphicsBackend.OpenGL)
@@ -84,7 +121,7 @@ namespace ShaderToy.App
             ref var uniformBlock = ref shaderDesc.FragmentStage.UniformBlock();
             uniformBlock.Size = Marshal.SizeOf<FragmentStageParams>();
 
-            ref var resolution = ref uniformBlock.Uniform(0);
+            ref var resolution = ref uniformBlock.Uniform();
             resolution.Name = "iResolution";
             resolution.Type = ShaderUniformType.Float3;
 
@@ -128,14 +165,6 @@ void main() {
             shaderDesc.FragmentStage.SourceCode = fragmentStageSourceCode;
 
             return GraphicsDevice.CreateShader(ref shaderDesc);
-        }
-
-        private void OnDrawableSizeChanged(Sokol.App.App app, int width, int height)
-        {
-            var aspectRatio = width / (float)height;
-            _uniforms.iResolution.X = width;
-            _uniforms.iResolution.Y = height;
-            _uniforms.iResolution.Z = aspectRatio;
         }
 
         private Pipeline CreatePipeline()

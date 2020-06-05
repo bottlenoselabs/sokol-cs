@@ -12,76 +12,46 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.ArrayTex
 {
-    internal sealed class ArrayTexApplication : App
+    internal sealed class ArrayTexApplication : Application
     {
         private const int _textureLayersCount = 3;
         private const int _textureWidth = 16;
         private const int _textureHeight = 16;
 
-        private readonly Buffer _vertexBuffer;
-        private readonly Buffer _indexBuffer;
-        private readonly Image _texture;
-        private readonly Shader _shader;
-        private readonly Pipeline _pipeline;
+        private Buffer _vertexBuffer;
+        private Buffer _indexBuffer;
+        private Image _texture;
+        private Shader _shader;
+        private Pipeline _pipeline;
 
-        private bool _paused;
         private float _rotationX;
         private float _rotationY;
         private Matrix4x4 _viewProjectionMatrix;
         private int _frameIndex;
         private VertexStageParams _vertexStageParams;
 
-        public ArrayTexApplication()
+        protected override void CreateResources()
         {
-            DrawableSizeChanged += OnDrawableSizeChanged;
-
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _texture = CreateTexture();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
-            {
-                _paused = !_paused;
-            }
+            Update();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
+        protected override void Resized(int width, int height)
         {
-            if (_paused)
-            {
-                return;
-            }
-
-            var deltaSeconds = time.ElapsedSeconds;
-
-            // rotate cube and create vertex shader mvp matrix
-            _rotationX += 0.25f * deltaSeconds;
-            _rotationY += 0.5f * deltaSeconds;
-            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
-            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
-            var modelMatrix = rotationMatrixX * rotationMatrixY;
-            _vertexStageParams.MVP = modelMatrix * _viewProjectionMatrix;
-
-            // calculate texture coordinate offsets (xy = uv, z = texture layer)
-            var offset = _frameIndex * 0.0001f;
-            _vertexStageParams.Offset0 = new Vector3(-offset, offset, 0);
-            _vertexStageParams.Offset1 = new Vector3(offset, -offset, 1);
-            _vertexStageParams.Offset2 = new Vector3(0, 0, 2);
-
-            // calculate color interpolation weight
-            _vertexStageParams.Weights = new Vector3(1f, 1f, 1f);
+            CreateViewProjectionMatrix(width, height);
         }
 
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
             // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Black);
@@ -108,9 +78,34 @@ namespace Samples.ArrayTex
             _frameIndex++;
         }
 
-        private void OnDrawableSizeChanged(App app, int width, int height)
+        private void Update()
         {
-            // create camera projection and view matrix
+            RotateCube();
+            CalculateTextureCoordinates();
+        }
+
+        private void CalculateTextureCoordinates()
+        {
+            // xy = uv, z = texture layer
+            var offset = _frameIndex * 0.0001f;
+            _vertexStageParams.Offset0 = new Vector3(-offset, offset, 0);
+            _vertexStageParams.Offset1 = new Vector3(offset, -offset, 1);
+            _vertexStageParams.Offset2 = new Vector3(0, 0, 2);
+        }
+
+        private void RotateCube()
+        {
+            const float deltaSeconds = 1 / 60f;
+            _rotationX += 0.25f * deltaSeconds;
+            _rotationY += 0.5f * deltaSeconds;
+            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
+            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
+            var modelMatrix = rotationMatrixX * rotationMatrixY;
+            _vertexStageParams.MVP = modelMatrix * _viewProjectionMatrix;
+        }
+
+        private void CreateViewProjectionMatrix(int width, int height)
+        {
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(35.0f * Math.PI / 180),
                 (float)width / height,
@@ -126,7 +121,7 @@ namespace Samples.ArrayTex
         private Pipeline CreatePipeline()
         {
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float2;
             pipelineDesc.Shader = _shader;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
@@ -139,48 +134,53 @@ namespace Samples.ArrayTex
 
         private Shader CreateShader()
         {
-            // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
 
             ref var uniformBlock = ref shaderDesc.VertexStage.UniformBlock();
             uniformBlock.Size = Marshal.SizeOf<VertexStageParams>();
-            uniformBlock.Uniform(0).Name = "mvp";
-            uniformBlock.Uniform(0).Type = ShaderUniformType.Matrix4x4;
+            uniformBlock.Uniform().Name = "mvp";
+            uniformBlock.Uniform().Type = ShaderUniformType.Matrix4x4;
             uniformBlock.Uniform(1).Name = "offset0";
             uniformBlock.Uniform(1).Type = ShaderUniformType.Float3;
             uniformBlock.Uniform(2).Name = "offset1";
             uniformBlock.Uniform(2).Type = ShaderUniformType.Float3;
             uniformBlock.Uniform(3).Name = "offset2";
             uniformBlock.Uniform(3).Type = ShaderUniformType.Float3;
-            uniformBlock.Uniform(4).Name = "weights";
-            uniformBlock.Uniform(4).Type = ShaderUniformType.Float3;
             shaderDesc.FragmentStage.Image().ImageType = ImageType.TextureArray;
 
             ref var image = ref shaderDesc.FragmentStage.Image();
             image.Name = "tex";
             image.ImageType = ImageType.TextureArray;
 
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    attribute1.SemanticName = "TEXCOORD";
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            // create the shader resource from the description
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
@@ -188,14 +188,14 @@ namespace Samples.ArrayTex
         {
             var pixelData = ArrayPool<Rgba8U>.Shared.Rent(_textureLayersCount * _textureWidth * _textureHeight);
 
-            for (int layer = 0, even_odd = 0, index = 0; layer < _textureLayersCount; layer++)
+            for (int layer = 0, evenOdd = 0, index = 0; layer < _textureLayersCount; layer++)
             {
-                for (var y = 0; y < _textureHeight; y++, even_odd++)
+                for (var y = 0; y < _textureHeight; y++, evenOdd++)
                 {
-                    for (var x = 0; x < _textureWidth; x++, even_odd++, index++)
+                    for (var x = 0; x < _textureWidth; x++, evenOdd++, index++)
                     {
                         ref var color = ref pixelData[index];
-                        if ((int)(even_odd & 1) > 0)
+                        if ((int)(evenOdd & 1) > 0)
                         {
                             color = layer switch
                             {

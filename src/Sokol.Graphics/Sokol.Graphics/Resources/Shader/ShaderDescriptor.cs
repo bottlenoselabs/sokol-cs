@@ -34,7 +34,7 @@ namespace Sokol.Graphics
         public ShaderStageDescriptor FragmentStage;
 
         [FieldOffset(8)]
-        private fixed ulong _attributes[24 * sokol_gfx.SG_MAX_VERTEX_ATTRIBUTES / 8];
+        private fixed ulong _attributes[24 * Constants.MaximumVertexAttributes / 8];
 
         // TODO: Trace hooks.
         [FieldOffset(2952)]
@@ -59,7 +59,7 @@ namespace Sokol.Graphics
         /// </summary>
         /// <param name="index">The zero-based index.</param>
         /// <returns>A <see cref="ShaderVertexAttributeDescriptor" /> by reference.</returns>
-        public readonly ref ShaderVertexAttributeDescriptor Attribute(int index)
+        public readonly ref ShaderVertexAttributeDescriptor Attribute(int index = 0)
         {
             fixed (ShaderDescriptor* shaderDescription = &this)
             {

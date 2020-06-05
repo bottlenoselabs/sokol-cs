@@ -11,6 +11,5 @@ namespace Samples.ArrayTex
         public Vector3 Offset0;
         public Vector3 Offset1;
         public Vector3 Offset2;
-        public Vector3 Weights;
     }
 }

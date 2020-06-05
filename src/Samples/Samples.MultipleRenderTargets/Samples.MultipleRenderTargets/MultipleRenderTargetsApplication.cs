@@ -11,31 +11,28 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.MultipleRenderTargets
 {
-    internal sealed class MultipleRenderTargetsApplication : App
+    internal sealed class MultipleRenderTargetsApplication : Application
     {
-        private readonly Image[] _offScreenRenderTargets;
-        private readonly Buffer _cubeIndexBuffer;
-        private readonly Buffer _cubeVertexBuffer;
-        private readonly Buffer _quadVertexBuffer;
-        private readonly Pipeline _debugPipeline;
-        private readonly Shader _debugShader;
-        private readonly Pipeline _fullScreenPipeline;
-        private readonly Shader _fullScreenShader;
-        private readonly Pass _offScreenPass;
-        private readonly Pipeline _offScreenPipeline;
-        private readonly Shader _offScreenShader;
+        private Image[] _offScreenRenderTargets = null!;
+        private Buffer _cubeIndexBuffer;
+        private Buffer _cubeVertexBuffer;
+        private Buffer _quadVertexBuffer;
+        private Pipeline _debugPipeline;
+        private Shader _debugShader;
+        private Pipeline _fullScreenPipeline;
+        private Shader _fullScreenShader;
+        private Pass _offScreenPass;
+        private Pipeline _offScreenPipeline;
+        private Shader _offScreenShader;
 
-        private bool _paused;
         private Vector2 _offset;
         private float _rotationX;
         private float _rotationY;
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public MultipleRenderTargetsApplication()
+        protected override void CreateResources()
         {
-            DrawableSizeChanged += OnDrawableSizeChanged;
-
             _cubeVertexBuffer = CreateCubeVertexBuffer();
             _cubeIndexBuffer = CreateCubeIndexBuffer();
             _quadVertexBuffer = CreateQuadVertexBuffer();
@@ -50,44 +47,16 @@ namespace Samples.MultipleRenderTargets
 
             _debugShader = CreateDebugShader();
             _debugPipeline = CreateDebugPipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
-            {
-                _paused = !_paused;
-            }
+            Update();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
-        {
-            if (_paused)
-            {
-                return;
-            }
-
-            var deltaSeconds = time.ElapsedSeconds;
-
-            // rotate cube and create vertex shader mvp matrix
-            _rotationX += 1.0f * deltaSeconds;
-            _rotationY += 2.0f * deltaSeconds;
-            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
-            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
-            var modelMatrix = rotationMatrixX * rotationMatrixY;
-            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
-
-            // update offset used in shader
-            ref var offset = ref _offset;
-            offset.X = (float)(0.1 * Math.Sin(_rotationX));
-            offset.Y = (float)(0.1 * Math.Sin(_rotationY));
-        }
-
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
             // render cube into offscreen render targets
             var offScreenPassAction = default(PassAction);
@@ -140,10 +109,34 @@ namespace Samples.MultipleRenderTargets
             pass.End();
         }
 
+        private void Update()
+        {
+            CreateViewProjectionMatrix();
+            RotateCube();
+        }
+
+        private void RotateCube()
+        {
+            const float deltaSeconds = 1 / 60f;
+
+            // rotate cube and create vertex shader mvp matrix
+            _rotationX += 1.0f * deltaSeconds;
+            _rotationY += 2.0f * deltaSeconds;
+            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
+            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
+            var modelMatrix = rotationMatrixX * rotationMatrixY;
+            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
+
+            // update offset used in shader
+            ref var offset = ref _offset;
+            offset.X = (float)(0.1 * Math.Sin(_rotationX));
+            offset.Y = (float)(0.1 * Math.Sin(_rotationY));
+        }
+
         private Pass CreateOffScreenRenderPass()
         {
             var passDesc = default(PassDescriptor);
-            passDesc.ColorAttachment(0).Image = _offScreenRenderTargets[0];
+            passDesc.ColorAttachment().Image = _offScreenRenderTargets[0];
             passDesc.ColorAttachment(1).Image = _offScreenRenderTargets[1];
             passDesc.ColorAttachment(2).Image = _offScreenRenderTargets[2];
             passDesc.DepthStencilAttachment.Image = _offScreenRenderTargets[3];
@@ -167,20 +160,28 @@ namespace Samples.MultipleRenderTargets
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.FragmentStage.Image().Name = "tex";
             shaderDesc.FragmentStage.Image().ImageType = ImageType.Texture2D;
+
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debug.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debug.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debugVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/debugFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/debugVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/debugFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/debugVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/debugFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:
@@ -195,7 +196,7 @@ namespace Samples.MultipleRenderTargets
         {
             // describe the off screen render pipeline
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float2;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float2;
             pipelineDesc.Shader = _fullScreenShader;
             pipelineDesc.PrimitiveType = PipelineVertexPrimitiveType.TriangleStrip;
 
@@ -219,20 +220,27 @@ namespace Samples.MultipleRenderTargets
             shaderDesc.FragmentStage.Image(2).Name = "tex2";
             shaderDesc.FragmentStage.Image(2).ImageType = ImageType.Texture2D;
 
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/fullScreen.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/fullScreen.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/fullScreenVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/fullScreenFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/fullScreenVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/fullScreenFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/fullScreenVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/fullScreenFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:
@@ -297,7 +305,7 @@ namespace Samples.MultipleRenderTargets
         {
             // describe the off screen render pipeline
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float;
             pipelineDesc.Shader = _offScreenShader;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
@@ -321,20 +329,29 @@ namespace Samples.MultipleRenderTargets
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
 
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offScreen.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offScreen.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offScreenVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offScreenFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offScreenVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offScreenFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/offScreenVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/offScreenFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    attribute1.SemanticName = "BRIGHT";
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:
@@ -455,12 +472,12 @@ namespace Samples.MultipleRenderTargets
             return GraphicsDevice.CreateBuffer(ref bufferDesc);
         }
 
-        private void OnDrawableSizeChanged(App app, int width, int height)
+        private void CreateViewProjectionMatrix()
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 10.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(

@@ -27,10 +27,10 @@ namespace Sokol.Graphics
     public unsafe struct PipelineVertexLayoutDescriptor
     {
         [FieldOffset(0)]
-        private fixed int _buffers[12 * sokol_gfx.SG_MAX_SHADERSTAGE_BUFFERS / 4];
+        private fixed int _buffers[12 * Constants.MaximumShaderStageBuffers / 4];
 
         [FieldOffset(96)]
-        private fixed int _attrs[12 * sokol_gfx.SG_MAX_VERTEX_ATTRIBUTES / 4];
+        private fixed int _attrs[12 * Constants.MaximumVertexAttributes / 4];
 
         /// <summary>
         ///     Gets the <see cref="PipelineVertexBufferLayoutDescriptor" />, by reference, given the specified slot or

@@ -41,12 +41,11 @@ namespace Sokol.Graphics
         private IntPtr _name;
 
         /// <summary>
-        ///     Gets or sets the string with the the name of the sampler in the "per-fragment processing"
-        ///     stage source code. Required for <see cref="GraphicsBackend.OpenGLES2" />. Optional for every other
-        ///     <see cref="GraphicsBackend" /> implementation.
+        ///     Gets or sets the name of the sampler in the "per-fragment processing" stage source code. Required for
+        ///     <see cref="GraphicsBackend.OpenGLES2" />. Optional for every other <see cref="GraphicsBackend" />
+        ///     implementation.
         /// </summary>
-        /// <value>The string with the name of the sampler.
-        /// </value>
+        /// <value>The string with the name of the sampler.</value>
         public string Name
         {
             readonly get => UnmanagedStringMemoryManager.GetString(_name);

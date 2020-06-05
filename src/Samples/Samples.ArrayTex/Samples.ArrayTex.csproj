@@ -9,10 +9,16 @@
         <IsPackable>false</IsPackable>
         <PublishReadyToRun>false</PublishReadyToRun>
         <TieredCompilation>false</TieredCompilation>
+        <RuntimeIdentifiers>win-x64;osx-x64;linux-x64</RuntimeIdentifiers>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\libsokol_app\libsokol_app\libsokol_app.csproj" />
+        <ProjectReference Include="..\..\Sokol.App\Sokol.App.csproj" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,15 +36,10 @@
         <CodeAnalysisRuleSet>..\..\StyleCop-No-Documentation.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
-        <Content Include="..\..\StyleCop-No-Documentation.ruleset">
-            <Link>StyleCop-No-Documentation.ruleset</Link>
-        </Content>
         <AdditionalFiles Include="..\..\StyleCop.json">
             <Link>StyleCop.json</Link>
+            <Visible>false</Visible>
         </AdditionalFiles>
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\Sokol.App\Sokol.App.csproj" />
     </ItemGroup>
 
 </Project>

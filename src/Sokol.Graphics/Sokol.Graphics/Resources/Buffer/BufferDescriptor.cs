@@ -59,11 +59,11 @@ namespace Sokol.Graphics
 
         // TODO: Native 3D Buffers.
         [FieldOffset(32)]
-        internal fixed uint _gl_buffers[sokol_gfx.SG_NUM_INFLIGHT_FRAMES];
+        internal fixed uint _gl_buffers[Constants.InflightFramesCount];
 
         // TODO: Native 3D Buffers.
         [FieldOffset(40)]
-        internal fixed ulong _mtl_buffers[sokol_gfx.SG_NUM_INFLIGHT_FRAMES];
+        internal fixed ulong _mtl_buffers[Constants.InflightFramesCount];
 
         // TODO: Native 3D Buffers.
         [FieldOffset(56)]

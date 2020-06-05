@@ -11,27 +11,24 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Offscreen
 {
-    internal sealed class OffscreenApplication : App
+    internal sealed class OffscreenApplication : Application
     {
-        private readonly Buffer _indexBuffer;
-        private readonly Buffer _vertexBuffer;
-        private readonly Pipeline _offscreenPipeline;
-        private readonly Shader _offscreenShader;
-        private readonly Pipeline _frameBufferPipeline;
-        private readonly Shader _frameBufferShader;
-        private readonly Image _renderTarget;
-        private readonly Pass _offscreenRenderPass;
+        private Buffer _indexBuffer;
+        private Buffer _vertexBuffer;
+        private Pipeline _offscreenPipeline;
+        private Shader _offscreenShader;
+        private Pipeline _frameBufferPipeline;
+        private Shader _frameBufferShader;
+        private Image _renderTarget;
+        private Pass _offscreenRenderPass;
 
-        private bool _paused;
         private float _rotationX;
         private float _rotationY;
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public OffscreenApplication()
+        protected override void CreateResources()
         {
-            DrawableSizeChanged += OnDrawableSizeChanged;
-
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _offscreenShader = CreateOffscreenShader();
@@ -43,39 +40,16 @@ namespace Samples.Offscreen
 
             _frameBufferShader = CreateFrameBufferShader();
             _frameBufferPipeline = CreateFrameBufferPipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
-            {
-                _paused = !_paused;
-            }
+            Update();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
-        {
-            if (_paused)
-            {
-                return;
-            }
-
-            var deltaSeconds = time.ElapsedSeconds;
-
-            // rotate cube and create vertex shader mvp matrix
-            _rotationX += 1.0f * deltaSeconds;
-            _rotationY += 2.0f * deltaSeconds;
-            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
-            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
-            var modelMatrix = rotationMatrixX * rotationMatrixY;
-            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
-        }
-
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
             // begin the offscreen render pass
             var offscreenPassAction = PassAction.Clear(Rgba32F.Black);
@@ -123,12 +97,31 @@ namespace Samples.Offscreen
             frameBufferPass.End();
         }
 
-        private void OnDrawableSizeChanged(App app, int width, int height)
+        private void Update()
+        {
+            CreateViewProjectionMatrix();
+            RotateCube();
+        }
+
+        private void RotateCube()
+        {
+            const float deltaSeconds = 1 / 60f;
+
+            // rotate cube and create vertex shader mvp matrix
+            _rotationX += 1.0f * deltaSeconds;
+            _rotationY += 2.0f * deltaSeconds;
+            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
+            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
+            var modelMatrix = rotationMatrixX * rotationMatrixY;
+            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
+        }
+
+        private void CreateViewProjectionMatrix()
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 10.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(
@@ -140,7 +133,7 @@ namespace Samples.Offscreen
         {
             // describe the frame buffer render pipeline
             var frameBufferPipelineDesc = default(PipelineDescriptor);
-            frameBufferPipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            frameBufferPipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
             frameBufferPipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
             frameBufferPipelineDesc.Layout.Attribute(2).Format = PipelineVertexAttributeFormat.Float2;
             frameBufferPipelineDesc.Shader = _frameBufferShader;
@@ -158,8 +151,8 @@ namespace Samples.Offscreen
             // describe the offscreen render pipeline
             var pipelineDesc = default(PipelineDescriptor);
             // skip texture coordinates
-            pipelineDesc.Layout.Buffer(0).Stride = 36;
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Buffer().Stride = 36;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
             pipelineDesc.Shader = _offscreenShader;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
@@ -177,24 +170,39 @@ namespace Samples.Offscreen
         {
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var frameBufferMvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
+            ref var frameBufferMvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform();
             frameBufferMvpUniform.Name = "mvp";
             frameBufferMvpUniform.Type = ShaderUniformType.Matrix4x4;
             shaderDesc.FragmentStage.Image().Name = "tex";
             shaderDesc.FragmentStage.Image().ImageType = ImageType.Texture2D;
 
-            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+            ref var attribute2 = ref shaderDesc.Attribute(2);
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    attribute1.SemanticName = "COLOR";
+                    attribute2.SemanticName = "TEXCOORD";
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.WebGPU:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -208,24 +216,33 @@ namespace Samples.Offscreen
             // describe the offscreen shader program
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var offscreenMvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
+            ref var offscreenMvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform();
             offscreenMvpUniform.Name = "mvp";
             offscreenMvpUniform.Type = ShaderUniformType.Matrix4x4;
 
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreenVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreenFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/offscreenVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/offscreenFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    attribute1.SemanticName = "COLOR";
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:
@@ -239,7 +256,7 @@ namespace Samples.Offscreen
         private static Pass CreateOffscreenRenderPass(Image renderTarget, Image renderTargetDepth)
         {
             var passDesc = default(PassDescriptor);
-            passDesc.ColorAttachment(0).Image = renderTarget;
+            passDesc.ColorAttachment().Image = renderTarget;
             passDesc.DepthStencilAttachment.Image = renderTargetDepth;
 
             return GraphicsDevice.CreatePass(ref passDesc);

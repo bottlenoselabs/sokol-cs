@@ -11,60 +11,34 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.NonInterleaved
 {
-    internal sealed class NonInterleavedApplication : App
+    internal sealed class NonInterleavedApplication : Application
     {
-        private readonly Buffer _vertexBuffer;
-        private readonly Buffer _indexBuffer;
-        private readonly Shader _shader;
-        private readonly Pipeline _pipeline;
+        private Buffer _vertexBuffer;
+        private Buffer _indexBuffer;
+        private Shader _shader;
+        private Pipeline _pipeline;
 
-        private bool _paused;
         private float _rotationX;
         private float _rotationY;
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public NonInterleavedApplication()
+        protected override void CreateResources()
         {
-            DrawableSizeChanged += OnDrawableSizeChanged;
-
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
-            {
-                _paused = !_paused;
-            }
+            Update();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
-        {
-            if (_paused)
-            {
-                return;
-            }
-
-            var deltaSeconds = time.ElapsedSeconds;
-
-            // rotate cube and create vertex shader mvp matrix
-            _rotationX += 1.0f * deltaSeconds;
-            _rotationY += 2.0f * deltaSeconds;
-            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
-            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
-            var modelMatrix = rotationMatrixX * rotationMatrixY;
-            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
-        }
-
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
             // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Gray);
@@ -89,12 +63,31 @@ namespace Samples.NonInterleaved
             pass.End();
         }
 
-        private void OnDrawableSizeChanged(App app, int width, int height)
+        private void Update()
+        {
+            CreateViewProjectionMatrix();
+            RotateCube();
+        }
+
+        private void RotateCube()
+        {
+            const float deltaSeconds = 1 / 60f;
+
+            // rotate cube and create vertex shader mvp matrix
+            _rotationX += 1.0f * deltaSeconds;
+            _rotationY += 2.0f * deltaSeconds;
+            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
+            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
+            var modelMatrix = rotationMatrixX * rotationMatrixY;
+            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
+        }
+
+        private void CreateViewProjectionMatrix()
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 10.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(
@@ -107,8 +100,8 @@ namespace Samples.NonInterleaved
         private Pipeline CreatePipeline()
         {
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
-            pipelineDesc.Layout.Attribute(0).BufferIndex = 0;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute().BufferIndex = 0;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
             pipelineDesc.Layout.Attribute(1).BufferIndex = 1;
             pipelineDesc.Shader = _shader;
@@ -124,23 +117,35 @@ namespace Samples.NonInterleaved
         {
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
+            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform();
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
+
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
 
             switch (Backend)
             {
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    // COLOR1
+                    attribute1.SemanticName = "COLOR";
+                    attribute1.SemanticIndex = 1;
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:

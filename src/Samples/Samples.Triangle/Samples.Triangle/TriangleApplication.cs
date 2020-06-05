@@ -10,49 +10,34 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Triangle
 {
-    internal sealed class TriangleApplication : App
+    internal sealed class TriangleApplication : Application
     {
-        private readonly Pipeline _pipeline;
-        private readonly Shader _shader;
-        private readonly Buffer _vertexBuffer;
+        private Pipeline _pipeline;
+        private Shader _shader;
+        private Buffer _vertexBuffer;
 
-        public TriangleApplication()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-        }
-
-        protected override void Update(AppTime time)
-        {
-        }
-
-        protected override void Draw(AppTime time)
-        {
-            // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Black);
 
-            // describe the binding of the vertex buffer (not applied yet!)
             var resourceBindings = default(ResourceBindings);
             resourceBindings.VertexBuffer() = _vertexBuffer;
 
-            // apply the render pipeline and bindings for the render pass
             pass.ApplyPipeline(_pipeline);
             pass.ApplyBindings(ref resourceBindings);
 
-            // draw the triangle (3 vertex indices) into the target of the render pass
             pass.DrawElements(3);
 
-            // end the frame buffer pass
             pass.End();
+
+            GraphicsDevice.Commit();
         }
 
         private static Buffer CreateVertexBuffer()
@@ -60,7 +45,7 @@ namespace Samples.Triangle
             // ReSharper disable once RedundantCast
             var vertices = (Span<Vertex>)stackalloc Vertex[3];
 
-            // describe the vertices of the triangle
+            // describe the vertices of the triangle in clip space
             vertices[0].Position = new Vector3(0.0f, 0.5f, 0.5f);
             vertices[0].Color = Rgba32F.Red;
             vertices[1].Position = new Vector3(0.5f, -0.5f, 0.5f);
@@ -103,23 +88,28 @@ namespace Samples.Triangle
             var shaderDesc = default(ShaderDescriptor);
 
             // describe the vertex shader attributes
-            shaderDesc.Attribute(0).Name = "position";
-            shaderDesc.Attribute(1).Name = "color0";
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
 
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    attribute0.SemanticName = "POS";
+                    attribute1.SemanticName = "COLOR";
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:

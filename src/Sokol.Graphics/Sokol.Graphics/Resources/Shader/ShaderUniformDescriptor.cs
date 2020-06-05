@@ -52,13 +52,12 @@ namespace Sokol.Graphics
         private IntPtr _name;
 
         /// <summary>
-        ///     Gets or sets the string with the name of the uniform. Must be set for
+        ///     Gets or sets the name of the uniform. Must be set for
         ///     <see cref="GraphicsBackend.OpenGL" />, <see cref="GraphicsBackend.OpenGLES2" />, and
         ///     <see cref="GraphicsBackend.OpenGLES3" />. Optional for every other <see cref="GraphicsBackend" />
         ///     implementation.
         /// </summary>
-        /// <value>The string with the name of uniform.
-        /// </value>
+        /// <value>The string with the name of uniform.</value>
         public string Name
         {
             readonly get => UnmanagedStringMemoryManager.GetString(_name);

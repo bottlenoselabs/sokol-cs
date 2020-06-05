@@ -11,15 +11,14 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.DynTex
 {
-    internal sealed class DynTexApplication : App
+    internal sealed class DynTexApplication : Application
     {
-        private readonly Buffer _vertexBuffer;
-        private readonly Buffer _indexBuffer;
-        private readonly Image _texture;
-        private readonly Shader _shader;
-        private readonly Pipeline _pipeline;
+        private Buffer _vertexBuffer;
+        private Buffer _indexBuffer;
+        private Image _texture;
+        private Shader _shader;
+        private Pipeline _pipeline;
 
-        private bool _paused;
         private float _rotationX;
         private float _rotationY;
         private Matrix4x4 _viewProjectionMatrix;
@@ -35,53 +34,25 @@ namespace Samples.DynTex
         private readonly Rgba8U[] _textureData = new Rgba8U[_textureWidth * _textureHeight];
         private readonly Random _random = new Random();
 
-        public DynTexApplication()
+        protected override void CreateResources()
         {
-            DrawableSizeChanged += OnDrawableSizeChanged;
-
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _texture = CreateTexture();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
 
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
-
             ResetGameOfLife();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
-            {
-                _paused = !_paused;
-            }
+            Update();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
-        {
-            if (_paused)
-            {
-                return;
-            }
-
-            var deltaSeconds = time.ElapsedSeconds;
-
-            // rotate cube and create vertex shader mvp matrix
-            _rotationX += 0.25f * deltaSeconds;
-            _rotationY += 0.5f * deltaSeconds;
-            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
-            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
-            var modelMatrix = rotationMatrixX * rotationMatrixY;
-            _worldProjectionMatrix = modelMatrix * _viewProjectionMatrix;
-
-            // update game of life
-            UpdateGameOfLife();
-        }
-
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
             // upload the texture data to the GPU, can only done once per frame per image
             _texture.Update(_textureData.AsMemory());
@@ -107,6 +78,24 @@ namespace Samples.DynTex
 
             // end the frame buffer render pass
             pass.End();
+        }
+
+        private void Update()
+        {
+            CreateViewProjectionMatrix();
+            RotateCube();
+            UpdateGameOfLife();
+        }
+
+        private void RotateCube()
+        {
+            const float deltaSeconds = 1 / 60f;
+            _rotationX += 0.25f * deltaSeconds;
+            _rotationY += 0.5f * deltaSeconds;
+            var rotationMatrixX = Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, _rotationX);
+            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
+            var modelMatrix = rotationMatrixX * rotationMatrixY;
+            _worldProjectionMatrix = modelMatrix * _viewProjectionMatrix;
         }
 
         private void UpdateGameOfLife()
@@ -158,11 +147,13 @@ namespace Samples.DynTex
                 }
             }
 
-            if (_updateCount++ > 240)
+            if (_updateCount++ <= 240)
             {
-                ResetGameOfLife();
-                _updateCount = 0;
+                return;
             }
+
+            ResetGameOfLife();
+            _updateCount = 0;
         }
 
         private void ResetGameOfLife()
@@ -179,12 +170,12 @@ namespace Samples.DynTex
             }
         }
 
-        private void OnDrawableSizeChanged(App app, int width, int height)
+        private void CreateViewProjectionMatrix()
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 10.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(
@@ -197,7 +188,7 @@ namespace Samples.DynTex
         private Pipeline CreatePipeline()
         {
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
+            pipelineDesc.Layout.Attribute().Format = PipelineVertexAttributeFormat.Float3;
             pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
             pipelineDesc.Layout.Attribute(2).Format = PipelineVertexAttributeFormat.Float2;
             pipelineDesc.Shader = _shader;
@@ -216,27 +207,38 @@ namespace Samples.DynTex
 
             ref var uniformBlock = ref shaderDesc.VertexStage.UniformBlock();
             uniformBlock.Size = Marshal.SizeOf<Matrix4x4>();
-            uniformBlock.Uniform(0).Name = "mvp";
-            uniformBlock.Uniform(0).Type = ShaderUniformType.Matrix4x4;
+            uniformBlock.Uniform().Name = "mvp";
+            uniformBlock.Uniform().Type = ShaderUniformType.Matrix4x4;
 
             ref var image = ref shaderDesc.FragmentStage.Image();
             image.Name = "tex";
             image.ImageType = ImageType.Texture2D;
 
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+            ref var attribute2 = ref shaderDesc.Attribute(2);
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    attribute1.SemanticName = "COLOR";
+                    attribute2.SemanticName = "TEXCOORD";
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:

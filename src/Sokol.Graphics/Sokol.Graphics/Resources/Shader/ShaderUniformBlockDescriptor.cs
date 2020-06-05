@@ -37,7 +37,7 @@ namespace Sokol.Graphics
         public int Size;
 
         [FieldOffset(8)]
-        private fixed ulong _uniforms[16 * sokol_gfx.SG_MAX_UB_MEMBERS / 8];
+        private fixed ulong _uniforms[16 * Constants.MaximumUniformBufferMembers / 8];
 
         /// <summary>
         ///     Gets a <see cref="ShaderUniformBlockDescriptor" /> by reference given the specified index.

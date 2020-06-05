@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace />
+        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
+        <Description>Sokol.NET; this specific package includes the `sokol_gfx` OpenGL native shared libraries.</Description>
+        <Authors>Lucas Girouard-Stranks</Authors>
+        <RootNamespace />
+        <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
+        <License>MIT</License>
+        <PackageProjectUrl>https://github.com/lithiumtoast/sokol.net</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lithiumtoast/sokol.net</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
+        <IsPackable>true</IsPackable>
+        <IncludeSymbols>false</IncludeSymbols>
+        <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+    </PropertyGroup>
+    
+    <ItemGroup Condition="'$(Configuration)' == 'Debug' ">
+        <Content Include="..\..\..\lib\libsokol_gfx\linux-x64\opengl\debug\libsokol_gfx.so">
+            <Link>runtimes/linux-x64/native/libsokol_gfx-opengl.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/linux-x64/native/libsokol_gfx-opengl.so</PackagePath>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release' ">
+        <Content Include="..\..\..\lib\libsokol_gfx\linux-x64\opengl\release\libsokol_gfx.so">
+            <Link>runtimes/linux-x64/native/libsokol_gfx-opengl.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>runtimes/linux-x64/native/libsokol_gfx-opengl.so</PackagePath>
+        </Content>
+    </ItemGroup>
+
+</Project>

@@ -15,6 +15,11 @@
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\libsokol_app\libsokol_app\libsokol_app.csproj" />
+        <ProjectReference Include="..\..\Sokol.App\Sokol.App.csproj" />
+    </ItemGroup>
+
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <DebugType>full</DebugType>
         <DebugSymbols>true</DebugSymbols>
@@ -24,21 +29,19 @@
         <None Update="assets\**\*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="assets\shaders\d3d11\mainFrag.hlsl">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <PropertyGroup>
         <CodeAnalysisRuleSet>..\..\StyleCop-No-Documentation.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
-        <Content Include="..\..\StyleCop-No-Documentation.ruleset">
-            <Link>StyleCop-No-Documentation.ruleset</Link>
-        </Content>
         <AdditionalFiles Include="..\..\StyleCop.json">
             <Link>StyleCop.json</Link>
+            <Visible>false</Visible>
         </AdditionalFiles>
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\Sokol.App\Sokol.App.csproj" />
     </ItemGroup>
 
 </Project>

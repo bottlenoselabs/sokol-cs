@@ -41,7 +41,7 @@ namespace Sokol.Graphics
         private IntPtr _semanticName;
 
         /// <summary>
-        ///     Gets or sets the string with the name of the GLSL or Metal vertex attribute. Required for
+        ///     Gets or sets the name of the GLSL or Metal vertex attribute. Required for
         ///     <see cref="GraphicsBackend.OpenGLES2" /> but optional for <see cref="GraphicsBackend.OpenGL" />,
         ///     <see cref="GraphicsBackend.OpenGLES3" />, and <see cref="GraphicsBackend.Metal" />. Not used for
         ///     <see cref="GraphicsBackend.Direct3D11" />, instead use <see cref="SemanticName" />.
@@ -55,7 +55,7 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Gets or sets string with the name of the HLSL vertex attribute. Required for
+        ///     Gets or sets the name of the HLSL vertex attribute. Required for
         ///     <see cref="GraphicsBackend.Direct3D11" />. Not used for any other <see cref="GraphicsBackend" />
         ///     implementation.
         /// </summary>

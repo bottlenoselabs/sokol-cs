@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <RootNamespace>Sokol.Graphics.Tests</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentAssertions" Version="5.9.0" />
+        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
+        <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
+        <PackageReference Include="Moq" Version="4.13.1" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+        <PackageReference Include="coverlet.collector" Version="1.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\sokol_gfx\sokol_gfx.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\..\lib\libsokol_gfx\win-x64\dummy\debug\sokol_gfx.dll">
+            <Link>runtimes/win-x64/native/sokol_gfx.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\lib\libsokol_gfx\linux-x64\dummy\debug\libsokol_gfx.so">
+            <Link>runtimes/linux-x64/native/libsokol_gfx.so</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="..\..\lib\libsokol_gfx\osx-x64\dummy\debug\libsokol_gfx.dylib">
+            <Link>runtimes/osx-x64/native/libsokol_gfx.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>..\StyleCop-No-Documentation.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\StyleCop-No-Documentation.ruleset">
+            <Link>StyleCop-No-Documentation.ruleset</Link>
+        </Content>
+        <AdditionalFiles Include="..\StyleCop.json">
+            <Link>StyleCop.json</Link>
+        </AdditionalFiles>
+    </ItemGroup>
+
+</Project>

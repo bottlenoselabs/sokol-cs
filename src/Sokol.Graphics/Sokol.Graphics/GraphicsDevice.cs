@@ -21,6 +21,7 @@ namespace Sokol.Graphics
     ///         <c>using static Sokol.Graphics.GraphicsDevice;</c>.
     ///     </para>
     /// </remarks>
+    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
     public static class GraphicsDevice
     {
         /// <summary>
@@ -40,15 +41,15 @@ namespace Sokol.Graphics
                 var value = PInvoke.sg_query_backend();
                 return value switch
                 {
-                    sokol_gfx.sg_backend.SG_BACKEND_GLCORE33 => GraphicsBackend.OpenGL,
-                    sokol_gfx.sg_backend.SG_BACKEND_GLES2 => GraphicsBackend.OpenGLES2,
-                    sokol_gfx.sg_backend.SG_BACKEND_GLES3 => GraphicsBackend.OpenGLES3,
-                    sokol_gfx.sg_backend.SG_BACKEND_D3D11 => GraphicsBackend.Direct3D11,
-                    sokol_gfx.sg_backend.SG_BACKEND_METAL_IOS => GraphicsBackend.Metal,
-                    sokol_gfx.sg_backend.SG_BACKEND_METAL_MACOS => GraphicsBackend.Metal,
-                    sokol_gfx.sg_backend.SG_BACKEND_METAL_SIMULATOR => GraphicsBackend.Metal,
-                    sokol_gfx.sg_backend.SG_BACKEND_WGPU => GraphicsBackend.WebGPU,
-                    sokol_gfx.sg_backend.SG_BACKEND_DUMMY => GraphicsBackend.Dummy,
+                    sg_backend.SG_BACKEND_GLCORE33 => GraphicsBackend.OpenGL,
+                    sg_backend.SG_BACKEND_GLES2 => GraphicsBackend.OpenGLES2,
+                    sg_backend.SG_BACKEND_GLES3 => GraphicsBackend.OpenGLES3,
+                    sg_backend.SG_BACKEND_D3D11 => GraphicsBackend.Direct3D11,
+                    sg_backend.SG_BACKEND_METAL_IOS => GraphicsBackend.Metal,
+                    sg_backend.SG_BACKEND_METAL_MACOS => GraphicsBackend.Metal,
+                    sg_backend.SG_BACKEND_METAL_SIMULATOR => GraphicsBackend.Metal,
+                    sg_backend.SG_BACKEND_WGPU => GraphicsBackend.WebGPU,
+                    sg_backend.SG_BACKEND_DUMMY => GraphicsBackend.Dummy,
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
@@ -67,15 +68,12 @@ namespace Sokol.Graphics
         public static GraphicsLimits Limits => QueryLimits();
 
         /// <summary>
-        ///     Frees any memory allocated by `sokol.NET` for strings used in descriptors. Only call this method
+        ///     Frees any memory allocated by Sokol.NET for strings used in descriptors. Only call this method
         ///     after resources are created.
         /// </summary>
         public static void FreeStrings()
         {
             UnmanagedStringMemoryManager.Clear();
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
         }
 
         /// <summary>
@@ -90,7 +88,7 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Destroys `sokol_gfx` for the life-time of an application. Should be called before an application exits
+        ///     Shutdown `sokol_gfx` for the life-time of an application. Should be called before an application exits
         ///     which the application previously called <see cref="Setup" />.
         /// </summary>
         /// <remarks>
@@ -286,7 +284,7 @@ namespace Sokol.Graphics
         }
 
         /// <summary>
-        ///     Begins and returns the frame buffer <see cref="Pass"/> with the specified width, height, and
+        ///     Begins and returns the frame buffer <see cref="Pass" /> with the specified width, height, and
         ///     <see cref="PassAction" />.
         /// </summary>
         /// <param name="width">The width of frame buffer.</param>

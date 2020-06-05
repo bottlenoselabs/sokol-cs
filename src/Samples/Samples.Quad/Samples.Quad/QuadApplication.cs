@@ -10,34 +10,22 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Quad
 {
-    internal sealed class QuadApplication : App
+    internal sealed class QuadApplication : Application
     {
-        private readonly Pipeline _pipeline;
-        private readonly Buffer _indexBuffer;
-        private readonly Buffer _vertexBuffer;
-        private readonly Shader _shader;
+        private Pipeline _pipeline;
+        private Buffer _indexBuffer;
+        private Buffer _vertexBuffer;
+        private Shader _shader;
 
-        public QuadApplication()
+        protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
-        {
-        }
-
-        protected override void Update(AppTime time)
-        {
-        }
-
-        protected override void Draw(AppTime time)
+        protected override void Frame()
         {
             // begin a frame buffer render pass
             var pass = BeginDefaultPass(Rgba32F.Black);
@@ -56,6 +44,8 @@ namespace Samples.Quad
 
             // end frame buffer render pass
             pass.End();
+
+            GraphicsDevice.Commit();
         }
 
         private Pipeline CreatePipeline()
@@ -63,9 +53,13 @@ namespace Samples.Quad
             // describe the render pipeline
             var pipelineDesc = default(PipelineDescriptor);
             pipelineDesc.Shader = _shader;
-            pipelineDesc.Layout.Attribute(0).Format = PipelineVertexAttributeFormat.Float3;
-            pipelineDesc.Layout.Attribute(1).Format = PipelineVertexAttributeFormat.Float4;
             pipelineDesc.IndexType = PipelineVertexIndexType.UInt16;
+
+            ref var attribute0 = ref pipelineDesc.Layout.Attribute();
+            attribute0.Format = PipelineVertexAttributeFormat.Float3;
+
+            ref var attribute1 = ref pipelineDesc.Layout.Attribute(1);
+            attribute1.Format = PipelineVertexAttributeFormat.Float4;
 
             // create the pipeline resource from the description
             return GraphicsDevice.CreatePipeline(ref pipelineDesc);
@@ -76,27 +70,36 @@ namespace Samples.Quad
             // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
 
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    attribute0.SemanticName = "POS";
+                    attribute1.SemanticName = "COLOR";
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            // create the shader resource from the description
+            // create the shader resource from the descriptor
             return GraphicsDevice.CreateShader(ref shaderDesc);
         }
 
@@ -130,7 +133,7 @@ namespace Samples.Quad
             // ReSharper disable once RedundantCast
             var vertices = (Span<Vertex>)stackalloc Vertex[4];
 
-            // describe the vertices of the quad
+            // describe the vertices of the quad in clip space
             vertices[0].Position = new Vector3(-0.5f, 0.5f, 0.5f);
             vertices[0].Color = Rgba32F.Red;
             vertices[1].Position = new Vector3(0.5f, 0.5f, 0.5f);

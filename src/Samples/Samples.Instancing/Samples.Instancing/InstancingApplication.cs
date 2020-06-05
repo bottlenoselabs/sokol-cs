@@ -12,18 +12,17 @@ using Buffer = Sokol.Graphics.Buffer;
 
 namespace Samples.Instancing
 {
-    internal sealed class InstancingApplication : App
+    internal sealed class InstancingApplication : Application
     {
         private const int _maxParticlesCount = 512 * 1024;
         private const int _particlesCountEmittedPerFrame = 10;
 
-        private readonly Buffer _indexBuffer;
-        private readonly Buffer _vertexBuffer;
-        private readonly Buffer _instanceBuffer;
-        private readonly Shader _shader;
-        private readonly Pipeline _pipeline;
+        private Buffer _indexBuffer;
+        private Buffer _vertexBuffer;
+        private Buffer _instanceBuffer;
+        private Shader _shader;
+        private Pipeline _pipeline;
 
-        private bool _paused;
         private readonly Random _random = new Random();
         private readonly Vector3[] _positions = new Vector3[_maxParticlesCount];
         private readonly Vector3[] _velocities = new Vector3[_maxParticlesCount];
@@ -32,88 +31,27 @@ namespace Samples.Instancing
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
-        public InstancingApplication()
+        protected override void CreateResources()
         {
-            Debug.Assert(
-                GraphicsDevice.IsValid(),
-                "sokol_gfx should be initialized");
             Debug.Assert(
                 GraphicsDevice.Features.Instancing,
                 $"instancing is not supported for your hardware with {Backend} API");
-
-            DrawableSizeChanged += OnDrawableSizeChanged;
 
             _vertexBuffer = CreateVertexBuffer();
             _indexBuffer = CreateIndexBuffer();
             _instanceBuffer = CreateInstanceBuffer();
             _shader = CreateShader();
             _pipeline = CreatePipeline();
-
-            // Free any strings we implicitly allocated when creating resources
-            // Only call this method AFTER resources are created
-            GraphicsDevice.FreeStrings();
         }
 
-        protected override void HandleInput(InputState state)
+        protected override void Frame()
         {
-            if (state.KeyButton(KeyboardKey.Space).HasEnteredPressed)
-            {
-                _paused = !_paused;
-            }
+            Update();
+            Draw();
+            GraphicsDevice.Commit();
         }
 
-        protected override void Update(AppTime time)
-        {
-            if (_paused)
-            {
-                return;
-            }
-
-            // emit new particles
-            for (var i = 0; i < _particlesCountEmittedPerFrame; i++)
-            {
-                if (_currentParticleCount < _maxParticlesCount)
-                {
-                    _positions[_currentParticleCount] = Vector3.Zero;
-                    _velocities[_currentParticleCount] = new Vector3(
-                        ((float)(_random.Next() & 0x7FFF) / 0x7FFF) - 0.5f,
-                        ((float)(_random.Next() & 0x7FFF) / 0x7FFF * 0.5f) + 2.0f,
-                        ((float)(_random.Next() & 0x7FFF) / 0x7FFF) - 0.5f);
-                    _currentParticleCount++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            // update particle positions
-            var elapsedSeconds = (float)time.ElapsedTime.TotalSeconds;
-            for (var i = 0; i < _currentParticleCount; i++)
-            {
-                _velocities[i].Y -= 1.0f * elapsedSeconds;
-                _positions[i].X += _velocities[i].X * elapsedSeconds;
-                _positions[i].Y += _velocities[i].Y * elapsedSeconds;
-                _positions[i].Z += _velocities[i].Z * elapsedSeconds;
-                // ReSharper disable once InvertIf
-                if (_positions[i].Y < -2.0f)
-                {
-                    _positions[i].Y = -1.8f;
-                    _velocities[i].Y = -_velocities[i].Y;
-                    _velocities[i].X *= 0.8f;
-                    _velocities[i].Y *= 0.8f;
-                    _velocities[i].Z *= 0.8f;
-                }
-            }
-
-            // rotate each particle at the same time and create vertex shader mvp matrix
-            _rotationY += 1.0f * 0.020f;
-            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
-            var modelMatrix = rotationMatrixY;
-            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
-        }
-
-        protected override void Draw(AppTime time)
+        private void Draw()
         {
             // update instance data
             // NOTE: this is called here instead of in `Update` because buffers can only be updated once per frame
@@ -142,12 +80,70 @@ namespace Samples.Instancing
             pass.End();
         }
 
-        private void OnDrawableSizeChanged(App app, int width, int height)
+        private void Update()
+        {
+            CreateViewProjectionMatrix();
+            EmitNewParticles();
+            MoveParticles();
+            RotateParticles();
+        }
+
+        private void RotateParticles()
+        {
+            // rotate each particle at the same time and create vertex shader mvp matrix
+            _rotationY += 1.0f * 0.020f;
+            var rotationMatrixY = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, _rotationY);
+            var modelMatrix = rotationMatrixY;
+            _modelViewProjectionMatrix = modelMatrix * _viewProjectionMatrix;
+        }
+
+        private void MoveParticles()
+        {
+            const float elapsedSeconds = 1 / 60f;
+            for (var i = 0; i < _currentParticleCount; i++)
+            {
+                _velocities[i].Y -= 1.0f * elapsedSeconds;
+                _positions[i].X += _velocities[i].X * elapsedSeconds;
+                _positions[i].Y += _velocities[i].Y * elapsedSeconds;
+                _positions[i].Z += _velocities[i].Z * elapsedSeconds;
+                // ReSharper disable once InvertIf
+                if (_positions[i].Y < -2.0f)
+                {
+                    _positions[i].Y = -1.8f;
+                    _velocities[i].Y = -_velocities[i].Y;
+                    _velocities[i].X *= 0.8f;
+                    _velocities[i].Y *= 0.8f;
+                    _velocities[i].Z *= 0.8f;
+                }
+            }
+        }
+
+        private void EmitNewParticles()
+        {
+            for (var i = 0; i < _particlesCountEmittedPerFrame; i++)
+            {
+                if (_currentParticleCount < _maxParticlesCount)
+                {
+                    _positions[_currentParticleCount] = Vector3.Zero;
+                    _velocities[_currentParticleCount] = new Vector3(
+                        ((float)(_random.Next() & 0x7FFF) / 0x7FFF) - 0.5f,
+                        ((float)(_random.Next() & 0x7FFF) / 0x7FFF * 0.5f) + 2.0f,
+                        ((float)(_random.Next() & 0x7FFF) / 0x7FFF) - 0.5f);
+                    _currentParticleCount++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        private void CreateViewProjectionMatrix()
         {
             // create camera projection and view matrix
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(
                 (float)(40.0f * Math.PI / 180),
-                (float)width / height,
+                (float)Framebuffer.Width / Framebuffer.Height,
                 0.01f,
                 50.0f);
             var viewMatrix = Matrix4x4.CreateLookAt(
@@ -158,10 +154,10 @@ namespace Samples.Instancing
         private Pipeline CreatePipeline()
         {
             var pipelineDesc = default(PipelineDescriptor);
-            pipelineDesc.Layout.Buffer(0).Stride = 28;
+            pipelineDesc.Layout.Buffer().Stride = 28;
             pipelineDesc.Layout.Buffer(1).Stride = 12;
             pipelineDesc.Layout.Buffer(1).StepFunction = PipelineVertexStepFunction.PerInstance;
-            ref var positionAttribute = ref pipelineDesc.Layout.Attribute(0);
+            ref var positionAttribute = ref pipelineDesc.Layout.Attribute();
             positionAttribute.Offset = 0;
             positionAttribute.Format = PipelineVertexAttributeFormat.Float3;
             positionAttribute.BufferIndex = 0;
@@ -187,24 +183,36 @@ namespace Samples.Instancing
             // describe the shader program
             var shaderDesc = default(ShaderDescriptor);
             shaderDesc.VertexStage.UniformBlock().Size = Marshal.SizeOf<Matrix4x4>();
-            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform(0);
+            ref var mvpUniform = ref shaderDesc.VertexStage.UniformBlock().Uniform();
             mvpUniform.Name = "mvp";
             mvpUniform.Type = ShaderUniformType.Matrix4x4;
 
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+            ref var attribute2 = ref shaderDesc.Attribute(2);
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    attribute1.SemanticName = "COLOR";
+                    // ReSharper disable once StringLiteralTypo
+                    attribute2.SemanticName = "INSTPOS";
+                    break;
                 case GraphicsBackend.OpenGLES2:
                 case GraphicsBackend.OpenGLES3:
-                case GraphicsBackend.Direct3D11:
+                case GraphicsBackend.WebGPU:
                 case GraphicsBackend.Dummy:
                     throw new NotImplementedException();
                 default:

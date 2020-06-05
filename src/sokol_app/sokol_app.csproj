@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace />
+        <LangVersion>8</LangVersion>
+        <Nullable>disable</Nullable>
+        <Description>Sokol.NET; this specific package includes the C style API of `sokol_app`.</Description>
+        <Authors>Lucas Girouard-Stranks</Authors>
+        <RootNamespace />
+        <Copyright>Copyright © 2020 Lucas Girouard-Stranks</Copyright>
+        <License>MIT</License>
+        <PackageProjectUrl>https://github.com/lithiumtoast/sokol.net</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lithiumtoast/sokol.net</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>sokol sokol_gfx c# csharp dotnet .net</PackageTags>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>1591</NoWarn>
+        <IsPackable>true</IsPackable>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\sokol_gfx\sokol_gfx.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="sokol_app.csproj.DotSettings" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="..\StyleCop.json">
+            <Link>StyleCop.json</Link>
+            <Visible>false</Visible>
+        </AdditionalFiles>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Properties" />
+    </ItemGroup>
+
+</Project>
+

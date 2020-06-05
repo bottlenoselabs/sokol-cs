@@ -43,10 +43,10 @@ namespace Sokol.Graphics
         public int IndexBufferOffset;
 
         [FieldOffset(76)]
-        private fixed uint _vsImages[sokol_gfx.SG_MAX_SHADERSTAGE_IMAGES];
+        private fixed uint _vsImages[Constants.MaximumShaderStageImages];
 
         [FieldOffset(124)]
-        private fixed uint _fsImages[sokol_gfx.SG_MAX_SHADERSTAGE_IMAGES];
+        private fixed uint _fsImages[Constants.MaximumShaderStageImages];
 
         /// <summary>
         ///     A guard against garbage data; used to know if the structure has been initialized correctly.
@@ -61,10 +61,10 @@ namespace Sokol.Graphics
         private readonly uint _endCanary;
 
         [FieldOffset(4)]
-        private fixed uint _vertexBuffers[sokol_gfx.SG_MAX_SHADERSTAGE_BUFFERS];
+        private fixed uint _vertexBuffers[Constants.MaximumShaderStageBuffers];
 
         [FieldOffset(36)]
-        private fixed int _vertexBufferOffsets[sokol_gfx.SG_MAX_SHADERSTAGE_BUFFERS];
+        private fixed int _vertexBufferOffsets[Constants.MaximumShaderStageBuffers];
 
         /// <summary>
         ///     Gets the vertex <see cref="Buffer" />, by reference, to use given a specified slot or index.
