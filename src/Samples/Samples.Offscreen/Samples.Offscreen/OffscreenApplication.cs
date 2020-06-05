@@ -27,6 +27,11 @@ namespace Samples.Offscreen
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
+        public OffscreenApplication()
+            : base(GraphicsBackend.OpenGL)
+        {
+        }
+
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();
@@ -176,18 +181,33 @@ namespace Samples.Offscreen
             shaderDesc.FragmentStage.Image().Name = "tex";
             shaderDesc.FragmentStage.Image().ImageType = ImageType.Texture2D;
 
-            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+            ref var attribute2 = ref shaderDesc.Attribute(2);
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/main.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreenVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreenFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenVert.metal");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/offscreenVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/offscreenFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    attribute1.SemanticName = "COLOR";
+                    attribute2.SemanticName = "TEXCOORD";
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.WebGPU:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -205,18 +225,33 @@ namespace Samples.Offscreen
             offscreenMvpUniform.Name = "mvp";
             offscreenMvpUniform.Type = ShaderUniformType.Matrix4x4;
 
-            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+            // describe the vertex shader attributes
+            ref var attribute0 = ref shaderDesc.Attribute();
+            ref var attribute1 = ref shaderDesc.Attribute(1);
+
             switch (Backend)
             {
-                // specify shader stage source code for each graphics backend
                 case GraphicsBackend.OpenGL:
-                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.vert");
-                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreen.frag");
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreenVert.glsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/opengl/offscreenFrag.glsl");
                     break;
                 case GraphicsBackend.Metal:
                     shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenVert.metal");
                     shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/metal/offscreenFrag.metal");
                     break;
+                case GraphicsBackend.Direct3D11:
+                    shaderDesc.VertexStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/offscreenVert.hlsl");
+                    shaderDesc.FragmentStage.SourceCode = File.ReadAllText("assets/shaders/d3d11/offscreenFrag.hlsl");
+                    attribute0.SemanticName = "POSITION";
+                    attribute1.SemanticName = "COLOR";
+                    break;
+                case GraphicsBackend.OpenGLES2:
+                case GraphicsBackend.OpenGLES3:
+                case GraphicsBackend.WebGPU:
+                case GraphicsBackend.Dummy:
+                    throw new NotImplementedException();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             // create the offscreen shader resource from the description
