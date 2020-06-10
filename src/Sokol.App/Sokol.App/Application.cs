@@ -114,6 +114,13 @@ namespace Sokol.App
         /// <summary>
         ///     Called when the application is about to quit and should destroy any resources.
         /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///         If you don't explicitly destroy graphics resources, such as <see cref="Graphics.Buffer" />,
+        ///         <see cref="Image" />, <see cref="Pass" />, <see cref="Pipeline" />, and <see cref="Shader" />, they
+        ///         are implicitly destroyed when the application quits gracefully.
+        ///     </para>
+        /// </remarks>
         protected virtual void DestroyResources()
         {
         }
@@ -124,7 +131,7 @@ namespace Sokol.App
         protected abstract void Frame();
 
         /// <summary>
-        ///     Called when the application state changed such as when the mouse state changes, keyboard state
+        ///     Called when the application's state changed such as when the mouse state changes, keyboard state
         ///     changes, etc.
         /// </summary>
         /// <param name="event">The <see cref="HandleEvent" />.</param>
@@ -138,6 +145,14 @@ namespace Sokol.App
         /// <param name="width">The new width.</param>
         /// <param name="height">The new height.</param>
         protected virtual void Resized(int width, int height)
+        {
+        }
+
+        /// <summary>
+        ///     Called when the application encounters an error.
+        /// </summary>
+        /// <param name="message">The error message.</param>
+        protected virtual void HandleError(string message)
         {
         }
 
@@ -163,6 +178,7 @@ namespace Sokol.App
             App.Frame += Frame;
             App.Event += HandleEvent;
             App.Resized += Resized;
+            App.Error += HandleError;
         }
 
         private void RemoveHooks()
@@ -172,6 +188,7 @@ namespace Sokol.App
             App.Frame -= Frame;
             App.Event -= HandleEvent;
             App.Resized -= Resized;
+            App.Error -= HandleError;
         }
 
         /// <summary>

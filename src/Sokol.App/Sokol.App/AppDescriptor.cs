@@ -19,6 +19,8 @@ namespace Sokol.App
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
     [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "SA1202", Justification = "Members are ordered by C struct field positions.")]
     public struct AppDescriptor
     {
         /// <summary>
@@ -26,7 +28,7 @@ namespace Sokol.App
         ///     Default is <see cref="IntPtr.Zero" />.
         /// </summary>
         [FieldOffset(40)] /* size = 8, padding = 0 */
-        public IntPtr UserData;
+        internal IntPtr UserData;
 
         /// <summary>
         ///     The preferred width of the 3D rendering window or canvas. Default is <c>640</c>.
@@ -172,20 +174,20 @@ namespace Sokol.App
         ///     call-back takes no arguments and has no return value.
         /// </summary>
         [FieldOffset(0)] /* size = 8, padding = 0 */
-        internal IntPtr InitializeCallback;
+        public IntPtr InitializeCallback;
 
         /// <summary>
         ///     Called once per-frame which is usually called 60 times per second. This is where your application would
         ///     update per-frame state and perform all rendering. The call-back takes no arguments and has no return value.
         /// </summary>
         [FieldOffset(8)] /* size = 8, padding = 0 */
-        internal IntPtr FrameCallback;
+        public IntPtr FrameCallback;
 
         /// <summary>
         ///     Called once right before the application quits. The call-back takes no arguments and has no return value.
         /// </summary>
         [FieldOffset(16)] /* size = 8, padding = 0 */
-        internal IntPtr CleanUpCallback;
+        public IntPtr CleanUpCallback;
 
         /// <summary>
         ///     Called once per-event such as when the mouse state changes, keyboard state changes, etc. If you don't
@@ -194,14 +196,14 @@ namespace Sokol.App
         ///     value.
         /// </summary>
         [FieldOffset(24)] /* size = 8, padding = 0 */
-        internal IntPtr EventCallback;
+        public IntPtr EventCallback;
 
         /// <summary>
         ///     Called once per-error which doesn't allow the application to continue. The call-back has one out argument
         ///     of <see cref="IntPtr" /> for an ANSI string of the message and has no return value.
         /// </summary>
         [FieldOffset(32)] /* size = 8, padding = 0 */
-        internal IntPtr FailCallback;
+        public IntPtr FailCallback;
 
         /// <summary>
         ///     Equivalent of <see cref="InitializeCallback" /> except it has one out argument of <see cref="IntPtr" />
