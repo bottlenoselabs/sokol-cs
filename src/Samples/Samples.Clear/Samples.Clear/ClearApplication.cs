@@ -10,6 +10,11 @@ namespace Samples.Clear
     {
         private Rgba32F _clearColor;
 
+        public ClearApplication(AppDescriptor descriptor)
+            : base(descriptor)
+        {
+        }
+
         protected override void CreateResources()
         {
             // initially set the frame buffer clear color to red

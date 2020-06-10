@@ -8,7 +8,7 @@ internal static class Program
     private static void Main()
     {
         var sourceCode = File.ReadAllText("assets/Default.frag");
-        var app = new ShaderToyApp(sourceCode);
+        var app = new ShaderToyApp("Default", sourceCode);
         app.Run();
     }
 }

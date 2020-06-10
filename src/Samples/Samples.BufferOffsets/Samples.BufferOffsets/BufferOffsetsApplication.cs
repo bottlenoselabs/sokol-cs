@@ -20,6 +20,11 @@ namespace Samples.BufferOffsets
 
         private ResourceBindings _resourceBindings;
 
+        public BufferOffsetsApplication(AppDescriptor descriptor)
+            : base(descriptor)
+        {
+        }
+
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();

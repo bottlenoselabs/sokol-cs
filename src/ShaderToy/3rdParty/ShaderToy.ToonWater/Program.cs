@@ -8,7 +8,7 @@ internal static class Program
     private static void Main()
     {
         var sourceCode = File.ReadAllText("assets/ToonWater.frag");
-        var app = new ShaderToyApp(sourceCode);
+        var app = new ShaderToyApp("https://www.shadertoy.com/view/ltfGD7", sourceCode);
         app.Run();
     }
 }

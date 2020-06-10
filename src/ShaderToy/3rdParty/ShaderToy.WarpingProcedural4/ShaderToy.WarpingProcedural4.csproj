@@ -12,6 +12,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\libsokol_app\libsokol_app\libsokol_app.csproj" />
         <ProjectReference Include="..\..\ShaderToy.App\ShaderToy.App.csproj" />
     </ItemGroup>
 

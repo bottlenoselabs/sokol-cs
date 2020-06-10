@@ -34,6 +34,11 @@ namespace Samples.DynTex
         private readonly Rgba8U[] _textureData = new Rgba8U[_textureWidth * _textureHeight];
         private readonly Random _random = new Random();
 
+        public DynTexApplication(AppDescriptor descriptor)
+            : base(descriptor)
+        {
+        }
+
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();

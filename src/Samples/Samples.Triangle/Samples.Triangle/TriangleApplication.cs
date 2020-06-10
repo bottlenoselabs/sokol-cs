@@ -16,6 +16,11 @@ namespace Samples.Triangle
         private Shader _shader;
         private Buffer _vertexBuffer;
 
+        public TriangleApplication(AppDescriptor descriptor)
+            : base(descriptor)
+        {
+        }
+
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();

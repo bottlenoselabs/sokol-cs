@@ -23,6 +23,11 @@ namespace Samples.Cube
         private float _rotationX;
         private float _rotationY;
 
+        public CubeApplication(AppDescriptor descriptor)
+            : base(descriptor)
+        {
+        }
+
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();

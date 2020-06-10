@@ -25,6 +25,8 @@ namespace Sokol.App
     [SuppressMessage("ReSharper", "VirtualMemberNeverOverridden.Global", Justification = "Public API.")]
     public abstract class Application : IDisposable
     {
+        private readonly AppDescriptor _descriptor;
+
         /// <summary>
         ///     Gets the <see cref="GraphicsBackend" /> of the `sokol_app` application.
         /// </summary>
@@ -34,22 +36,24 @@ namespace Sokol.App
         /// <summary>
         ///     Initializes a new instance of the <see cref="Application" /> class.
         /// </summary>
+        /// <param name="descriptor">The <see cref="AppDescriptor" />.</param>
         /// <param name="backend">
         ///     The <see cref="GraphicsBackend" /> to use. If <c>null</c>, the default
         ///     <see cref="GraphicsBackend" /> will be used for current platform.
         /// </param>
-        protected Application(GraphicsBackend? backend = null)
+        /// <remarks>
+        ///     <para>
+        ///         If the <param name="descriptor" /> is provided, the
+        ///         <see cref="AppDescriptor.InitializeCallback" />, <see cref="AppDescriptor.FrameCallback" />,
+        ///         <see cref="AppDescriptor.CleanUpCallback" />, <see cref="AppDescriptor.EventCallback" />, and
+        ///         <see cref="AppDescriptor.FailCallback" /> will be overriden.
+        ///     </para>
+        /// </remarks>
+        protected Application(AppDescriptor? descriptor = null, GraphicsBackend? backend = null)
         {
+            _descriptor = descriptor ?? default;
             LoadApi(backend);
             AddHooks();
-        }
-
-        /// <summary>
-        ///     Starts the application.
-        /// </summary>
-        public void Run()
-        {
-            App.Run();
         }
 
         /// <inheritdoc />
@@ -57,6 +61,14 @@ namespace Sokol.App
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///     Starts the application.
+        /// </summary>
+        public void Run()
+        {
+            App.Run(_descriptor);
         }
 
         /// <summary>

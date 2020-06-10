@@ -31,6 +31,11 @@ namespace Samples.MultipleRenderTargets
         private Matrix4x4 _viewProjectionMatrix;
         private Matrix4x4 _modelViewProjectionMatrix;
 
+        public MultipleRenderTargetsApplication(AppDescriptor descriptor)
+            : base(descriptor)
+        {
+        }
+
         protected override void CreateResources()
         {
             _cubeVertexBuffer = CreateCubeVertexBuffer();

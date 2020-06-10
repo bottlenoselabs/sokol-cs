@@ -28,8 +28,12 @@ namespace ShaderToy.App
         private Vector2 _mousePosition;
         private bool _mouseIsDown;
 
-        public ShaderToyApp(string shaderToySourceCode)
-            : base(GraphicsBackend.OpenGL)
+        public ShaderToyApp(string windowTitle, string shaderToySourceCode)
+            : base(
+                new AppDescriptor
+                {
+                    WindowTitle = windowTitle
+                }, GraphicsBackend.OpenGL)
         {
             if (!Stopwatch.IsHighResolution)
             {
