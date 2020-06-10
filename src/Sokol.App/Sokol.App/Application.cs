@@ -25,6 +25,8 @@ namespace Sokol.App
     [SuppressMessage("ReSharper", "VirtualMemberNeverOverridden.Global", Justification = "Public API.")]
     public abstract class Application : IDisposable
     {
+        private readonly AppDescriptor _descriptor;
+
         /// <summary>
         ///     Gets the <see cref="GraphicsBackend" /> of the `sokol_app` application.
         /// </summary>
@@ -34,22 +36,24 @@ namespace Sokol.App
         /// <summary>
         ///     Initializes a new instance of the <see cref="Application" /> class.
         /// </summary>
+        /// <param name="descriptor">The <see cref="AppDescriptor" />.</param>
         /// <param name="backend">
         ///     The <see cref="GraphicsBackend" /> to use. If <c>null</c>, the default
         ///     <see cref="GraphicsBackend" /> will be used for current platform.
         /// </param>
-        protected Application(GraphicsBackend? backend = null)
+        /// <remarks>
+        ///     <para>
+        ///         If the <param name="descriptor" /> is provided, the
+        ///         <see cref="AppDescriptor.InitializeCallback" />, <see cref="AppDescriptor.FrameCallback" />,
+        ///         <see cref="AppDescriptor.CleanUpCallback" />, <see cref="AppDescriptor.EventCallback" />, and
+        ///         <see cref="AppDescriptor.FailCallback" /> will be overriden.
+        ///     </para>
+        /// </remarks>
+        protected Application(AppDescriptor? descriptor = null, GraphicsBackend? backend = null)
         {
+            _descriptor = descriptor ?? default;
             LoadApi(backend);
             AddHooks();
-        }
-
-        /// <summary>
-        ///     Starts the application.
-        /// </summary>
-        public void Run()
-        {
-            App.Run();
         }
 
         /// <inheritdoc />
@@ -57,6 +61,14 @@ namespace Sokol.App
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///     Starts the application.
+        /// </summary>
+        public void Run()
+        {
+            App.Run(_descriptor);
         }
 
         /// <summary>
@@ -102,6 +114,13 @@ namespace Sokol.App
         /// <summary>
         ///     Called when the application is about to quit and should destroy any resources.
         /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///         If you don't explicitly destroy graphics resources, such as <see cref="Graphics.Buffer" />,
+        ///         <see cref="Image" />, <see cref="Pass" />, <see cref="Pipeline" />, and <see cref="Shader" />, they
+        ///         are implicitly destroyed when the application quits gracefully.
+        ///     </para>
+        /// </remarks>
         protected virtual void DestroyResources()
         {
         }
@@ -112,7 +131,7 @@ namespace Sokol.App
         protected abstract void Frame();
 
         /// <summary>
-        ///     Called when the application state changed such as when the mouse state changes, keyboard state
+        ///     Called when the application's state changed such as when the mouse state changes, keyboard state
         ///     changes, etc.
         /// </summary>
         /// <param name="event">The <see cref="HandleEvent" />.</param>
@@ -126,6 +145,14 @@ namespace Sokol.App
         /// <param name="width">The new width.</param>
         /// <param name="height">The new height.</param>
         protected virtual void Resized(int width, int height)
+        {
+        }
+
+        /// <summary>
+        ///     Called when the application encounters an error.
+        /// </summary>
+        /// <param name="message">The error message.</param>
+        protected virtual void HandleError(string message)
         {
         }
 
@@ -151,6 +178,7 @@ namespace Sokol.App
             App.Frame += Frame;
             App.Event += HandleEvent;
             App.Resized += Resized;
+            App.Error += HandleError;
         }
 
         private void RemoveHooks()
@@ -160,6 +188,7 @@ namespace Sokol.App
             App.Frame -= Frame;
             App.Event -= HandleEvent;
             App.Resized -= Resized;
+            App.Error -= HandleError;
         }
 
         /// <summary>

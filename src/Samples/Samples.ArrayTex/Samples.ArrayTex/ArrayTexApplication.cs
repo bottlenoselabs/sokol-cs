@@ -30,6 +30,11 @@ namespace Samples.ArrayTex
         private int _frameIndex;
         private VertexStageParams _vertexStageParams;
 
+        public ArrayTexApplication(AppDescriptor descriptor)
+            : base(descriptor)
+        {
+        }
+
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();

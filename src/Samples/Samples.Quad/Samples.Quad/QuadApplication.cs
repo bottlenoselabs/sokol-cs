@@ -17,6 +17,11 @@ namespace Samples.Quad
         private Buffer _vertexBuffer;
         private Shader _shader;
 
+        public QuadApplication(AppDescriptor descriptor)
+            : base(descriptor)
+        {
+        }
+
         protected override void CreateResources()
         {
             _vertexBuffer = CreateVertexBuffer();

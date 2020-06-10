@@ -40,7 +40,20 @@ internal static class UnmanagedStringMemoryManager
         StringsToPointers.Clear();
 
         GC.Collect();
-        GC.WaitForPendingFinalizers();
+    }
+
+    public static void Clear(IntPtr pointer)
+    {
+        if (!PointersToStrings.ContainsKey(pointer))
+        {
+            return;
+        }
+
+        var str = PointersToStrings[pointer];
+        PointersToStrings.Remove(pointer);
+        StringsToPointers.Remove(str);
+        Marshal.FreeHGlobal(pointer);
+
         GC.Collect();
     }
 }

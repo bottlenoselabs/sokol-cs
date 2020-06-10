@@ -18,10 +18,39 @@ namespace Sokol.App
     [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
     public static class App
     {
+        /// <summary>
+        ///     The default delegate for `sokol_app`.
+        /// </summary>
+        [SuppressMessage("ReSharper", "SA1202", Justification = "Delegates are details.")]
+        public delegate void AppDelegate();
+
+        /// <summary>
+        ///     The event delegate for `sokol_app`.
+        /// </summary>
+        /// <param name="event">The <see cref="Event" />.</param>
+        [SuppressMessage("ReSharper", "SA1202", Justification = "Delegates are details.")]
+        public delegate void AppEventDelegate(in Event @event);
+
+        /// <summary>
+        ///     The resized delegate for `sokol_app`.
+        /// </summary>
+        /// <param name="width">The new width of the <see cref="Framebuffer" />.</param>
+        /// <param name="height">The new height of the <see cref="Framebuffer" />.</param>
+        [SuppressMessage("ReSharper", "SA1202", Justification = "Delegates are details.")]
+        public delegate void AppResizedDelegate(int width, int height);
+
+        /// <summary>
+        ///     The message delegate for `sokol_app`.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        [SuppressMessage("ReSharper", "SA1202", Justification = "Delegates are details.")]
+        public delegate void AppStringDelegate(string str);
+
         private static GCHandle _initializeCallbackHandle;
         private static GCHandle _cleanUpCallbackHandle;
         private static GCHandle _eventCallbackHandle;
         private static GCHandle _frameCallbackHandle;
+        private static GCHandle _failCallbackHandle;
 
         /// <summary>
         ///     Gets the <see cref="GraphicsBackend" /> of the `sokol_app` application.
@@ -39,6 +68,13 @@ namespace Sokol.App
         /// <summary>
         ///     Occurs before the application quits and the application should destroy any resources.
         /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///         If you don't explicitly destroy graphics resources, such as <see cref="Graphics.Buffer" />,
+        ///         <see cref="Image" />, <see cref="Pass" />, <see cref="Pipeline" />, and <see cref="Shader" />, they
+        ///         are implicitly destroyed when the application quits gracefully.
+        ///     </para>
+        /// </remarks>
         public static event AppDelegate? DestroyResources;
 
         /// <summary>
@@ -47,10 +83,15 @@ namespace Sokol.App
         public static event AppDelegate? Frame;
 
         /// <summary>
-        ///     Occurs when the application state changed such as when the mouse state changes, keyboard state
+        ///     Occurs when the application's state changed such as when the mouse state changes, keyboard state
         ///     changes, etc.
         /// </summary>
         public static event AppEventDelegate? Event;
+
+        /// <summary>
+        ///     Occurs when the application encounters an error.
+        /// </summary>
+        public static event AppStringDelegate? Error;
 
         /// <summary>
         ///     Occurs when the <see cref="Framebuffer.Width" /> or the <see cref="Framebuffer.Height" /> change.
@@ -60,10 +101,21 @@ namespace Sokol.App
         /// <summary>
         ///     Starts the application.
         /// </summary>
+        /// <param name="descriptor">The <see cref="AppDescriptor" />.</param>
+        /// <remarks>
+        ///     <para>
+        ///         If the
+        ///         <param name="descriptor" />
+        ///         is provided, the
+        ///         <see cref="AppDescriptor.InitializeCallback" />, <see cref="AppDescriptor.FrameCallback" />,
+        ///         <see cref="AppDescriptor.CleanUpCallback" />, <see cref="AppDescriptor.EventCallback" />, and
+        ///         <see cref="AppDescriptor.FailCallback" /> will be overriden.
+        ///     </para>
+        /// </remarks>
         [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global", Justification = "C# wrapper.")]
-        public static void Run()
+        public static void Run(AppDescriptor? descriptor = null)
         {
-            var appDesc = default(AppDescriptor);
+            var appDesc = descriptor ?? default;
             FillDescriptor(ref appDesc);
             sapp_run(ref appDesc);
         }
@@ -145,6 +197,10 @@ namespace Sokol.App
             var eventCallbackDelegate = new AppCallbackDelegateEvent(EventCallback);
             _eventCallbackHandle = GCHandle.Alloc(eventCallbackDelegate);
             desc.EventCallback = Marshal.GetFunctionPointerForDelegate(eventCallbackDelegate);
+
+            var failCallbackDelegate = new AppCallbackDelegateAnsiStringMessage(FailCallback);
+            _failCallbackHandle = GCHandle.Alloc(eventCallbackDelegate);
+            desc.FailCallback = Marshal.GetFunctionPointerForDelegate(eventCallbackDelegate);
         }
 
         private static void InitializeCallback()
@@ -177,6 +233,13 @@ namespace Sokol.App
             Event?.Invoke(in @event);
         }
 
+        private static void FailCallback(IntPtr ansiStringPointer)
+        {
+            var message = UnmanagedStringMemoryManager.GetString(ansiStringPointer);
+            Error?.Invoke(message);
+            UnmanagedStringMemoryManager.Clear(ansiStringPointer);
+        }
+
         private static void InitializeGraphics()
         {
             var graphicsDescriptor = default(GraphicsDescriptor);
@@ -207,6 +270,11 @@ namespace Sokol.App
             {
                 _eventCallbackHandle.Free();
             }
+
+            if (_failCallbackHandle.IsAllocated)
+            {
+                _failCallbackHandle.Free();
+            }
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -215,25 +283,7 @@ namespace Sokol.App
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AppCallbackDelegateEvent(in Event @event);
 
-        /// <summary>
-        ///     The default delegate for `sokol_app`.
-        /// </summary>
-        [SuppressMessage("ReSharper", "SA1202", Justification = "Delegates are details.")]
-        public delegate void AppDelegate();
-
-        /// <summary>
-        ///     The event delegate for `sokol_app`.
-        /// </summary>
-        /// <param name="event">The <see cref="Event" />.</param>
-        [SuppressMessage("ReSharper", "SA1202", Justification = "Delegates are details.")]
-        public delegate void AppEventDelegate(in Event @event);
-
-        /// <summary>
-        ///     The resized delegate for `sokol_app`.
-        /// </summary>
-        /// <param name="width">The new width of the <see cref="Framebuffer" />.</param>
-        /// <param name="height">The new height of the <see cref="Framebuffer" />.</param>
-        [SuppressMessage("ReSharper", "SA1202", Justification = "Delegates are details.")]
-        public delegate void AppResizedDelegate(int width, int height);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void AppCallbackDelegateAnsiStringMessage(IntPtr message);
     }
 }
