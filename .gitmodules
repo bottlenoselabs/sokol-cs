@@ -1,4 +1,0 @@
-[submodule "ext/SDL2-CS"]
-	path = ext/SDL2-CS
-	url = https://github.com/lithiumtoast/SDL2-CS.git
-	shallow = true
