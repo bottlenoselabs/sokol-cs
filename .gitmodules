@@ -1,3 +1,6 @@
 [submodule "ext/my-msbuild"]
 	path = ext/my-msbuild
 	url = git@github.com:lithiumtoast/my-msbuild.git
+[submodule "ext/sokol"]
+	path = ext/sokol
+	url = https://github.com/floooh/sokol
