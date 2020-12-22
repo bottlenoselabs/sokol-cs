@@ -1,3 +1,5 @@
+> :wrench: 2020/12/22: Changed repository name to `sokol-cs`; updating to use libclang tool to generate C# bindings automatically; more news soon.
+
 <p align="center">
   <b>Sokol.NET</b> - .NET wrapper for <a href="https://github.com/floooh/sokol">https://github.com/floooh/sokol</a>
 </p>
