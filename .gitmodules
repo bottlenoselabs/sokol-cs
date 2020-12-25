@@ -4,3 +4,6 @@
 [submodule "ext/sokol"]
 	path = ext/sokol
 	url = https://github.com/floooh/sokol
+[submodule "ext/native-tools-cs"]
+	path = ext/native-tools-cs
+	url = git@github.com:lithiumtoast/native-tools-cs.git
