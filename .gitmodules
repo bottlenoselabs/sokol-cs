@@ -7,3 +7,6 @@
 [submodule "ext/native-tools-cs"]
 	path = ext/native-tools-cs
 	url = git@github.com:lithiumtoast/native-tools-cs.git
+[submodule "ext/pixel-formats-cs"]
+	path = ext/pixel-formats-cs
+	url = git@github.com:lithiumtoast/pixel-formats-cs.git
