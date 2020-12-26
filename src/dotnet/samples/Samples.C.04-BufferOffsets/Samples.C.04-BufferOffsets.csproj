@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>Samples.C.Quad</RootNamespace>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <!-- Custom project settings -->
+    <PropertyGroup>
+        <EnableAnalyzers>true</EnableAnalyzers>
+        <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
+    </PropertyGroup>
+
+    <!-- Project references -->
+    <ItemGroup>
+        <ProjectReference Include="..\..\production\Sokol\Sokol.csproj" />
+    </ItemGroup>
+
+    <!-- Simple assets solution; copy asset files everytime -->
+    <ItemGroup>
+        <None Update="assets\**\*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>

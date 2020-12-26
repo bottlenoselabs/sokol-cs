@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Sokol.Graphics.Tests": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}
