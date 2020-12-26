@@ -49,7 +49,7 @@ Since `sokol_gfx`, `sokol_app`, etc, are C libraries technically any platform is
 
 The following is a table of platforms that are known to work and their supported graphics API backends with `sokol_gfx` in C.
 
-Platform vs 3D API|OpenGL|OpenGLES/WebGL|Direct3D11|Direct3D12|Metal|Vulkan|WebGPU
+Platform vs 3D API|OpenGL|GLES/WebGL|Direct3D11|Direct3D12|Metal|Vulkan|WebGPU
 :---|:---:|:---:|:---:|:---:|:---:|:---:|:---:
 Desktop Windows|:white_check_mark:|:x:|:white_check_mark:|:o:|:x:|:o:|:x:
 Desktop macOS|:exclamation:|:x:|:x:|:x:|:white_check_mark:|:o:|:x:
