@@ -75,9 +75,9 @@ NuGet packages are not supported. Recommended to fork or use Git submodules inst
 
 `sokol-cs` uses [calendar versioning](https://calver.org) and [semantic versioning](https://semver.org) where appropriate. For example, the version scheme used for native shared libraries such as `sokol_gfx` is `YYYY.MM.DD` and the version scheme for C# projects is `MAJOR.MINOR.PATCH-TAG`.
 
-### Semantic Versioning
+### Releases
 
-[`GitVersion`](https://github.com/GitTools/GitVersion) is used to determine the exact semantic version for each automated build. When a version is suitable for a release a Git tag is created. For a complete list of the release versions, see the [tags on this repository](https://github.com/lithiumtoast/Sokol.NET/tags).
+When a version of the repository is suitable for a release a Git tag is created. For a complete list of the release versions, see the [tags on this repository](https://github.com/lithiumtoast/Sokol.NET/tags).
 
 ## License
 
