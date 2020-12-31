@@ -11,8 +11,8 @@
 bin/
 obj/
 
-# Downloaded libraries
-lib/
-
 # macOS
 .DS_Store
+
+# Downloaded libraries
+lib/
