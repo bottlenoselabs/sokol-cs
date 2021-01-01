@@ -22,6 +22,7 @@ namespace Sokol
         /// <summary>
         ///     The OpenGL Core 3.3 back-end. Used for <see cref="NativeRuntimePlatform.Linux" /> applications.
         /// </summary>
+        [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Produce name.")]
         OpenGL = 0,
 
         /// <summary>

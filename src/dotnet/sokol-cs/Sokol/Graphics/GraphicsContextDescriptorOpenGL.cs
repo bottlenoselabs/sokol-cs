@@ -20,6 +20,7 @@ namespace Sokol
     [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
     [SuppressMessage("Microsoft.Design", "CA1051", Justification = "Blittable struct.")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Product name.")]
     public struct GraphicsContextDescriptorOpenGL
     {
         /// <summary>
