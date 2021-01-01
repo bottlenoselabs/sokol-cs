@@ -38,7 +38,7 @@
   <PropertyGroup>
     <SokolNativeLibrariesPath>$(GitRepositoryPath)/lib/libsokol</SokolNativeLibrariesPath>
   </PropertyGroup>
-  
+
   <!-- Native libraries debug mode-->
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <Content Include="$(SokolNativeLibrariesPath)/win-x64/d3d11/debug/sokol.dll">
