@@ -42,17 +42,17 @@
   <!-- Native libraries debug mode-->
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <Content Include="$(SokolNativeLibrariesPath)/win-x64/d3d11/debug/sokol.dll">
-      <Link>runtimes/win-x64/native/libsokol.dll</Link>
+      <Link>runtimes/win-x64/native/sokol.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>runtimes/win-x64/native/libsokol.dll</PackagePath>
     </Content>
     <Content Include="$(SokolNativeLibrariesPath)/win-x64/d3d11/debug/sokol.pdb">
-      <Link>runtimes/win-x64/native/libsokol.pdb</Link>
+      <Link>runtimes/win-x64/native/sokol.pdb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>runtimes/win-x64/native/libsokol.pdb</PackagePath>
     </Content>
     <Content Include="$(SokolNativeLibrariesPath)/win-x64/d3d11/debug/sokol.ilk">
-      <Link>runtimes/win-x64/native/libsokol.ilk</Link>
+      <Link>runtimes/win-x64/native/sokol.ilk</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>runtimes/win-x64/native/libsokol.ilk</PackagePath>
     </Content>
@@ -71,7 +71,7 @@
   <!-- Native libraries release mode-->
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
     <Content Include="$(SokolNativeLibrariesPath)/win-x64/d3d11/release/sokol.dll">
-      <Link>runtimes/win-x64/native/libsokol.dll</Link>
+      <Link>runtimes/win-x64/native/sokol.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>runtimes/win-x64/native/libsokol.dll</PackagePath>
     </Content>
