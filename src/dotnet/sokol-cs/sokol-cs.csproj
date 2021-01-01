@@ -19,8 +19,8 @@
     <NativeToolsSourcePath>$(GitRepositoryPath)/ext/native-tools-cs/src</NativeToolsSourcePath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(NativeToolsSourcePath)/*.cs">
-      <Link>native-tools-cs/*.cs</Link>
+    <Compile Include="$(NativeToolsSourcePath)/**/*">
+      <Link>native-tools-cs/%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
 
@@ -30,7 +30,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(PixelFormatsSourcePath)/*.cs">
-      <Link>pixel-formats-cs/*.cs</Link>
+      <Link>pixel-formats-cs/%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
 
