@@ -1,9 +1,5 @@
 # sokol-cs
 
-<p align="center">
-  <b>sokol-cs</b> - C# bindings for <a href="https://github.com/floooh/sokol">https://github.com/floooh/sokol</a>
-</p>
-
 C# bindings for https://github.com/floooh/sokol. Includes the C style API precisely as it is and a slightly more idiomatic C# style API for convenience.
 
 Name|Description
