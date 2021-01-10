@@ -7,11 +7,12 @@
 # User-specific files
 *.user
 
-# C# build artifacts
+# Build artifacts
 bin/
 obj/
 
 # macOS
 .DS_Store
 
-
+# Downloaded libraries
+lib/
