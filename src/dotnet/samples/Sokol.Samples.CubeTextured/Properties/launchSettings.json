@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Sokol.Samples.TexCube": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
