@@ -33,10 +33,6 @@ The C style APIs are a pure port of the C headers; they exactly match what is in
 
 The C# style API is a modification of the C bindings to be more idiomatic and overall easier to use. The `unsafe` keyword is not required. However, all the types are still [.NET value types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value-types). This is on purpose to avoid the garbage collector (GC) [in games](https://www.shawnhargreaves.com/blog/twin-paths-to-garbage-collector-nirvana.html) and [other demanding, high performance, applications](https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code). All the code has XML documentation comments which are drived from the comments in [`sokol_gfx.h`](https://github.com/floooh/sokol/blob/master/sokol_gfx.h), [`sokol_app.h`](https://github.com/floooh/sokol/blob/master/sokol_app.h), [Apple developer docs on Metal](https://developer.apple.com/documentation), [Microsoft developer docs on DirectX](https://docs.microsoft.com/en-ca/), [Khronos docs on OpenGL & OpenGL ES](https://www.khronos.org/registry/OpenGL-Refpages/).
 
-### Samples
-
-The samples can be found at: https://github.com/lithiumtoast/learn-graphics.
-
 ## Supported Platforms & 3D APIs
 
 Since `sokol_gfx`, `sokol_app`, etc, are C libraries technically any platform is possible. However, currently only desktop platforms (Windows, macOS, and Linux) are currently supported by using .NET 5. [Unification of .NET and Mono for mobile platforms (iOS, Android), browser platform (WebAssembly), and consoles has been pushed back to .NET 6 (Novemeber 2021) due to COVID-19](https://visualstudiomagazine.com/articles/2020/11/10/net-5-ga.aspx).
