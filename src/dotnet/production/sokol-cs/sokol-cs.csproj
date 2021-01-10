@@ -11,7 +11,7 @@
     <EnableRootNamespace>false</EnableRootNamespace>
     <EnableAnalyzers>true</EnableAnalyzers>
     <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
-    <StyleCopSettingsFilePath>$(MSBuildThisFileDirectory)/../StyleCop.json</StyleCopSettingsFilePath>
+    <StyleCopSettingsFilePath>$(MSBuildThisFileDirectory)/../../StyleCop.json</StyleCopSettingsFilePath>
   </PropertyGroup>
 
   <!-- native-tools-cs -->

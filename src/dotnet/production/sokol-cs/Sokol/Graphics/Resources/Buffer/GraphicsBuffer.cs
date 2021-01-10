@@ -15,7 +15,7 @@ namespace Sokol
     /// <remarks>
     ///     <para>
     ///         To allocate and initialize a <see cref="GraphicsBuffer" />, call <see cref="Graphics.MakeBuffer" />. To
-    ///         allocate a <see cref="GraphicsBuffer" /> and initialize it later, call <see cref="Graphics.MakePass" /> to get
+    ///         allocate a <see cref="GraphicsBuffer" /> and initialize it later, call <see cref="Graphics.MakeBuffer" /> to get
     ///         an un-initialized <see cref="GraphicsBuffer" /> and then call <see cref="Initialize" />.
     ///     </para>
     ///     <para>

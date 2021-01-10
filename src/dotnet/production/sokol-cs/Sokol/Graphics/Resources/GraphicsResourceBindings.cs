@@ -78,7 +78,7 @@ namespace Sokol
         ///     negative. Must be <c>8</c> or less. Default is <c>0</c>.
         /// </param>
         /// <returns>A vertex <see cref="GraphicsBuffer" /> by reference.</returns>
-        public readonly ref GraphicsBuffer VertexBuffer(int index = 0)
+        public readonly ref GraphicsBuffer VertexBuffer(int index)
         {
             fixed (GraphicsResourceBindings* bindings = &this)
             {
@@ -96,7 +96,7 @@ namespace Sokol
         ///     applies to.
         /// </param>
         /// <returns>A zero-based offset.</returns>
-        public ref int VertexBufferOffset(int index = 0)
+        public ref int VertexBufferOffset(int index)
         {
             fixed (GraphicsResourceBindings* bindings = &this)
             {
