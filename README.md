@@ -1,3 +1,5 @@
+## **Project is archived. For latest bindings use https://github.com/lithiumtoast/c2cs to generate the bindings instead.**
+
 # sokol-cs
 
 C# bindings for https://github.com/floooh/sokol. Includes the C style API precisely as it is and a slightly more idiomatic C# style API for convenience.
