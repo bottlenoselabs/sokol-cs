@@ -110,18 +110,18 @@ namespace Sokol.Samples.Triangle
             switch (sg_query_backend())
             {
                 case sg_backend.SG_BACKEND_GLCORE33:
-                    desc.vs.source = File.ReadAllText("assets/shaders/opengl/mainVert.glsl");
-                    desc.fs.source = File.ReadAllText("assets/shaders/opengl/mainFrag.glsl");
+                    desc.vs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainVert.glsl"));
+                    desc.fs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainFrag.glsl"));
                     break;
                 case sg_backend.SG_BACKEND_METAL_IOS:
                 case sg_backend.SG_BACKEND_METAL_MACOS:
                 case sg_backend.SG_BACKEND_METAL_SIMULATOR:
-                    desc.vs.source = File.ReadAllText("assets/shaders/metal/mainVert.metal");
-                    desc.fs.source = File.ReadAllText("assets/shaders/metal/mainFrag.metal");
+                    desc.vs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainVert.metal"));
+                    desc.fs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainFrag.metal"));
                     break;
                 case sg_backend.SG_BACKEND_D3D11:
-                    desc.vs.source = File.ReadAllText("assets/shaders/d3d11/mainVert.hlsl");
-                    desc.fs.source = File.ReadAllText("assets/shaders/d3d11/mainFrag.hlsl");
+                    desc.vs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainVert.hlsl"));
+                    desc.fs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainFrag.hlsl"));
                     attribute0.sem_name = "POS";
                     attribute1.sem_name = "COLOR";
                     break;
