@@ -14,5 +14,5 @@ obj/
 # macOS
 .DS_Store
 
-# Downloaded libraries
+# Native libraries
 lib/
