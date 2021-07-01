@@ -13,12 +13,12 @@
 
     <ItemGroup>
         <None Update="assets\**\*">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\production\sokol-cs\sokol-cs.csproj" />
+        <ProjectReference Include="..\..\production\sokol-cs\sokol-cs.csproj" />
     </ItemGroup>
 
 </Project>
