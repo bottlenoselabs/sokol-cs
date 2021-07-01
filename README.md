@@ -10,8 +10,8 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 2. If you are on Windows: [Install Windows Subsystem for Linux v2 (WSL2)](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 3. Clone the repository with submodules: `git clone --recurse-submodules git@github.com:lithiumtoast/sokol-cs.git`.
 4. Run `bash ./build-native-library.sh` from the root directory of the repository to build the native shared library of `sokol`.
-5. If using IDE (Visual Studio / Rider): Open `./src/dotnet/Sokol.sln` and build solution.
-6. If using CLI: `dotnet build ./src/dotnet/Sokol.sln`
+5. If using IDE (Visual Studio / Rider): Open `./src/cs/Sokol.sln` and build solution.
+6. If using CLI: `dotnet build ./src/cs/Sokol.sln`
 7. Check if everything is working correctly by running the "Hello, world!" of computer graphics:
    - IDE: Run `Sokol.Samples.Triangle`.
    - CLI: `dotnet run --project ./src/cs/samples/Sokol.Samples.Triangle/Sokol.Samples/Triangle.csproj`
