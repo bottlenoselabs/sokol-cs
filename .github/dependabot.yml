@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "gitsubmodule"
-    directory: "/ext/"
+    directory: "/"
     # Check the npm registry for updates at 2am UTC
     schedule:
       interval: "daily"
