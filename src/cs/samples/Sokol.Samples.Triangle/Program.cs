@@ -35,6 +35,7 @@ namespace Sokol.Samples.Triangle
             desc.height = 300;
             desc.gl_force_gles2 = true;
             desc.window_title = "Triangle";
+            desc.icon.sokol_default = true;
         
             sapp_run(&desc);
         }

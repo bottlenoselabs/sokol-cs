@@ -24,6 +24,9 @@
     <NativeLibrariesPath>$(GitRepositoryPath)/lib</NativeLibrariesPath>
   </PropertyGroup>
   <ItemGroup>
+    <Content Condition="Exists('$(NativeLibrariesPath)/libsokol.dll')" Include="$(NativeLibrariesPath)/libsokol.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Condition="Exists('$(NativeLibrariesPath)/sokol.dll')" Include="$(NativeLibrariesPath)/sokol.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
