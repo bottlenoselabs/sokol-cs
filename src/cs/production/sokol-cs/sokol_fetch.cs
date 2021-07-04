@@ -265,7 +265,6 @@ public static unsafe partial class sokol_fetch
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.sfetch_continue = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_continue");
         _virtualTable.sfetch_pause = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_pause");
         _virtualTable.sfetch_cancel = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_cancel");
@@ -280,12 +279,9 @@ public static unsafe partial class sokol_fetch
         _virtualTable.sfetch_valid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_valid");
         _virtualTable.sfetch_shutdown = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_shutdown");
         _virtualTable.sfetch_setup = (delegate* unmanaged[Cdecl]<sfetch_desc_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_setup");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }

@@ -106,7 +106,6 @@ public static unsafe partial class sokol_time
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.stm_ns = (delegate* unmanaged[Cdecl]<ulong, double>)Runtime.LibraryGetExport(_libraryHandle, "stm_ns");
         _virtualTable.stm_us = (delegate* unmanaged[Cdecl]<ulong, double>)Runtime.LibraryGetExport(_libraryHandle, "stm_us");
         _virtualTable.stm_ms = (delegate* unmanaged[Cdecl]<ulong, double>)Runtime.LibraryGetExport(_libraryHandle, "stm_ms");
@@ -117,12 +116,9 @@ public static unsafe partial class sokol_time
         _virtualTable.stm_diff = (delegate* unmanaged[Cdecl]<ulong, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "stm_diff");
         _virtualTable.stm_now = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "stm_now");
         _virtualTable.stm_setup = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "stm_setup");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }

@@ -53,14 +53,10 @@ public static unsafe partial class sokol_glue
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.sapp_sgcontext = (delegate* unmanaged[Cdecl]<sg_context_desc>)Runtime.LibraryGetExport(_libraryHandle, "sapp_sgcontext");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }

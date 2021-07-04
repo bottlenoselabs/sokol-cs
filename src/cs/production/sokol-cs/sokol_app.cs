@@ -361,6 +361,55 @@ public static unsafe partial class sokol_app
         return _virtualTable.sokol_main(argc, argv);
     }
 
+    // FunctionPointer @ sokol_app.h:1392:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_APP_Sapp_html5_fetch_responsePtr_Void
+    {
+        public delegate* unmanaged<sapp_html5_fetch_response*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1340:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_APP_CString_VoidPtr_Void
+    {
+        public delegate* unmanaged<CString, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1339:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_APP_Sapp_eventPtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sapp_event*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1336:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_APP_VoidPtr_Void
+    {
+        public delegate* unmanaged<void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1333:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_APP_CString_Void
+    {
+        public delegate* unmanaged<CString, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1332:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_APP_Sapp_eventPtr_Void
+    {
+        public delegate* unmanaged<sapp_event*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1329:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_APP_Void
+    {
+        public delegate* unmanaged<void> Pointer;
+    }
+
     // Struct @ sokol_app.h:1396:3
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct sapp_html5_fetch_request
@@ -369,7 +418,7 @@ public static unsafe partial class sokol_app
         public int dropped_file_index;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_callback callback;
+        public FnPtr_SOKOL_APP_Sapp_html5_fetch_responsePtr_Void callback;
 
         [FieldOffset(16)] // size = 8, padding = 0
         public void* buffer_ptr;
@@ -379,13 +428,6 @@ public static unsafe partial class sokol_app
 
         [FieldOffset(32)] // size = 8, padding = 0
         public void* user_data;
-
-        // FunctionPointer @ sokol_app.h:1392:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_callback
-        {
-            public delegate* unmanaged<sapp_html5_fetch_response*, void> Pointer;
-        }
     }
 
     // Struct @ sokol_app.h:1388:3
@@ -419,37 +461,37 @@ public static unsafe partial class sokol_app
     public struct sapp_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public FnPtrVoid init_cb;
+        public FnPtr_SOKOL_APP_Void init_cb;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtrVoid frame_cb;
+        public FnPtr_SOKOL_APP_Void frame_cb;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtrVoid cleanup_cb;
+        public FnPtr_SOKOL_APP_Void cleanup_cb;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_event_cb event_cb;
+        public FnPtr_SOKOL_APP_Sapp_eventPtr_Void event_cb;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_fail_cb fail_cb;
+        public FnPtr_SOKOL_APP_CString_Void fail_cb;
 
         [FieldOffset(40)] // size = 8, padding = 0
         public void* user_data;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtrPointerVoid init_userdata_cb;
+        public FnPtr_SOKOL_APP_VoidPtr_Void init_userdata_cb;
 
         [FieldOffset(56)] // size = 8, padding = 0
-        public FnPtrPointerVoid frame_userdata_cb;
+        public FnPtr_SOKOL_APP_VoidPtr_Void frame_userdata_cb;
 
         [FieldOffset(64)] // size = 8, padding = 0
-        public FnPtrPointerVoid cleanup_userdata_cb;
+        public FnPtr_SOKOL_APP_VoidPtr_Void cleanup_userdata_cb;
 
         [FieldOffset(72)] // size = 8, padding = 0
-        public FnPtr_event_userdata_cb event_userdata_cb;
+        public FnPtr_SOKOL_APP_Sapp_eventPtr_VoidPtr_Void event_userdata_cb;
 
         [FieldOffset(80)] // size = 8, padding = 0
-        public FnPtr_fail_userdata_cb fail_userdata_cb;
+        public FnPtr_SOKOL_APP_CString_VoidPtr_Void fail_userdata_cb;
 
         [FieldOffset(88)] // size = 4, padding = 0
         public int width;
@@ -525,34 +567,55 @@ public static unsafe partial class sokol_app
 
         [FieldOffset(364)] // size = 1, padding = 3
         public CBool ios_keyboard_resizes_canvas;
+    }
 
-        // FunctionPointer @ sokol_app.h:1332:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_event_cb
-        {
-            public delegate* unmanaged<sapp_event*, void> Pointer;
-        }
+    // Struct @ sokol_app.h:1325:3
+    [StructLayout(LayoutKind.Explicit, Size = 200, Pack = 8)]
+    public struct sapp_icon_desc
+    {
+        [FieldOffset(0)] // size = 1, padding = 7
+        public CBool sokol_default;
 
-        // FunctionPointer @ sokol_app.h:1333:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_cb
-        {
-            public delegate* unmanaged<CString, void> Pointer;
-        }
+        [FieldOffset(8)] // size = 192, padding = 0
+        public fixed ulong _images[192 / 8]; // sapp_image_desc[8]
 
-        // FunctionPointer @ sokol_app.h:1339:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_event_userdata_cb
+        public Span<sapp_image_desc> images
         {
-            public delegate* unmanaged<sapp_event*, void*, void> Pointer;
+            get
+            {
+                fixed (sapp_icon_desc* @this = &this)
+                {
+                    var pointer = &@this->_images[0];
+                    var span = new Span<sapp_image_desc>(pointer, 8);
+                    return span;
+                }
+            }
         }
+    }
 
-        // FunctionPointer @ sokol_app.h:1340:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_userdata_cb
-        {
-            public delegate* unmanaged<CString, void*, void> Pointer;
-        }
+    // Struct @ sokol_app.h:1302:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct sapp_image_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int width;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int height;
+
+        [FieldOffset(8)] // size = 16, padding = 0
+        public sapp_range pixels;
+    }
+
+    // Struct @ sokol_app.h:1275:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct sapp_range
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* ptr;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ulong size;
     }
 
     // Struct @ sokol_app.h:1264:3
@@ -645,55 +708,6 @@ public static unsafe partial class sokol_app
 
         [FieldOffset(16)] // size = 1, padding = 7
         public CBool changed;
-    }
-
-    // Struct @ sokol_app.h:1325:3
-    [StructLayout(LayoutKind.Explicit, Size = 200, Pack = 8)]
-    public struct sapp_icon_desc
-    {
-        [FieldOffset(0)] // size = 1, padding = 7
-        public CBool sokol_default;
-
-        [FieldOffset(8)] // size = 192, padding = 0
-        public fixed ulong _images[192 / 8]; // sapp_image_desc[8]
-
-        public Span<sapp_image_desc> images
-        {
-            get
-            {
-                fixed (sapp_icon_desc* @this = &this)
-                {
-                    var pointer = &@this->_images[0];
-                    var span = new Span<sapp_image_desc>(pointer, 8);
-                    return span;
-                }
-            }
-        }
-    }
-
-    // Struct @ sokol_app.h:1302:3
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct sapp_image_desc
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int width;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int height;
-
-        [FieldOffset(8)] // size = 16, padding = 0
-        public sapp_range pixels;
-    }
-
-    // Struct @ sokol_app.h:1275:3
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct sapp_range
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* ptr;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ulong size;
     }
 
     // Enum @ sokol_app.h:1378:3
@@ -872,7 +886,6 @@ public static unsafe partial class sokol_app
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.sapp_android_get_native_activity = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_android_get_native_activity");
         _virtualTable.sapp_wgpu_get_depth_stencil_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_wgpu_get_depth_stencil_view");
         _virtualTable.sapp_wgpu_get_resolve_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_wgpu_get_resolve_view");
@@ -926,12 +939,9 @@ public static unsafe partial class sokol_app
         _virtualTable.sapp_width = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_width");
         _virtualTable.sapp_isvalid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_isvalid");
         _virtualTable.sokol_main = (delegate* unmanaged[Cdecl]<int, CString*, sapp_desc>)Runtime.LibraryGetExport(_libraryHandle, "sokol_main");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }

@@ -553,6 +553,202 @@ public static unsafe partial class sokol_gfx
         _virtualTable.sg_setup(desc);
     }
 
+    // FunctionPointer @ sokol_gfx.h:2235:19
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_VoidPtr_VoidPtr
+    {
+        public delegate* unmanaged<void*, void*> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:2234:19
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_VoidPtr
+    {
+        public delegate* unmanaged<void*> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:2027:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_CString_VoidPtr_Void
+    {
+        public delegate* unmanaged<CString, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:2016:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_pass_Sg_pass_descPtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_pass, sg_pass_desc*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:2015:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_pipeline_Sg_pipeline_descPtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_pipeline, sg_pipeline_desc*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:2014:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_shader_Sg_shader_descPtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_shader, sg_shader_desc*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:2013:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_image_Sg_image_descPtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_image, sg_image_desc*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:2012:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_buffer_Sg_buffer_descPtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_buffer, sg_buffer_desc*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1999:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Int_Int_Int_VoidPtr_Void
+    {
+        public delegate* unmanaged<int, int, int, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1998:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_shader_stage_Int_Sg_rangePtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_shader_stage, int, sg_range*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1997:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_bindingsPtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_bindings*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1994:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Int_Int_Int_Int_CBool_VoidPtr_Void
+    {
+        public delegate* unmanaged<int, int, int, int, CBool, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1993:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_pass_Sg_pass_actionPtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_pass, sg_pass_action*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1992:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_pass_actionPtr_Int_Int_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_pass_action*, int, int, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1991:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_buffer_Sg_rangePtr_Int_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_buffer, sg_range*, int, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1990:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_image_Sg_image_dataPtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_image, sg_image_data*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1989:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_buffer_Sg_rangePtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_buffer, sg_range*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1988:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_pass, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1987:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1986:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_shader, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1985:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_image, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1984:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1983:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_pass_descPtr_Sg_pass_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_pass_desc*, sg_pass, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1982:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_pipeline_descPtr_Sg_pipeline_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_pipeline_desc*, sg_pipeline, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1981:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_shader_descPtr_Sg_shader_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_shader_desc*, sg_shader, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1980:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_image_descPtr_Sg_image_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_image_desc*, sg_image, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1979:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_Sg_buffer_descPtr_Sg_buffer_VoidPtr_Void
+    {
+        public delegate* unmanaged<sg_buffer_desc*, sg_buffer, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_gfx.h:1978:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_GFX_VoidPtr_Void
+    {
+        public delegate* unmanaged<void*, void> Pointer;
+    }
+
     // Struct @ sokol_gfx.h:633:45
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_context
@@ -1487,22 +1683,22 @@ public static unsafe partial class sokol_gfx
         public void* device;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtrPointer render_view_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr render_view_cb;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtrPointerPointer render_view_userdata_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr render_view_userdata_cb;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtrPointer resolve_view_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr resolve_view_cb;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtrPointerPointer resolve_view_userdata_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr resolve_view_userdata_cb;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtrPointer depth_stencil_view_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr depth_stencil_view_cb;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtrPointerPointer depth_stencil_view_userdata_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr depth_stencil_view_userdata_cb;
 
         [FieldOffset(56)] // size = 8, padding = 0
         public void* user_data;
@@ -1519,16 +1715,16 @@ public static unsafe partial class sokol_gfx
         public void* device_context;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtrPointer render_target_view_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr render_target_view_cb;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtrPointerPointer render_target_view_userdata_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr render_target_view_userdata_cb;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtrPointer depth_stencil_view_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr depth_stencil_view_cb;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtrPointerPointer depth_stencil_view_userdata_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr depth_stencil_view_userdata_cb;
 
         [FieldOffset(48)] // size = 8, padding = 0
         public void* user_data;
@@ -1542,16 +1738,16 @@ public static unsafe partial class sokol_gfx
         public void* device;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtrPointer renderpass_descriptor_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr renderpass_descriptor_cb;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtrPointerPointer renderpass_descriptor_userdata_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr renderpass_descriptor_userdata_cb;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtrPointer drawable_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr drawable_cb;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtrPointerPointer drawable_userdata_cb;
+        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr drawable_userdata_cb;
 
         [FieldOffset(40)] // size = 8, padding = 0
         public void* user_data;
@@ -1720,513 +1916,184 @@ public static unsafe partial class sokol_gfx
         public void* user_data;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtrPointerVoid reset_state_cache;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void reset_state_cache;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_make_buffer make_buffer;
+        public FnPtr_SOKOL_GFX_Sg_buffer_descPtr_Sg_buffer_VoidPtr_Void make_buffer;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_make_image make_image;
+        public FnPtr_SOKOL_GFX_Sg_image_descPtr_Sg_image_VoidPtr_Void make_image;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_make_shader make_shader;
+        public FnPtr_SOKOL_GFX_Sg_shader_descPtr_Sg_shader_VoidPtr_Void make_shader;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtr_make_pipeline make_pipeline;
+        public FnPtr_SOKOL_GFX_Sg_pipeline_descPtr_Sg_pipeline_VoidPtr_Void make_pipeline;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtr_make_pass make_pass;
+        public FnPtr_SOKOL_GFX_Sg_pass_descPtr_Sg_pass_VoidPtr_Void make_pass;
 
         [FieldOffset(56)] // size = 8, padding = 0
-        public FnPtr_destroy_buffer destroy_buffer;
+        public FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void destroy_buffer;
 
         [FieldOffset(64)] // size = 8, padding = 0
-        public FnPtr_destroy_image destroy_image;
+        public FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void destroy_image;
 
         [FieldOffset(72)] // size = 8, padding = 0
-        public FnPtr_destroy_shader destroy_shader;
+        public FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void destroy_shader;
 
         [FieldOffset(80)] // size = 8, padding = 0
-        public FnPtr_destroy_pipeline destroy_pipeline;
+        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void destroy_pipeline;
 
         [FieldOffset(88)] // size = 8, padding = 0
-        public FnPtr_destroy_pass destroy_pass;
+        public FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void destroy_pass;
 
         [FieldOffset(96)] // size = 8, padding = 0
-        public FnPtr_update_buffer update_buffer;
+        public FnPtr_SOKOL_GFX_Sg_buffer_Sg_rangePtr_VoidPtr_Void update_buffer;
 
         [FieldOffset(104)] // size = 8, padding = 0
-        public FnPtr_update_image update_image;
+        public FnPtr_SOKOL_GFX_Sg_image_Sg_image_dataPtr_VoidPtr_Void update_image;
 
         [FieldOffset(112)] // size = 8, padding = 0
-        public FnPtr_append_buffer append_buffer;
+        public FnPtr_SOKOL_GFX_Sg_buffer_Sg_rangePtr_Int_VoidPtr_Void append_buffer;
 
         [FieldOffset(120)] // size = 8, padding = 0
-        public FnPtr_begin_default_pass begin_default_pass;
+        public FnPtr_SOKOL_GFX_Sg_pass_actionPtr_Int_Int_VoidPtr_Void begin_default_pass;
 
         [FieldOffset(128)] // size = 8, padding = 0
-        public FnPtr_begin_pass begin_pass;
+        public FnPtr_SOKOL_GFX_Sg_pass_Sg_pass_actionPtr_VoidPtr_Void begin_pass;
 
         [FieldOffset(136)] // size = 8, padding = 0
-        public FnPtr_apply_viewport apply_viewport;
+        public FnPtr_SOKOL_GFX_Int_Int_Int_Int_CBool_VoidPtr_Void apply_viewport;
 
         [FieldOffset(144)] // size = 8, padding = 0
-        public FnPtr_apply_scissor_rect apply_scissor_rect;
+        public FnPtr_SOKOL_GFX_Int_Int_Int_Int_CBool_VoidPtr_Void apply_scissor_rect;
 
         [FieldOffset(152)] // size = 8, padding = 0
-        public FnPtr_apply_pipeline apply_pipeline;
+        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void apply_pipeline;
 
         [FieldOffset(160)] // size = 8, padding = 0
-        public FnPtr_apply_bindings apply_bindings;
+        public FnPtr_SOKOL_GFX_Sg_bindingsPtr_VoidPtr_Void apply_bindings;
 
         [FieldOffset(168)] // size = 8, padding = 0
-        public FnPtr_apply_uniforms apply_uniforms;
+        public FnPtr_SOKOL_GFX_Sg_shader_stage_Int_Sg_rangePtr_VoidPtr_Void apply_uniforms;
 
         [FieldOffset(176)] // size = 8, padding = 0
-        public FnPtr_draw draw;
+        public FnPtr_SOKOL_GFX_Int_Int_Int_VoidPtr_Void draw;
 
         [FieldOffset(184)] // size = 8, padding = 0
-        public FnPtrPointerVoid end_pass;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void end_pass;
 
         [FieldOffset(192)] // size = 8, padding = 0
-        public FnPtrPointerVoid commit;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void commit;
 
         [FieldOffset(200)] // size = 8, padding = 0
-        public FnPtr_alloc_buffer alloc_buffer;
+        public FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void alloc_buffer;
 
         [FieldOffset(208)] // size = 8, padding = 0
-        public FnPtr_alloc_image alloc_image;
+        public FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void alloc_image;
 
         [FieldOffset(216)] // size = 8, padding = 0
-        public FnPtr_alloc_shader alloc_shader;
+        public FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void alloc_shader;
 
         [FieldOffset(224)] // size = 8, padding = 0
-        public FnPtr_alloc_pipeline alloc_pipeline;
+        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void alloc_pipeline;
 
         [FieldOffset(232)] // size = 8, padding = 0
-        public FnPtr_alloc_pass alloc_pass;
+        public FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void alloc_pass;
 
         [FieldOffset(240)] // size = 8, padding = 0
-        public FnPtr_dealloc_buffer dealloc_buffer;
+        public FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void dealloc_buffer;
 
         [FieldOffset(248)] // size = 8, padding = 0
-        public FnPtr_dealloc_image dealloc_image;
+        public FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void dealloc_image;
 
         [FieldOffset(256)] // size = 8, padding = 0
-        public FnPtr_dealloc_shader dealloc_shader;
+        public FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void dealloc_shader;
 
         [FieldOffset(264)] // size = 8, padding = 0
-        public FnPtr_dealloc_pipeline dealloc_pipeline;
+        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void dealloc_pipeline;
 
         [FieldOffset(272)] // size = 8, padding = 0
-        public FnPtr_dealloc_pass dealloc_pass;
+        public FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void dealloc_pass;
 
         [FieldOffset(280)] // size = 8, padding = 0
-        public FnPtr_init_buffer init_buffer;
+        public FnPtr_SOKOL_GFX_Sg_buffer_Sg_buffer_descPtr_VoidPtr_Void init_buffer;
 
         [FieldOffset(288)] // size = 8, padding = 0
-        public FnPtr_init_image init_image;
+        public FnPtr_SOKOL_GFX_Sg_image_Sg_image_descPtr_VoidPtr_Void init_image;
 
         [FieldOffset(296)] // size = 8, padding = 0
-        public FnPtr_init_shader init_shader;
+        public FnPtr_SOKOL_GFX_Sg_shader_Sg_shader_descPtr_VoidPtr_Void init_shader;
 
         [FieldOffset(304)] // size = 8, padding = 0
-        public FnPtr_init_pipeline init_pipeline;
+        public FnPtr_SOKOL_GFX_Sg_pipeline_Sg_pipeline_descPtr_VoidPtr_Void init_pipeline;
 
         [FieldOffset(312)] // size = 8, padding = 0
-        public FnPtr_init_pass init_pass;
+        public FnPtr_SOKOL_GFX_Sg_pass_Sg_pass_descPtr_VoidPtr_Void init_pass;
 
         [FieldOffset(320)] // size = 8, padding = 0
-        public FnPtr_uninit_buffer uninit_buffer;
+        public FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void uninit_buffer;
 
         [FieldOffset(328)] // size = 8, padding = 0
-        public FnPtr_uninit_image uninit_image;
+        public FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void uninit_image;
 
         [FieldOffset(336)] // size = 8, padding = 0
-        public FnPtr_uninit_shader uninit_shader;
+        public FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void uninit_shader;
 
         [FieldOffset(344)] // size = 8, padding = 0
-        public FnPtr_uninit_pipeline uninit_pipeline;
+        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void uninit_pipeline;
 
         [FieldOffset(352)] // size = 8, padding = 0
-        public FnPtr_uninit_pass uninit_pass;
+        public FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void uninit_pass;
 
         [FieldOffset(360)] // size = 8, padding = 0
-        public FnPtr_fail_buffer fail_buffer;
+        public FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void fail_buffer;
 
         [FieldOffset(368)] // size = 8, padding = 0
-        public FnPtr_fail_image fail_image;
+        public FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void fail_image;
 
         [FieldOffset(376)] // size = 8, padding = 0
-        public FnPtr_fail_shader fail_shader;
+        public FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void fail_shader;
 
         [FieldOffset(384)] // size = 8, padding = 0
-        public FnPtr_fail_pipeline fail_pipeline;
+        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void fail_pipeline;
 
         [FieldOffset(392)] // size = 8, padding = 0
-        public FnPtr_fail_pass fail_pass;
+        public FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void fail_pass;
 
         [FieldOffset(400)] // size = 8, padding = 0
-        public FnPtr_push_debug_group push_debug_group;
+        public FnPtr_SOKOL_GFX_CString_VoidPtr_Void push_debug_group;
 
         [FieldOffset(408)] // size = 8, padding = 0
-        public FnPtrPointerVoid pop_debug_group;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void pop_debug_group;
 
         [FieldOffset(416)] // size = 8, padding = 0
-        public FnPtrPointerVoid err_buffer_pool_exhausted;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void err_buffer_pool_exhausted;
 
         [FieldOffset(424)] // size = 8, padding = 0
-        public FnPtrPointerVoid err_image_pool_exhausted;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void err_image_pool_exhausted;
 
         [FieldOffset(432)] // size = 8, padding = 0
-        public FnPtrPointerVoid err_shader_pool_exhausted;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void err_shader_pool_exhausted;
 
         [FieldOffset(440)] // size = 8, padding = 0
-        public FnPtrPointerVoid err_pipeline_pool_exhausted;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void err_pipeline_pool_exhausted;
 
         [FieldOffset(448)] // size = 8, padding = 0
-        public FnPtrPointerVoid err_pass_pool_exhausted;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void err_pass_pool_exhausted;
 
         [FieldOffset(456)] // size = 8, padding = 0
-        public FnPtrPointerVoid err_context_mismatch;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void err_context_mismatch;
 
         [FieldOffset(464)] // size = 8, padding = 0
-        public FnPtrPointerVoid err_pass_invalid;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void err_pass_invalid;
 
         [FieldOffset(472)] // size = 8, padding = 0
-        public FnPtrPointerVoid err_draw_invalid;
+        public FnPtr_SOKOL_GFX_VoidPtr_Void err_draw_invalid;
 
         [FieldOffset(480)] // size = 8, padding = 0
-        public FnPtrPointerVoid err_bindings_invalid;
-
-        // FunctionPointer @ sokol_gfx.h:1979:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_make_buffer
-        {
-            public delegate* unmanaged<sg_buffer_desc*, sg_buffer, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1980:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_make_image
-        {
-            public delegate* unmanaged<sg_image_desc*, sg_image, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1981:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_make_shader
-        {
-            public delegate* unmanaged<sg_shader_desc*, sg_shader, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1982:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_make_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline_desc*, sg_pipeline, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1983:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_make_pass
-        {
-            public delegate* unmanaged<sg_pass_desc*, sg_pass, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1984:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_destroy_buffer
-        {
-            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1985:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_destroy_image
-        {
-            public delegate* unmanaged<sg_image, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1986:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_destroy_shader
-        {
-            public delegate* unmanaged<sg_shader, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1987:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_destroy_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1988:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_destroy_pass
-        {
-            public delegate* unmanaged<sg_pass, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1989:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_update_buffer
-        {
-            public delegate* unmanaged<sg_buffer, sg_range*, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1990:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_update_image
-        {
-            public delegate* unmanaged<sg_image, sg_image_data*, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1991:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_append_buffer
-        {
-            public delegate* unmanaged<sg_buffer, sg_range*, int, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1992:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_begin_default_pass
-        {
-            public delegate* unmanaged<sg_pass_action*, int, int, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1993:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_begin_pass
-        {
-            public delegate* unmanaged<sg_pass, sg_pass_action*, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1994:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_apply_viewport
-        {
-            public delegate* unmanaged<int, int, int, int, CBool, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1995:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_apply_scissor_rect
-        {
-            public delegate* unmanaged<int, int, int, int, CBool, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1996:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_apply_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1997:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_apply_bindings
-        {
-            public delegate* unmanaged<sg_bindings*, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1998:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_apply_uniforms
-        {
-            public delegate* unmanaged<sg_shader_stage, int, sg_range*, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:1999:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_draw
-        {
-            public delegate* unmanaged<int, int, int, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2002:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_alloc_buffer
-        {
-            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2003:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_alloc_image
-        {
-            public delegate* unmanaged<sg_image, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2004:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_alloc_shader
-        {
-            public delegate* unmanaged<sg_shader, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2005:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_alloc_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2006:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_alloc_pass
-        {
-            public delegate* unmanaged<sg_pass, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2007:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_dealloc_buffer
-        {
-            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2008:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_dealloc_image
-        {
-            public delegate* unmanaged<sg_image, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2009:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_dealloc_shader
-        {
-            public delegate* unmanaged<sg_shader, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2010:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_dealloc_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2011:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_dealloc_pass
-        {
-            public delegate* unmanaged<sg_pass, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2012:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_buffer
-        {
-            public delegate* unmanaged<sg_buffer, sg_buffer_desc*, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2013:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_image
-        {
-            public delegate* unmanaged<sg_image, sg_image_desc*, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2014:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_shader
-        {
-            public delegate* unmanaged<sg_shader, sg_shader_desc*, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2015:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, sg_pipeline_desc*, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2016:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_pass
-        {
-            public delegate* unmanaged<sg_pass, sg_pass_desc*, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2017:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_uninit_buffer
-        {
-            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2018:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_uninit_image
-        {
-            public delegate* unmanaged<sg_image, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2019:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_uninit_shader
-        {
-            public delegate* unmanaged<sg_shader, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2020:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_uninit_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2021:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_uninit_pass
-        {
-            public delegate* unmanaged<sg_pass, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2022:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_buffer
-        {
-            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2023:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_image
-        {
-            public delegate* unmanaged<sg_image, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2024:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_shader
-        {
-            public delegate* unmanaged<sg_shader, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2025:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2026:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_pass
-        {
-            public delegate* unmanaged<sg_pass, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_gfx.h:2027:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_push_debug_group
-        {
-            public delegate* unmanaged<CString, void*, void> Pointer;
-        }
+        public FnPtr_SOKOL_GFX_VoidPtr_Void err_bindings_invalid;
     }
 
     // Enum @ sokol_gfx.h:1249:3
@@ -2604,7 +2471,6 @@ public static unsafe partial class sokol_gfx
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.sg_mtl_render_command_encoder = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sg_mtl_render_command_encoder");
         _virtualTable.sg_mtl_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sg_mtl_device");
         _virtualTable.sg_d3d11_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sg_d3d11_device");
@@ -2690,12 +2556,9 @@ public static unsafe partial class sokol_gfx
         _virtualTable.sg_isvalid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_isvalid");
         _virtualTable.sg_shutdown = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_shutdown");
         _virtualTable.sg_setup = (delegate* unmanaged[Cdecl]<sg_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_setup");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }

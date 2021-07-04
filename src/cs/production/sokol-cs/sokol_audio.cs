@@ -103,6 +103,20 @@ public static unsafe partial class sokol_audio
         _virtualTable.saudio_setup(desc);
     }
 
+    // FunctionPointer @ sokol_audio.h:422:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_AUDIO_FloatPtr_Int_Int_VoidPtr_Void
+    {
+        public delegate* unmanaged<float*, int, int, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_audio.h:421:12
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_AUDIO_FloatPtr_Int_Int_Void
+    {
+        public delegate* unmanaged<float*, int, int, void> Pointer;
+    }
+
     // Struct @ sokol_audio.h:424:3
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct saudio_desc
@@ -123,33 +137,18 @@ public static unsafe partial class sokol_audio
         public int num_packets;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_stream_cb stream_cb;
+        public FnPtr_SOKOL_AUDIO_FloatPtr_Int_Int_Void stream_cb;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_stream_userdata_cb stream_userdata_cb;
+        public FnPtr_SOKOL_AUDIO_FloatPtr_Int_Int_VoidPtr_Void stream_userdata_cb;
 
         [FieldOffset(40)] // size = 8, padding = 0
         public void* user_data;
-
-        // FunctionPointer @ sokol_audio.h:421:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_stream_cb
-        {
-            public delegate* unmanaged<float*, int, int, void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_audio.h:422:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_stream_userdata_cb
-        {
-            public delegate* unmanaged<float*, int, int, void*, void> Pointer;
-        }
     }
 
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.saudio_push = (delegate* unmanaged[Cdecl]<float*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "saudio_push");
         _virtualTable.saudio_expect = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "saudio_expect");
         _virtualTable.saudio_channels = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "saudio_channels");
@@ -160,12 +159,9 @@ public static unsafe partial class sokol_audio
         _virtualTable.saudio_isvalid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "saudio_isvalid");
         _virtualTable.saudio_shutdown = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "saudio_shutdown");
         _virtualTable.saudio_setup = (delegate* unmanaged[Cdecl]<saudio_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "saudio_setup");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }

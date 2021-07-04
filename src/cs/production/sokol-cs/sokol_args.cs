@@ -135,7 +135,6 @@ public static unsafe partial class sokol_args
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.sargs_value_at = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "sargs_value_at");
         _virtualTable.sargs_key_at = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "sargs_key_at");
         _virtualTable.sargs_num_args = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sargs_num_args");
@@ -148,12 +147,9 @@ public static unsafe partial class sokol_args
         _virtualTable.sargs_isvalid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sargs_isvalid");
         _virtualTable.sargs_shutdown = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sargs_shutdown");
         _virtualTable.sargs_setup = (delegate* unmanaged[Cdecl]<sargs_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sargs_setup");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }
