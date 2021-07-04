@@ -21,4 +21,8 @@
         <ProjectReference Include="..\..\production\sokol-cs\sokol-cs.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="6.0.0-*" />
+    </ItemGroup>
+
 </Project>

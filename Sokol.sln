@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Production", "Production", "{081F91DD-336C-4BB1-B619-ED0DD3ED32D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{D96A33BC-F5E8-4080-AA0A-8588A1C41312}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sokol-cs", "src\cs\production\sokol-cs\sokol-cs.csproj", "{E7A929EE-D6E4-41D9-A253-809A8A139C42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Cube", "src\cs\samples\Sokol.Samples.Cube\Sokol.Samples.Cube.csproj", "{4ED74BBB-1855-497B-BB40-367196CF0A98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Samples.Triangle", "src\cs\samples\Sokol.Samples.Triangle\Sokol.Samples.Triangle.csproj", "{63EAC70B-FA85-4A38-981A-5C90FAAD8F4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7A929EE-D6E4-41D9-A253-809A8A139C42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A929EE-D6E4-41D9-A253-809A8A139C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7A929EE-D6E4-41D9-A253-809A8A139C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A929EE-D6E4-41D9-A253-809A8A139C42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ED74BBB-1855-497B-BB40-367196CF0A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ED74BBB-1855-497B-BB40-367196CF0A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ED74BBB-1855-497B-BB40-367196CF0A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ED74BBB-1855-497B-BB40-367196CF0A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63EAC70B-FA85-4A38-981A-5C90FAAD8F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63EAC70B-FA85-4A38-981A-5C90FAAD8F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63EAC70B-FA85-4A38-981A-5C90FAAD8F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63EAC70B-FA85-4A38-981A-5C90FAAD8F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E7A929EE-D6E4-41D9-A253-809A8A139C42} = {081F91DD-336C-4BB1-B619-ED0DD3ED32D0}
+		{4ED74BBB-1855-497B-BB40-367196CF0A98} = {D96A33BC-F5E8-4080-AA0A-8588A1C41312}
+		{63EAC70B-FA85-4A38-981A-5C90FAAD8F4E} = {D96A33BC-F5E8-4080-AA0A-8588A1C41312}
+	EndGlobalSection
+EndGlobal

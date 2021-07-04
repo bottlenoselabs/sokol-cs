@@ -10,13 +10,64 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 2. If you are on Windows: [Install Windows Subsystem for Linux v2 (WSL2)](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 3. Clone the repository with submodules: `git clone --recurse-submodules git@github.com:lithiumtoast/sokol-cs.git`.
 4. Run `bash ./build-native-library.sh` from the root directory of the repository to build the native shared library of `sokol`.
-5. If using IDE (Visual Studio / Rider): Open `./src/cs/Sokol.sln` and build solution.
-6. If using CLI: `dotnet build ./src/cs/Sokol.sln`
-7. Check if everything is working correctly by running the "Hello, world!" of computer graphics:
-   - IDE: Run `Sokol.Samples.Triangle`.
-   - CLI: `dotnet run --project ./src/cs/samples/Sokol.Samples.Triangle/Sokol.Samples/Triangle.csproj`
+5. If using IDE (Visual Studio / Rider): Open `Sokol.sln` and build solution.
+6. If using CLI: `dotnet build`
 
 Additionally, if at any time you wish to re-generate the bindings, simple run `bash ./bindgen-csharp.sh`.
+
+## Developers: "Hello, world!" of computer graphics
+
+The most basic example of rendering a triangle in clip space using your GPU.
+
+### IDE (Visual Studio / Rider)
+
+Run `Sokol.Samples.Triangle`.
+
+### CLI
+
+#### Windows
+
+```powershell
+dotnet run --project .\src\cs\samples\Sokol.Samples.Triangle\Sokol.Samples.Triangle.csproj
+```
+
+#### macOS/Linux
+
+```bash
+dotnet run --project ./src/cs/samples/Sokol.Samples.Triangle/Sokol.Samples/Triangle.csproj
+```
+
+## Developers: Native Ahead of Time Compilation with C#
+
+Example of rendering a cube with a model-view-projection (a.k.a world-view-projection) matrix and taking it one step further by compiling the code to a native executable using native ahead of time compilation (nAOT).
+
+### Why use nAOT?
+
+Positive outcomes of using nAOT:
+
+1. Creates a small stand-alone application without the dependency of .NET framework.
+1. Increases the startup time of the application because the Intermediate Language (IL) code instructions do not have to be compiled to native assembly code instructions on the fly.
+2. Stablizes frame rates to be rock solid because of the same reason as 2.
+3. The application can not be decompiled using a C# decompiler such as DotPeek or ILSpy because there is no Intermediate Language (IL) code instructions.
+
+Negative outcomes:
+
+1. `System.Reflection` API is finicky. Recommendation is you stay clear of using reflection all together though it is possible to get working with some effort.
+
+For more information on nAOT see: https://github.com/dotnet/runtimelab/tree/feature/NativeAOT.
+
+### Windows
+
+1. Build: `dotnet publish .\src\cs\samples\Sokol.Samples.Cube\Sokol.Samples.Cube.csproj -r win-x64 -c Release -o .\publish`
+2. Run: `.\publish\Sokol.Samples.Cube.exe`
+
+### macOS
+
+//TODO
+
+### Ubuntu
+
+//TODO
 
 ## Developers: Documentation
 
