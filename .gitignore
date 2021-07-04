@@ -1,18 +1,21 @@
 # JetBrains
-.idea/
+/.idea/
 
 # VisualStudio
-.vs/
+/.vs/
 
 # User-specific files
 *.user
 
 # Build artifacts
-bin/
-obj/
+/bin/
+/obj/
+
+# Publish artifacts
+/publish/
 
 # macOS
 .DS_Store
 
 # Native libraries
-lib/
+/lib/
