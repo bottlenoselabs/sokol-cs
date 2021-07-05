@@ -4,7 +4,7 @@ C# bindings for https://github.com/floooh/sokol.
 
 To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written Andre Weissflog, the owner of `sokol`. 
 
-## Developers: Building from Source
+## Building from Source
 
 1. Download and install [.NET 5](https://dotnet.microsoft.com/download).
 2. If you are on Windows: [Install Windows Subsystem for Linux v2 (WSL2)](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
@@ -15,7 +15,7 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 
 Additionally, if at any time you wish to re-generate the bindings, simple run `bash ./bindgen-csharp.sh`.
 
-## Developers: "Hello, world!" of computer graphics
+## Run: "Hello, world!" of computer graphics
 
 The most basic example of rendering a triangle in clip space using your GPU.
 
@@ -37,7 +37,7 @@ dotnet run --project .\src\cs\samples\Sokol.Samples.Triangle\Sokol.Samples.Trian
 dotnet run --project ./src/cs/samples/Sokol.Samples.Triangle/Sokol.Samples/Triangle.csproj
 ```
 
-## Developers: Native Ahead of Time Compilation with C#
+## Run: Native Ahead of Time Compilation with C#
 
 Example of rendering a cube with a model-view-projection (a.k.a world-view-projection) matrix and taking it one step further by compiling the code to a native executable using native ahead of time compilation (nAOT).
 
