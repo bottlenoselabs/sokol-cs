@@ -20,538 +20,346 @@ using C2CS;
 public static unsafe partial class sokol_gfx
 {
     private const string LibraryName = "sokol";
-    private static IntPtr _libraryHandle;
-
-    static sokol_gfx()
-    {
-        TryLoadApi();
-    }
-
-    public static bool TryLoadApi(string? libraryName = LibraryName)
-    {
-        UnloadApi();
-        _libraryHandle = Runtime.LibraryLoad(libraryName!);
-        if (_libraryHandle == IntPtr.Zero) return false;
-        _LoadVirtualTable();
-        return true;
-    }
-
-    public static void UnloadApi()
-    {
-        if (_libraryHandle == IntPtr.Zero) return;
-        _UnloadVirtualTable();
-        Runtime.LibraryUnload(_libraryHandle);
-    }
 
     // Function @ sokol_gfx.h:2378:32
-    public static void* sg_mtl_render_command_encoder()
-    {
-        return _virtualTable.sg_mtl_render_command_encoder();
-    }
+    [DllImport("sokol")]
+    public static extern void* sg_mtl_render_command_encoder();
 
     // Function @ sokol_gfx.h:2375:32
-    public static void* sg_mtl_device()
-    {
-        return _virtualTable.sg_mtl_device();
-    }
+    [DllImport("sokol")]
+    public static extern void* sg_mtl_device();
 
     // Function @ sokol_gfx.h:2372:32
-    public static void* sg_d3d11_device()
-    {
-        return _virtualTable.sg_d3d11_device();
-    }
+    [DllImport("sokol")]
+    public static extern void* sg_d3d11_device();
 
     // Function @ sokol_gfx.h:2363:25
-    public static void sg_discard_context(sg_context ctx_id)
-    {
-        _virtualTable.sg_discard_context(ctx_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_discard_context(sg_context ctx_id);
 
     // Function @ sokol_gfx.h:2362:25
-    public static void sg_activate_context(sg_context ctx_id)
-    {
-        _virtualTable.sg_activate_context(ctx_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_activate_context(sg_context ctx_id);
 
     // Function @ sokol_gfx.h:2361:31
-    public static sg_context sg_setup_context()
-    {
-        return _virtualTable.sg_setup_context();
-    }
+    [DllImport("sokol")]
+    public static extern sg_context sg_setup_context();
 
     // Function @ sokol_gfx.h:2358:25
-    public static void sg_fail_pass(sg_pass pass_id)
-    {
-        _virtualTable.sg_fail_pass(pass_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_fail_pass(sg_pass pass_id);
 
     // Function @ sokol_gfx.h:2357:25
-    public static void sg_fail_pipeline(sg_pipeline pip_id)
-    {
-        _virtualTable.sg_fail_pipeline(pip_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_fail_pipeline(sg_pipeline pip_id);
 
     // Function @ sokol_gfx.h:2356:25
-    public static void sg_fail_shader(sg_shader shd_id)
-    {
-        _virtualTable.sg_fail_shader(shd_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_fail_shader(sg_shader shd_id);
 
     // Function @ sokol_gfx.h:2355:25
-    public static void sg_fail_image(sg_image img_id)
-    {
-        _virtualTable.sg_fail_image(img_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_fail_image(sg_image img_id);
 
     // Function @ sokol_gfx.h:2354:25
-    public static void sg_fail_buffer(sg_buffer buf_id)
-    {
-        _virtualTable.sg_fail_buffer(buf_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_fail_buffer(sg_buffer buf_id);
 
     // Function @ sokol_gfx.h:2353:25
-    public static CBool sg_uninit_pass(sg_pass pass_id)
-    {
-        return _virtualTable.sg_uninit_pass(pass_id);
-    }
+    [DllImport("sokol")]
+    public static extern CBool sg_uninit_pass(sg_pass pass_id);
 
     // Function @ sokol_gfx.h:2352:25
-    public static CBool sg_uninit_pipeline(sg_pipeline pip_id)
-    {
-        return _virtualTable.sg_uninit_pipeline(pip_id);
-    }
+    [DllImport("sokol")]
+    public static extern CBool sg_uninit_pipeline(sg_pipeline pip_id);
 
     // Function @ sokol_gfx.h:2351:25
-    public static CBool sg_uninit_shader(sg_shader shd_id)
-    {
-        return _virtualTable.sg_uninit_shader(shd_id);
-    }
+    [DllImport("sokol")]
+    public static extern CBool sg_uninit_shader(sg_shader shd_id);
 
     // Function @ sokol_gfx.h:2350:25
-    public static CBool sg_uninit_image(sg_image img_id)
-    {
-        return _virtualTable.sg_uninit_image(img_id);
-    }
+    [DllImport("sokol")]
+    public static extern CBool sg_uninit_image(sg_image img_id);
 
     // Function @ sokol_gfx.h:2349:25
-    public static CBool sg_uninit_buffer(sg_buffer buf_id)
-    {
-        return _virtualTable.sg_uninit_buffer(buf_id);
-    }
+    [DllImport("sokol")]
+    public static extern CBool sg_uninit_buffer(sg_buffer buf_id);
 
     // Function @ sokol_gfx.h:2348:25
-    public static void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc)
-    {
-        _virtualTable.sg_init_pass(pass_id, desc);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc);
 
     // Function @ sokol_gfx.h:2347:25
-    public static void sg_init_pipeline(sg_pipeline pip_id, sg_pipeline_desc* desc)
-    {
-        _virtualTable.sg_init_pipeline(pip_id, desc);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_init_pipeline(sg_pipeline pip_id, sg_pipeline_desc* desc);
 
     // Function @ sokol_gfx.h:2346:25
-    public static void sg_init_shader(sg_shader shd_id, sg_shader_desc* desc)
-    {
-        _virtualTable.sg_init_shader(shd_id, desc);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_init_shader(sg_shader shd_id, sg_shader_desc* desc);
 
     // Function @ sokol_gfx.h:2345:25
-    public static void sg_init_image(sg_image img_id, sg_image_desc* desc)
-    {
-        _virtualTable.sg_init_image(img_id, desc);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_init_image(sg_image img_id, sg_image_desc* desc);
 
     // Function @ sokol_gfx.h:2344:25
-    public static void sg_init_buffer(sg_buffer buf_id, sg_buffer_desc* desc)
-    {
-        _virtualTable.sg_init_buffer(buf_id, desc);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_init_buffer(sg_buffer buf_id, sg_buffer_desc* desc);
 
     // Function @ sokol_gfx.h:2343:25
-    public static void sg_dealloc_pass(sg_pass pass_id)
-    {
-        _virtualTable.sg_dealloc_pass(pass_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_dealloc_pass(sg_pass pass_id);
 
     // Function @ sokol_gfx.h:2342:25
-    public static void sg_dealloc_pipeline(sg_pipeline pip_id)
-    {
-        _virtualTable.sg_dealloc_pipeline(pip_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_dealloc_pipeline(sg_pipeline pip_id);
 
     // Function @ sokol_gfx.h:2341:25
-    public static void sg_dealloc_shader(sg_shader shd_id)
-    {
-        _virtualTable.sg_dealloc_shader(shd_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_dealloc_shader(sg_shader shd_id);
 
     // Function @ sokol_gfx.h:2340:25
-    public static void sg_dealloc_image(sg_image img_id)
-    {
-        _virtualTable.sg_dealloc_image(img_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_dealloc_image(sg_image img_id);
 
     // Function @ sokol_gfx.h:2339:25
-    public static void sg_dealloc_buffer(sg_buffer buf_id)
-    {
-        _virtualTable.sg_dealloc_buffer(buf_id);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_dealloc_buffer(sg_buffer buf_id);
 
     // Function @ sokol_gfx.h:2338:28
-    public static sg_pass sg_alloc_pass()
-    {
-        return _virtualTable.sg_alloc_pass();
-    }
+    [DllImport("sokol")]
+    public static extern sg_pass sg_alloc_pass();
 
     // Function @ sokol_gfx.h:2337:32
-    public static sg_pipeline sg_alloc_pipeline()
-    {
-        return _virtualTable.sg_alloc_pipeline();
-    }
+    [DllImport("sokol")]
+    public static extern sg_pipeline sg_alloc_pipeline();
 
     // Function @ sokol_gfx.h:2336:30
-    public static sg_shader sg_alloc_shader()
-    {
-        return _virtualTable.sg_alloc_shader();
-    }
+    [DllImport("sokol")]
+    public static extern sg_shader sg_alloc_shader();
 
     // Function @ sokol_gfx.h:2335:29
-    public static sg_image sg_alloc_image()
-    {
-        return _virtualTable.sg_alloc_image();
-    }
+    [DllImport("sokol")]
+    public static extern sg_image sg_alloc_image();
 
     // Function @ sokol_gfx.h:2334:30
-    public static sg_buffer sg_alloc_buffer()
-    {
-        return _virtualTable.sg_alloc_buffer();
-    }
+    [DllImport("sokol")]
+    public static extern sg_buffer sg_alloc_buffer();
 
     // Function @ sokol_gfx.h:2331:33
-    public static sg_pass_desc sg_query_pass_defaults(sg_pass_desc* desc)
-    {
-        return _virtualTable.sg_query_pass_defaults(desc);
-    }
+    [DllImport("sokol")]
+    public static extern sg_pass_desc sg_query_pass_defaults(sg_pass_desc* desc);
 
     // Function @ sokol_gfx.h:2330:37
-    public static sg_pipeline_desc sg_query_pipeline_defaults(sg_pipeline_desc* desc)
-    {
-        return _virtualTable.sg_query_pipeline_defaults(desc);
-    }
+    [DllImport("sokol")]
+    public static extern sg_pipeline_desc sg_query_pipeline_defaults(sg_pipeline_desc* desc);
 
     // Function @ sokol_gfx.h:2329:35
-    public static sg_shader_desc sg_query_shader_defaults(sg_shader_desc* desc)
-    {
-        return _virtualTable.sg_query_shader_defaults(desc);
-    }
+    [DllImport("sokol")]
+    public static extern sg_shader_desc sg_query_shader_defaults(sg_shader_desc* desc);
 
     // Function @ sokol_gfx.h:2328:34
-    public static sg_image_desc sg_query_image_defaults(sg_image_desc* desc)
-    {
-        return _virtualTable.sg_query_image_defaults(desc);
-    }
+    [DllImport("sokol")]
+    public static extern sg_image_desc sg_query_image_defaults(sg_image_desc* desc);
 
     // Function @ sokol_gfx.h:2327:35
-    public static sg_buffer_desc sg_query_buffer_defaults(sg_buffer_desc* desc)
-    {
-        return _virtualTable.sg_query_buffer_defaults(desc);
-    }
+    [DllImport("sokol")]
+    public static extern sg_buffer_desc sg_query_buffer_defaults(sg_buffer_desc* desc);
 
     // Function @ sokol_gfx.h:2325:33
-    public static sg_pass_info sg_query_pass_info(sg_pass pass)
-    {
-        return _virtualTable.sg_query_pass_info(pass);
-    }
+    [DllImport("sokol")]
+    public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
 
     // Function @ sokol_gfx.h:2324:37
-    public static sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip)
-    {
-        return _virtualTable.sg_query_pipeline_info(pip);
-    }
+    [DllImport("sokol")]
+    public static extern sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
 
     // Function @ sokol_gfx.h:2323:35
-    public static sg_shader_info sg_query_shader_info(sg_shader shd)
-    {
-        return _virtualTable.sg_query_shader_info(shd);
-    }
+    [DllImport("sokol")]
+    public static extern sg_shader_info sg_query_shader_info(sg_shader shd);
 
     // Function @ sokol_gfx.h:2322:34
-    public static sg_image_info sg_query_image_info(sg_image img)
-    {
-        return _virtualTable.sg_query_image_info(img);
-    }
+    [DllImport("sokol")]
+    public static extern sg_image_info sg_query_image_info(sg_image img);
 
     // Function @ sokol_gfx.h:2321:35
-    public static sg_buffer_info sg_query_buffer_info(sg_buffer buf)
-    {
-        return _virtualTable.sg_query_buffer_info(buf);
-    }
+    [DllImport("sokol")]
+    public static extern sg_buffer_info sg_query_buffer_info(sg_buffer buf);
 
     // Function @ sokol_gfx.h:2319:38
-    public static sg_resource_state sg_query_pass_state(sg_pass pass)
-    {
-        return _virtualTable.sg_query_pass_state(pass);
-    }
+    [DllImport("sokol")]
+    public static extern sg_resource_state sg_query_pass_state(sg_pass pass);
 
     // Function @ sokol_gfx.h:2318:38
-    public static sg_resource_state sg_query_pipeline_state(sg_pipeline pip)
-    {
-        return _virtualTable.sg_query_pipeline_state(pip);
-    }
+    [DllImport("sokol")]
+    public static extern sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
 
     // Function @ sokol_gfx.h:2317:38
-    public static sg_resource_state sg_query_shader_state(sg_shader shd)
-    {
-        return _virtualTable.sg_query_shader_state(shd);
-    }
+    [DllImport("sokol")]
+    public static extern sg_resource_state sg_query_shader_state(sg_shader shd);
 
     // Function @ sokol_gfx.h:2316:38
-    public static sg_resource_state sg_query_image_state(sg_image img)
-    {
-        return _virtualTable.sg_query_image_state(img);
-    }
+    [DllImport("sokol")]
+    public static extern sg_resource_state sg_query_image_state(sg_image img);
 
     // Function @ sokol_gfx.h:2315:38
-    public static sg_resource_state sg_query_buffer_state(sg_buffer buf)
-    {
-        return _virtualTable.sg_query_buffer_state(buf);
-    }
+    [DllImport("sokol")]
+    public static extern sg_resource_state sg_query_buffer_state(sg_buffer buf);
 
     // Function @ sokol_gfx.h:2313:40
-    public static sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt)
-    {
-        return _virtualTable.sg_query_pixelformat(fmt);
-    }
+    [DllImport("sokol")]
+    public static extern sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
 
     // Function @ sokol_gfx.h:2312:30
-    public static sg_limits sg_query_limits()
-    {
-        return _virtualTable.sg_query_limits();
-    }
+    [DllImport("sokol")]
+    public static extern sg_limits sg_query_limits();
 
     // Function @ sokol_gfx.h:2311:32
-    public static sg_features sg_query_features()
-    {
-        return _virtualTable.sg_query_features();
-    }
+    [DllImport("sokol")]
+    public static extern sg_features sg_query_features();
 
     // Function @ sokol_gfx.h:2310:31
-    public static sg_backend sg_query_backend()
-    {
-        return _virtualTable.sg_query_backend();
-    }
+    [DllImport("sokol")]
+    public static extern sg_backend sg_query_backend();
 
     // Function @ sokol_gfx.h:2309:28
-    public static sg_desc sg_query_desc()
-    {
-        return _virtualTable.sg_query_desc();
-    }
+    [DllImport("sokol")]
+    public static extern sg_desc sg_query_desc();
 
     // Function @ sokol_gfx.h:2306:25
-    public static void sg_commit()
-    {
-        _virtualTable.sg_commit();
-    }
+    [DllImport("sokol")]
+    public static extern void sg_commit();
 
     // Function @ sokol_gfx.h:2305:25
-    public static void sg_end_pass()
-    {
-        _virtualTable.sg_end_pass();
-    }
+    [DllImport("sokol")]
+    public static extern void sg_end_pass();
 
     // Function @ sokol_gfx.h:2304:25
-    public static void sg_draw(int base_element, int num_elements, int num_instances)
-    {
-        _virtualTable.sg_draw(base_element, num_elements, num_instances);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_draw(int base_element, int num_elements, int num_instances);
 
     // Function @ sokol_gfx.h:2303:25
-    public static void sg_apply_uniforms(sg_shader_stage stage, int ub_index, sg_range* data)
-    {
-        _virtualTable.sg_apply_uniforms(stage, ub_index, data);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, sg_range* data);
 
     // Function @ sokol_gfx.h:2302:25
-    public static void sg_apply_bindings(sg_bindings* bindings)
-    {
-        _virtualTable.sg_apply_bindings(bindings);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_apply_bindings(sg_bindings* bindings);
 
     // Function @ sokol_gfx.h:2301:25
-    public static void sg_apply_pipeline(sg_pipeline pip)
-    {
-        _virtualTable.sg_apply_pipeline(pip);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_apply_pipeline(sg_pipeline pip);
 
     // Function @ sokol_gfx.h:2300:25
-    public static void sg_apply_scissor_rectf(float x, float y, float width, float height, CBool origin_top_left)
-    {
-        _virtualTable.sg_apply_scissor_rectf(x, y, width, height, origin_top_left);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_apply_scissor_rectf(float x, float y, float width, float height, CBool origin_top_left);
 
     // Function @ sokol_gfx.h:2299:25
-    public static void sg_apply_scissor_rect(int x, int y, int width, int height, CBool origin_top_left)
-    {
-        _virtualTable.sg_apply_scissor_rect(x, y, width, height, origin_top_left);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, CBool origin_top_left);
 
     // Function @ sokol_gfx.h:2298:25
-    public static void sg_apply_viewportf(float x, float y, float width, float height, CBool origin_top_left)
-    {
-        _virtualTable.sg_apply_viewportf(x, y, width, height, origin_top_left);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_apply_viewportf(float x, float y, float width, float height, CBool origin_top_left);
 
     // Function @ sokol_gfx.h:2297:25
-    public static void sg_apply_viewport(int x, int y, int width, int height, CBool origin_top_left)
-    {
-        _virtualTable.sg_apply_viewport(x, y, width, height, origin_top_left);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_apply_viewport(int x, int y, int width, int height, CBool origin_top_left);
 
     // Function @ sokol_gfx.h:2296:25
-    public static void sg_begin_pass(sg_pass pass, sg_pass_action* pass_action)
-    {
-        _virtualTable.sg_begin_pass(pass, pass_action);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_begin_pass(sg_pass pass, sg_pass_action* pass_action);
 
     // Function @ sokol_gfx.h:2295:25
-    public static void sg_begin_default_passf(sg_pass_action* pass_action, float width, float height)
-    {
-        _virtualTable.sg_begin_default_passf(pass_action, width, height);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_begin_default_passf(sg_pass_action* pass_action, float width, float height);
 
     // Function @ sokol_gfx.h:2294:25
-    public static void sg_begin_default_pass(sg_pass_action* pass_action, int width, int height)
-    {
-        _virtualTable.sg_begin_default_pass(pass_action, width, height);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_begin_default_pass(sg_pass_action* pass_action, int width, int height);
 
     // Function @ sokol_gfx.h:2291:25
-    public static CBool sg_query_buffer_overflow(sg_buffer buf)
-    {
-        return _virtualTable.sg_query_buffer_overflow(buf);
-    }
+    [DllImport("sokol")]
+    public static extern CBool sg_query_buffer_overflow(sg_buffer buf);
 
     // Function @ sokol_gfx.h:2290:24
-    public static int sg_append_buffer(sg_buffer buf, sg_range* data)
-    {
-        return _virtualTable.sg_append_buffer(buf, data);
-    }
+    [DllImport("sokol")]
+    public static extern int sg_append_buffer(sg_buffer buf, sg_range* data);
 
     // Function @ sokol_gfx.h:2289:25
-    public static void sg_update_image(sg_image img, sg_image_data* data)
-    {
-        _virtualTable.sg_update_image(img, data);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_update_image(sg_image img, sg_image_data* data);
 
     // Function @ sokol_gfx.h:2288:25
-    public static void sg_update_buffer(sg_buffer buf, sg_range* data)
-    {
-        _virtualTable.sg_update_buffer(buf, data);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_update_buffer(sg_buffer buf, sg_range* data);
 
     // Function @ sokol_gfx.h:2287:25
-    public static void sg_destroy_pass(sg_pass pass)
-    {
-        _virtualTable.sg_destroy_pass(pass);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_destroy_pass(sg_pass pass);
 
     // Function @ sokol_gfx.h:2286:25
-    public static void sg_destroy_pipeline(sg_pipeline pip)
-    {
-        _virtualTable.sg_destroy_pipeline(pip);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_destroy_pipeline(sg_pipeline pip);
 
     // Function @ sokol_gfx.h:2285:25
-    public static void sg_destroy_shader(sg_shader shd)
-    {
-        _virtualTable.sg_destroy_shader(shd);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_destroy_shader(sg_shader shd);
 
     // Function @ sokol_gfx.h:2284:25
-    public static void sg_destroy_image(sg_image img)
-    {
-        _virtualTable.sg_destroy_image(img);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_destroy_image(sg_image img);
 
     // Function @ sokol_gfx.h:2283:25
-    public static void sg_destroy_buffer(sg_buffer buf)
-    {
-        _virtualTable.sg_destroy_buffer(buf);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_destroy_buffer(sg_buffer buf);
 
     // Function @ sokol_gfx.h:2282:28
-    public static sg_pass sg_make_pass(sg_pass_desc* desc)
-    {
-        return _virtualTable.sg_make_pass(desc);
-    }
+    [DllImport("sokol")]
+    public static extern sg_pass sg_make_pass(sg_pass_desc* desc);
 
     // Function @ sokol_gfx.h:2281:32
-    public static sg_pipeline sg_make_pipeline(sg_pipeline_desc* desc)
-    {
-        return _virtualTable.sg_make_pipeline(desc);
-    }
+    [DllImport("sokol")]
+    public static extern sg_pipeline sg_make_pipeline(sg_pipeline_desc* desc);
 
     // Function @ sokol_gfx.h:2280:30
-    public static sg_shader sg_make_shader(sg_shader_desc* desc)
-    {
-        return _virtualTable.sg_make_shader(desc);
-    }
+    [DllImport("sokol")]
+    public static extern sg_shader sg_make_shader(sg_shader_desc* desc);
 
     // Function @ sokol_gfx.h:2279:29
-    public static sg_image sg_make_image(sg_image_desc* desc)
-    {
-        return _virtualTable.sg_make_image(desc);
-    }
+    [DllImport("sokol")]
+    public static extern sg_image sg_make_image(sg_image_desc* desc);
 
     // Function @ sokol_gfx.h:2278:30
-    public static sg_buffer sg_make_buffer(sg_buffer_desc* desc)
-    {
-        return _virtualTable.sg_make_buffer(desc);
-    }
+    [DllImport("sokol")]
+    public static extern sg_buffer sg_make_buffer(sg_buffer_desc* desc);
 
     // Function @ sokol_gfx.h:2275:25
-    public static void sg_pop_debug_group()
-    {
-        _virtualTable.sg_pop_debug_group();
-    }
+    [DllImport("sokol")]
+    public static extern void sg_pop_debug_group();
 
     // Function @ sokol_gfx.h:2274:25
-    public static void sg_push_debug_group(CString name)
-    {
-        _virtualTable.sg_push_debug_group(name);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_push_debug_group(CString name);
 
     // Function @ sokol_gfx.h:2273:35
-    public static sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks)
-    {
-        return _virtualTable.sg_install_trace_hooks(trace_hooks);
-    }
+    [DllImport("sokol")]
+    public static extern sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks);
 
     // Function @ sokol_gfx.h:2272:25
-    public static void sg_reset_state_cache()
-    {
-        _virtualTable.sg_reset_state_cache();
-    }
+    [DllImport("sokol")]
+    public static extern void sg_reset_state_cache();
 
     // Function @ sokol_gfx.h:2271:25
-    public static CBool sg_isvalid()
-    {
-        return _virtualTable.sg_isvalid();
-    }
+    [DllImport("sokol")]
+    public static extern CBool sg_isvalid();
 
     // Function @ sokol_gfx.h:2270:25
-    public static void sg_shutdown()
-    {
-        _virtualTable.sg_shutdown();
-    }
+    [DllImport("sokol")]
+    public static extern void sg_shutdown();
 
     // Function @ sokol_gfx.h:2269:25
-    public static void sg_setup(sg_desc* desc)
-    {
-        _virtualTable.sg_setup(desc);
-    }
+    [DllImport("sokol")]
+    public static extern void sg_setup(sg_desc* desc);
 
     // FunctionPointer @ sokol_gfx.h:2235:19
     [StructLayout(LayoutKind.Sequential)]
@@ -2467,306 +2275,4 @@ public static unsafe partial class sokol_gfx
         _SG_ACTION_NUM = 4U,
         _SG_ACTION_FORCE_U32 = 2147483647U
     }
-
-    private static void _LoadVirtualTable()
-    {
-        #region "Functions"
-        _virtualTable.sg_mtl_render_command_encoder = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sg_mtl_render_command_encoder");
-        _virtualTable.sg_mtl_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sg_mtl_device");
-        _virtualTable.sg_d3d11_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sg_d3d11_device");
-        _virtualTable.sg_discard_context = (delegate* unmanaged[Cdecl]<sg_context, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_discard_context");
-        _virtualTable.sg_activate_context = (delegate* unmanaged[Cdecl]<sg_context, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_activate_context");
-        _virtualTable.sg_setup_context = (delegate* unmanaged[Cdecl]<sg_context>)Runtime.LibraryGetExport(_libraryHandle, "sg_setup_context");
-        _virtualTable.sg_fail_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_fail_pass");
-        _virtualTable.sg_fail_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_fail_pipeline");
-        _virtualTable.sg_fail_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_fail_shader");
-        _virtualTable.sg_fail_image = (delegate* unmanaged[Cdecl]<sg_image, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_fail_image");
-        _virtualTable.sg_fail_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_fail_buffer");
-        _virtualTable.sg_uninit_pass = (delegate* unmanaged[Cdecl]<sg_pass, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_uninit_pass");
-        _virtualTable.sg_uninit_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_uninit_pipeline");
-        _virtualTable.sg_uninit_shader = (delegate* unmanaged[Cdecl]<sg_shader, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_uninit_shader");
-        _virtualTable.sg_uninit_image = (delegate* unmanaged[Cdecl]<sg_image, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_uninit_image");
-        _virtualTable.sg_uninit_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_uninit_buffer");
-        _virtualTable.sg_init_pass = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_init_pass");
-        _virtualTable.sg_init_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_init_pipeline");
-        _virtualTable.sg_init_shader = (delegate* unmanaged[Cdecl]<sg_shader, sg_shader_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_init_shader");
-        _virtualTable.sg_init_image = (delegate* unmanaged[Cdecl]<sg_image, sg_image_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_init_image");
-        _virtualTable.sg_init_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_init_buffer");
-        _virtualTable.sg_dealloc_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_dealloc_pass");
-        _virtualTable.sg_dealloc_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_dealloc_pipeline");
-        _virtualTable.sg_dealloc_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_dealloc_shader");
-        _virtualTable.sg_dealloc_image = (delegate* unmanaged[Cdecl]<sg_image, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_dealloc_image");
-        _virtualTable.sg_dealloc_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_dealloc_buffer");
-        _virtualTable.sg_alloc_pass = (delegate* unmanaged[Cdecl]<sg_pass>)Runtime.LibraryGetExport(_libraryHandle, "sg_alloc_pass");
-        _virtualTable.sg_alloc_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline>)Runtime.LibraryGetExport(_libraryHandle, "sg_alloc_pipeline");
-        _virtualTable.sg_alloc_shader = (delegate* unmanaged[Cdecl]<sg_shader>)Runtime.LibraryGetExport(_libraryHandle, "sg_alloc_shader");
-        _virtualTable.sg_alloc_image = (delegate* unmanaged[Cdecl]<sg_image>)Runtime.LibraryGetExport(_libraryHandle, "sg_alloc_image");
-        _virtualTable.sg_alloc_buffer = (delegate* unmanaged[Cdecl]<sg_buffer>)Runtime.LibraryGetExport(_libraryHandle, "sg_alloc_buffer");
-        _virtualTable.sg_query_pass_defaults = (delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pass_defaults");
-        _virtualTable.sg_query_pipeline_defaults = (delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pipeline_defaults");
-        _virtualTable.sg_query_shader_defaults = (delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_shader_defaults");
-        _virtualTable.sg_query_image_defaults = (delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_image_defaults");
-        _virtualTable.sg_query_buffer_defaults = (delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_buffer_defaults");
-        _virtualTable.sg_query_pass_info = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pass_info");
-        _virtualTable.sg_query_pipeline_info = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pipeline_info");
-        _virtualTable.sg_query_shader_info = (delegate* unmanaged[Cdecl]<sg_shader, sg_shader_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_shader_info");
-        _virtualTable.sg_query_image_info = (delegate* unmanaged[Cdecl]<sg_image, sg_image_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_image_info");
-        _virtualTable.sg_query_buffer_info = (delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_buffer_info");
-        _virtualTable.sg_query_pass_state = (delegate* unmanaged[Cdecl]<sg_pass, sg_resource_state>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pass_state");
-        _virtualTable.sg_query_pipeline_state = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_resource_state>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pipeline_state");
-        _virtualTable.sg_query_shader_state = (delegate* unmanaged[Cdecl]<sg_shader, sg_resource_state>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_shader_state");
-        _virtualTable.sg_query_image_state = (delegate* unmanaged[Cdecl]<sg_image, sg_resource_state>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_image_state");
-        _virtualTable.sg_query_buffer_state = (delegate* unmanaged[Cdecl]<sg_buffer, sg_resource_state>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_buffer_state");
-        _virtualTable.sg_query_pixelformat = (delegate* unmanaged[Cdecl]<sg_pixel_format, sg_pixelformat_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pixelformat");
-        _virtualTable.sg_query_limits = (delegate* unmanaged[Cdecl]<sg_limits>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_limits");
-        _virtualTable.sg_query_features = (delegate* unmanaged[Cdecl]<sg_features>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_features");
-        _virtualTable.sg_query_backend = (delegate* unmanaged[Cdecl]<sg_backend>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_backend");
-        _virtualTable.sg_query_desc = (delegate* unmanaged[Cdecl]<sg_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_desc");
-        _virtualTable.sg_commit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_commit");
-        _virtualTable.sg_end_pass = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_end_pass");
-        _virtualTable.sg_draw = (delegate* unmanaged[Cdecl]<int, int, int, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_draw");
-        _virtualTable.sg_apply_uniforms = (delegate* unmanaged[Cdecl]<sg_shader_stage, int, sg_range*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_uniforms");
-        _virtualTable.sg_apply_bindings = (delegate* unmanaged[Cdecl]<sg_bindings*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_bindings");
-        _virtualTable.sg_apply_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_pipeline");
-        _virtualTable.sg_apply_scissor_rectf = (delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_scissor_rectf");
-        _virtualTable.sg_apply_scissor_rect = (delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_scissor_rect");
-        _virtualTable.sg_apply_viewportf = (delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_viewportf");
-        _virtualTable.sg_apply_viewport = (delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_viewport");
-        _virtualTable.sg_begin_pass = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_action*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_begin_pass");
-        _virtualTable.sg_begin_default_passf = (delegate* unmanaged[Cdecl]<sg_pass_action*, float, float, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_begin_default_passf");
-        _virtualTable.sg_begin_default_pass = (delegate* unmanaged[Cdecl]<sg_pass_action*, int, int, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_begin_default_pass");
-        _virtualTable.sg_query_buffer_overflow = (delegate* unmanaged[Cdecl]<sg_buffer, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_buffer_overflow");
-        _virtualTable.sg_append_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, int>)Runtime.LibraryGetExport(_libraryHandle, "sg_append_buffer");
-        _virtualTable.sg_update_image = (delegate* unmanaged[Cdecl]<sg_image, sg_image_data*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_update_image");
-        _virtualTable.sg_update_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_update_buffer");
-        _virtualTable.sg_destroy_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_destroy_pass");
-        _virtualTable.sg_destroy_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_destroy_pipeline");
-        _virtualTable.sg_destroy_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_destroy_shader");
-        _virtualTable.sg_destroy_image = (delegate* unmanaged[Cdecl]<sg_image, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_destroy_image");
-        _virtualTable.sg_destroy_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_destroy_buffer");
-        _virtualTable.sg_make_pass = (delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass>)Runtime.LibraryGetExport(_libraryHandle, "sg_make_pass");
-        _virtualTable.sg_make_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline>)Runtime.LibraryGetExport(_libraryHandle, "sg_make_pipeline");
-        _virtualTable.sg_make_shader = (delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader>)Runtime.LibraryGetExport(_libraryHandle, "sg_make_shader");
-        _virtualTable.sg_make_image = (delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image>)Runtime.LibraryGetExport(_libraryHandle, "sg_make_image");
-        _virtualTable.sg_make_buffer = (delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer>)Runtime.LibraryGetExport(_libraryHandle, "sg_make_buffer");
-        _virtualTable.sg_pop_debug_group = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_pop_debug_group");
-        _virtualTable.sg_push_debug_group = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_push_debug_group");
-        _virtualTable.sg_install_trace_hooks = (delegate* unmanaged[Cdecl]<sg_trace_hooks*, sg_trace_hooks>)Runtime.LibraryGetExport(_libraryHandle, "sg_install_trace_hooks");
-        _virtualTable.sg_reset_state_cache = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_reset_state_cache");
-        _virtualTable.sg_isvalid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_isvalid");
-        _virtualTable.sg_shutdown = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_shutdown");
-        _virtualTable.sg_setup = (delegate* unmanaged[Cdecl]<sg_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_setup");
-        #endregion
-
-        #region "Variables"
-
-        #endregion
-    }
-
-    private static void _UnloadVirtualTable()
-    {
-        #region "Functions"
-
-        _virtualTable.sg_mtl_render_command_encoder = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sg_mtl_device = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sg_d3d11_device = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sg_discard_context = (delegate* unmanaged[Cdecl]<sg_context, void>)IntPtr.Zero;
-        _virtualTable.sg_activate_context = (delegate* unmanaged[Cdecl]<sg_context, void>)IntPtr.Zero;
-        _virtualTable.sg_setup_context = (delegate* unmanaged[Cdecl]<sg_context>)IntPtr.Zero;
-        _virtualTable.sg_fail_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)IntPtr.Zero;
-        _virtualTable.sg_fail_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)IntPtr.Zero;
-        _virtualTable.sg_fail_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)IntPtr.Zero;
-        _virtualTable.sg_fail_image = (delegate* unmanaged[Cdecl]<sg_image, void>)IntPtr.Zero;
-        _virtualTable.sg_fail_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)IntPtr.Zero;
-        _virtualTable.sg_uninit_pass = (delegate* unmanaged[Cdecl]<sg_pass, CBool>)IntPtr.Zero;
-        _virtualTable.sg_uninit_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, CBool>)IntPtr.Zero;
-        _virtualTable.sg_uninit_shader = (delegate* unmanaged[Cdecl]<sg_shader, CBool>)IntPtr.Zero;
-        _virtualTable.sg_uninit_image = (delegate* unmanaged[Cdecl]<sg_image, CBool>)IntPtr.Zero;
-        _virtualTable.sg_uninit_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, CBool>)IntPtr.Zero;
-        _virtualTable.sg_init_pass = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_desc*, void>)IntPtr.Zero;
-        _virtualTable.sg_init_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_desc*, void>)IntPtr.Zero;
-        _virtualTable.sg_init_shader = (delegate* unmanaged[Cdecl]<sg_shader, sg_shader_desc*, void>)IntPtr.Zero;
-        _virtualTable.sg_init_image = (delegate* unmanaged[Cdecl]<sg_image, sg_image_desc*, void>)IntPtr.Zero;
-        _virtualTable.sg_init_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_desc*, void>)IntPtr.Zero;
-        _virtualTable.sg_dealloc_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)IntPtr.Zero;
-        _virtualTable.sg_dealloc_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)IntPtr.Zero;
-        _virtualTable.sg_dealloc_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)IntPtr.Zero;
-        _virtualTable.sg_dealloc_image = (delegate* unmanaged[Cdecl]<sg_image, void>)IntPtr.Zero;
-        _virtualTable.sg_dealloc_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)IntPtr.Zero;
-        _virtualTable.sg_alloc_pass = (delegate* unmanaged[Cdecl]<sg_pass>)IntPtr.Zero;
-        _virtualTable.sg_alloc_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline>)IntPtr.Zero;
-        _virtualTable.sg_alloc_shader = (delegate* unmanaged[Cdecl]<sg_shader>)IntPtr.Zero;
-        _virtualTable.sg_alloc_image = (delegate* unmanaged[Cdecl]<sg_image>)IntPtr.Zero;
-        _virtualTable.sg_alloc_buffer = (delegate* unmanaged[Cdecl]<sg_buffer>)IntPtr.Zero;
-        _virtualTable.sg_query_pass_defaults = (delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass_desc>)IntPtr.Zero;
-        _virtualTable.sg_query_pipeline_defaults = (delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline_desc>)IntPtr.Zero;
-        _virtualTable.sg_query_shader_defaults = (delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader_desc>)IntPtr.Zero;
-        _virtualTable.sg_query_image_defaults = (delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image_desc>)IntPtr.Zero;
-        _virtualTable.sg_query_buffer_defaults = (delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer_desc>)IntPtr.Zero;
-        _virtualTable.sg_query_pass_info = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_info>)IntPtr.Zero;
-        _virtualTable.sg_query_pipeline_info = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_info>)IntPtr.Zero;
-        _virtualTable.sg_query_shader_info = (delegate* unmanaged[Cdecl]<sg_shader, sg_shader_info>)IntPtr.Zero;
-        _virtualTable.sg_query_image_info = (delegate* unmanaged[Cdecl]<sg_image, sg_image_info>)IntPtr.Zero;
-        _virtualTable.sg_query_buffer_info = (delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_info>)IntPtr.Zero;
-        _virtualTable.sg_query_pass_state = (delegate* unmanaged[Cdecl]<sg_pass, sg_resource_state>)IntPtr.Zero;
-        _virtualTable.sg_query_pipeline_state = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_resource_state>)IntPtr.Zero;
-        _virtualTable.sg_query_shader_state = (delegate* unmanaged[Cdecl]<sg_shader, sg_resource_state>)IntPtr.Zero;
-        _virtualTable.sg_query_image_state = (delegate* unmanaged[Cdecl]<sg_image, sg_resource_state>)IntPtr.Zero;
-        _virtualTable.sg_query_buffer_state = (delegate* unmanaged[Cdecl]<sg_buffer, sg_resource_state>)IntPtr.Zero;
-        _virtualTable.sg_query_pixelformat = (delegate* unmanaged[Cdecl]<sg_pixel_format, sg_pixelformat_info>)IntPtr.Zero;
-        _virtualTable.sg_query_limits = (delegate* unmanaged[Cdecl]<sg_limits>)IntPtr.Zero;
-        _virtualTable.sg_query_features = (delegate* unmanaged[Cdecl]<sg_features>)IntPtr.Zero;
-        _virtualTable.sg_query_backend = (delegate* unmanaged[Cdecl]<sg_backend>)IntPtr.Zero;
-        _virtualTable.sg_query_desc = (delegate* unmanaged[Cdecl]<sg_desc>)IntPtr.Zero;
-        _virtualTable.sg_commit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sg_end_pass = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sg_draw = (delegate* unmanaged[Cdecl]<int, int, int, void>)IntPtr.Zero;
-        _virtualTable.sg_apply_uniforms = (delegate* unmanaged[Cdecl]<sg_shader_stage, int, sg_range*, void>)IntPtr.Zero;
-        _virtualTable.sg_apply_bindings = (delegate* unmanaged[Cdecl]<sg_bindings*, void>)IntPtr.Zero;
-        _virtualTable.sg_apply_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)IntPtr.Zero;
-        _virtualTable.sg_apply_scissor_rectf = (delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void>)IntPtr.Zero;
-        _virtualTable.sg_apply_scissor_rect = (delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void>)IntPtr.Zero;
-        _virtualTable.sg_apply_viewportf = (delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void>)IntPtr.Zero;
-        _virtualTable.sg_apply_viewport = (delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void>)IntPtr.Zero;
-        _virtualTable.sg_begin_pass = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_action*, void>)IntPtr.Zero;
-        _virtualTable.sg_begin_default_passf = (delegate* unmanaged[Cdecl]<sg_pass_action*, float, float, void>)IntPtr.Zero;
-        _virtualTable.sg_begin_default_pass = (delegate* unmanaged[Cdecl]<sg_pass_action*, int, int, void>)IntPtr.Zero;
-        _virtualTable.sg_query_buffer_overflow = (delegate* unmanaged[Cdecl]<sg_buffer, CBool>)IntPtr.Zero;
-        _virtualTable.sg_append_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, int>)IntPtr.Zero;
-        _virtualTable.sg_update_image = (delegate* unmanaged[Cdecl]<sg_image, sg_image_data*, void>)IntPtr.Zero;
-        _virtualTable.sg_update_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, void>)IntPtr.Zero;
-        _virtualTable.sg_destroy_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)IntPtr.Zero;
-        _virtualTable.sg_destroy_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)IntPtr.Zero;
-        _virtualTable.sg_destroy_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)IntPtr.Zero;
-        _virtualTable.sg_destroy_image = (delegate* unmanaged[Cdecl]<sg_image, void>)IntPtr.Zero;
-        _virtualTable.sg_destroy_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)IntPtr.Zero;
-        _virtualTable.sg_make_pass = (delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass>)IntPtr.Zero;
-        _virtualTable.sg_make_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline>)IntPtr.Zero;
-        _virtualTable.sg_make_shader = (delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader>)IntPtr.Zero;
-        _virtualTable.sg_make_image = (delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image>)IntPtr.Zero;
-        _virtualTable.sg_make_buffer = (delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer>)IntPtr.Zero;
-        _virtualTable.sg_pop_debug_group = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sg_push_debug_group = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
-        _virtualTable.sg_install_trace_hooks = (delegate* unmanaged[Cdecl]<sg_trace_hooks*, sg_trace_hooks>)IntPtr.Zero;
-        _virtualTable.sg_reset_state_cache = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sg_isvalid = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.sg_shutdown = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sg_setup = (delegate* unmanaged[Cdecl]<sg_desc*, void>)IntPtr.Zero;
-
-        #endregion
-
-        #region "Variables"
-
-
-
-        #endregion
-    }
-
-    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
-    //	This allows for flexibility in swapping implementations at runtime.
-    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
-    public struct _VirtualTable
-    {
-        #region "Function Pointers"
-        // These pointers hold the locations in the native library where functions are located at runtime.
-        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
-
-        public delegate* unmanaged[Cdecl]<void*> sg_mtl_render_command_encoder;
-        public delegate* unmanaged[Cdecl]<void*> sg_mtl_device;
-        public delegate* unmanaged[Cdecl]<void*> sg_d3d11_device;
-        public delegate* unmanaged[Cdecl]<sg_context, void> sg_discard_context;
-        public delegate* unmanaged[Cdecl]<sg_context, void> sg_activate_context;
-        public delegate* unmanaged[Cdecl]<sg_context> sg_setup_context;
-        public delegate* unmanaged[Cdecl]<sg_pass, void> sg_fail_pass;
-        public delegate* unmanaged[Cdecl]<sg_pipeline, void> sg_fail_pipeline;
-        public delegate* unmanaged[Cdecl]<sg_shader, void> sg_fail_shader;
-        public delegate* unmanaged[Cdecl]<sg_image, void> sg_fail_image;
-        public delegate* unmanaged[Cdecl]<sg_buffer, void> sg_fail_buffer;
-        public delegate* unmanaged[Cdecl]<sg_pass, CBool> sg_uninit_pass;
-        public delegate* unmanaged[Cdecl]<sg_pipeline, CBool> sg_uninit_pipeline;
-        public delegate* unmanaged[Cdecl]<sg_shader, CBool> sg_uninit_shader;
-        public delegate* unmanaged[Cdecl]<sg_image, CBool> sg_uninit_image;
-        public delegate* unmanaged[Cdecl]<sg_buffer, CBool> sg_uninit_buffer;
-        public delegate* unmanaged[Cdecl]<sg_pass, sg_pass_desc*, void> sg_init_pass;
-        public delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_desc*, void> sg_init_pipeline;
-        public delegate* unmanaged[Cdecl]<sg_shader, sg_shader_desc*, void> sg_init_shader;
-        public delegate* unmanaged[Cdecl]<sg_image, sg_image_desc*, void> sg_init_image;
-        public delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_desc*, void> sg_init_buffer;
-        public delegate* unmanaged[Cdecl]<sg_pass, void> sg_dealloc_pass;
-        public delegate* unmanaged[Cdecl]<sg_pipeline, void> sg_dealloc_pipeline;
-        public delegate* unmanaged[Cdecl]<sg_shader, void> sg_dealloc_shader;
-        public delegate* unmanaged[Cdecl]<sg_image, void> sg_dealloc_image;
-        public delegate* unmanaged[Cdecl]<sg_buffer, void> sg_dealloc_buffer;
-        public delegate* unmanaged[Cdecl]<sg_pass> sg_alloc_pass;
-        public delegate* unmanaged[Cdecl]<sg_pipeline> sg_alloc_pipeline;
-        public delegate* unmanaged[Cdecl]<sg_shader> sg_alloc_shader;
-        public delegate* unmanaged[Cdecl]<sg_image> sg_alloc_image;
-        public delegate* unmanaged[Cdecl]<sg_buffer> sg_alloc_buffer;
-        public delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass_desc> sg_query_pass_defaults;
-        public delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline_desc> sg_query_pipeline_defaults;
-        public delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader_desc> sg_query_shader_defaults;
-        public delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image_desc> sg_query_image_defaults;
-        public delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer_desc> sg_query_buffer_defaults;
-        public delegate* unmanaged[Cdecl]<sg_pass, sg_pass_info> sg_query_pass_info;
-        public delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_info> sg_query_pipeline_info;
-        public delegate* unmanaged[Cdecl]<sg_shader, sg_shader_info> sg_query_shader_info;
-        public delegate* unmanaged[Cdecl]<sg_image, sg_image_info> sg_query_image_info;
-        public delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_info> sg_query_buffer_info;
-        public delegate* unmanaged[Cdecl]<sg_pass, sg_resource_state> sg_query_pass_state;
-        public delegate* unmanaged[Cdecl]<sg_pipeline, sg_resource_state> sg_query_pipeline_state;
-        public delegate* unmanaged[Cdecl]<sg_shader, sg_resource_state> sg_query_shader_state;
-        public delegate* unmanaged[Cdecl]<sg_image, sg_resource_state> sg_query_image_state;
-        public delegate* unmanaged[Cdecl]<sg_buffer, sg_resource_state> sg_query_buffer_state;
-        public delegate* unmanaged[Cdecl]<sg_pixel_format, sg_pixelformat_info> sg_query_pixelformat;
-        public delegate* unmanaged[Cdecl]<sg_limits> sg_query_limits;
-        public delegate* unmanaged[Cdecl]<sg_features> sg_query_features;
-        public delegate* unmanaged[Cdecl]<sg_backend> sg_query_backend;
-        public delegate* unmanaged[Cdecl]<sg_desc> sg_query_desc;
-        public delegate* unmanaged[Cdecl]<void> sg_commit;
-        public delegate* unmanaged[Cdecl]<void> sg_end_pass;
-        public delegate* unmanaged[Cdecl]<int, int, int, void> sg_draw;
-        public delegate* unmanaged[Cdecl]<sg_shader_stage, int, sg_range*, void> sg_apply_uniforms;
-        public delegate* unmanaged[Cdecl]<sg_bindings*, void> sg_apply_bindings;
-        public delegate* unmanaged[Cdecl]<sg_pipeline, void> sg_apply_pipeline;
-        public delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void> sg_apply_scissor_rectf;
-        public delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void> sg_apply_scissor_rect;
-        public delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void> sg_apply_viewportf;
-        public delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void> sg_apply_viewport;
-        public delegate* unmanaged[Cdecl]<sg_pass, sg_pass_action*, void> sg_begin_pass;
-        public delegate* unmanaged[Cdecl]<sg_pass_action*, float, float, void> sg_begin_default_passf;
-        public delegate* unmanaged[Cdecl]<sg_pass_action*, int, int, void> sg_begin_default_pass;
-        public delegate* unmanaged[Cdecl]<sg_buffer, CBool> sg_query_buffer_overflow;
-        public delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, int> sg_append_buffer;
-        public delegate* unmanaged[Cdecl]<sg_image, sg_image_data*, void> sg_update_image;
-        public delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, void> sg_update_buffer;
-        public delegate* unmanaged[Cdecl]<sg_pass, void> sg_destroy_pass;
-        public delegate* unmanaged[Cdecl]<sg_pipeline, void> sg_destroy_pipeline;
-        public delegate* unmanaged[Cdecl]<sg_shader, void> sg_destroy_shader;
-        public delegate* unmanaged[Cdecl]<sg_image, void> sg_destroy_image;
-        public delegate* unmanaged[Cdecl]<sg_buffer, void> sg_destroy_buffer;
-        public delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass> sg_make_pass;
-        public delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline> sg_make_pipeline;
-        public delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader> sg_make_shader;
-        public delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image> sg_make_image;
-        public delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer> sg_make_buffer;
-        public delegate* unmanaged[Cdecl]<void> sg_pop_debug_group;
-        public delegate* unmanaged[Cdecl]<CString, void> sg_push_debug_group;
-        public delegate* unmanaged[Cdecl]<sg_trace_hooks*, sg_trace_hooks> sg_install_trace_hooks;
-        public delegate* unmanaged[Cdecl]<void> sg_reset_state_cache;
-        public delegate* unmanaged[Cdecl]<CBool> sg_isvalid;
-        public delegate* unmanaged[Cdecl]<void> sg_shutdown;
-        public delegate* unmanaged[Cdecl]<sg_desc*, void> sg_setup;
-
-        #endregion
-
-        #region "Variables"
-        // These pointers hold the locations in the native library where global variables are located at runtime.
-        //	The value pointed by these pointers are updated by reading/writing memory.
-
-
-
-        #endregion
-    }
-
-    private static _VirtualTable _virtualTable;
 }

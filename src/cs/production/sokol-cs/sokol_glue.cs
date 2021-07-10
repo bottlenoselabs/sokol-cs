@@ -21,82 +21,8 @@ using static sokol_gfx;
 public static unsafe partial class sokol_glue
 {
     private const string LibraryName = "sokol";
-    private static IntPtr _libraryHandle;
-
-    static sokol_glue()
-    {
-        TryLoadApi();
-    }
-
-    public static bool TryLoadApi(string? libraryName = LibraryName)
-    {
-        UnloadApi();
-        _libraryHandle = Runtime.LibraryLoad(libraryName!);
-        if (_libraryHandle == IntPtr.Zero) return false;
-        _LoadVirtualTable();
-        return true;
-    }
-
-    public static void UnloadApi()
-    {
-        if (_libraryHandle == IntPtr.Zero) return;
-        _UnloadVirtualTable();
-        Runtime.LibraryUnload(_libraryHandle);
-    }
 
     // Function @ sokol_glue.h:97:37
-    public static sg_context_desc sapp_sgcontext()
-    {
-        return _virtualTable.sapp_sgcontext();
-    }
-
-    private static void _LoadVirtualTable()
-    {
-        #region "Functions"
-        _virtualTable.sapp_sgcontext = (delegate* unmanaged[Cdecl]<sg_context_desc>)Runtime.LibraryGetExport(_libraryHandle, "sapp_sgcontext");
-        #endregion
-
-        #region "Variables"
-
-        #endregion
-    }
-
-    private static void _UnloadVirtualTable()
-    {
-        #region "Functions"
-
-        _virtualTable.sapp_sgcontext = (delegate* unmanaged[Cdecl]<sg_context_desc>)IntPtr.Zero;
-
-        #endregion
-
-        #region "Variables"
-
-
-
-        #endregion
-    }
-
-    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
-    //	This allows for flexibility in swapping implementations at runtime.
-    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
-    public struct _VirtualTable
-    {
-        #region "Function Pointers"
-        // These pointers hold the locations in the native library where functions are located at runtime.
-        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
-
-        public delegate* unmanaged[Cdecl]<sg_context_desc> sapp_sgcontext;
-
-        #endregion
-
-        #region "Variables"
-        // These pointers hold the locations in the native library where global variables are located at runtime.
-        //	The value pointed by these pointers are updated by reading/writing memory.
-
-
-
-        #endregion
-    }
-
-    private static _VirtualTable _virtualTable;
+    [DllImport("sokol")]
+    public static extern sg_context_desc sapp_sgcontext();
 }

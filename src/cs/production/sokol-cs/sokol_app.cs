@@ -20,346 +20,218 @@ using C2CS;
 public static unsafe partial class sokol_app
 {
     private const string LibraryName = "sokol";
-    private static IntPtr _libraryHandle;
-
-    static sokol_app()
-    {
-        TryLoadApi();
-    }
-
-    public static bool TryLoadApi(string? libraryName = LibraryName)
-    {
-        UnloadApi();
-        _libraryHandle = Runtime.LibraryLoad(libraryName!);
-        if (_libraryHandle == IntPtr.Zero) return false;
-        _LoadVirtualTable();
-        return true;
-    }
-
-    public static void UnloadApi()
-    {
-        if (_libraryHandle == IntPtr.Zero) return;
-        _UnloadVirtualTable();
-        Runtime.LibraryUnload(_libraryHandle);
-    }
 
     // Function @ sokol_app.h:1511:32
-    public static void* sapp_android_get_native_activity()
-    {
-        return _virtualTable.sapp_android_get_native_activity();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_android_get_native_activity();
 
     // Function @ sokol_app.h:1508:32
-    public static void* sapp_wgpu_get_depth_stencil_view()
-    {
-        return _virtualTable.sapp_wgpu_get_depth_stencil_view();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_wgpu_get_depth_stencil_view();
 
     // Function @ sokol_app.h:1506:32
-    public static void* sapp_wgpu_get_resolve_view()
-    {
-        return _virtualTable.sapp_wgpu_get_resolve_view();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_wgpu_get_resolve_view();
 
     // Function @ sokol_app.h:1504:32
-    public static void* sapp_wgpu_get_render_view()
-    {
-        return _virtualTable.sapp_wgpu_get_render_view();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_wgpu_get_render_view();
 
     // Function @ sokol_app.h:1502:32
-    public static void* sapp_wgpu_get_device()
-    {
-        return _virtualTable.sapp_wgpu_get_device();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_wgpu_get_device();
 
     // Function @ sokol_app.h:1499:32
-    public static void* sapp_win32_get_hwnd()
-    {
-        return _virtualTable.sapp_win32_get_hwnd();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_win32_get_hwnd();
 
     // Function @ sokol_app.h:1497:32
-    public static void* sapp_d3d11_get_depth_stencil_view()
-    {
-        return _virtualTable.sapp_d3d11_get_depth_stencil_view();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_d3d11_get_depth_stencil_view();
 
     // Function @ sokol_app.h:1495:32
-    public static void* sapp_d3d11_get_render_target_view()
-    {
-        return _virtualTable.sapp_d3d11_get_render_target_view();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_d3d11_get_render_target_view();
 
     // Function @ sokol_app.h:1493:32
-    public static void* sapp_d3d11_get_swap_chain()
-    {
-        return _virtualTable.sapp_d3d11_get_swap_chain();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_d3d11_get_swap_chain();
 
     // Function @ sokol_app.h:1491:32
-    public static void* sapp_d3d11_get_device_context()
-    {
-        return _virtualTable.sapp_d3d11_get_device_context();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_d3d11_get_device_context();
 
     // Function @ sokol_app.h:1489:32
-    public static void* sapp_d3d11_get_device()
-    {
-        return _virtualTable.sapp_d3d11_get_device();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_d3d11_get_device();
 
     // Function @ sokol_app.h:1486:32
-    public static void* sapp_ios_get_window()
-    {
-        return _virtualTable.sapp_ios_get_window();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_ios_get_window();
 
     // Function @ sokol_app.h:1484:32
-    public static void* sapp_macos_get_window()
-    {
-        return _virtualTable.sapp_macos_get_window();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_macos_get_window();
 
     // Function @ sokol_app.h:1482:32
-    public static void* sapp_metal_get_drawable()
-    {
-        return _virtualTable.sapp_metal_get_drawable();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_metal_get_drawable();
 
     // Function @ sokol_app.h:1480:32
-    public static void* sapp_metal_get_renderpass_descriptor()
-    {
-        return _virtualTable.sapp_metal_get_renderpass_descriptor();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_metal_get_renderpass_descriptor();
 
     // Function @ sokol_app.h:1478:32
-    public static void* sapp_metal_get_device()
-    {
-        return _virtualTable.sapp_metal_get_device();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_metal_get_device();
 
     // Function @ sokol_app.h:1475:25
-    public static void sapp_html5_fetch_dropped_file(sapp_html5_fetch_request* request)
-    {
-        _virtualTable.sapp_html5_fetch_dropped_file(request);
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_html5_fetch_dropped_file(sapp_html5_fetch_request* request);
 
     // Function @ sokol_app.h:1473:29
-    public static uint sapp_html5_get_dropped_file_size(int index)
-    {
-        return _virtualTable.sapp_html5_get_dropped_file_size(index);
-    }
+    [DllImport("sokol")]
+    public static extern uint sapp_html5_get_dropped_file_size(int index);
 
     // Function @ sokol_app.h:1471:25
-    public static void sapp_html5_ask_leave_site(CBool ask)
-    {
-        _virtualTable.sapp_html5_ask_leave_site(ask);
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_html5_ask_leave_site(CBool ask);
 
     // Function @ sokol_app.h:1468:25
-    public static CBool sapp_gles2()
-    {
-        return _virtualTable.sapp_gles2();
-    }
+    [DllImport("sokol")]
+    public static extern CBool sapp_gles2();
 
     // Function @ sokol_app.h:1465:25
-    public static void sapp_run(sapp_desc* desc)
-    {
-        _virtualTable.sapp_run(desc);
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_run(sapp_desc* desc);
 
     // Function @ sokol_app.h:1462:32
-    public static CString sapp_get_dropped_file_path(int index)
-    {
-        return _virtualTable.sapp_get_dropped_file_path(index);
-    }
+    [DllImport("sokol")]
+    public static extern CString sapp_get_dropped_file_path(int index);
 
     // Function @ sokol_app.h:1460:24
-    public static int sapp_get_num_dropped_files()
-    {
-        return _virtualTable.sapp_get_num_dropped_files();
-    }
+    [DllImport("sokol")]
+    public static extern int sapp_get_num_dropped_files();
 
     // Function @ sokol_app.h:1458:25
-    public static void sapp_set_icon(sapp_icon_desc* icon_desc)
-    {
-        _virtualTable.sapp_set_icon(icon_desc);
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_set_icon(sapp_icon_desc* icon_desc);
 
     // Function @ sokol_app.h:1456:25
-    public static void sapp_set_window_title(CString str)
-    {
-        _virtualTable.sapp_set_window_title(str);
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_set_window_title(CString str);
 
     // Function @ sokol_app.h:1454:32
-    public static CString sapp_get_clipboard_string()
-    {
-        return _virtualTable.sapp_get_clipboard_string();
-    }
+    [DllImport("sokol")]
+    public static extern CString sapp_get_clipboard_string();
 
     // Function @ sokol_app.h:1452:25
-    public static void sapp_set_clipboard_string(CString str)
-    {
-        _virtualTable.sapp_set_clipboard_string(str);
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_set_clipboard_string(CString str);
 
     // Function @ sokol_app.h:1450:29
-    public static ulong sapp_frame_count()
-    {
-        return _virtualTable.sapp_frame_count();
-    }
+    [DllImport("sokol")]
+    public static extern ulong sapp_frame_count();
 
     // Function @ sokol_app.h:1448:25
-    public static void sapp_consume_event()
-    {
-        _virtualTable.sapp_consume_event();
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_consume_event();
 
     // Function @ sokol_app.h:1446:25
-    public static void sapp_quit()
-    {
-        _virtualTable.sapp_quit();
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_quit();
 
     // Function @ sokol_app.h:1444:25
-    public static void sapp_cancel_quit()
-    {
-        _virtualTable.sapp_cancel_quit();
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_cancel_quit();
 
     // Function @ sokol_app.h:1442:25
-    public static void sapp_request_quit()
-    {
-        _virtualTable.sapp_request_quit();
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_request_quit();
 
     // Function @ sokol_app.h:1440:30
-    public static sapp_desc sapp_query_desc()
-    {
-        return _virtualTable.sapp_query_desc();
-    }
+    [DllImport("sokol")]
+    public static extern sapp_desc sapp_query_desc();
 
     // Function @ sokol_app.h:1438:26
-    public static void* sapp_userdata()
-    {
-        return _virtualTable.sapp_userdata();
-    }
+    [DllImport("sokol")]
+    public static extern void* sapp_userdata();
 
     // Function @ sokol_app.h:1436:25
-    public static CBool sapp_mouse_locked()
-    {
-        return _virtualTable.sapp_mouse_locked();
-    }
+    [DllImport("sokol")]
+    public static extern CBool sapp_mouse_locked();
 
     // Function @ sokol_app.h:1434:25
-    public static void sapp_lock_mouse(CBool @lock)
-    {
-        _virtualTable.sapp_lock_mouse(@lock);
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_lock_mouse(CBool @lock);
 
     // Function @ sokol_app.h:1432:25
-    public static CBool sapp_mouse_shown()
-    {
-        return _virtualTable.sapp_mouse_shown();
-    }
+    [DllImport("sokol")]
+    public static extern CBool sapp_mouse_shown();
 
     // Function @ sokol_app.h:1430:25
-    public static void sapp_show_mouse(CBool show)
-    {
-        _virtualTable.sapp_show_mouse(show);
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_show_mouse(CBool show);
 
     // Function @ sokol_app.h:1428:25
-    public static void sapp_toggle_fullscreen()
-    {
-        _virtualTable.sapp_toggle_fullscreen();
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_toggle_fullscreen();
 
     // Function @ sokol_app.h:1426:25
-    public static CBool sapp_is_fullscreen()
-    {
-        return _virtualTable.sapp_is_fullscreen();
-    }
+    [DllImport("sokol")]
+    public static extern CBool sapp_is_fullscreen();
 
     // Function @ sokol_app.h:1424:25
-    public static CBool sapp_keyboard_shown()
-    {
-        return _virtualTable.sapp_keyboard_shown();
-    }
+    [DllImport("sokol")]
+    public static extern CBool sapp_keyboard_shown();
 
     // Function @ sokol_app.h:1422:25
-    public static void sapp_show_keyboard(CBool show)
-    {
-        _virtualTable.sapp_show_keyboard(show);
-    }
+    [DllImport("sokol")]
+    public static extern void sapp_show_keyboard(CBool show);
 
     // Function @ sokol_app.h:1420:26
-    public static float sapp_dpi_scale()
-    {
-        return _virtualTable.sapp_dpi_scale();
-    }
+    [DllImport("sokol")]
+    public static extern float sapp_dpi_scale();
 
     // Function @ sokol_app.h:1418:25
-    public static CBool sapp_high_dpi()
-    {
-        return _virtualTable.sapp_high_dpi();
-    }
+    [DllImport("sokol")]
+    public static extern CBool sapp_high_dpi();
 
     // Function @ sokol_app.h:1416:24
-    public static int sapp_sample_count()
-    {
-        return _virtualTable.sapp_sample_count();
-    }
+    [DllImport("sokol")]
+    public static extern int sapp_sample_count();
 
     // Function @ sokol_app.h:1414:24
-    public static int sapp_depth_format()
-    {
-        return _virtualTable.sapp_depth_format();
-    }
+    [DllImport("sokol")]
+    public static extern int sapp_depth_format();
 
     // Function @ sokol_app.h:1412:24
-    public static int sapp_color_format()
-    {
-        return _virtualTable.sapp_color_format();
-    }
+    [DllImport("sokol")]
+    public static extern int sapp_color_format();
 
     // Function @ sokol_app.h:1410:26
-    public static float sapp_heightf()
-    {
-        return _virtualTable.sapp_heightf();
-    }
+    [DllImport("sokol")]
+    public static extern float sapp_heightf();
 
     // Function @ sokol_app.h:1408:24
-    public static int sapp_height()
-    {
-        return _virtualTable.sapp_height();
-    }
+    [DllImport("sokol")]
+    public static extern int sapp_height();
 
     // Function @ sokol_app.h:1406:26
-    public static float sapp_widthf()
-    {
-        return _virtualTable.sapp_widthf();
-    }
+    [DllImport("sokol")]
+    public static extern float sapp_widthf();
 
     // Function @ sokol_app.h:1404:24
-    public static int sapp_width()
-    {
-        return _virtualTable.sapp_width();
-    }
+    [DllImport("sokol")]
+    public static extern int sapp_width();
 
     // Function @ sokol_app.h:1402:25
-    public static CBool sapp_isvalid()
-    {
-        return _virtualTable.sapp_isvalid();
-    }
+    [DllImport("sokol")]
+    public static extern CBool sapp_isvalid();
 
     // Function @ sokol_app.h:1399:18
-    public static sapp_desc sokol_main(int argc, CString* argv)
-    {
-        return _virtualTable.sokol_main(argc, argv);
-    }
+    [DllImport("sokol")]
+    public static extern sapp_desc sokol_main(int argc, CString* argv);
 
     // FunctionPointer @ sokol_app.h:1392:12
     [StructLayout(LayoutKind.Sequential)]
@@ -882,210 +754,4 @@ public static unsafe partial class sokol_app
         _SAPP_EVENTTYPE_NUM = 23U,
         _SAPP_EVENTTYPE_FORCE_U32 = 2147483647U
     }
-
-    private static void _LoadVirtualTable()
-    {
-        #region "Functions"
-        _virtualTable.sapp_android_get_native_activity = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_android_get_native_activity");
-        _virtualTable.sapp_wgpu_get_depth_stencil_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_wgpu_get_depth_stencil_view");
-        _virtualTable.sapp_wgpu_get_resolve_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_wgpu_get_resolve_view");
-        _virtualTable.sapp_wgpu_get_render_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_wgpu_get_render_view");
-        _virtualTable.sapp_wgpu_get_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_wgpu_get_device");
-        _virtualTable.sapp_win32_get_hwnd = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_win32_get_hwnd");
-        _virtualTable.sapp_d3d11_get_depth_stencil_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_d3d11_get_depth_stencil_view");
-        _virtualTable.sapp_d3d11_get_render_target_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_d3d11_get_render_target_view");
-        _virtualTable.sapp_d3d11_get_swap_chain = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_d3d11_get_swap_chain");
-        _virtualTable.sapp_d3d11_get_device_context = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_d3d11_get_device_context");
-        _virtualTable.sapp_d3d11_get_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_d3d11_get_device");
-        _virtualTable.sapp_ios_get_window = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_ios_get_window");
-        _virtualTable.sapp_macos_get_window = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_macos_get_window");
-        _virtualTable.sapp_metal_get_drawable = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_metal_get_drawable");
-        _virtualTable.sapp_metal_get_renderpass_descriptor = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_metal_get_renderpass_descriptor");
-        _virtualTable.sapp_metal_get_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_metal_get_device");
-        _virtualTable.sapp_html5_fetch_dropped_file = (delegate* unmanaged[Cdecl]<sapp_html5_fetch_request*, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_html5_fetch_dropped_file");
-        _virtualTable.sapp_html5_get_dropped_file_size = (delegate* unmanaged[Cdecl]<int, uint>)Runtime.LibraryGetExport(_libraryHandle, "sapp_html5_get_dropped_file_size");
-        _virtualTable.sapp_html5_ask_leave_site = (delegate* unmanaged[Cdecl]<CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_html5_ask_leave_site");
-        _virtualTable.sapp_gles2 = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_gles2");
-        _virtualTable.sapp_run = (delegate* unmanaged[Cdecl]<sapp_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_run");
-        _virtualTable.sapp_get_dropped_file_path = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "sapp_get_dropped_file_path");
-        _virtualTable.sapp_get_num_dropped_files = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_get_num_dropped_files");
-        _virtualTable.sapp_set_icon = (delegate* unmanaged[Cdecl]<sapp_icon_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_set_icon");
-        _virtualTable.sapp_set_window_title = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_set_window_title");
-        _virtualTable.sapp_get_clipboard_string = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "sapp_get_clipboard_string");
-        _virtualTable.sapp_set_clipboard_string = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_set_clipboard_string");
-        _virtualTable.sapp_frame_count = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "sapp_frame_count");
-        _virtualTable.sapp_consume_event = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_consume_event");
-        _virtualTable.sapp_quit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_quit");
-        _virtualTable.sapp_cancel_quit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_cancel_quit");
-        _virtualTable.sapp_request_quit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_request_quit");
-        _virtualTable.sapp_query_desc = (delegate* unmanaged[Cdecl]<sapp_desc>)Runtime.LibraryGetExport(_libraryHandle, "sapp_query_desc");
-        _virtualTable.sapp_userdata = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_userdata");
-        _virtualTable.sapp_mouse_locked = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_mouse_locked");
-        _virtualTable.sapp_lock_mouse = (delegate* unmanaged[Cdecl]<CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_lock_mouse");
-        _virtualTable.sapp_mouse_shown = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_mouse_shown");
-        _virtualTable.sapp_show_mouse = (delegate* unmanaged[Cdecl]<CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_show_mouse");
-        _virtualTable.sapp_toggle_fullscreen = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_toggle_fullscreen");
-        _virtualTable.sapp_is_fullscreen = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_is_fullscreen");
-        _virtualTable.sapp_keyboard_shown = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_keyboard_shown");
-        _virtualTable.sapp_show_keyboard = (delegate* unmanaged[Cdecl]<CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_show_keyboard");
-        _virtualTable.sapp_dpi_scale = (delegate* unmanaged[Cdecl]<float>)Runtime.LibraryGetExport(_libraryHandle, "sapp_dpi_scale");
-        _virtualTable.sapp_high_dpi = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_high_dpi");
-        _virtualTable.sapp_sample_count = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_sample_count");
-        _virtualTable.sapp_depth_format = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_depth_format");
-        _virtualTable.sapp_color_format = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_color_format");
-        _virtualTable.sapp_heightf = (delegate* unmanaged[Cdecl]<float>)Runtime.LibraryGetExport(_libraryHandle, "sapp_heightf");
-        _virtualTable.sapp_height = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_height");
-        _virtualTable.sapp_widthf = (delegate* unmanaged[Cdecl]<float>)Runtime.LibraryGetExport(_libraryHandle, "sapp_widthf");
-        _virtualTable.sapp_width = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_width");
-        _virtualTable.sapp_isvalid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_isvalid");
-        _virtualTable.sokol_main = (delegate* unmanaged[Cdecl]<int, CString*, sapp_desc>)Runtime.LibraryGetExport(_libraryHandle, "sokol_main");
-        #endregion
-
-        #region "Variables"
-
-        #endregion
-    }
-
-    private static void _UnloadVirtualTable()
-    {
-        #region "Functions"
-
-        _virtualTable.sapp_android_get_native_activity = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_wgpu_get_depth_stencil_view = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_wgpu_get_resolve_view = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_wgpu_get_render_view = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_wgpu_get_device = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_win32_get_hwnd = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_d3d11_get_depth_stencil_view = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_d3d11_get_render_target_view = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_d3d11_get_swap_chain = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_d3d11_get_device_context = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_d3d11_get_device = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_ios_get_window = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_macos_get_window = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_metal_get_drawable = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_metal_get_renderpass_descriptor = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_metal_get_device = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_html5_fetch_dropped_file = (delegate* unmanaged[Cdecl]<sapp_html5_fetch_request*, void>)IntPtr.Zero;
-        _virtualTable.sapp_html5_get_dropped_file_size = (delegate* unmanaged[Cdecl]<int, uint>)IntPtr.Zero;
-        _virtualTable.sapp_html5_ask_leave_site = (delegate* unmanaged[Cdecl]<CBool, void>)IntPtr.Zero;
-        _virtualTable.sapp_gles2 = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.sapp_run = (delegate* unmanaged[Cdecl]<sapp_desc*, void>)IntPtr.Zero;
-        _virtualTable.sapp_get_dropped_file_path = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.sapp_get_num_dropped_files = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.sapp_set_icon = (delegate* unmanaged[Cdecl]<sapp_icon_desc*, void>)IntPtr.Zero;
-        _virtualTable.sapp_set_window_title = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
-        _virtualTable.sapp_get_clipboard_string = (delegate* unmanaged[Cdecl]<CString>)IntPtr.Zero;
-        _virtualTable.sapp_set_clipboard_string = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
-        _virtualTable.sapp_frame_count = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
-        _virtualTable.sapp_consume_event = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sapp_quit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sapp_cancel_quit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sapp_request_quit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sapp_query_desc = (delegate* unmanaged[Cdecl]<sapp_desc>)IntPtr.Zero;
-        _virtualTable.sapp_userdata = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.sapp_mouse_locked = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.sapp_lock_mouse = (delegate* unmanaged[Cdecl]<CBool, void>)IntPtr.Zero;
-        _virtualTable.sapp_mouse_shown = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.sapp_show_mouse = (delegate* unmanaged[Cdecl]<CBool, void>)IntPtr.Zero;
-        _virtualTable.sapp_toggle_fullscreen = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sapp_is_fullscreen = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.sapp_keyboard_shown = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.sapp_show_keyboard = (delegate* unmanaged[Cdecl]<CBool, void>)IntPtr.Zero;
-        _virtualTable.sapp_dpi_scale = (delegate* unmanaged[Cdecl]<float>)IntPtr.Zero;
-        _virtualTable.sapp_high_dpi = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.sapp_sample_count = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.sapp_depth_format = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.sapp_color_format = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.sapp_heightf = (delegate* unmanaged[Cdecl]<float>)IntPtr.Zero;
-        _virtualTable.sapp_height = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.sapp_widthf = (delegate* unmanaged[Cdecl]<float>)IntPtr.Zero;
-        _virtualTable.sapp_width = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.sapp_isvalid = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.sokol_main = (delegate* unmanaged[Cdecl]<int, CString*, sapp_desc>)IntPtr.Zero;
-
-        #endregion
-
-        #region "Variables"
-
-
-
-        #endregion
-    }
-
-    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
-    //	This allows for flexibility in swapping implementations at runtime.
-    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
-    public struct _VirtualTable
-    {
-        #region "Function Pointers"
-        // These pointers hold the locations in the native library where functions are located at runtime.
-        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
-
-        public delegate* unmanaged[Cdecl]<void*> sapp_android_get_native_activity;
-        public delegate* unmanaged[Cdecl]<void*> sapp_wgpu_get_depth_stencil_view;
-        public delegate* unmanaged[Cdecl]<void*> sapp_wgpu_get_resolve_view;
-        public delegate* unmanaged[Cdecl]<void*> sapp_wgpu_get_render_view;
-        public delegate* unmanaged[Cdecl]<void*> sapp_wgpu_get_device;
-        public delegate* unmanaged[Cdecl]<void*> sapp_win32_get_hwnd;
-        public delegate* unmanaged[Cdecl]<void*> sapp_d3d11_get_depth_stencil_view;
-        public delegate* unmanaged[Cdecl]<void*> sapp_d3d11_get_render_target_view;
-        public delegate* unmanaged[Cdecl]<void*> sapp_d3d11_get_swap_chain;
-        public delegate* unmanaged[Cdecl]<void*> sapp_d3d11_get_device_context;
-        public delegate* unmanaged[Cdecl]<void*> sapp_d3d11_get_device;
-        public delegate* unmanaged[Cdecl]<void*> sapp_ios_get_window;
-        public delegate* unmanaged[Cdecl]<void*> sapp_macos_get_window;
-        public delegate* unmanaged[Cdecl]<void*> sapp_metal_get_drawable;
-        public delegate* unmanaged[Cdecl]<void*> sapp_metal_get_renderpass_descriptor;
-        public delegate* unmanaged[Cdecl]<void*> sapp_metal_get_device;
-        public delegate* unmanaged[Cdecl]<sapp_html5_fetch_request*, void> sapp_html5_fetch_dropped_file;
-        public delegate* unmanaged[Cdecl]<int, uint> sapp_html5_get_dropped_file_size;
-        public delegate* unmanaged[Cdecl]<CBool, void> sapp_html5_ask_leave_site;
-        public delegate* unmanaged[Cdecl]<CBool> sapp_gles2;
-        public delegate* unmanaged[Cdecl]<sapp_desc*, void> sapp_run;
-        public delegate* unmanaged[Cdecl]<int, CString> sapp_get_dropped_file_path;
-        public delegate* unmanaged[Cdecl]<int> sapp_get_num_dropped_files;
-        public delegate* unmanaged[Cdecl]<sapp_icon_desc*, void> sapp_set_icon;
-        public delegate* unmanaged[Cdecl]<CString, void> sapp_set_window_title;
-        public delegate* unmanaged[Cdecl]<CString> sapp_get_clipboard_string;
-        public delegate* unmanaged[Cdecl]<CString, void> sapp_set_clipboard_string;
-        public delegate* unmanaged[Cdecl]<ulong> sapp_frame_count;
-        public delegate* unmanaged[Cdecl]<void> sapp_consume_event;
-        public delegate* unmanaged[Cdecl]<void> sapp_quit;
-        public delegate* unmanaged[Cdecl]<void> sapp_cancel_quit;
-        public delegate* unmanaged[Cdecl]<void> sapp_request_quit;
-        public delegate* unmanaged[Cdecl]<sapp_desc> sapp_query_desc;
-        public delegate* unmanaged[Cdecl]<void*> sapp_userdata;
-        public delegate* unmanaged[Cdecl]<CBool> sapp_mouse_locked;
-        public delegate* unmanaged[Cdecl]<CBool, void> sapp_lock_mouse;
-        public delegate* unmanaged[Cdecl]<CBool> sapp_mouse_shown;
-        public delegate* unmanaged[Cdecl]<CBool, void> sapp_show_mouse;
-        public delegate* unmanaged[Cdecl]<void> sapp_toggle_fullscreen;
-        public delegate* unmanaged[Cdecl]<CBool> sapp_is_fullscreen;
-        public delegate* unmanaged[Cdecl]<CBool> sapp_keyboard_shown;
-        public delegate* unmanaged[Cdecl]<CBool, void> sapp_show_keyboard;
-        public delegate* unmanaged[Cdecl]<float> sapp_dpi_scale;
-        public delegate* unmanaged[Cdecl]<CBool> sapp_high_dpi;
-        public delegate* unmanaged[Cdecl]<int> sapp_sample_count;
-        public delegate* unmanaged[Cdecl]<int> sapp_depth_format;
-        public delegate* unmanaged[Cdecl]<int> sapp_color_format;
-        public delegate* unmanaged[Cdecl]<float> sapp_heightf;
-        public delegate* unmanaged[Cdecl]<int> sapp_height;
-        public delegate* unmanaged[Cdecl]<float> sapp_widthf;
-        public delegate* unmanaged[Cdecl]<int> sapp_width;
-        public delegate* unmanaged[Cdecl]<CBool> sapp_isvalid;
-        public delegate* unmanaged[Cdecl]<int, CString*, sapp_desc> sokol_main;
-
-        #endregion
-
-        #region "Variables"
-        // These pointers hold the locations in the native library where global variables are located at runtime.
-        //	The value pointed by these pointers are updated by reading/writing memory.
-
-
-
-        #endregion
-    }
-
-    private static _VirtualTable _virtualTable;
 }
