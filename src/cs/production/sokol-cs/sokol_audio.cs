@@ -20,88 +20,46 @@ using C2CS;
 public static unsafe partial class sokol_audio
 {
     private const string LibraryName = "sokol";
-    private static IntPtr _libraryHandle;
-
-    static sokol_audio()
-    {
-        TryLoadApi();
-    }
-
-    public static bool TryLoadApi(string? libraryName = LibraryName)
-    {
-        UnloadApi();
-        _libraryHandle = Runtime.LibraryLoad(libraryName!);
-        if (_libraryHandle == IntPtr.Zero) return false;
-        _LoadVirtualTable();
-        return true;
-    }
-
-    public static void UnloadApi()
-    {
-        if (_libraryHandle == IntPtr.Zero) return;
-        _UnloadVirtualTable();
-        Runtime.LibraryUnload(_libraryHandle);
-    }
 
     // Function @ sokol_audio.h:445:26
-    public static int saudio_push(float* frames, int num_frames)
-    {
-        return _virtualTable.saudio_push(frames, num_frames);
-    }
+    [DllImport("sokol")]
+    public static extern int saudio_push(float* frames, int num_frames);
 
     // Function @ sokol_audio.h:443:26
-    public static int saudio_expect()
-    {
-        return _virtualTable.saudio_expect();
-    }
+    [DllImport("sokol")]
+    public static extern int saudio_expect();
 
     // Function @ sokol_audio.h:441:26
-    public static int saudio_channels()
-    {
-        return _virtualTable.saudio_channels();
-    }
+    [DllImport("sokol")]
+    public static extern int saudio_channels();
 
     // Function @ sokol_audio.h:439:26
-    public static int saudio_buffer_frames()
-    {
-        return _virtualTable.saudio_buffer_frames();
-    }
+    [DllImport("sokol")]
+    public static extern int saudio_buffer_frames();
 
     // Function @ sokol_audio.h:437:26
-    public static int saudio_sample_rate()
-    {
-        return _virtualTable.saudio_sample_rate();
-    }
+    [DllImport("sokol")]
+    public static extern int saudio_sample_rate();
 
     // Function @ sokol_audio.h:435:34
-    public static saudio_desc saudio_query_desc()
-    {
-        return _virtualTable.saudio_query_desc();
-    }
+    [DllImport("sokol")]
+    public static extern saudio_desc saudio_query_desc();
 
     // Function @ sokol_audio.h:433:28
-    public static void* saudio_userdata()
-    {
-        return _virtualTable.saudio_userdata();
-    }
+    [DllImport("sokol")]
+    public static extern void* saudio_userdata();
 
     // Function @ sokol_audio.h:431:27
-    public static CBool saudio_isvalid()
-    {
-        return _virtualTable.saudio_isvalid();
-    }
+    [DllImport("sokol")]
+    public static extern CBool saudio_isvalid();
 
     // Function @ sokol_audio.h:429:27
-    public static void saudio_shutdown()
-    {
-        _virtualTable.saudio_shutdown();
-    }
+    [DllImport("sokol")]
+    public static extern void saudio_shutdown();
 
     // Function @ sokol_audio.h:427:27
-    public static void saudio_setup(saudio_desc* desc)
-    {
-        _virtualTable.saudio_setup(desc);
-    }
+    [DllImport("sokol")]
+    public static extern void saudio_setup(saudio_desc* desc);
 
     // FunctionPointer @ sokol_audio.h:422:12
     [StructLayout(LayoutKind.Sequential)]
@@ -145,81 +103,4 @@ public static unsafe partial class sokol_audio
         [FieldOffset(40)] // size = 8, padding = 0
         public void* user_data;
     }
-
-    private static void _LoadVirtualTable()
-    {
-        #region "Functions"
-        _virtualTable.saudio_push = (delegate* unmanaged[Cdecl]<float*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "saudio_push");
-        _virtualTable.saudio_expect = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "saudio_expect");
-        _virtualTable.saudio_channels = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "saudio_channels");
-        _virtualTable.saudio_buffer_frames = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "saudio_buffer_frames");
-        _virtualTable.saudio_sample_rate = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "saudio_sample_rate");
-        _virtualTable.saudio_query_desc = (delegate* unmanaged[Cdecl]<saudio_desc>)Runtime.LibraryGetExport(_libraryHandle, "saudio_query_desc");
-        _virtualTable.saudio_userdata = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "saudio_userdata");
-        _virtualTable.saudio_isvalid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "saudio_isvalid");
-        _virtualTable.saudio_shutdown = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "saudio_shutdown");
-        _virtualTable.saudio_setup = (delegate* unmanaged[Cdecl]<saudio_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "saudio_setup");
-        #endregion
-
-        #region "Variables"
-
-        #endregion
-    }
-
-    private static void _UnloadVirtualTable()
-    {
-        #region "Functions"
-
-        _virtualTable.saudio_push = (delegate* unmanaged[Cdecl]<float*, int, int>)IntPtr.Zero;
-        _virtualTable.saudio_expect = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.saudio_channels = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.saudio_buffer_frames = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.saudio_sample_rate = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.saudio_query_desc = (delegate* unmanaged[Cdecl]<saudio_desc>)IntPtr.Zero;
-        _virtualTable.saudio_userdata = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
-        _virtualTable.saudio_isvalid = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.saudio_shutdown = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.saudio_setup = (delegate* unmanaged[Cdecl]<saudio_desc*, void>)IntPtr.Zero;
-
-        #endregion
-
-        #region "Variables"
-
-
-
-        #endregion
-    }
-
-    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
-    //	This allows for flexibility in swapping implementations at runtime.
-    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
-    public struct _VirtualTable
-    {
-        #region "Function Pointers"
-        // These pointers hold the locations in the native library where functions are located at runtime.
-        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
-
-        public delegate* unmanaged[Cdecl]<float*, int, int> saudio_push;
-        public delegate* unmanaged[Cdecl]<int> saudio_expect;
-        public delegate* unmanaged[Cdecl]<int> saudio_channels;
-        public delegate* unmanaged[Cdecl]<int> saudio_buffer_frames;
-        public delegate* unmanaged[Cdecl]<int> saudio_sample_rate;
-        public delegate* unmanaged[Cdecl]<saudio_desc> saudio_query_desc;
-        public delegate* unmanaged[Cdecl]<void*> saudio_userdata;
-        public delegate* unmanaged[Cdecl]<CBool> saudio_isvalid;
-        public delegate* unmanaged[Cdecl]<void> saudio_shutdown;
-        public delegate* unmanaged[Cdecl]<saudio_desc*, void> saudio_setup;
-
-        #endregion
-
-        #region "Variables"
-        // These pointers hold the locations in the native library where global variables are located at runtime.
-        //	The value pointed by these pointers are updated by reading/writing memory.
-
-
-
-        #endregion
-    }
-
-    private static _VirtualTable _virtualTable;
 }

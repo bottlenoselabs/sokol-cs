@@ -20,112 +20,62 @@ using C2CS;
 public static unsafe partial class sokol_fetch
 {
     private const string LibraryName = "sokol";
-    private static IntPtr _libraryHandle;
-
-    static sokol_fetch()
-    {
-        TryLoadApi();
-    }
-
-    public static bool TryLoadApi(string? libraryName = LibraryName)
-    {
-        UnloadApi();
-        _libraryHandle = Runtime.LibraryLoad(libraryName!);
-        if (_libraryHandle == IntPtr.Zero) return false;
-        _LoadVirtualTable();
-        return true;
-    }
-
-    public static void UnloadApi()
-    {
-        if (_libraryHandle == IntPtr.Zero) return;
-        _UnloadVirtualTable();
-        Runtime.LibraryUnload(_libraryHandle);
-    }
 
     // Function @ sokol_fetch.h:943:27
-    public static void sfetch_continue(sfetch_handle_t h)
-    {
-        _virtualTable.sfetch_continue(h);
-    }
+    [DllImport("sokol")]
+    public static extern void sfetch_continue(sfetch_handle_t h);
 
     // Function @ sokol_fetch.h:941:27
-    public static void sfetch_pause(sfetch_handle_t h)
-    {
-        _virtualTable.sfetch_pause(h);
-    }
+    [DllImport("sokol")]
+    public static extern void sfetch_pause(sfetch_handle_t h);
 
     // Function @ sokol_fetch.h:939:27
-    public static void sfetch_cancel(sfetch_handle_t h)
-    {
-        _virtualTable.sfetch_cancel(h);
-    }
+    [DllImport("sokol")]
+    public static extern void sfetch_cancel(sfetch_handle_t h);
 
     // Function @ sokol_fetch.h:937:28
-    public static void* sfetch_unbind_buffer(sfetch_handle_t h)
-    {
-        return _virtualTable.sfetch_unbind_buffer(h);
-    }
+    [DllImport("sokol")]
+    public static extern void* sfetch_unbind_buffer(sfetch_handle_t h);
 
     // Function @ sokol_fetch.h:935:27
-    public static void sfetch_bind_buffer(sfetch_handle_t h, void* buffer_ptr, uint buffer_size)
-    {
-        _virtualTable.sfetch_bind_buffer(h, buffer_ptr, buffer_size);
-    }
+    [DllImport("sokol")]
+    public static extern void sfetch_bind_buffer(sfetch_handle_t h, void* buffer_ptr, uint buffer_size);
 
     // Function @ sokol_fetch.h:932:27
-    public static void sfetch_dowork()
-    {
-        _virtualTable.sfetch_dowork();
-    }
+    [DllImport("sokol")]
+    public static extern void sfetch_dowork();
 
     // Function @ sokol_fetch.h:930:27
-    public static CBool sfetch_handle_valid(sfetch_handle_t h)
-    {
-        return _virtualTable.sfetch_handle_valid(h);
-    }
+    [DllImport("sokol")]
+    public static extern CBool sfetch_handle_valid(sfetch_handle_t h);
 
     // Function @ sokol_fetch.h:928:38
-    public static sfetch_handle_t sfetch_send(sfetch_request_t* request)
-    {
-        return _virtualTable.sfetch_send(request);
-    }
+    [DllImport("sokol")]
+    public static extern sfetch_handle_t sfetch_send(sfetch_request_t* request);
 
     // Function @ sokol_fetch.h:925:26
-    public static int sfetch_max_path()
-    {
-        return _virtualTable.sfetch_max_path();
-    }
+    [DllImport("sokol")]
+    public static extern int sfetch_max_path();
 
     // Function @ sokol_fetch.h:923:26
-    public static int sfetch_max_userdata_bytes()
-    {
-        return _virtualTable.sfetch_max_userdata_bytes();
-    }
+    [DllImport("sokol")]
+    public static extern int sfetch_max_userdata_bytes();
 
     // Function @ sokol_fetch.h:921:36
-    public static sfetch_desc_t sfetch_desc()
-    {
-        return _virtualTable.sfetch_desc();
-    }
+    [DllImport("sokol")]
+    public static extern sfetch_desc_t sfetch_desc();
 
     // Function @ sokol_fetch.h:919:27
-    public static CBool sfetch_valid()
-    {
-        return _virtualTable.sfetch_valid();
-    }
+    [DllImport("sokol")]
+    public static extern CBool sfetch_valid();
 
     // Function @ sokol_fetch.h:917:27
-    public static void sfetch_shutdown()
-    {
-        _virtualTable.sfetch_shutdown();
-    }
+    [DllImport("sokol")]
+    public static extern void sfetch_shutdown();
 
     // Function @ sokol_fetch.h:915:27
-    public static void sfetch_setup(sfetch_desc_t* desc)
-    {
-        _virtualTable.sfetch_setup(desc);
-    }
+    [DllImport("sokol")]
+    public static extern void sfetch_setup(sfetch_desc_t* desc);
 
     // FunctionPointer @ sokol_fetch.h:898:15
     [StructLayout(LayoutKind.Sequential)]
@@ -261,93 +211,4 @@ public static unsafe partial class sokol_fetch
         SFETCH_ERROR_INVALID_HTTP_STATUS = 5U,
         SFETCH_ERROR_CANCELLED = 6U
     }
-
-    private static void _LoadVirtualTable()
-    {
-        #region "Functions"
-        _virtualTable.sfetch_continue = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_continue");
-        _virtualTable.sfetch_pause = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_pause");
-        _virtualTable.sfetch_cancel = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_cancel");
-        _virtualTable.sfetch_unbind_buffer = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_unbind_buffer");
-        _virtualTable.sfetch_bind_buffer = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void*, uint, void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_bind_buffer");
-        _virtualTable.sfetch_dowork = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_dowork");
-        _virtualTable.sfetch_handle_valid = (delegate* unmanaged[Cdecl]<sfetch_handle_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_handle_valid");
-        _virtualTable.sfetch_send = (delegate* unmanaged[Cdecl]<sfetch_request_t*, sfetch_handle_t>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_send");
-        _virtualTable.sfetch_max_path = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_max_path");
-        _virtualTable.sfetch_max_userdata_bytes = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_max_userdata_bytes");
-        _virtualTable.sfetch_desc = (delegate* unmanaged[Cdecl]<sfetch_desc_t>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_desc");
-        _virtualTable.sfetch_valid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_valid");
-        _virtualTable.sfetch_shutdown = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_shutdown");
-        _virtualTable.sfetch_setup = (delegate* unmanaged[Cdecl]<sfetch_desc_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "sfetch_setup");
-        #endregion
-
-        #region "Variables"
-
-        #endregion
-    }
-
-    private static void _UnloadVirtualTable()
-    {
-        #region "Functions"
-
-        _virtualTable.sfetch_continue = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void>)IntPtr.Zero;
-        _virtualTable.sfetch_pause = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void>)IntPtr.Zero;
-        _virtualTable.sfetch_cancel = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void>)IntPtr.Zero;
-        _virtualTable.sfetch_unbind_buffer = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void*>)IntPtr.Zero;
-        _virtualTable.sfetch_bind_buffer = (delegate* unmanaged[Cdecl]<sfetch_handle_t, void*, uint, void>)IntPtr.Zero;
-        _virtualTable.sfetch_dowork = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sfetch_handle_valid = (delegate* unmanaged[Cdecl]<sfetch_handle_t, CBool>)IntPtr.Zero;
-        _virtualTable.sfetch_send = (delegate* unmanaged[Cdecl]<sfetch_request_t*, sfetch_handle_t>)IntPtr.Zero;
-        _virtualTable.sfetch_max_path = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.sfetch_max_userdata_bytes = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.sfetch_desc = (delegate* unmanaged[Cdecl]<sfetch_desc_t>)IntPtr.Zero;
-        _virtualTable.sfetch_valid = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.sfetch_shutdown = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.sfetch_setup = (delegate* unmanaged[Cdecl]<sfetch_desc_t*, void>)IntPtr.Zero;
-
-        #endregion
-
-        #region "Variables"
-
-
-
-        #endregion
-    }
-
-    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
-    //	This allows for flexibility in swapping implementations at runtime.
-    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
-    public struct _VirtualTable
-    {
-        #region "Function Pointers"
-        // These pointers hold the locations in the native library where functions are located at runtime.
-        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
-
-        public delegate* unmanaged[Cdecl]<sfetch_handle_t, void> sfetch_continue;
-        public delegate* unmanaged[Cdecl]<sfetch_handle_t, void> sfetch_pause;
-        public delegate* unmanaged[Cdecl]<sfetch_handle_t, void> sfetch_cancel;
-        public delegate* unmanaged[Cdecl]<sfetch_handle_t, void*> sfetch_unbind_buffer;
-        public delegate* unmanaged[Cdecl]<sfetch_handle_t, void*, uint, void> sfetch_bind_buffer;
-        public delegate* unmanaged[Cdecl]<void> sfetch_dowork;
-        public delegate* unmanaged[Cdecl]<sfetch_handle_t, CBool> sfetch_handle_valid;
-        public delegate* unmanaged[Cdecl]<sfetch_request_t*, sfetch_handle_t> sfetch_send;
-        public delegate* unmanaged[Cdecl]<int> sfetch_max_path;
-        public delegate* unmanaged[Cdecl]<int> sfetch_max_userdata_bytes;
-        public delegate* unmanaged[Cdecl]<sfetch_desc_t> sfetch_desc;
-        public delegate* unmanaged[Cdecl]<CBool> sfetch_valid;
-        public delegate* unmanaged[Cdecl]<void> sfetch_shutdown;
-        public delegate* unmanaged[Cdecl]<sfetch_desc_t*, void> sfetch_setup;
-
-        #endregion
-
-        #region "Variables"
-        // These pointers hold the locations in the native library where global variables are located at runtime.
-        //	The value pointed by these pointers are updated by reading/writing memory.
-
-
-
-        #endregion
-    }
-
-    private static _VirtualTable _virtualTable;
 }
