@@ -1,8 +1,10 @@
 #define SOKOL_IMPL
 #define SOKOL_DLL
 #define SOKOL_NO_ENTRY
+#define SOKOL_NO_DEPRECATED
 
 #if _WIN32
+    #pragma warning(disable : 5105)
     #ifndef _WIN64
         #error "Compiling for Windows 32-bit ARM or x86 is not supported."
     #endif
