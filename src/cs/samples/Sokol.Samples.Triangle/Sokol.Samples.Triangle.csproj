@@ -1,24 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+    <!-- MSBuild settings -->
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
-        <LangVersion>9</LangVersion>
-        <Nullable>enable</Nullable>
-        <IsPackable>false</IsPackable>
-        <PublishReadyToRun>false</PublishReadyToRun>
-        <TieredCompilation>false</TieredCompilation>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
+    <!-- Simple way to have assets files beside the application. -->
     <ItemGroup>
         <None Update="assets\**\*">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\..\production\sokol-cs\sokol-cs.csproj" />
     </ItemGroup>
 
 </Project>
