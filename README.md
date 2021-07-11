@@ -7,17 +7,17 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 ## Building from Source
 
 1. Download and install [.NET 5](https://dotnet.microsoft.com/download).
-2. If you are on Windows: [Install Windows Subsystem for Linux v2 (WSL2)](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
-3. Clone the repository with submodules: `git clone --recurse-submodules git@github.com:lithiumtoast/sokol-cs.git`.
-4. Run `bash ./build-native-library.sh` from the root directory of the repository to build the native shared library of `sokol`.
-5. If using IDE (Visual Studio / Rider): Open `Sokol.sln` and build solution.
-6. If using CLI: `dotnet build`
+2. Clone the repository with submodules: `git clone --recurse-submodules git@github.com:lithiumtoast/sokol-cs.git`.
+3. If using IDE (Visual Studio / Rider): Open `Sokol.sln` and build solution.
+4. If using CLI: `dotnet build`
 
-Additionally, if at any time you wish to re-generate the bindings, simple run `bash ./bindgen-csharp.sh`.
+Additionally, if at any time you wish to re-generate the bindings, simple run `bash ./bindgen-csharp.sh`. Though if you are on Windows, you will need `bash` which can be obtained by installing Windows Subsystem for Linux with Ubuntu.
 
 ## Run: "Hello, world!" of computer graphics
 
 The most basic example of rendering a triangle in clip space using your GPU.
+
+![Triangle](docs/images/1-triangle.png)
 
 ### IDE (Visual Studio / Rider)
 
@@ -27,39 +27,20 @@ Run `Sokol.Samples.Triangle`.
 
 #### Windows
 
-```powershell
-dotnet run --project .\src\cs\samples\Sokol.Samples.Triangle\Sokol.Samples.Triangle.csproj
-```
+Build + Run: `dotnet run --project .\src\cs\samples\Sokol.Samples.Triangle\Sokol.Samples.Triangle.csproj`
 
 #### macOS/Linux
 
-```bash
-dotnet run --project ./src/cs/samples/Sokol.Samples.Triangle/Sokol.Samples/Triangle.csproj
-```
+Build + Run: `dotnet run --project ./src/cs/samples/Sokol.Samples.Triangle/Sokol.Samples/Triangle.csproj`
 
 ## Run: Native Ahead of Time Compilation with C#
 
-Example of rendering a cube with a model-view-projection (a.k.a world-view-projection) matrix and taking it one step further by compiling the code to a native executable using native ahead of time compilation (nAOT).
-
-### Why use nAOT?
-
-Positive outcomes of using nAOT:
-
-1. Creates a small stand-alone application without the dependency of .NET framework.
-1. Increases the startup time of the application because the Intermediate Language (IL) code instructions do not have to be compiled to native assembly code instructions on the fly.
-2. Stablizes frame rates to be rock solid because of the same reason as 2.
-3. The application can not be decompiled using a C# decompiler such as DotPeek or ILSpy because there is no Intermediate Language (IL) code instructions.
-
-Negative outcomes:
-
-1. `System.Reflection` API is finicky. Recommendation is you stay clear of using reflection all together though it is possible to get working with some effort.
-
-For more information on nAOT see: https://github.com/dotnet/runtimelab/tree/feature/NativeAOT.
+Example of the previous triangle in clip space with native ahead of time compilation (nAOT). Produces a single file executable that is ~1 megabyte. For more information on nAOT see: https://github.com/dotnet/runtimelab/tree/feature/NativeAOT. The property `AheadOfTimeCompilation` is a custom property from my custom MSBuild properties/targets project called [`my-msbuild`](https://github.com/lithiumtoast/my-msbuild) to make native ahead of time compilation just work with minimal effort.
 
 ### Windows
 
-1. Build: `dotnet publish .\src\cs\samples\Sokol.Samples.Cube\Sokol.Samples.Cube.csproj -r win-x64 -c Release -o .\publish`
-2. Run: `.\publish\Sokol.Samples.Cube.exe`
+1. Build: `dotnet publish .\src\cs\samples\Sokol.Samples.Triangle\Sokol.Samples.Triangle.csproj -r win-x64 -c Release -o .\publish\triangle /p:AheadOfTimeCompilation=true`
+2. Run: `.\publish\triangle\Sokol.Samples.Triangle.exe`
 
 ### macOS
 
