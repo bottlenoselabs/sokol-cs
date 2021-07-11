@@ -7,11 +7,11 @@
 # User-specific files
 *.user
 
-# Build artifacts
+# C# build artifacts
 /bin/
 /obj/
 
-# Publish artifacts
+# C# publish artifacts
 /publish/
 
 # macOS
@@ -19,3 +19,6 @@
 
 # Native libraries
 /lib/
+
+# C build artifacts
+/cmake-build-release
