@@ -7,6 +7,3 @@
 [submodule "ext/pixel-formats-cs"]
 	path = ext/pixel-formats-cs
 	url = https://github.com/lithiumtoast/pixel-formats-cs.git
-[submodule "ext/c2cs"]
-	path = ext/c2cs
-	url = https://github.com/lithiumtoast/c2cs.git
