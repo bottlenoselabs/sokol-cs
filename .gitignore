@@ -22,3 +22,7 @@
 
 # C build artifacts
 /cmake-build-release
+
+# C2CS
+/C2CS
+/C2CS.exe
