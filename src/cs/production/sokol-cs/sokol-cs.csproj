@@ -18,4 +18,20 @@
     <Exec Command="$(GitRepositoryPath)build-native-library.sh" Condition="'$(OS)' != 'Windows_NT'" WorkingDirectory="$(GitRepositoryPath)" />
   </Target>
 
+  <!-- Copy native libraries -->
+  <ItemGroup Condition="'$(AheadOfTimeCompilation)' != 'true'">
+    <Content Include="$(GitRepositoryPath)lib/sokol.dll" Condition="'$(IsWindows)' == 'true'">
+      <Link>sokol.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(GitRepositoryPath)lib/libsokol.dylib" Condition="'$(IsMacOS)' == 'true'">
+      <Link>libsokol.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(GitRepositoryPath)lib/libsokol.so" Condition="'$(IsLinux)' == 'true'">
+      <Link>libsokol.so</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
