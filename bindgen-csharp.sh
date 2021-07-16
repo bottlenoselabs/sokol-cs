@@ -7,11 +7,20 @@ function exitIfLastCommandFailed() {
     fi
 }
 
-function download_C2CS() {
+function download_C2CS_ubuntu() {
     if [ ! -f "./C2CS" ]; then
         wget https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/ubuntu.20.04-x64.zip
         unzip ./ubuntu.20.04-x64.zip
         rm ./ubuntu.20.04-x64.zip
+        chmod +x ./C2CS
+    fi
+}
+
+function download_C2CS_osx() {
+    if [ ! -f "./C2CS" ]; then
+        wget https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/osx-x64.zip
+        unzip ./osx-x64.zip
+        rm ./osx-x64.zip
         chmod +x ./C2CS
     fi
 }
@@ -83,7 +92,6 @@ function bindgen_sokol_args {
 }
 
 function bindgen() {
-    download_C2CS
     bindgen_sokol_app
     bindgen_sokol_gfx
     bindgen_sokol_glue
@@ -94,8 +102,12 @@ function bindgen() {
 }
 
 unamestr="$(uname | tr '[:upper:]' '[:lower:]')"
-if [ "$unamestr" == "darwin" ] || [[ "$unamestr" == "linux" ]]; then
-    bindgen
+if [[ "$unamestr" == "linux" ]]; then
+    download_C2CS_ubuntu
+elif [[ "$unamestr" == "darwin" ]]; then
+    download_C2CS_osx
 else
     echo "Unknown platform: '$unamestr'."
 fi
+
+bindgen
