@@ -1,17 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  
-  <!-- C2CS-runtime -->
-  <ItemGroup>
-    <Compile Include="$(GitRepositoryPath)/ext/c2cs/src/cs/production/C2CS.Runtime/**/*.cs">
-      <Link>c2cs-runtime/%(Filename)%(Extension)</Link>
-    </Compile>
-  </ItemGroup>
 
   <!-- pixel-formats-cs-->
   <ItemGroup>
-    <Compile Include="$(GitRepositoryPath)/ext/pixel-formats-cs/src/*.cs">
+    <Compile Include="$(GitRepositoryPath)ext/pixel-formats-cs/src/*.cs">
       <Link>pixel-formats-cs/%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
+  
+  <!-- NuGet references -->
+  <ItemGroup>
+    <PackageReference Include="C2CS.Runtime" Version="0.5.0-alpha0122" />
+  </ItemGroup>
+
+  <!-- Build sokol native library -->
+  <Target Name="BuildNativeLibrary" AfterTargets="Restore" BeforeTargets="BeforeBuild">
+    <Exec Command="$(GitRepositoryPath)build-native-library.cmd" Condition="'$(OS)' == 'Windows_NT'" WorkingDirectory="$(GitRepositoryPath)" />
+    <Exec Command="$(GitRepositoryPath)build-native-library.sh" Condition="'$(OS)' != 'Windows_NT'" WorkingDirectory="$(GitRepositoryPath)" />
+  </Target>
 
 </Project>
