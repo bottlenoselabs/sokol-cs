@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(sokol)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 
 get_filename_component(SOKOL_DIRECTORY_PATH "../../../ext/sokol" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 get_filename_component(CIMGUI_DIRECTORY_PATH "../../../ext/cimgui" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
