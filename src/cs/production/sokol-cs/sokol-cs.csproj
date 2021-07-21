@@ -14,8 +14,8 @@
 
   <!-- Build sokol native library -->
   <Target Name="BuildNativeLibrary" AfterTargets="Restore" BeforeTargets="BeforeBuild">
-    <Exec Command="$(GitRepositoryPath)build-native-library.cmd" Condition="'$(OS)' == 'Windows_NT'" WorkingDirectory="$(GitRepositoryPath)" />
-    <Exec Command="$(GitRepositoryPath)build-native-library.sh" Condition="'$(OS)' != 'Windows_NT'" WorkingDirectory="$(GitRepositoryPath)" />
+    <Exec Command="$(GitRepositoryPath)library.cmd" Condition="'$(OS)' == 'Windows_NT'" WorkingDirectory="$(GitRepositoryPath)" />
+    <Exec Command="$(GitRepositoryPath)library.sh" Condition="'$(OS)' != 'Windows_NT'" WorkingDirectory="$(GitRepositoryPath)" />
   </Target>
 
   <!-- Copy native libraries -->
