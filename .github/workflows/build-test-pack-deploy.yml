@@ -62,7 +62,7 @@ jobs:
         submodules: true
 
     - name: "Setup Linux dependencies"
-      if: runner.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
         sudo apt-get install \
