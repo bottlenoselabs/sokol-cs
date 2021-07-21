@@ -66,6 +66,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install \
+          libegl1-mesa-dev \
           libxcursor-dev \
           libxi-dev
 
