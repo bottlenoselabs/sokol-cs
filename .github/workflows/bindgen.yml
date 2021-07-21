@@ -1,0 +1,39 @@
+name: "Bindgen"
+
+on:
+  push:
+    branches: [develop]
+    paths-ignore: ['**/*.md']
+
+jobs:
+
+  bindgen-job:
+    name: "Bindgen"
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: "Clone Git repository"
+      uses: actions/checkout@master
+      with:
+        submodules: true
+
+    - name: "Bindgen"
+      shell: bash
+      run: ./bindgen.sh
+
+    - name: "Add + commit + push (if necessary)"
+      uses: EndBug/add-and-commit@v7
+      with:
+        default_author: user_info
+
+  build-test-pack-deploy-job:
+    name: "Dispatch 'build-test-pack-deploy.yml'"
+    needs: [bindgen-job]
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: "Dispatch"
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        event-type: build-test-pack-deploy
