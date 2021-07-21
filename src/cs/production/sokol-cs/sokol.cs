@@ -109,59 +109,59 @@ public static unsafe partial class sokol
     [DllImport(LibraryName)]
     public static extern void stm_setup();
 
-    // Function @ sokol_fetch.h:943:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:949:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern void sfetch_continue(sfetch_handle_t h);
 
-    // Function @ sokol_fetch.h:941:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:947:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern void sfetch_pause(sfetch_handle_t h);
 
-    // Function @ sokol_fetch.h:939:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:945:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern void sfetch_cancel(sfetch_handle_t h);
 
-    // Function @ sokol_fetch.h:937:28 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:943:28 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern void* sfetch_unbind_buffer(sfetch_handle_t h);
 
-    // Function @ sokol_fetch.h:935:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:941:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern void sfetch_bind_buffer(sfetch_handle_t h, void* buffer_ptr, uint buffer_size);
 
-    // Function @ sokol_fetch.h:932:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:938:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern void sfetch_dowork();
 
-    // Function @ sokol_fetch.h:930:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:936:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern CBool sfetch_handle_valid(sfetch_handle_t h);
 
-    // Function @ sokol_fetch.h:928:38 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:934:38 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern sfetch_handle_t sfetch_send(sfetch_request_t* request);
 
-    // Function @ sokol_fetch.h:925:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:931:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern int sfetch_max_path();
 
-    // Function @ sokol_fetch.h:923:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:929:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern int sfetch_max_userdata_bytes();
 
-    // Function @ sokol_fetch.h:921:36 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:927:36 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern sfetch_desc_t sfetch_desc();
 
-    // Function @ sokol_fetch.h:919:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:925:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern CBool sfetch_valid();
 
-    // Function @ sokol_fetch.h:917:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:923:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern void sfetch_shutdown();
 
-    // Function @ sokol_fetch.h:915:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Function @ sokol_fetch.h:921:27 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [DllImport(LibraryName)]
     public static extern void sfetch_setup(sfetch_desc_t* desc);
 
@@ -761,7 +761,7 @@ public static unsafe partial class sokol
     [DllImport(LibraryName)]
     public static extern sapp_desc sokol_main(int argc, CString* argv);
 
-    // FunctionPointer @ sokol_fetch.h:898:15 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // FunctionPointer @ sokol_fetch.h:904:15 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct sfetch_callback_t
     {
@@ -1030,7 +1030,7 @@ public static unsafe partial class sokol
         public int buf_size;
     }
 
-    // Struct @ sokol_fetch.h:864:49 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Struct @ sokol_fetch.h:870:49 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sfetch_handle_t
     {
@@ -1038,7 +1038,7 @@ public static unsafe partial class sokol
         public uint id;
     }
 
-    // Struct @ sokol_fetch.h:912:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Struct @ sokol_fetch.h:918:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct sfetch_request_t
     {
@@ -1073,7 +1073,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Struct @ sokol_fetch.h:895:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Struct @ sokol_fetch.h:901:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct sfetch_response_t
     {
@@ -1126,7 +1126,7 @@ public static unsafe partial class sokol
         public uint buffer_size;
     }
 
-    // Struct @ sokol_fetch.h:861:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Struct @ sokol_fetch.h:867:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct sfetch_desc_t
     {
@@ -2822,7 +2822,7 @@ public static unsafe partial class sokol
         public CBool changed;
     }
 
-    // Enum @ sokol_fetch.h:875:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
+    // Enum @ sokol_fetch.h:881:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_fetch.h)
     public enum sfetch_error_t : uint
     {
         SFETCH_ERROR_NO_ERROR = 0U,
