@@ -17,9 +17,197 @@ using C2CS;
 #nullable enable
 #pragma warning disable 1591
 
-public static unsafe partial class sokol_gfx
+public static unsafe partial class sokol
 {
     private const string LibraryName = "sokol";
+
+    // Function @ sokol_args.h:302:33 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern CString sargs_value_at(int index);
+
+    // Function @ sokol_args.h:300:33 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern CString sargs_key_at(int index);
+
+    // Function @ sokol_args.h:298:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern int sargs_num_args();
+
+    // Function @ sokol_args.h:296:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern int sargs_find(CString key);
+
+    // Function @ sokol_args.h:294:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sargs_boolean(CString key);
+
+    // Function @ sokol_args.h:292:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sargs_equals(CString key, CString val);
+
+    // Function @ sokol_args.h:290:33 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern CString sargs_value_def(CString key, CString def);
+
+    // Function @ sokol_args.h:288:33 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern CString sargs_value(CString key);
+
+    // Function @ sokol_args.h:286:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sargs_exists(CString key);
+
+    // Function @ sokol_args.h:284:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sargs_isvalid();
+
+    // Function @ sokol_args.h:282:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern void sargs_shutdown();
+
+    // Function @ sokol_args.h:280:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [DllImport(LibraryName)]
+    public static extern void sargs_setup(sargs_desc* desc);
+
+    // Function @ sokol_time.h:135:28 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_time.h)
+    [DllImport(LibraryName)]
+    public static extern double stm_ns(ulong ticks);
+
+    // Function @ sokol_time.h:134:28 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_time.h)
+    [DllImport(LibraryName)]
+    public static extern double stm_us(ulong ticks);
+
+    // Function @ sokol_time.h:133:28 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_time.h)
+    [DllImport(LibraryName)]
+    public static extern double stm_ms(ulong ticks);
+
+    // Function @ sokol_time.h:132:28 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_time.h)
+    [DllImport(LibraryName)]
+    public static extern double stm_sec(ulong ticks);
+
+    // Function @ sokol_time.h:131:30 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_time.h)
+    [DllImport(LibraryName)]
+    public static extern ulong stm_round_to_common_refresh_rate(ulong frame_ticks);
+
+    // Function @ sokol_time.h:130:30 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_time.h)
+    [DllImport(LibraryName)]
+    public static extern ulong stm_laptime(ulong* last_time);
+
+    // Function @ sokol_time.h:129:30 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_time.h)
+    [DllImport(LibraryName)]
+    public static extern ulong stm_since(ulong start_ticks);
+
+    // Function @ sokol_time.h:128:30 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_time.h)
+    [DllImport(LibraryName)]
+    public static extern ulong stm_diff(ulong new_ticks, ulong old_ticks);
+
+    // Function @ sokol_time.h:127:30 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_time.h)
+    [DllImport(LibraryName)]
+    public static extern ulong stm_now();
+
+    // Function @ sokol_time.h:126:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_time.h)
+    [DllImport(LibraryName)]
+    public static extern void stm_setup();
+
+    // Function @ sokol_fetch.h:943:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern void sfetch_continue(sfetch_handle_t h);
+
+    // Function @ sokol_fetch.h:941:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern void sfetch_pause(sfetch_handle_t h);
+
+    // Function @ sokol_fetch.h:939:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern void sfetch_cancel(sfetch_handle_t h);
+
+    // Function @ sokol_fetch.h:937:28 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern void* sfetch_unbind_buffer(sfetch_handle_t h);
+
+    // Function @ sokol_fetch.h:935:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern void sfetch_bind_buffer(sfetch_handle_t h, void* buffer_ptr, uint buffer_size);
+
+    // Function @ sokol_fetch.h:932:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern void sfetch_dowork();
+
+    // Function @ sokol_fetch.h:930:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sfetch_handle_valid(sfetch_handle_t h);
+
+    // Function @ sokol_fetch.h:928:38 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern sfetch_handle_t sfetch_send(sfetch_request_t* request);
+
+    // Function @ sokol_fetch.h:925:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern int sfetch_max_path();
+
+    // Function @ sokol_fetch.h:923:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern int sfetch_max_userdata_bytes();
+
+    // Function @ sokol_fetch.h:921:36 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern sfetch_desc_t sfetch_desc();
+
+    // Function @ sokol_fetch.h:919:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sfetch_valid();
+
+    // Function @ sokol_fetch.h:917:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern void sfetch_shutdown();
+
+    // Function @ sokol_fetch.h:915:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [DllImport(LibraryName)]
+    public static extern void sfetch_setup(sfetch_desc_t* desc);
+
+    // Function @ sokol_audio.h:445:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [DllImport(LibraryName)]
+    public static extern int saudio_push(float* frames, int num_frames);
+
+    // Function @ sokol_audio.h:443:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [DllImport(LibraryName)]
+    public static extern int saudio_expect();
+
+    // Function @ sokol_audio.h:441:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [DllImport(LibraryName)]
+    public static extern int saudio_channels();
+
+    // Function @ sokol_audio.h:439:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [DllImport(LibraryName)]
+    public static extern int saudio_buffer_frames();
+
+    // Function @ sokol_audio.h:437:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [DllImport(LibraryName)]
+    public static extern int saudio_sample_rate();
+
+    // Function @ sokol_audio.h:435:34 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [DllImport(LibraryName)]
+    public static extern saudio_desc saudio_query_desc();
+
+    // Function @ sokol_audio.h:433:28 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [DllImport(LibraryName)]
+    public static extern void* saudio_userdata();
+
+    // Function @ sokol_audio.h:431:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [DllImport(LibraryName)]
+    public static extern CBool saudio_isvalid();
+
+    // Function @ sokol_audio.h:429:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [DllImport(LibraryName)]
+    public static extern void saudio_shutdown();
+
+    // Function @ sokol_audio.h:427:27 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [DllImport(LibraryName)]
+    public static extern void saudio_setup(saudio_desc* desc);
+
+    // Function @ sokol_glue.h:97:37 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_glue.h)
+    [DllImport(LibraryName)]
+    public static extern sg_context_desc sapp_sgcontext();
 
     // Function @ sokol_gfx.h:2378:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [DllImport(LibraryName)]
@@ -361,200 +549,742 @@ public static unsafe partial class sokol_gfx
     [DllImport(LibraryName)]
     public static extern void sg_setup(sg_desc* desc);
 
+    // Function @ sokol_app.h:1511:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_android_get_native_activity();
+
+    // Function @ sokol_app.h:1508:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_wgpu_get_depth_stencil_view();
+
+    // Function @ sokol_app.h:1506:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_wgpu_get_resolve_view();
+
+    // Function @ sokol_app.h:1504:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_wgpu_get_render_view();
+
+    // Function @ sokol_app.h:1502:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_wgpu_get_device();
+
+    // Function @ sokol_app.h:1499:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_win32_get_hwnd();
+
+    // Function @ sokol_app.h:1497:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_d3d11_get_depth_stencil_view();
+
+    // Function @ sokol_app.h:1495:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_d3d11_get_render_target_view();
+
+    // Function @ sokol_app.h:1493:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_d3d11_get_swap_chain();
+
+    // Function @ sokol_app.h:1491:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_d3d11_get_device_context();
+
+    // Function @ sokol_app.h:1489:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_d3d11_get_device();
+
+    // Function @ sokol_app.h:1486:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_ios_get_window();
+
+    // Function @ sokol_app.h:1484:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_macos_get_window();
+
+    // Function @ sokol_app.h:1482:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_metal_get_drawable();
+
+    // Function @ sokol_app.h:1480:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_metal_get_renderpass_descriptor();
+
+    // Function @ sokol_app.h:1478:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_metal_get_device();
+
+    // Function @ sokol_app.h:1475:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_html5_fetch_dropped_file(sapp_html5_fetch_request* request);
+
+    // Function @ sokol_app.h:1473:29 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern uint sapp_html5_get_dropped_file_size(int index);
+
+    // Function @ sokol_app.h:1471:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_html5_ask_leave_site(CBool ask);
+
+    // Function @ sokol_app.h:1468:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sapp_gles2();
+
+    // Function @ sokol_app.h:1465:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_run(sapp_desc* desc);
+
+    // Function @ sokol_app.h:1462:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern CString sapp_get_dropped_file_path(int index);
+
+    // Function @ sokol_app.h:1460:24 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern int sapp_get_num_dropped_files();
+
+    // Function @ sokol_app.h:1458:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_set_icon(sapp_icon_desc* icon_desc);
+
+    // Function @ sokol_app.h:1456:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_set_window_title(CString str);
+
+    // Function @ sokol_app.h:1454:32 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern CString sapp_get_clipboard_string();
+
+    // Function @ sokol_app.h:1452:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_set_clipboard_string(CString str);
+
+    // Function @ sokol_app.h:1450:29 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern ulong sapp_frame_count();
+
+    // Function @ sokol_app.h:1448:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_consume_event();
+
+    // Function @ sokol_app.h:1446:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_quit();
+
+    // Function @ sokol_app.h:1444:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_cancel_quit();
+
+    // Function @ sokol_app.h:1442:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_request_quit();
+
+    // Function @ sokol_app.h:1440:30 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern sapp_desc sapp_query_desc();
+
+    // Function @ sokol_app.h:1438:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void* sapp_userdata();
+
+    // Function @ sokol_app.h:1436:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sapp_mouse_locked();
+
+    // Function @ sokol_app.h:1434:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_lock_mouse(CBool @lock);
+
+    // Function @ sokol_app.h:1432:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sapp_mouse_shown();
+
+    // Function @ sokol_app.h:1430:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_show_mouse(CBool show);
+
+    // Function @ sokol_app.h:1428:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_toggle_fullscreen();
+
+    // Function @ sokol_app.h:1426:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sapp_is_fullscreen();
+
+    // Function @ sokol_app.h:1424:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sapp_keyboard_shown();
+
+    // Function @ sokol_app.h:1422:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern void sapp_show_keyboard(CBool show);
+
+    // Function @ sokol_app.h:1420:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern float sapp_dpi_scale();
+
+    // Function @ sokol_app.h:1418:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sapp_high_dpi();
+
+    // Function @ sokol_app.h:1416:24 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern int sapp_sample_count();
+
+    // Function @ sokol_app.h:1414:24 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern int sapp_depth_format();
+
+    // Function @ sokol_app.h:1412:24 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern int sapp_color_format();
+
+    // Function @ sokol_app.h:1410:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern float sapp_heightf();
+
+    // Function @ sokol_app.h:1408:24 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern int sapp_height();
+
+    // Function @ sokol_app.h:1406:26 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern float sapp_widthf();
+
+    // Function @ sokol_app.h:1404:24 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern int sapp_width();
+
+    // Function @ sokol_app.h:1402:25 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern CBool sapp_isvalid();
+
+    // Function @ sokol_app.h:1399:18 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [DllImport(LibraryName)]
+    public static extern sapp_desc sokol_main(int argc, CString* argv);
+
+    // FunctionPointer @ sokol_fetch.h:898:15 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [StructLayout(LayoutKind.Sequential)]
+    public struct sfetch_callback_t
+    {
+        public delegate* unmanaged<sfetch_response_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_audio.h:422:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_FloatPtr_Int_Int_VoidPtr_Void
+    {
+        public delegate* unmanaged<float*, int, int, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_audio.h:421:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_FloatPtr_Int_Int_Void
+    {
+        public delegate* unmanaged<float*, int, int, void> Pointer;
+    }
+
     // FunctionPointer @ sokol_gfx.h:2235:19 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_VoidPtr_VoidPtr
+    public struct FnPtr_SOKOL_VoidPtr_VoidPtr
     {
         public delegate* unmanaged<void*, void*> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:2234:19 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_VoidPtr
+    public struct FnPtr_SOKOL_VoidPtr
     {
         public delegate* unmanaged<void*> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:2027:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_CString_VoidPtr_Void
+    public struct FnPtr_SOKOL_CString_VoidPtr_Void
     {
         public delegate* unmanaged<CString, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:2016:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_pass_Sg_pass_descPtr_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_pass_Sg_pass_descPtr_VoidPtr_Void
     {
         public delegate* unmanaged<sg_pass, sg_pass_desc*, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:2015:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_pipeline_Sg_pipeline_descPtr_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_pipeline_Sg_pipeline_descPtr_VoidPtr_Void
     {
         public delegate* unmanaged<sg_pipeline, sg_pipeline_desc*, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:2014:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_shader_Sg_shader_descPtr_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_shader_Sg_shader_descPtr_VoidPtr_Void
     {
         public delegate* unmanaged<sg_shader, sg_shader_desc*, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:2013:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_image_Sg_image_descPtr_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_image_Sg_image_descPtr_VoidPtr_Void
     {
         public delegate* unmanaged<sg_image, sg_image_desc*, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:2012:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_buffer_Sg_buffer_descPtr_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_buffer_Sg_buffer_descPtr_VoidPtr_Void
     {
         public delegate* unmanaged<sg_buffer, sg_buffer_desc*, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1999:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Int_Int_Int_VoidPtr_Void
+    public struct FnPtr_SOKOL_Int_Int_Int_VoidPtr_Void
     {
         public delegate* unmanaged<int, int, int, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1998:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_shader_stage_Int_Sg_rangePtr_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_shader_stage_Int_Sg_rangePtr_VoidPtr_Void
     {
         public delegate* unmanaged<sg_shader_stage, int, sg_range*, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1997:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_bindingsPtr_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_bindingsPtr_VoidPtr_Void
     {
         public delegate* unmanaged<sg_bindings*, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1994:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Int_Int_Int_Int_CBool_VoidPtr_Void
+    public struct FnPtr_SOKOL_Int_Int_Int_Int_CBool_VoidPtr_Void
     {
         public delegate* unmanaged<int, int, int, int, CBool, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1993:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_pass_Sg_pass_actionPtr_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_pass_Sg_pass_actionPtr_VoidPtr_Void
     {
         public delegate* unmanaged<sg_pass, sg_pass_action*, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1992:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_pass_actionPtr_Int_Int_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_pass_actionPtr_Int_Int_VoidPtr_Void
     {
         public delegate* unmanaged<sg_pass_action*, int, int, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1991:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_buffer_Sg_rangePtr_Int_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_buffer_Sg_rangePtr_Int_VoidPtr_Void
     {
         public delegate* unmanaged<sg_buffer, sg_range*, int, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1990:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_image_Sg_image_dataPtr_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_image_Sg_image_dataPtr_VoidPtr_Void
     {
         public delegate* unmanaged<sg_image, sg_image_data*, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1989:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_buffer_Sg_rangePtr_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_buffer_Sg_rangePtr_VoidPtr_Void
     {
         public delegate* unmanaged<sg_buffer, sg_range*, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1988:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_pass_VoidPtr_Void
     {
         public delegate* unmanaged<sg_pass, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1987:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_pipeline_VoidPtr_Void
     {
         public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1986:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_shader_VoidPtr_Void
     {
         public delegate* unmanaged<sg_shader, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1985:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_image_VoidPtr_Void
     {
         public delegate* unmanaged<sg_image, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1984:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_buffer_VoidPtr_Void
     {
         public delegate* unmanaged<sg_buffer, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1983:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_pass_descPtr_Sg_pass_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_pass_descPtr_Sg_pass_VoidPtr_Void
     {
         public delegate* unmanaged<sg_pass_desc*, sg_pass, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1982:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_pipeline_descPtr_Sg_pipeline_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_pipeline_descPtr_Sg_pipeline_VoidPtr_Void
     {
         public delegate* unmanaged<sg_pipeline_desc*, sg_pipeline, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1981:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_shader_descPtr_Sg_shader_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_shader_descPtr_Sg_shader_VoidPtr_Void
     {
         public delegate* unmanaged<sg_shader_desc*, sg_shader, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1980:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_image_descPtr_Sg_image_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_image_descPtr_Sg_image_VoidPtr_Void
     {
         public delegate* unmanaged<sg_image_desc*, sg_image, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1979:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_Sg_buffer_descPtr_Sg_buffer_VoidPtr_Void
+    public struct FnPtr_SOKOL_Sg_buffer_descPtr_Sg_buffer_VoidPtr_Void
     {
         public delegate* unmanaged<sg_buffer_desc*, sg_buffer, void*, void> Pointer;
     }
 
     // FunctionPointer @ sokol_gfx.h:1978:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SOKOL_GFX_VoidPtr_Void
+    public struct FnPtr_SOKOL_VoidPtr_Void
     {
         public delegate* unmanaged<void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1392:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_Sapp_html5_fetch_responsePtr_Void
+    {
+        public delegate* unmanaged<sapp_html5_fetch_response*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1339:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_Sapp_eventPtr_VoidPtr_Void
+    {
+        public delegate* unmanaged<sapp_event*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1333:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_CString_Void
+    {
+        public delegate* unmanaged<CString, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1332:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_Sapp_eventPtr_Void
+    {
+        public delegate* unmanaged<sapp_event*, void> Pointer;
+    }
+
+    // FunctionPointer @ sokol_app.h:1329:12 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SOKOL_Void
+    {
+        public delegate* unmanaged<void> Pointer;
+    }
+
+    // Struct @ sokol_args.h:277:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_args.h)
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct sargs_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 4
+        public int argc;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CString* argv;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int max_args;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int buf_size;
+    }
+
+    // Struct @ sokol_fetch.h:864:49 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sfetch_handle_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Struct @ sokol_fetch.h:912:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
+    public struct sfetch_request_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint _start_canary;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public uint channel;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CString path;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public sfetch_callback_t callback;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public void* buffer_ptr;
+
+        [FieldOffset(32)] // size = 4, padding = 0
+        public uint buffer_size;
+
+        [FieldOffset(36)] // size = 4, padding = 0
+        public uint chunk_size;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public void* user_data_ptr;
+
+        [FieldOffset(48)] // size = 4, padding = 0
+        public uint user_data_size;
+
+        [FieldOffset(52)] // size = 4, padding = 0
+        public uint _end_canary;
+    }
+
+    // Struct @ sokol_fetch.h:895:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
+    public struct sfetch_response_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sfetch_handle_t handle;
+
+        [FieldOffset(4)] // size = 1, padding = 0
+        public CBool dispatched;
+
+        [FieldOffset(5)] // size = 1, padding = 0
+        public CBool fetched;
+
+        [FieldOffset(6)] // size = 1, padding = 0
+        public CBool paused;
+
+        [FieldOffset(7)] // size = 1, padding = 0
+        public CBool finished;
+
+        [FieldOffset(8)] // size = 1, padding = 0
+        public CBool failed;
+
+        [FieldOffset(9)] // size = 1, padding = 2
+        public CBool cancelled;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public sfetch_error_t error_code;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public uint channel;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public uint lane;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public CString path;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public void* user_data;
+
+        [FieldOffset(40)] // size = 4, padding = 0
+        public uint fetched_offset;
+
+        [FieldOffset(44)] // size = 4, padding = 0
+        public uint fetched_size;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public void* buffer_ptr;
+
+        [FieldOffset(56)] // size = 4, padding = 4
+        public uint buffer_size;
+    }
+
+    // Struct @ sokol_fetch.h:861:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
+    public struct sfetch_desc_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint _start_canary;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public uint max_requests;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public uint num_channels;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public uint num_lanes;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public uint _end_canary;
+    }
+
+    // Struct @ sokol_audio.h:424:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_audio.h)
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
+    public struct saudio_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int sample_rate;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int num_channels;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int buffer_frames;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int packet_frames;
+
+        [FieldOffset(16)] // size = 4, padding = 4
+        public int num_packets;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FnPtr_SOKOL_FloatPtr_Int_Int_Void stream_cb;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FnPtr_SOKOL_FloatPtr_Int_Int_VoidPtr_Void stream_userdata_cb;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public void* user_data;
+    }
+
+    // Struct @ sokol_gfx.h:2251:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
+    [StructLayout(LayoutKind.Explicit, Size = 184, Pack = 8)]
+    public struct sg_context_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_pixel_format color_format;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_pixel_format depth_format;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int sample_count;
+
+        [FieldOffset(12)] // size = 1, padding = 3
+        public sg_gl_context_desc gl;
+
+        [FieldOffset(16)] // size = 48, padding = 0
+        public sg_metal_context_desc metal;
+
+        [FieldOffset(64)] // size = 56, padding = 0
+        public sg_d3d11_context_desc d3d11;
+
+        [FieldOffset(120)] // size = 64, padding = 0
+        public sg_wgpu_context_desc wgpu;
+    }
+
+    // Struct @ sokol_gfx.h:2241:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
+    public struct sg_wgpu_context_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* device;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr render_view_cb;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr_VoidPtr render_view_userdata_cb;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr resolve_view_cb;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr_VoidPtr resolve_view_userdata_cb;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr depth_stencil_view_cb;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr_VoidPtr depth_stencil_view_userdata_cb;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public void* user_data;
+    }
+
+    // Struct @ sokol_gfx.h:2230:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
+    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
+    public struct sg_d3d11_context_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* device;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public void* device_context;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr render_target_view_cb;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr_VoidPtr render_target_view_userdata_cb;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr depth_stencil_view_cb;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr_VoidPtr depth_stencil_view_userdata_cb;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public void* user_data;
+    }
+
+    // Struct @ sokol_gfx.h:2220:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
+    public struct sg_metal_context_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* device;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr renderpass_descriptor_cb;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr_VoidPtr renderpass_descriptor_userdata_cb;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr drawable_cb;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr_VoidPtr drawable_userdata_cb;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public void* user_data;
+    }
+
+    // Struct @ sokol_gfx.h:2211:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
+    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
+    public struct sg_gl_context_desc
+    {
+        [FieldOffset(0)] // size = 1, padding = 0
+        public CBool force_gles2;
     }
 
     // Struct @ sokol_gfx.h:633:45 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
@@ -1457,118 +2187,6 @@ public static unsafe partial class sokol_gfx
         public uint _end_canary;
     }
 
-    // Struct @ sokol_gfx.h:2251:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
-    [StructLayout(LayoutKind.Explicit, Size = 184, Pack = 8)]
-    public struct sg_context_desc
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_pixel_format color_format;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_pixel_format depth_format;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int sample_count;
-
-        [FieldOffset(12)] // size = 1, padding = 3
-        public sg_gl_context_desc gl;
-
-        [FieldOffset(16)] // size = 48, padding = 0
-        public sg_metal_context_desc metal;
-
-        [FieldOffset(64)] // size = 56, padding = 0
-        public sg_d3d11_context_desc d3d11;
-
-        [FieldOffset(120)] // size = 64, padding = 0
-        public sg_wgpu_context_desc wgpu;
-    }
-
-    // Struct @ sokol_gfx.h:2241:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
-    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
-    public struct sg_wgpu_context_desc
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* device;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr render_view_cb;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr render_view_userdata_cb;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr resolve_view_cb;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr resolve_view_userdata_cb;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr depth_stencil_view_cb;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr depth_stencil_view_userdata_cb;
-
-        [FieldOffset(56)] // size = 8, padding = 0
-        public void* user_data;
-    }
-
-    // Struct @ sokol_gfx.h:2230:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
-    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
-    public struct sg_d3d11_context_desc
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* device;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public void* device_context;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr render_target_view_cb;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr render_target_view_userdata_cb;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr depth_stencil_view_cb;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr depth_stencil_view_userdata_cb;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public void* user_data;
-    }
-
-    // Struct @ sokol_gfx.h:2220:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
-    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
-    public struct sg_metal_context_desc
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* device;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr renderpass_descriptor_cb;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr renderpass_descriptor_userdata_cb;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr drawable_cb;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_VoidPtr drawable_userdata_cb;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public void* user_data;
-    }
-
-    // Struct @ sokol_gfx.h:2211:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
-    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
-    public struct sg_gl_context_desc
-    {
-        [FieldOffset(0)] // size = 1, padding = 0
-        public CBool force_gles2;
-    }
-
     // Struct @ sokol_gfx.h:1512:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
     [StructLayout(LayoutKind.Explicit, Size = 176, Pack = 4)]
     public struct sg_bindings
@@ -1724,184 +2342,565 @@ public static unsafe partial class sokol_gfx
         public void* user_data;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void reset_state_cache;
+        public FnPtr_SOKOL_VoidPtr_Void reset_state_cache;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_buffer_descPtr_Sg_buffer_VoidPtr_Void make_buffer;
+        public FnPtr_SOKOL_Sg_buffer_descPtr_Sg_buffer_VoidPtr_Void make_buffer;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_image_descPtr_Sg_image_VoidPtr_Void make_image;
+        public FnPtr_SOKOL_Sg_image_descPtr_Sg_image_VoidPtr_Void make_image;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_shader_descPtr_Sg_shader_VoidPtr_Void make_shader;
+        public FnPtr_SOKOL_Sg_shader_descPtr_Sg_shader_VoidPtr_Void make_shader;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pipeline_descPtr_Sg_pipeline_VoidPtr_Void make_pipeline;
+        public FnPtr_SOKOL_Sg_pipeline_descPtr_Sg_pipeline_VoidPtr_Void make_pipeline;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pass_descPtr_Sg_pass_VoidPtr_Void make_pass;
+        public FnPtr_SOKOL_Sg_pass_descPtr_Sg_pass_VoidPtr_Void make_pass;
 
         [FieldOffset(56)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void destroy_buffer;
+        public FnPtr_SOKOL_Sg_buffer_VoidPtr_Void destroy_buffer;
 
         [FieldOffset(64)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void destroy_image;
+        public FnPtr_SOKOL_Sg_image_VoidPtr_Void destroy_image;
 
         [FieldOffset(72)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void destroy_shader;
+        public FnPtr_SOKOL_Sg_shader_VoidPtr_Void destroy_shader;
 
         [FieldOffset(80)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void destroy_pipeline;
+        public FnPtr_SOKOL_Sg_pipeline_VoidPtr_Void destroy_pipeline;
 
         [FieldOffset(88)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void destroy_pass;
+        public FnPtr_SOKOL_Sg_pass_VoidPtr_Void destroy_pass;
 
         [FieldOffset(96)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_buffer_Sg_rangePtr_VoidPtr_Void update_buffer;
+        public FnPtr_SOKOL_Sg_buffer_Sg_rangePtr_VoidPtr_Void update_buffer;
 
         [FieldOffset(104)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_image_Sg_image_dataPtr_VoidPtr_Void update_image;
+        public FnPtr_SOKOL_Sg_image_Sg_image_dataPtr_VoidPtr_Void update_image;
 
         [FieldOffset(112)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_buffer_Sg_rangePtr_Int_VoidPtr_Void append_buffer;
+        public FnPtr_SOKOL_Sg_buffer_Sg_rangePtr_Int_VoidPtr_Void append_buffer;
 
         [FieldOffset(120)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pass_actionPtr_Int_Int_VoidPtr_Void begin_default_pass;
+        public FnPtr_SOKOL_Sg_pass_actionPtr_Int_Int_VoidPtr_Void begin_default_pass;
 
         [FieldOffset(128)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pass_Sg_pass_actionPtr_VoidPtr_Void begin_pass;
+        public FnPtr_SOKOL_Sg_pass_Sg_pass_actionPtr_VoidPtr_Void begin_pass;
 
         [FieldOffset(136)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Int_Int_Int_Int_CBool_VoidPtr_Void apply_viewport;
+        public FnPtr_SOKOL_Int_Int_Int_Int_CBool_VoidPtr_Void apply_viewport;
 
         [FieldOffset(144)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Int_Int_Int_Int_CBool_VoidPtr_Void apply_scissor_rect;
+        public FnPtr_SOKOL_Int_Int_Int_Int_CBool_VoidPtr_Void apply_scissor_rect;
 
         [FieldOffset(152)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void apply_pipeline;
+        public FnPtr_SOKOL_Sg_pipeline_VoidPtr_Void apply_pipeline;
 
         [FieldOffset(160)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_bindingsPtr_VoidPtr_Void apply_bindings;
+        public FnPtr_SOKOL_Sg_bindingsPtr_VoidPtr_Void apply_bindings;
 
         [FieldOffset(168)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_shader_stage_Int_Sg_rangePtr_VoidPtr_Void apply_uniforms;
+        public FnPtr_SOKOL_Sg_shader_stage_Int_Sg_rangePtr_VoidPtr_Void apply_uniforms;
 
         [FieldOffset(176)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Int_Int_Int_VoidPtr_Void draw;
+        public FnPtr_SOKOL_Int_Int_Int_VoidPtr_Void draw;
 
         [FieldOffset(184)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void end_pass;
+        public FnPtr_SOKOL_VoidPtr_Void end_pass;
 
         [FieldOffset(192)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void commit;
+        public FnPtr_SOKOL_VoidPtr_Void commit;
 
         [FieldOffset(200)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void alloc_buffer;
+        public FnPtr_SOKOL_Sg_buffer_VoidPtr_Void alloc_buffer;
 
         [FieldOffset(208)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void alloc_image;
+        public FnPtr_SOKOL_Sg_image_VoidPtr_Void alloc_image;
 
         [FieldOffset(216)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void alloc_shader;
+        public FnPtr_SOKOL_Sg_shader_VoidPtr_Void alloc_shader;
 
         [FieldOffset(224)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void alloc_pipeline;
+        public FnPtr_SOKOL_Sg_pipeline_VoidPtr_Void alloc_pipeline;
 
         [FieldOffset(232)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void alloc_pass;
+        public FnPtr_SOKOL_Sg_pass_VoidPtr_Void alloc_pass;
 
         [FieldOffset(240)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void dealloc_buffer;
+        public FnPtr_SOKOL_Sg_buffer_VoidPtr_Void dealloc_buffer;
 
         [FieldOffset(248)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void dealloc_image;
+        public FnPtr_SOKOL_Sg_image_VoidPtr_Void dealloc_image;
 
         [FieldOffset(256)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void dealloc_shader;
+        public FnPtr_SOKOL_Sg_shader_VoidPtr_Void dealloc_shader;
 
         [FieldOffset(264)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void dealloc_pipeline;
+        public FnPtr_SOKOL_Sg_pipeline_VoidPtr_Void dealloc_pipeline;
 
         [FieldOffset(272)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void dealloc_pass;
+        public FnPtr_SOKOL_Sg_pass_VoidPtr_Void dealloc_pass;
 
         [FieldOffset(280)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_buffer_Sg_buffer_descPtr_VoidPtr_Void init_buffer;
+        public FnPtr_SOKOL_Sg_buffer_Sg_buffer_descPtr_VoidPtr_Void init_buffer;
 
         [FieldOffset(288)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_image_Sg_image_descPtr_VoidPtr_Void init_image;
+        public FnPtr_SOKOL_Sg_image_Sg_image_descPtr_VoidPtr_Void init_image;
 
         [FieldOffset(296)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_shader_Sg_shader_descPtr_VoidPtr_Void init_shader;
+        public FnPtr_SOKOL_Sg_shader_Sg_shader_descPtr_VoidPtr_Void init_shader;
 
         [FieldOffset(304)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pipeline_Sg_pipeline_descPtr_VoidPtr_Void init_pipeline;
+        public FnPtr_SOKOL_Sg_pipeline_Sg_pipeline_descPtr_VoidPtr_Void init_pipeline;
 
         [FieldOffset(312)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pass_Sg_pass_descPtr_VoidPtr_Void init_pass;
+        public FnPtr_SOKOL_Sg_pass_Sg_pass_descPtr_VoidPtr_Void init_pass;
 
         [FieldOffset(320)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void uninit_buffer;
+        public FnPtr_SOKOL_Sg_buffer_VoidPtr_Void uninit_buffer;
 
         [FieldOffset(328)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void uninit_image;
+        public FnPtr_SOKOL_Sg_image_VoidPtr_Void uninit_image;
 
         [FieldOffset(336)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void uninit_shader;
+        public FnPtr_SOKOL_Sg_shader_VoidPtr_Void uninit_shader;
 
         [FieldOffset(344)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void uninit_pipeline;
+        public FnPtr_SOKOL_Sg_pipeline_VoidPtr_Void uninit_pipeline;
 
         [FieldOffset(352)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void uninit_pass;
+        public FnPtr_SOKOL_Sg_pass_VoidPtr_Void uninit_pass;
 
         [FieldOffset(360)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_buffer_VoidPtr_Void fail_buffer;
+        public FnPtr_SOKOL_Sg_buffer_VoidPtr_Void fail_buffer;
 
         [FieldOffset(368)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_image_VoidPtr_Void fail_image;
+        public FnPtr_SOKOL_Sg_image_VoidPtr_Void fail_image;
 
         [FieldOffset(376)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_shader_VoidPtr_Void fail_shader;
+        public FnPtr_SOKOL_Sg_shader_VoidPtr_Void fail_shader;
 
         [FieldOffset(384)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pipeline_VoidPtr_Void fail_pipeline;
+        public FnPtr_SOKOL_Sg_pipeline_VoidPtr_Void fail_pipeline;
 
         [FieldOffset(392)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_Sg_pass_VoidPtr_Void fail_pass;
+        public FnPtr_SOKOL_Sg_pass_VoidPtr_Void fail_pass;
 
         [FieldOffset(400)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_CString_VoidPtr_Void push_debug_group;
+        public FnPtr_SOKOL_CString_VoidPtr_Void push_debug_group;
 
         [FieldOffset(408)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void pop_debug_group;
+        public FnPtr_SOKOL_VoidPtr_Void pop_debug_group;
 
         [FieldOffset(416)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void err_buffer_pool_exhausted;
+        public FnPtr_SOKOL_VoidPtr_Void err_buffer_pool_exhausted;
 
         [FieldOffset(424)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void err_image_pool_exhausted;
+        public FnPtr_SOKOL_VoidPtr_Void err_image_pool_exhausted;
 
         [FieldOffset(432)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void err_shader_pool_exhausted;
+        public FnPtr_SOKOL_VoidPtr_Void err_shader_pool_exhausted;
 
         [FieldOffset(440)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void err_pipeline_pool_exhausted;
+        public FnPtr_SOKOL_VoidPtr_Void err_pipeline_pool_exhausted;
 
         [FieldOffset(448)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void err_pass_pool_exhausted;
+        public FnPtr_SOKOL_VoidPtr_Void err_pass_pool_exhausted;
 
         [FieldOffset(456)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void err_context_mismatch;
+        public FnPtr_SOKOL_VoidPtr_Void err_context_mismatch;
 
         [FieldOffset(464)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void err_pass_invalid;
+        public FnPtr_SOKOL_VoidPtr_Void err_pass_invalid;
 
         [FieldOffset(472)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void err_draw_invalid;
+        public FnPtr_SOKOL_VoidPtr_Void err_draw_invalid;
 
         [FieldOffset(480)] // size = 8, padding = 0
-        public FnPtr_SOKOL_GFX_VoidPtr_Void err_bindings_invalid;
+        public FnPtr_SOKOL_VoidPtr_Void err_bindings_invalid;
+    }
+
+    // Struct @ sokol_app.h:1396:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
+    public struct sapp_html5_fetch_request
+    {
+        [FieldOffset(0)] // size = 4, padding = 4
+        public int dropped_file_index;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FnPtr_SOKOL_Sapp_html5_fetch_responsePtr_Void callback;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public void* buffer_ptr;
+
+        [FieldOffset(24)] // size = 4, padding = 4
+        public uint buffer_size;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public void* user_data;
+    }
+
+    // Struct @ sokol_app.h:1388:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
+    public struct sapp_html5_fetch_response
+    {
+        [FieldOffset(0)] // size = 1, padding = 3
+        public CBool succeeded;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sapp_html5_fetch_error error_code;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int file_index;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public uint fetched_size;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public void* buffer_ptr;
+
+        [FieldOffset(24)] // size = 4, padding = 4
+        public uint buffer_size;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public void* user_data;
+    }
+
+    // Struct @ sokol_app.h:1369:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Explicit, Size = 368, Pack = 8)]
+    public struct sapp_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public FnPtr_SOKOL_Void init_cb;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FnPtr_SOKOL_Void frame_cb;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FnPtr_SOKOL_Void cleanup_cb;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FnPtr_SOKOL_Sapp_eventPtr_Void event_cb;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FnPtr_SOKOL_CString_Void fail_cb;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public void* user_data;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr_Void init_userdata_cb;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr_Void frame_userdata_cb;
+
+        [FieldOffset(64)] // size = 8, padding = 0
+        public FnPtr_SOKOL_VoidPtr_Void cleanup_userdata_cb;
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public FnPtr_SOKOL_Sapp_eventPtr_VoidPtr_Void event_userdata_cb;
+
+        [FieldOffset(80)] // size = 8, padding = 0
+        public FnPtr_SOKOL_CString_VoidPtr_Void fail_userdata_cb;
+
+        [FieldOffset(88)] // size = 4, padding = 0
+        public int width;
+
+        [FieldOffset(92)] // size = 4, padding = 0
+        public int height;
+
+        [FieldOffset(96)] // size = 4, padding = 0
+        public int sample_count;
+
+        [FieldOffset(100)] // size = 4, padding = 0
+        public int swap_interval;
+
+        [FieldOffset(104)] // size = 1, padding = 0
+        public CBool high_dpi;
+
+        [FieldOffset(105)] // size = 1, padding = 0
+        public CBool fullscreen;
+
+        [FieldOffset(106)] // size = 1, padding = 5
+        public CBool alpha;
+
+        [FieldOffset(112)] // size = 8, padding = 0
+        public CString window_title;
+
+        [FieldOffset(120)] // size = 1, padding = 0
+        public CBool user_cursor;
+
+        [FieldOffset(121)] // size = 1, padding = 2
+        public CBool enable_clipboard;
+
+        [FieldOffset(124)] // size = 4, padding = 0
+        public int clipboard_size;
+
+        [FieldOffset(128)] // size = 1, padding = 3
+        public CBool enable_dragndrop;
+
+        [FieldOffset(132)] // size = 4, padding = 0
+        public int max_dropped_files;
+
+        [FieldOffset(136)] // size = 4, padding = 4
+        public int max_dropped_file_path_length;
+
+        [FieldOffset(144)] // size = 200, padding = 0
+        public sapp_icon_desc icon;
+
+        [FieldOffset(344)] // size = 1, padding = 0
+        public CBool gl_force_gles2;
+
+        [FieldOffset(345)] // size = 1, padding = 0
+        public CBool win32_console_utf8;
+
+        [FieldOffset(346)] // size = 1, padding = 0
+        public CBool win32_console_create;
+
+        [FieldOffset(347)] // size = 1, padding = 4
+        public CBool win32_console_attach;
+
+        [FieldOffset(352)] // size = 8, padding = 0
+        public CString html5_canvas_name;
+
+        [FieldOffset(360)] // size = 1, padding = 0
+        public CBool html5_canvas_resize;
+
+        [FieldOffset(361)] // size = 1, padding = 0
+        public CBool html5_preserve_drawing_buffer;
+
+        [FieldOffset(362)] // size = 1, padding = 0
+        public CBool html5_premultiplied_alpha;
+
+        [FieldOffset(363)] // size = 1, padding = 0
+        public CBool html5_ask_leave_site;
+
+        [FieldOffset(364)] // size = 1, padding = 3
+        public CBool ios_keyboard_resizes_canvas;
+    }
+
+    // Struct @ sokol_app.h:1325:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Explicit, Size = 200, Pack = 8)]
+    public struct sapp_icon_desc
+    {
+        [FieldOffset(0)] // size = 1, padding = 7
+        public CBool sokol_default;
+
+        [FieldOffset(8)] // size = 192, padding = 0
+        public fixed ulong _images[192 / 8]; // sapp_image_desc[8]
+
+        public Span<sapp_image_desc> images
+        {
+            get
+            {
+                fixed (sapp_icon_desc* @this = &this)
+                {
+                    var pointer = &@this->_images[0];
+                    var span = new Span<sapp_image_desc>(pointer, 8);
+                    return span;
+                }
+            }
+        }
+    }
+
+    // Struct @ sokol_app.h:1302:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct sapp_image_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int width;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int height;
+
+        [FieldOffset(8)] // size = 16, padding = 0
+        public sapp_range pixels;
+    }
+
+    // Struct @ sokol_app.h:1275:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct sapp_range
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* ptr;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ulong size;
+    }
+
+    // Struct @ sokol_app.h:1264:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Explicit, Size = 272, Pack = 8)]
+    public struct sapp_event
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong frame_count;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public sapp_event_type type;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public sapp_keycode key_code;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public uint char_code;
+
+        [FieldOffset(20)] // size = 1, padding = 3
+        public CBool key_repeat;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public uint modifiers;
+
+        [FieldOffset(28)] // size = 4, padding = 0
+        public sapp_mousebutton mouse_button;
+
+        [FieldOffset(32)] // size = 4, padding = 0
+        public float mouse_x;
+
+        [FieldOffset(36)] // size = 4, padding = 0
+        public float mouse_y;
+
+        [FieldOffset(40)] // size = 4, padding = 0
+        public float mouse_dx;
+
+        [FieldOffset(44)] // size = 4, padding = 0
+        public float mouse_dy;
+
+        [FieldOffset(48)] // size = 4, padding = 0
+        public float scroll_x;
+
+        [FieldOffset(52)] // size = 4, padding = 0
+        public float scroll_y;
+
+        [FieldOffset(56)] // size = 4, padding = 4
+        public int num_touches;
+
+        [FieldOffset(64)] // size = 192, padding = 0
+        public fixed ulong _touches[192 / 8]; // sapp_touchpoint[8]
+
+        public Span<sapp_touchpoint> touches
+        {
+            get
+            {
+                fixed (sapp_event* @this = &this)
+                {
+                    var pointer = &@this->_touches[0];
+                    var span = new Span<sapp_touchpoint>(pointer, 8);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(256)] // size = 4, padding = 0
+        public int window_width;
+
+        [FieldOffset(260)] // size = 4, padding = 0
+        public int window_height;
+
+        [FieldOffset(264)] // size = 4, padding = 0
+        public int framebuffer_width;
+
+        [FieldOffset(268)] // size = 4, padding = 0
+        public int framebuffer_height;
+    }
+
+    // Struct @ sokol_app.h:1206:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct sapp_touchpoint
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public UIntPtr identifier;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public float pos_x;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public float pos_y;
+
+        [FieldOffset(16)] // size = 1, padding = 7
+        public CBool changed;
+    }
+
+    // Enum @ sokol_fetch.h:875:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_fetch.h)
+    public enum sfetch_error_t : uint
+    {
+        SFETCH_ERROR_NO_ERROR = 0U,
+        SFETCH_ERROR_FILE_NOT_FOUND = 1U,
+        SFETCH_ERROR_NO_BUFFER = 2U,
+        SFETCH_ERROR_BUFFER_TOO_SMALL = 3U,
+        SFETCH_ERROR_UNEXPECTED_EOF = 4U,
+        SFETCH_ERROR_INVALID_HTTP_STATUS = 5U,
+        SFETCH_ERROR_CANCELLED = 6U
+    }
+
+    // Enum @ sokol_gfx.h:828:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
+    public enum sg_pixel_format : uint
+    {
+        _SG_PIXELFORMAT_DEFAULT = 0U,
+        SG_PIXELFORMAT_NONE = 1U,
+        SG_PIXELFORMAT_R8 = 2U,
+        SG_PIXELFORMAT_R8SN = 3U,
+        SG_PIXELFORMAT_R8UI = 4U,
+        SG_PIXELFORMAT_R8SI = 5U,
+        SG_PIXELFORMAT_R16 = 6U,
+        SG_PIXELFORMAT_R16SN = 7U,
+        SG_PIXELFORMAT_R16UI = 8U,
+        SG_PIXELFORMAT_R16SI = 9U,
+        SG_PIXELFORMAT_R16F = 10U,
+        SG_PIXELFORMAT_RG8 = 11U,
+        SG_PIXELFORMAT_RG8SN = 12U,
+        SG_PIXELFORMAT_RG8UI = 13U,
+        SG_PIXELFORMAT_RG8SI = 14U,
+        SG_PIXELFORMAT_R32UI = 15U,
+        SG_PIXELFORMAT_R32SI = 16U,
+        SG_PIXELFORMAT_R32F = 17U,
+        SG_PIXELFORMAT_RG16 = 18U,
+        SG_PIXELFORMAT_RG16SN = 19U,
+        SG_PIXELFORMAT_RG16UI = 20U,
+        SG_PIXELFORMAT_RG16SI = 21U,
+        SG_PIXELFORMAT_RG16F = 22U,
+        SG_PIXELFORMAT_RGBA8 = 23U,
+        SG_PIXELFORMAT_RGBA8SN = 24U,
+        SG_PIXELFORMAT_RGBA8UI = 25U,
+        SG_PIXELFORMAT_RGBA8SI = 26U,
+        SG_PIXELFORMAT_BGRA8 = 27U,
+        SG_PIXELFORMAT_RGB10A2 = 28U,
+        SG_PIXELFORMAT_RG11B10F = 29U,
+        SG_PIXELFORMAT_RG32UI = 30U,
+        SG_PIXELFORMAT_RG32SI = 31U,
+        SG_PIXELFORMAT_RG32F = 32U,
+        SG_PIXELFORMAT_RGBA16 = 33U,
+        SG_PIXELFORMAT_RGBA16SN = 34U,
+        SG_PIXELFORMAT_RGBA16UI = 35U,
+        SG_PIXELFORMAT_RGBA16SI = 36U,
+        SG_PIXELFORMAT_RGBA16F = 37U,
+        SG_PIXELFORMAT_RGBA32UI = 38U,
+        SG_PIXELFORMAT_RGBA32SI = 39U,
+        SG_PIXELFORMAT_RGBA32F = 40U,
+        SG_PIXELFORMAT_DEPTH = 41U,
+        SG_PIXELFORMAT_DEPTH_STENCIL = 42U,
+        SG_PIXELFORMAT_BC1_RGBA = 43U,
+        SG_PIXELFORMAT_BC2_RGBA = 44U,
+        SG_PIXELFORMAT_BC3_RGBA = 45U,
+        SG_PIXELFORMAT_BC4_R = 46U,
+        SG_PIXELFORMAT_BC4_RSN = 47U,
+        SG_PIXELFORMAT_BC5_RG = 48U,
+        SG_PIXELFORMAT_BC5_RGSN = 49U,
+        SG_PIXELFORMAT_BC6H_RGBF = 50U,
+        SG_PIXELFORMAT_BC6H_RGBUF = 51U,
+        SG_PIXELFORMAT_BC7_RGBA = 52U,
+        SG_PIXELFORMAT_PVRTC_RGB_2BPP = 53U,
+        SG_PIXELFORMAT_PVRTC_RGB_4BPP = 54U,
+        SG_PIXELFORMAT_PVRTC_RGBA_2BPP = 55U,
+        SG_PIXELFORMAT_PVRTC_RGBA_4BPP = 56U,
+        SG_PIXELFORMAT_ETC2_RGB8 = 57U,
+        SG_PIXELFORMAT_ETC2_RGB8A1 = 58U,
+        SG_PIXELFORMAT_ETC2_RGBA8 = 59U,
+        SG_PIXELFORMAT_ETC2_RG11 = 60U,
+        SG_PIXELFORMAT_ETC2_RG11SN = 61U,
+        _SG_PIXELFORMAT_NUM = 62U,
+        _SG_PIXELFORMAT_FORCE_U32 = 2147483647U
     }
 
     // Enum @ sokol_gfx.h:1249:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
@@ -2004,75 +3003,6 @@ public static unsafe partial class sokol_gfx
         SG_COLORMASK_GBA = 14U,
         SG_COLORMASK_RGBA = 15U,
         _SG_COLORMASK_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:828:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
-    public enum sg_pixel_format : uint
-    {
-        _SG_PIXELFORMAT_DEFAULT = 0U,
-        SG_PIXELFORMAT_NONE = 1U,
-        SG_PIXELFORMAT_R8 = 2U,
-        SG_PIXELFORMAT_R8SN = 3U,
-        SG_PIXELFORMAT_R8UI = 4U,
-        SG_PIXELFORMAT_R8SI = 5U,
-        SG_PIXELFORMAT_R16 = 6U,
-        SG_PIXELFORMAT_R16SN = 7U,
-        SG_PIXELFORMAT_R16UI = 8U,
-        SG_PIXELFORMAT_R16SI = 9U,
-        SG_PIXELFORMAT_R16F = 10U,
-        SG_PIXELFORMAT_RG8 = 11U,
-        SG_PIXELFORMAT_RG8SN = 12U,
-        SG_PIXELFORMAT_RG8UI = 13U,
-        SG_PIXELFORMAT_RG8SI = 14U,
-        SG_PIXELFORMAT_R32UI = 15U,
-        SG_PIXELFORMAT_R32SI = 16U,
-        SG_PIXELFORMAT_R32F = 17U,
-        SG_PIXELFORMAT_RG16 = 18U,
-        SG_PIXELFORMAT_RG16SN = 19U,
-        SG_PIXELFORMAT_RG16UI = 20U,
-        SG_PIXELFORMAT_RG16SI = 21U,
-        SG_PIXELFORMAT_RG16F = 22U,
-        SG_PIXELFORMAT_RGBA8 = 23U,
-        SG_PIXELFORMAT_RGBA8SN = 24U,
-        SG_PIXELFORMAT_RGBA8UI = 25U,
-        SG_PIXELFORMAT_RGBA8SI = 26U,
-        SG_PIXELFORMAT_BGRA8 = 27U,
-        SG_PIXELFORMAT_RGB10A2 = 28U,
-        SG_PIXELFORMAT_RG11B10F = 29U,
-        SG_PIXELFORMAT_RG32UI = 30U,
-        SG_PIXELFORMAT_RG32SI = 31U,
-        SG_PIXELFORMAT_RG32F = 32U,
-        SG_PIXELFORMAT_RGBA16 = 33U,
-        SG_PIXELFORMAT_RGBA16SN = 34U,
-        SG_PIXELFORMAT_RGBA16UI = 35U,
-        SG_PIXELFORMAT_RGBA16SI = 36U,
-        SG_PIXELFORMAT_RGBA16F = 37U,
-        SG_PIXELFORMAT_RGBA32UI = 38U,
-        SG_PIXELFORMAT_RGBA32SI = 39U,
-        SG_PIXELFORMAT_RGBA32F = 40U,
-        SG_PIXELFORMAT_DEPTH = 41U,
-        SG_PIXELFORMAT_DEPTH_STENCIL = 42U,
-        SG_PIXELFORMAT_BC1_RGBA = 43U,
-        SG_PIXELFORMAT_BC2_RGBA = 44U,
-        SG_PIXELFORMAT_BC3_RGBA = 45U,
-        SG_PIXELFORMAT_BC4_R = 46U,
-        SG_PIXELFORMAT_BC4_RSN = 47U,
-        SG_PIXELFORMAT_BC5_RG = 48U,
-        SG_PIXELFORMAT_BC5_RGSN = 49U,
-        SG_PIXELFORMAT_BC6H_RGBF = 50U,
-        SG_PIXELFORMAT_BC6H_RGBUF = 51U,
-        SG_PIXELFORMAT_BC7_RGBA = 52U,
-        SG_PIXELFORMAT_PVRTC_RGB_2BPP = 53U,
-        SG_PIXELFORMAT_PVRTC_RGB_4BPP = 54U,
-        SG_PIXELFORMAT_PVRTC_RGBA_2BPP = 55U,
-        SG_PIXELFORMAT_PVRTC_RGBA_4BPP = 56U,
-        SG_PIXELFORMAT_ETC2_RGB8 = 57U,
-        SG_PIXELFORMAT_ETC2_RGB8A1 = 58U,
-        SG_PIXELFORMAT_ETC2_RGBA8 = 59U,
-        SG_PIXELFORMAT_ETC2_RG11 = 60U,
-        SG_PIXELFORMAT_ETC2_RG11SN = 61U,
-        _SG_PIXELFORMAT_NUM = 62U,
-        _SG_PIXELFORMAT_FORCE_U32 = 2147483647U
     }
 
     // Enum @ sokol_gfx.h:1313:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_gfx.h)
@@ -2274,5 +3204,178 @@ public static unsafe partial class sokol_gfx
         SG_ACTION_DONTCARE = 3U,
         _SG_ACTION_NUM = 4U,
         _SG_ACTION_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_app.h:1378:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    public enum sapp_html5_fetch_error : uint
+    {
+        SAPP_HTML5_FETCH_ERROR_NO_ERROR = 0U,
+        SAPP_HTML5_FETCH_ERROR_BUFFER_TOO_SMALL = 1U,
+        SAPP_HTML5_FETCH_ERROR_OTHER = 2U
+    }
+
+    // Enum @ sokol_app.h:1219:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    public enum sapp_mousebutton : uint
+    {
+        SAPP_MOUSEBUTTON_LEFT = 0U,
+        SAPP_MOUSEBUTTON_RIGHT = 1U,
+        SAPP_MOUSEBUTTON_MIDDLE = 2U,
+        SAPP_MOUSEBUTTON_INVALID = 256U
+    }
+
+    // Enum @ sokol_app.h:1190:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    public enum sapp_keycode : uint
+    {
+        SAPP_KEYCODE_INVALID = 0U,
+        SAPP_KEYCODE_SPACE = 32U,
+        SAPP_KEYCODE_APOSTROPHE = 39U,
+        SAPP_KEYCODE_COMMA = 44U,
+        SAPP_KEYCODE_MINUS = 45U,
+        SAPP_KEYCODE_PERIOD = 46U,
+        SAPP_KEYCODE_SLASH = 47U,
+        SAPP_KEYCODE_0 = 48U,
+        SAPP_KEYCODE_1 = 49U,
+        SAPP_KEYCODE_2 = 50U,
+        SAPP_KEYCODE_3 = 51U,
+        SAPP_KEYCODE_4 = 52U,
+        SAPP_KEYCODE_5 = 53U,
+        SAPP_KEYCODE_6 = 54U,
+        SAPP_KEYCODE_7 = 55U,
+        SAPP_KEYCODE_8 = 56U,
+        SAPP_KEYCODE_9 = 57U,
+        SAPP_KEYCODE_SEMICOLON = 59U,
+        SAPP_KEYCODE_EQUAL = 61U,
+        SAPP_KEYCODE_A = 65U,
+        SAPP_KEYCODE_B = 66U,
+        SAPP_KEYCODE_C = 67U,
+        SAPP_KEYCODE_D = 68U,
+        SAPP_KEYCODE_E = 69U,
+        SAPP_KEYCODE_F = 70U,
+        SAPP_KEYCODE_G = 71U,
+        SAPP_KEYCODE_H = 72U,
+        SAPP_KEYCODE_I = 73U,
+        SAPP_KEYCODE_J = 74U,
+        SAPP_KEYCODE_K = 75U,
+        SAPP_KEYCODE_L = 76U,
+        SAPP_KEYCODE_M = 77U,
+        SAPP_KEYCODE_N = 78U,
+        SAPP_KEYCODE_O = 79U,
+        SAPP_KEYCODE_P = 80U,
+        SAPP_KEYCODE_Q = 81U,
+        SAPP_KEYCODE_R = 82U,
+        SAPP_KEYCODE_S = 83U,
+        SAPP_KEYCODE_T = 84U,
+        SAPP_KEYCODE_U = 85U,
+        SAPP_KEYCODE_V = 86U,
+        SAPP_KEYCODE_W = 87U,
+        SAPP_KEYCODE_X = 88U,
+        SAPP_KEYCODE_Y = 89U,
+        SAPP_KEYCODE_Z = 90U,
+        SAPP_KEYCODE_LEFT_BRACKET = 91U,
+        SAPP_KEYCODE_BACKSLASH = 92U,
+        SAPP_KEYCODE_RIGHT_BRACKET = 93U,
+        SAPP_KEYCODE_GRAVE_ACCENT = 96U,
+        SAPP_KEYCODE_WORLD_1 = 161U,
+        SAPP_KEYCODE_WORLD_2 = 162U,
+        SAPP_KEYCODE_ESCAPE = 256U,
+        SAPP_KEYCODE_ENTER = 257U,
+        SAPP_KEYCODE_TAB = 258U,
+        SAPP_KEYCODE_BACKSPACE = 259U,
+        SAPP_KEYCODE_INSERT = 260U,
+        SAPP_KEYCODE_DELETE = 261U,
+        SAPP_KEYCODE_RIGHT = 262U,
+        SAPP_KEYCODE_LEFT = 263U,
+        SAPP_KEYCODE_DOWN = 264U,
+        SAPP_KEYCODE_UP = 265U,
+        SAPP_KEYCODE_PAGE_UP = 266U,
+        SAPP_KEYCODE_PAGE_DOWN = 267U,
+        SAPP_KEYCODE_HOME = 268U,
+        SAPP_KEYCODE_END = 269U,
+        SAPP_KEYCODE_CAPS_LOCK = 280U,
+        SAPP_KEYCODE_SCROLL_LOCK = 281U,
+        SAPP_KEYCODE_NUM_LOCK = 282U,
+        SAPP_KEYCODE_PRINT_SCREEN = 283U,
+        SAPP_KEYCODE_PAUSE = 284U,
+        SAPP_KEYCODE_F1 = 290U,
+        SAPP_KEYCODE_F2 = 291U,
+        SAPP_KEYCODE_F3 = 292U,
+        SAPP_KEYCODE_F4 = 293U,
+        SAPP_KEYCODE_F5 = 294U,
+        SAPP_KEYCODE_F6 = 295U,
+        SAPP_KEYCODE_F7 = 296U,
+        SAPP_KEYCODE_F8 = 297U,
+        SAPP_KEYCODE_F9 = 298U,
+        SAPP_KEYCODE_F10 = 299U,
+        SAPP_KEYCODE_F11 = 300U,
+        SAPP_KEYCODE_F12 = 301U,
+        SAPP_KEYCODE_F13 = 302U,
+        SAPP_KEYCODE_F14 = 303U,
+        SAPP_KEYCODE_F15 = 304U,
+        SAPP_KEYCODE_F16 = 305U,
+        SAPP_KEYCODE_F17 = 306U,
+        SAPP_KEYCODE_F18 = 307U,
+        SAPP_KEYCODE_F19 = 308U,
+        SAPP_KEYCODE_F20 = 309U,
+        SAPP_KEYCODE_F21 = 310U,
+        SAPP_KEYCODE_F22 = 311U,
+        SAPP_KEYCODE_F23 = 312U,
+        SAPP_KEYCODE_F24 = 313U,
+        SAPP_KEYCODE_F25 = 314U,
+        SAPP_KEYCODE_KP_0 = 320U,
+        SAPP_KEYCODE_KP_1 = 321U,
+        SAPP_KEYCODE_KP_2 = 322U,
+        SAPP_KEYCODE_KP_3 = 323U,
+        SAPP_KEYCODE_KP_4 = 324U,
+        SAPP_KEYCODE_KP_5 = 325U,
+        SAPP_KEYCODE_KP_6 = 326U,
+        SAPP_KEYCODE_KP_7 = 327U,
+        SAPP_KEYCODE_KP_8 = 328U,
+        SAPP_KEYCODE_KP_9 = 329U,
+        SAPP_KEYCODE_KP_DECIMAL = 330U,
+        SAPP_KEYCODE_KP_DIVIDE = 331U,
+        SAPP_KEYCODE_KP_MULTIPLY = 332U,
+        SAPP_KEYCODE_KP_SUBTRACT = 333U,
+        SAPP_KEYCODE_KP_ADD = 334U,
+        SAPP_KEYCODE_KP_ENTER = 335U,
+        SAPP_KEYCODE_KP_EQUAL = 336U,
+        SAPP_KEYCODE_LEFT_SHIFT = 340U,
+        SAPP_KEYCODE_LEFT_CONTROL = 341U,
+        SAPP_KEYCODE_LEFT_ALT = 342U,
+        SAPP_KEYCODE_LEFT_SUPER = 343U,
+        SAPP_KEYCODE_RIGHT_SHIFT = 344U,
+        SAPP_KEYCODE_RIGHT_CONTROL = 345U,
+        SAPP_KEYCODE_RIGHT_ALT = 346U,
+        SAPP_KEYCODE_RIGHT_SUPER = 347U,
+        SAPP_KEYCODE_MENU = 348U
+    }
+
+    // Enum @ sokol_app.h:1058:3 (/mnt/c/Users/lithi/Programming/sokol-cs/ext/sokol/sokol_app.h)
+    public enum sapp_event_type : uint
+    {
+        SAPP_EVENTTYPE_INVALID = 0U,
+        SAPP_EVENTTYPE_KEY_DOWN = 1U,
+        SAPP_EVENTTYPE_KEY_UP = 2U,
+        SAPP_EVENTTYPE_CHAR = 3U,
+        SAPP_EVENTTYPE_MOUSE_DOWN = 4U,
+        SAPP_EVENTTYPE_MOUSE_UP = 5U,
+        SAPP_EVENTTYPE_MOUSE_SCROLL = 6U,
+        SAPP_EVENTTYPE_MOUSE_MOVE = 7U,
+        SAPP_EVENTTYPE_MOUSE_ENTER = 8U,
+        SAPP_EVENTTYPE_MOUSE_LEAVE = 9U,
+        SAPP_EVENTTYPE_TOUCHES_BEGAN = 10U,
+        SAPP_EVENTTYPE_TOUCHES_MOVED = 11U,
+        SAPP_EVENTTYPE_TOUCHES_ENDED = 12U,
+        SAPP_EVENTTYPE_TOUCHES_CANCELLED = 13U,
+        SAPP_EVENTTYPE_RESIZED = 14U,
+        SAPP_EVENTTYPE_ICONIFIED = 15U,
+        SAPP_EVENTTYPE_RESTORED = 16U,
+        SAPP_EVENTTYPE_SUSPENDED = 17U,
+        SAPP_EVENTTYPE_RESUMED = 18U,
+        SAPP_EVENTTYPE_UPDATE_CURSOR = 19U,
+        SAPP_EVENTTYPE_QUIT_REQUESTED = 20U,
+        SAPP_EVENTTYPE_CLIPBOARD_PASTED = 21U,
+        SAPP_EVENTTYPE_FILES_DROPPED = 22U,
+        _SAPP_EVENTTYPE_NUM = 23U,
+        _SAPP_EVENTTYPE_FORCE_U32 = 2147483647U
     }
 }

@@ -3,9 +3,7 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static sokol_app;
-using static sokol_gfx;
-using static sokol_glue;
+using static sokol;
 
 namespace Sokol.Samples.Triangle
 {
