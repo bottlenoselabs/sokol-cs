@@ -9,7 +9,7 @@
   
   <!-- NuGet references -->
   <ItemGroup>
-    <PackageReference Include="C2CS.Runtime" Version="0.5.0-alpha0122" />
+    <PackageReference Include="C2CS.Runtime" Version="*-*" />
   </ItemGroup>
 
   <!-- Build sokol native library -->
