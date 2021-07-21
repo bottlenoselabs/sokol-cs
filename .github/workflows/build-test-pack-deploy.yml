@@ -61,6 +61,13 @@ jobs:
       with:
         submodules: true
 
+    - name: "Setup Linux dependencies"
+      if: runner.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install \
+          libxi-dev
+
     - name: "Build Sokol (Unix)"
       if: matrix.os != 'windows-latest'
       shell: bash
