@@ -4,14 +4,37 @@ Automatically updated C# bindings for sokol https://github.com/floooh/sokol with
 
 To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written Andre Weissflog, the owner of `sokol`. 
 
+## NuGet
+
+1. Create a new `nuget.config` file if you don't have one already. Put it beside your `.sln`. If you don't have a `.sln` put it beside your `.csproj`.
+
+```bash
+dotnet new nuget
+```
+
+2. Add the following NuGet package source to the file.
+
+```xml
+<add key="lithiumtoast" value="https://www.myget.org/F/lithiumtoast/api/v3/index.json" />
+```
+
+3. Install the package named `sokol-cs`. The version should be a date and then the commit number on the repository, e.g. (YYYY.MM.DD.alpha0123). If you want to always use the latest version change your `.csproj` to use "*-*" as the version. E.g.:
+
+```xml
+<ItemGroup>
+    <PackageReference Include="sokol-cs" Version="*-*" />
+</ItemGroup>
+```
+
 ## Building from Source
 
 1. Download and install [.NET 5](https://dotnet.microsoft.com/download).
 2. Clone the repository with submodules: `git clone --recurse-submodules git@github.com:lithiumtoast/sokol-cs.git`.
+3. Build the native library by running `./library.sh` on macOS or Linux and `.\library.sh` on Windows.
 3. If using IDE (Visual Studio / Rider): Open `Sokol.sln` and build solution.
 4. If using CLI: `dotnet build`
 
-Additionally, if at any time you wish to re-generate the bindings, simple run `bash ./bindgen-csharp.sh`. Though if you are on Windows, you will need `bash` which can be obtained by installing Windows Subsystem for Linux with Ubuntu.
+Additionally, if at any time you wish to re-generate the bindings, simple run `bash ./bindgen.sh`. Though if you are on Windows, you will need `bash` which can be obtained by installing Windows Subsystem for Linux with Ubuntu.
 
 ## Run: "Hello, world!" of computer graphics
 
@@ -68,4 +91,6 @@ NuGet packages are not supported and will not be supported. Recommended to fork 
 
 ## License
 
-`sokol-cs` is licensed under the MIT License - see the [LICENSE file](LICENSE) for details.
+`sokol-cs` is licensed under the MIT license (`MIT`) - see the [LICENSE file](LICENSE) for details.
+
+`sokol` is licensed under the ZLib license (`zlib`) - see https://github.com/floooh/sokol/blob/master/LICENSE for more details.
