@@ -18,20 +18,30 @@
     <Exec Command="$(GitRepositoryPath)library.sh" Condition="'$(OS)' != 'Windows_NT'" WorkingDirectory="$(GitRepositoryPath)" />
   </Target>
 
-  <!-- Copy native libraries -->
-  <ItemGroup Condition="'$(AheadOfTimeCompilation)' != 'true'">
-    <Content Include="$(GitRepositoryPath)lib/sokol.dll" Condition="'$(IsWindows)' == 'true'">
-      <Link>sokol.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  <!-- Dynamic link libraries -->
+  <ItemGroup>
+    <Content Include="$(GitRepositoryPath)lib/*.dll" Condition="'$(IsWindows)' == 'true'">
+      <Link>%(Filename)%(Extension)</Link>
+      <PackagePath>runtimes/$(RuntimeIdentifier)\native\%(Filename)%(Extension)</PackagePath>
+      <Pack>true</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="$(GitRepositoryPath)lib/libsokol.dylib" Condition="'$(IsMacOS)' == 'true'">
-      <Link>libsokol.dylib</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="$(GitRepositoryPath)lib/*.dylib" Condition="'$(IsMacOS)' == 'true'">
+      <Link>%(Filename)%(Extension)</Link>
+      <PackagePath>runtimes/$(RuntimeIdentifier)/native/%(Filename)%(Extension)</PackagePath>
+      <Pack>true</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="$(GitRepositoryPath)lib/libsokol.so" Condition="'$(IsLinux)' == 'true'">
-      <Link>libsokol.so</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="$(GitRepositoryPath)lib/*.so" Condition="'$(IsLinux)' == 'true'">
+      <Link>%(Filename)%(Extension)</Link>
+      <PackagePath>runtimes/$(RuntimeIdentifier)/native/%(Filename)%(Extension)</PackagePath>
+      <Pack>true</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <Target Name="Print native libraries" BeforeTargets="BeforeBuild">
+    <Exec Command="ls $(GitRepositoryPath)lib" Condition="'$(OS)' != 'Windows_NT'"  />
+    <Exec Command="dir $(GitRepositoryPath)lib" Condition="'$(OS)' == 'Windows_NT'"  />
+  </Target>
 
 </Project>
