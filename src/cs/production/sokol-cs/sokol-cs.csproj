@@ -24,19 +24,19 @@
 
   <!-- Dynamic link libraries -->
   <ItemGroup>
-    <Content Include="$(GitRepositoryPath)lib/*.dll" Condition="'$(IsWindows)' == 'true'">
+    <Content Include="$(GitRepositoryPath)lib/*.dll">
       <Link>%(Filename)%(Extension)</Link>
       <PackagePath>runtimes\win-x64\native\%(Filename)%(Extension)</PackagePath>
       <Pack>true</Pack>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="$(GitRepositoryPath)lib/*.dylib" Condition="'$(IsMacOS)' == 'true'">
+    <Content Include="$(GitRepositoryPath)lib/*.dylib">
       <Link>%(Filename)%(Extension)</Link>
       <PackagePath>runtimes/osx-x64/native/%(Filename)%(Extension)</PackagePath>
       <Pack>true</Pack>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="$(GitRepositoryPath)lib/*.so" Condition="'$(IsLinux)' == 'true'">
+    <Content Include="$(GitRepositoryPath)lib/*.so">
       <Link>%(Filename)%(Extension)</Link>
       <PackagePath>runtimes/linux-x64/native/%(Filename)%(Extension)</PackagePath>
       <Pack>true</Pack>
