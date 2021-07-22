@@ -11,5 +11,9 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="sokol-cs" Version="*-*" />
+    </ItemGroup>
 
 </Project>
