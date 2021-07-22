@@ -26,7 +26,7 @@
   <ItemGroup>
     <Content Include="$(GitRepositoryPath)lib/*.dll" Condition="'$(IsWindows)' == 'true'">
       <Link>%(Filename)%(Extension)</Link>
-      <PackagePath>runtimes/win-x64\native\%(Filename)%(Extension)</PackagePath>
+      <PackagePath>runtimes\win-x64\native\%(Filename)%(Extension)</PackagePath>
       <Pack>true</Pack>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -43,5 +43,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <Target Name="Print native libraries" BeforeTargets="BeforeBuild">
+    <Exec Command="ls $(GitRepositoryPath)lib" Condition="'$(OS)' != 'Windows_NT'"  />
+    <Exec Command="dir $(GitRepositoryPath)lib" Condition="'$(OS)' == 'Windows_NT'"  />
+  </Target>
 
 </Project>
