@@ -1,9 +1,4 @@
 <Project>
     <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
-    <!-- Project references -->
-    <ItemGroup>
-        <ProjectReference Include="..\..\production\sokol-cs\sokol-cs.csproj" />
-    </ItemGroup>
-
 </Project>

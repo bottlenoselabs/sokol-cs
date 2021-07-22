@@ -1,49 +1,4 @@
 <Project>
     <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
 
-    <PropertyGroup>
-        <NativeLibrariesPath>$(GitRepositoryPath)lib</NativeLibrariesPath>
-    </PropertyGroup>
-
-    <!-- Static link `sokol` -->
-    <ItemGroup Condition="'$(AheadOfTimeCompilation)' == 'true'">
-
-        <DirectPInvoke Include="sokol" />
-        <NativeLibrary Include="$(NativeLibrariesPath)/sokol_static.lib" />
-
-        <!-- Ignore a warning while linking. -->
-        <LinkerArg Include="/NODEFAULTLIB:LIBCMT" />
-
-    </ItemGroup>
-
-    <!-- Dynamic link `sokol` -->
-    <ItemGroup Condition="'$(AheadOfTimeCompilation)' == 'false'">
-
-        <Content Condition="Exists('$(NativeLibrariesPath)/libsokol.dll')" Include="$(NativeLibrariesPath)/libsokol.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Properties/libs/libsokol.dll</Link>
-        </Content>
-        <Content Condition="Exists('$(NativeLibrariesPath)/sokol.dll')" Include="$(NativeLibrariesPath)/sokol.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Properties/libs/sokol.dll</Link>
-        </Content>
-        <Content Condition="Exists('$(NativeLibrariesPath)/sokol.pdb')" Include="$(NativeLibrariesPath)/sokol.pdb">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Properties/libs/sokol.pdb</Link>
-        </Content>
-        <Content Condition="Exists('$(NativeLibrariesPath)/sokol.ilk')" Include="$(NativeLibrariesPath)/sokol.ilk">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Properties/libs/sokol.ilk</Link>
-        </Content>
-        <Content Condition="Exists('$(NativeLibrariesPath)/libsokol.dylib')" Include="$(NativeLibrariesPath)/libsokol.dylib">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Properties/libs/libsokol.dylib</Link>
-        </Content>
-        <Content Condition="Exists('$(NativeLibrariesPath)/libsokol.so')" Include="$(NativeLibrariesPath)/libsokol.so">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Properties/libs/libsokol.so</Link>
-        </Content>
-
-    </ItemGroup>
-
 </Project>
