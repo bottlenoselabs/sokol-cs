@@ -58,7 +58,7 @@ jobs:
       uses: gittools/actions/gitversion/execute@v0.9.6
 
     - name: "Write version to disk"
-      run: echo "$(git --git-dir "./ext/sokol/.git" log -1 --format="%at" | xargs -I{} date -d @{} +%Y.%m.%d)-$GITVERSION_COMMITSSINCEVERSIONSOURCE2" >> version.txt
+      run: echo "$(git --git-dir "./ext/sokol/.git" log -1 --format="%at" | xargs -I{} date -d @{} +%Y.%m.%d)-$GITVERSION_COMMITSSINCEVERSIONSOURCE" >> version.txt
 
     - name: "Upload version artifact"
       uses: actions/upload-artifact@v2
