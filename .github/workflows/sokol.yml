@@ -84,7 +84,7 @@ jobs:
         submodules: true
 
     - name: "Linux dependencies"
-       if: ${{ startsWith(matrix.platform.rid, 'linux') }}
+      if: ${{ startsWith(matrix.platform.rid, 'linux') }}
       run: |
         sudo apt-get update
         sudo apt-get install \
