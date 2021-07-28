@@ -20,7 +20,7 @@ dotnet new nuget
 <add key="lithiumtoast" value="https://www.myget.org/F/lithiumtoast/api/v3/index.json" />
 ```
 
-3. Install the package named `sokol-cs`. The version is a date and then the commit number on the repository, e.g. (YYYY.MM.DD.alpha0123). If you want to always use the latest version change your `.csproj` to use "*-*" as the version. E.g.:
+3. Install the package named `sokol-cs`. The version is the last commit date on the *sokol* repository and then the commit number for *this* repository, e.g. (YYYY.MM.DD.123). If you want to always use the latest version change your `.csproj` to use "*-*" as the version. E.g.:
 
 ```xml
 <ItemGroup>
