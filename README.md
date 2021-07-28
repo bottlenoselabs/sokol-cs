@@ -4,7 +4,9 @@ Automatically updated C# bindings for sokol https://github.com/floooh/sokol with
 
 To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written Andre Weissflog, the owner of `sokol`. 
 
-## NuGet
+## How to use
+
+### NuGet package
 
 1. Create a new `nuget.config` file if you don't have one already. Put it beside your `.sln`. If you don't have a `.sln` put it beside your `.csproj`.
 
@@ -18,13 +20,15 @@ dotnet new nuget
 <add key="lithiumtoast" value="https://www.myget.org/F/lithiumtoast/api/v3/index.json" />
 ```
 
-3. Install the package named `sokol-cs`. The version should be a date and then the commit number on the repository, e.g. (YYYY.MM.DD.alpha0123). If you want to always use the latest version change your `.csproj` to use "*-*" as the version. E.g.:
+3. Install the package named `sokol-cs`. The version is a date and then the commit number on the repository, e.g. (YYYY.MM.DD.alpha0123). If you want to always use the latest version change your `.csproj` to use "*-*" as the version. E.g.:
 
 ```xml
 <ItemGroup>
     <PackageReference Include="sokol-cs" Version="*-*" />
 </ItemGroup>
 ```
+
+Runtime identifiers currently made available for NuGet packages for this project include: `win-x64`, `osx-x64`, `linux-x64`. If you need an other runtime identifier create an issue and I'll set it up. For more information on runtime identifiers see the [RID catalog](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog#using-rids). 
 
 ## Building from Source
 
