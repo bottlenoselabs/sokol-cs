@@ -8,9 +8,9 @@ env:
   MYGET_SOURCE_URL: 'https://www.myget.org/F/lithiumtoast/api/v3/index.json'
 
 on:
-  push:
+  pull_request:
     branches: [develop]
-    paths-ignore: ['**/*.md']
+    types: [assigned, opened, synchronize, reopened]
 
 jobs:
 
@@ -42,6 +42,7 @@ jobs:
     - name: "Clone Git repository"
       uses: actions/checkout@v2
       with:
+        ref: ${{ github.event.pull_request.head.sha }}
         submodules: true
 
     - name: "Git fetch all history for all tags and branches"
@@ -134,6 +135,7 @@ jobs:
     - name: "Clone Git repository"
       uses: actions/checkout@master
       with:
+        ref: ${{ github.event.pull_request.head.sha }}
         submodules: true
 
     - name: "Install .NET"
