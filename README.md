@@ -6,12 +6,10 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 
 ## How to use
 
-## From source
-
 1. Download and install [.NET 5](https://dotnet.microsoft.com/download).
 2. Fork the repository using GitHub or clone the repository manually with submodules: `git clone --recurse-submodules git@github.com:lithiumtoast/sokol-cs.git`.
 3. Build the native library by running `bash ./library.sh`. (Windows requires Windows Subsystem for Linux with Ubuntu).
-3. Add the C# project `./src/cs/production/sokol-cs/sokol-cs.csproj` to your solution:
+4. Add the C# project `./src/cs/production/sokol-cs/sokol-cs.csproj` to your solution:
 ```xml
 <ItemGroup>
     <ProjectReference Include="path/to/sokol-cs/src/cs/production/sokol-cs/sokol-cs.csproj" />
