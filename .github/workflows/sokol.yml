@@ -34,7 +34,7 @@ jobs:
         default_author: user_info
 
   build-native-job:
-    name: "${{ matrix.platform.rid }}"
+    name: "Build native libraries ${{ matrix.platform.rid }}"
     needs: [bindgen-job]
     runs-on: ${{ matrix.platform.os }}
     strategy:
