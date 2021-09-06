@@ -8,9 +8,11 @@ env:
   MYGET_SOURCE_URL: 'https://www.myget.org/F/lithiumtoast/api/v3/index.json'
 
 on:
-  pull_request:
+  push:
     branches: [develop]
-    types: [assigned, opened, synchronize, reopened]
+    paths-ignore: ['**/*.md']
+  pull_request_target:
+    branches: [develop]
 
 jobs:
 
