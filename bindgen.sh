@@ -28,7 +28,7 @@ function download_C2CS_osx() {
 function bindgen() {
     ./C2CS ast -i ./src/c/sokol/sokol.h -o ./sokol.json -s ./ext/sokol -b 64
     exitIfLastCommandFailed
-    ./C2CS cs -i ./sokol.json -o ./src/cs/production/sokol-cs/sokol.cs -l "sokol" -a "sg_color->Rgba32F" -g Rgba32F
+    ./C2CS cs -i ./sokol.json -o ./src/cs/production/sokol-cs/sokol.cs -l "sokol" -a "sg_color->Rgba32F" -g ./ignored.txt
     exitIfLastCommandFailed
     rm ./sokol.json
     exitIfLastCommandFailed
