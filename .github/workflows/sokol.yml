@@ -4,8 +4,6 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_SDK_VERSION: 5.0.301
-  MYGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
-  MYGET_SOURCE_URL: 'https://www.myget.org/F/lithiumtoast/api/v3/index.json'
 
 on:
   push:
@@ -105,77 +103,3 @@ jobs:
       if: ${{ startsWith(matrix.platform.rid, 'win') }}
       shell: pwsh
       run: .\library.cmd
-
-    - name: "Upload"
-      uses: actions/upload-artifact@v2
-      with:
-        name: native-libraries-${{ matrix.platform.rid }}
-        path: ${{ github.workspace }}/lib/
-
-  pack-upload-job:
-    name: "Pack & upload"
-    needs: [native-library-job]
-    runs-on: ubuntu-latest
-
-    steps:
-
-    - name: "Download repository version artifact"
-      uses: actions/download-artifact@v2
-      with:
-        name: version
-
-    - name: "Read version artifact"
-      shell: bash
-      run: |
-        echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
-
-    - name: "Print version artifact"
-      shell: bash
-      run: |
-        echo $VERSION
-
-    - name: "Clone Git repository"
-      uses: actions/checkout@master
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-        submodules: true
-
-    - name: "Install .NET"
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
-
-    - name: "Clean solution"
-      run: dotnet clean --configuration Release && dotnet nuget locals all --clear
-
-    - name: "Download native libraries (win-x64)"
-      uses: actions/download-artifact@v2
-      with:
-        name: native-libraries-win-x64
-        path: ${{ github.workspace }}/lib
-
-    - name: "Download native libraries (osx-x64)"
-      uses: actions/download-artifact@v2
-      with:
-        name: native-libraries-osx-x64
-        path: ${{ github.workspace }}/lib
-
-    - name: "Download native libraries (linux-x64)"
-      uses: actions/download-artifact@v2
-      with:
-        name: native-libraries-linux-x64
-        path: ${{ github.workspace }}/lib
-
-    - name: "Print native libraries"
-      shell: bash
-      run: |
-        ls -a ${{ github.workspace }}/lib
-
-    - name: "Build .NET solution"
-      run: dotnet build --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
-
-    - name: "Pack .NET solution"
-      run: dotnet pack --nologo --output "./nupkg" --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
-
-    - name: "Upload Packages: MyGet"
-      run: dotnet nuget push "./**/*.nupkg" --source ${{ env.MYGET_SOURCE_URL }} --skip-duplicate --api-key ${{ env.MYGET_ACCESS_TOKEN }} 
