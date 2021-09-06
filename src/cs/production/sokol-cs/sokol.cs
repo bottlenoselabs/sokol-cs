@@ -22,215 +22,215 @@ public static unsafe partial class sokol
 {
     private const string LibraryName = "sokol";
 
-    // Function @ sokol_app.h:1399:18 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1403:18 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern sapp_desc sokol_main(int argc, CString8U* argv);
 
-    // Function @ sokol_app.h:1402:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1406:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern CBool sapp_isvalid();
 
-    // Function @ sokol_app.h:1404:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1408:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern int sapp_width();
 
-    // Function @ sokol_app.h:1406:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1410:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern float sapp_widthf();
 
-    // Function @ sokol_app.h:1408:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1412:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern int sapp_height();
 
-    // Function @ sokol_app.h:1410:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1414:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern float sapp_heightf();
 
-    // Function @ sokol_app.h:1412:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1416:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern int sapp_color_format();
 
-    // Function @ sokol_app.h:1414:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1418:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern int sapp_depth_format();
 
-    // Function @ sokol_app.h:1416:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1420:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern int sapp_sample_count();
 
-    // Function @ sokol_app.h:1418:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1422:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern CBool sapp_high_dpi();
 
-    // Function @ sokol_app.h:1420:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1424:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern float sapp_dpi_scale();
 
-    // Function @ sokol_app.h:1422:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1426:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_show_keyboard(CBool show);
 
-    // Function @ sokol_app.h:1424:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1428:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern CBool sapp_keyboard_shown();
 
-    // Function @ sokol_app.h:1426:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1430:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern CBool sapp_is_fullscreen();
 
-    // Function @ sokol_app.h:1428:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1432:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_toggle_fullscreen();
 
-    // Function @ sokol_app.h:1430:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1434:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_show_mouse(CBool show);
 
-    // Function @ sokol_app.h:1432:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1436:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern CBool sapp_mouse_shown();
 
-    // Function @ sokol_app.h:1434:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1438:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_lock_mouse(CBool @lock);
 
-    // Function @ sokol_app.h:1436:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1440:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern CBool sapp_mouse_locked();
 
-    // Function @ sokol_app.h:1438:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1442:26 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_userdata();
 
-    // Function @ sokol_app.h:1440:30 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1444:30 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern sapp_desc sapp_query_desc();
 
-    // Function @ sokol_app.h:1442:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1446:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_request_quit();
 
-    // Function @ sokol_app.h:1444:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1448:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_cancel_quit();
 
-    // Function @ sokol_app.h:1446:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1450:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_quit();
 
-    // Function @ sokol_app.h:1448:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1452:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_consume_event();
 
-    // Function @ sokol_app.h:1450:29 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1454:29 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern ulong sapp_frame_count();
 
-    // Function @ sokol_app.h:1452:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1456:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_set_clipboard_string(CString8U str);
 
-    // Function @ sokol_app.h:1454:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1458:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern CString8U sapp_get_clipboard_string();
 
-    // Function @ sokol_app.h:1456:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1460:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_set_window_title(CString8U str);
 
-    // Function @ sokol_app.h:1458:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1462:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_set_icon(sapp_icon_desc* icon_desc);
 
-    // Function @ sokol_app.h:1460:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1464:24 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern int sapp_get_num_dropped_files();
 
-    // Function @ sokol_app.h:1462:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1466:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern CString8U sapp_get_dropped_file_path(int index);
 
-    // Function @ sokol_app.h:1465:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1469:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_run(sapp_desc* desc);
 
-    // Function @ sokol_app.h:1468:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1472:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern CBool sapp_gles2();
 
-    // Function @ sokol_app.h:1471:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1475:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_html5_ask_leave_site(CBool ask);
 
-    // Function @ sokol_app.h:1473:29 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1477:29 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern uint sapp_html5_get_dropped_file_size(int index);
 
-    // Function @ sokol_app.h:1475:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1479:25 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void sapp_html5_fetch_dropped_file(sapp_html5_fetch_request* request);
 
-    // Function @ sokol_app.h:1478:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1482:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_metal_get_device();
 
-    // Function @ sokol_app.h:1480:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1484:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_metal_get_renderpass_descriptor();
 
-    // Function @ sokol_app.h:1482:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1486:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_metal_get_drawable();
 
-    // Function @ sokol_app.h:1484:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1488:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_macos_get_window();
 
-    // Function @ sokol_app.h:1486:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1490:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_ios_get_window();
 
-    // Function @ sokol_app.h:1489:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1493:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_d3d11_get_device();
 
-    // Function @ sokol_app.h:1491:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1495:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_d3d11_get_device_context();
 
-    // Function @ sokol_app.h:1493:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1497:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_d3d11_get_swap_chain();
 
-    // Function @ sokol_app.h:1495:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1499:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_d3d11_get_render_target_view();
 
-    // Function @ sokol_app.h:1497:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1501:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_d3d11_get_depth_stencil_view();
 
-    // Function @ sokol_app.h:1499:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1503:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_win32_get_hwnd();
 
-    // Function @ sokol_app.h:1502:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1506:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_wgpu_get_device();
 
-    // Function @ sokol_app.h:1504:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1508:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_wgpu_get_render_view();
 
-    // Function @ sokol_app.h:1506:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1510:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_wgpu_get_resolve_view();
 
-    // Function @ sokol_app.h:1508:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1512:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_wgpu_get_depth_stencil_view();
 
-    // Function @ sokol_app.h:1511:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Function @ sokol_app.h:1515:32 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [DllImport(LibraryName)]
     public static extern void* sapp_android_get_native_activity();
 
@@ -762,49 +762,49 @@ public static unsafe partial class sokol
     [DllImport(LibraryName)]
     public static extern CString8U sargs_value_at(int index);
 
-    // FunctionPointer @ sokol_app.h:1329:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // FunctionPointer @ sokol_app.h:1333:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_SOKOL_Void
     {
         public delegate* unmanaged<void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1332:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // FunctionPointer @ sokol_app.h:1336:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_SOKOL_Sapp_eventPtr_Void
     {
         public delegate* unmanaged<sapp_event*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1333:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // FunctionPointer @ sokol_app.h:1337:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_SOKOL_CString8U_Void
     {
         public delegate* unmanaged<CString8U, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1336:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // FunctionPointer @ sokol_app.h:1340:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_SOKOL_VoidPtr_Void
     {
         public delegate* unmanaged<void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1339:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // FunctionPointer @ sokol_app.h:1343:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_SOKOL_Sapp_eventPtr_VoidPtr_Void
     {
         public delegate* unmanaged<sapp_event*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1340:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // FunctionPointer @ sokol_app.h:1344:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_SOKOL_CString8U_VoidPtr_Void
     {
         public delegate* unmanaged<CString8U, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1392:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // FunctionPointer @ sokol_app.h:1396:12 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_SOKOL_Sapp_html5_fetch_responsePtr_Void
     {
@@ -1014,7 +1014,7 @@ public static unsafe partial class sokol
         public delegate* unmanaged<void*, void*> Pointer;
     }
 
-    // Struct @ sokol_app.h:1369:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Struct @ sokol_app.h:1373:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Explicit, Size = 368, Pack = 8)]
     public struct sapp_desc
     {
@@ -1127,7 +1127,7 @@ public static unsafe partial class sokol
         public CBool ios_keyboard_resizes_canvas;
     }
 
-    // Struct @ sokol_app.h:1325:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Struct @ sokol_app.h:1329:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Explicit, Size = 200, Pack = 8)]
     public struct sapp_icon_desc
     {
@@ -1151,7 +1151,7 @@ public static unsafe partial class sokol
         }
     }
 
-    // Struct @ sokol_app.h:1396:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Struct @ sokol_app.h:1400:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct sapp_html5_fetch_request
     {
@@ -2465,7 +2465,7 @@ public static unsafe partial class sokol
         public void* user_data;
     }
 
-    // Struct @ sokol_app.h:1264:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Struct @ sokol_app.h:1268:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Explicit, Size = 272, Pack = 8)]
     public struct sapp_event
     {
@@ -2540,7 +2540,7 @@ public static unsafe partial class sokol
         public int framebuffer_height;
     }
 
-    // Struct @ sokol_app.h:1302:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Struct @ sokol_app.h:1306:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sapp_image_desc
     {
@@ -2554,7 +2554,7 @@ public static unsafe partial class sokol
         public sapp_range pixels;
     }
 
-    // Struct @ sokol_app.h:1388:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Struct @ sokol_app.h:1392:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct sapp_html5_fetch_response
     {
@@ -2689,7 +2689,7 @@ public static unsafe partial class sokol
         public uint buffer_size;
     }
 
-    // Struct @ sokol_app.h:1275:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Struct @ sokol_app.h:1279:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sapp_range
     {
@@ -2792,7 +2792,7 @@ public static unsafe partial class sokol
         public sg_blend_op op_alpha;
     }
 
-    // Struct @ sokol_app.h:1206:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Struct @ sokol_app.h:1210:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sapp_touchpoint
     {
@@ -3067,7 +3067,7 @@ public static unsafe partial class sokol
         _SG_ACTION_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_app.h:1058:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Enum @ sokol_app.h:1062:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     public enum sapp_event_type : int
     {
         SAPP_EVENTTYPE_INVALID = 0,
@@ -3087,17 +3087,19 @@ public static unsafe partial class sokol
         SAPP_EVENTTYPE_RESIZED = 14,
         SAPP_EVENTTYPE_ICONIFIED = 15,
         SAPP_EVENTTYPE_RESTORED = 16,
-        SAPP_EVENTTYPE_SUSPENDED = 17,
-        SAPP_EVENTTYPE_RESUMED = 18,
-        SAPP_EVENTTYPE_UPDATE_CURSOR = 19,
-        SAPP_EVENTTYPE_QUIT_REQUESTED = 20,
-        SAPP_EVENTTYPE_CLIPBOARD_PASTED = 21,
-        SAPP_EVENTTYPE_FILES_DROPPED = 22,
-        _SAPP_EVENTTYPE_NUM = 23,
+        SAPP_EVENTTYPE_FOCUSED = 17,
+        SAPP_EVENTTYPE_UNFOCUSED = 18,
+        SAPP_EVENTTYPE_SUSPENDED = 19,
+        SAPP_EVENTTYPE_RESUMED = 20,
+        SAPP_EVENTTYPE_UPDATE_CURSOR = 21,
+        SAPP_EVENTTYPE_QUIT_REQUESTED = 22,
+        SAPP_EVENTTYPE_CLIPBOARD_PASTED = 23,
+        SAPP_EVENTTYPE_FILES_DROPPED = 24,
+        _SAPP_EVENTTYPE_NUM = 25,
         _SAPP_EVENTTYPE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_app.h:1190:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Enum @ sokol_app.h:1194:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     public enum sapp_keycode : int
     {
         SAPP_KEYCODE_INVALID = 0,
@@ -3223,7 +3225,7 @@ public static unsafe partial class sokol
         SAPP_KEYCODE_MENU = 348
     }
 
-    // Enum @ sokol_app.h:1219:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Enum @ sokol_app.h:1223:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     public enum sapp_mousebutton : int
     {
         SAPP_MOUSEBUTTON_LEFT = 0,
@@ -3232,7 +3234,7 @@ public static unsafe partial class sokol
         SAPP_MOUSEBUTTON_INVALID = 256
     }
 
-    // Enum @ sokol_app.h:1378:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // Enum @ sokol_app.h:1382:3 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     public enum sapp_html5_fetch_error : int
     {
         SAPP_HTML5_FETCH_ERROR_NO_ERROR = 0,
@@ -3390,7 +3392,7 @@ public static unsafe partial class sokol
     public const int SG_CUBEFACE_NUM = 6;
     public const int _SG_CUBEFACE_FORCE_U32 = 2147483647;
 
-    // MacroObjectLike @ sokol_app.h:994:9 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
+    // MacroObjectLike @ sokol_app.h:996:9 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_app.h)
     public const int SOKOL_APP_INCLUDED = 1;
 
     // MacroObjectLike @ sokol_gfx.h:584:9 (/home/runner/work/sokol-cs/sokol-cs/ext/sokol/sokol_gfx.h)
