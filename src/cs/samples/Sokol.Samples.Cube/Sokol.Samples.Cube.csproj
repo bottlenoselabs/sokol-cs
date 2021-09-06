@@ -13,7 +13,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <PackageReference Include="sokol-cs" Version="*-*" />
+      <ProjectReference Include="..\..\production\sokol-cs\sokol-cs.csproj" />
     </ItemGroup>
 
 </Project>
