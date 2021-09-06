@@ -10,7 +10,7 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 
 1. Download and install [.NET 5](https://dotnet.microsoft.com/download).
 2. Fork the repository using GitHub or clone the repository manually with submodules: `git clone --recurse-submodules git@github.com:lithiumtoast/sokol-cs.git`.
-3. Build the native library by running `./library.sh` on macOS or Linux and `.\library.sh` on Windows.
+3. Build the native library by running `bash ./library.sh`. (Windows requires Windows Subsystem for Linux with Ubuntu).
 3. Add the C# project `./src/cs/production/sokol-cs/sokol-cs.csproj` to your solution:
 ```xml
 <ItemGroup>
@@ -18,7 +18,7 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 </ItemGroup>
 ```
 
-Additionally, if at any time you wish to re-generate the bindings, simple run `bash ./bindgen.sh`. Though if you are on Windows, you will need `bash` which can be obtained by installing Windows Subsystem for Linux with Ubuntu.
+Additionally, if at any time you wish to re-generate the bindings, simple run `bash ./bindgen.sh`.
 
 ## Run: "Hello, world!" of computer graphics
 
