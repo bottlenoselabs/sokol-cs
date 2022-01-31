@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static bottlenoselabs.sokol;
 
-namespace Sokol.Samples.Cube
+namespace Cube
 {
     internal static unsafe class Program
     {
