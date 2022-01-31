@@ -33,7 +33,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libxi-dev \
-            libxcursor-dev
+            libxcursor-dev \
+            libmesa-dev
 
       - name: "Build native libraries"
         shell: bash
