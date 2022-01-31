@@ -3,7 +3,7 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static sokol;
+using static bottlenoselabs.sokol;
 
 namespace Sokol.Samples.Cube
 {

@@ -3,18 +3,19 @@
     <!-- MSBuild settings -->
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <RootNamespace>Cube</RootNamespace>
     </PropertyGroup>
 
     <!-- Simple way to have assets files beside the application. -->
     <ItemGroup>
-        <None Update="assets\**\*">
+        <None Update="assets/**/*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\production\sokol-cs\sokol-cs.csproj" />
-    </ItemGroup>
+    <!-- sokol: bindings + native library -->
+    <Import Project="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)/../../../../sokol.props'))" />
 
 </Project>

@@ -1,0 +1,18 @@
+{
+    "inputFilePath": "src/c/sokol/sokol.h",
+    "outputFilePath": "./src/cs/production/sokol/sokol.cs",
+    "includeDirectories": [
+        "./ext/sokol"
+    ],
+    "namespaceName": "bottlenoselabs",
+    "machineBitWidth": 64,
+    "ignoredTypeNames": [
+        "Rgba32F"
+    ],
+    "mappedTypeNames": [
+        {
+          "source": "sg_color",
+          "target": "Rgba32F"
+        }
+      ]
+  }

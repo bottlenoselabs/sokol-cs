@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Numerics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static sokol;
+using bottlenoselabs;
+using static bottlenoselabs.sokol;
 
-namespace Sokol.Samples.Triangle
+namespace Triangle
 {
     internal static unsafe class Program
     {
@@ -34,10 +36,10 @@ namespace Sokol.Samples.Triangle
             desc.gl_force_gles2 = true;
             desc.window_title = "Triangle";
             desc.icon.sokol_default = true;
-        
+   
             sapp_run(&desc);
         }
-        
+
         [UnmanagedCallersOnly]
         private static void Initialize()
         {

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>bottlenoselabs</RootNamespace>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Update="Rgb32F.Colors.cs">
+      <DependentUpon>Rgb32F.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Rgb8U.Colors.cs">
+      <DependentUpon>Rgb8U.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Rgba32F.Colors.cs">
+      <DependentUpon>Rgba32F.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Rgba8U.Colors.cs">
+      <DependentUpon>Rgba8U.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,43 @@
+name: "pr"
+
+on:
+  pull_request_target:
+    types: [assigned, opened, synchronize, reopened]
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  bindgen-job:
+    if: github.actor == 'dependabot[bot]'
+    name: "bindgen"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Clone Git repository"
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+          ref: ${{ github.event.pull_request.head.sha }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Install .NET"
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: true
+
+      - name: "Install C2CS"
+        shell: bash
+        run: dotnet tool install bottlenoselabs.C2CS --global --add-source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --version "*-*"
+
+      - name: "bindgen"
+        shell: bash
+        run: c2cs
+
+      - name: "Add + commit + push (if necessary)"
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: 'lithiumtoast'
+          author_email: 'lithiumtoast@users.noreply.github.com'
+          message: "Update bindings"
+  

@@ -1,3 +1,11 @@
 <Project>
-    <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildProjectDirectory)', '.gitignore'))/ext/my-msbuild/My-MSBuild.props" />
+
+    <!-- MSBuild settings -->
+    <PropertyGroup>
+        <NoWarn>$(NoWarn);CA1303;CA1707</NoWarn>
+        <BaseOutputPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), .gitignore))/bin/$(MSBuildProjectName)</BaseOutputPath>
+        <BaseIntermediateOutputPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), .gitignore))/obj/$(MSBuildProjectName)/$(Configuration)</BaseIntermediateOutputPath>
+        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+    </PropertyGroup>
+    
 </Project>

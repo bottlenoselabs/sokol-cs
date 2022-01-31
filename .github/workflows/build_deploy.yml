@@ -1,0 +1,69 @@
+name: "build+deploy"
+
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - main
+    paths-ignore:
+      - "**.md"
+
+jobs:
+
+  native-job:
+    name: "Native libraries: ${{ matrix.platform.rid }}"
+    runs-on: ${{ matrix.platform.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - { name: Windows (x64), os: windows-latest, rid: win-x64 }
+          - { name: macOS (x64 + arm64), os: macos-latest, rid: osx }
+          - { name: Linux (x64), os: ubuntu-latest, rid: linux-x64 }
+    steps:
+
+      - name: "Clone Git repository"
+        uses: actions/checkout@master
+        with:
+          submodules: "recursive"
+
+      - name: "Build native libraries"
+        shell: bash
+        run: ./library.sh
+
+      - name: "Upload native libraries"
+        uses: actions/upload-artifact@v2
+        with:
+          name: "native-libraries-${{ matrix.platform.rid }}"
+          path: "./lib"
+
+  dotnet-job:
+    name: ".NET"
+    needs: [native-job]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Download native libraries (win-x64)"
+        uses: actions/download-artifact@v1
+        with:
+          name: "native-libraries-win-x64"
+          path: "./lib"
+
+      - name: "Download native libraries (osx)"
+        uses: actions/download-artifact@v1
+        with:
+          name: "native-libraries-osx"
+          path: "./lib"
+
+      - name: "Download native libraries (linux-x64)"
+        uses: actions/download-artifact@v1
+        with:
+          name: "native-libraries-linux-x64"
+          path: "./lib"
+
+      - uses: bottlenoselabs/github-actions-dotnet@v2
+        with:
+          repository: '${{ github.repository }}'
+          dotnet-sdk-version: '6.0.x'
+          
