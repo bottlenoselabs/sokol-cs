@@ -34,7 +34,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install libxi-dev \
             libxcursor-dev \
-            libgl1-mesa-dev
+            libgl1-mesa-dev \
+            libasound2-dev
 
       - name: "Build native libraries"
         shell: bash
