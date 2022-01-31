@@ -11,7 +11,7 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 3. Build the native library by running `library.sh`. To execute `.sh` scripts on Windows, use Git Bash which can be installed with Git itself: https://git-scm.com/download/win. The `library.sh` script requires that CMake is installed and in your path.
 4. Import the MSBuild `sokol.props` file which is located in the root of this directory to your `.csproj` file to setup everything you need. See the [Triangle](src/cs/samples/Triangle/Triangle.csproj) for an example of how to do this.
 ```xml
-<!-- flecs: bindings + native library -->
+<!-- sokol: bindings + native library -->
 <Import Project="$([System.IO.Path]::GetFullPath('path/to/sokol.props'))" />
 ```
 
