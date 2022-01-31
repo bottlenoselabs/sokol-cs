@@ -28,6 +28,12 @@ jobs:
         with:
           submodules: "recursive"
 
+      - name: "Install Linux dependencies"
+        if: matrix.platform.rid == 'linux-x64'
+        run: |
+          sudo apt-get update
+          sudo apt-get install libxi-dev
+
       - name: "Build native libraries"
         shell: bash
         run: ./library.sh
