@@ -6,19 +6,22 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 
 ## How to use
 
-1. Download and install [.NET 5](https://dotnet.microsoft.com/download).
-2. Fork the repository using GitHub or clone the repository manually with submodules: `git clone --recurse-submodules git@github.com:lithiumtoast/sokol-cs.git`.
-3. Build the native library by running `bash ./library.sh`. (Windows requires Windows Subsystem for Linux with Ubuntu).
-4. Add the C# project `./src/cs/production/sokol-cs/sokol-cs.csproj` to your solution:
+1. Download and install [.NET 6](https://dotnet.microsoft.com/download).
+2. Fork the repository using GitHub or clone the repository manually with submodules: `git clone --recurse-submodules https://github.com/bottlenoselabs/sokol-cs`.
+3. Build the native library by running `library.sh`. To execute `.sh` scripts on Windows, use Git Bash which can be installed with Git itself: https://git-scm.com/download/win. The `library.sh` script requires that CMake is installed and in your path.
+4. Import the MSBuild `sokol.props` file which is located in the root of this directory to your `.csproj` file to setup everything you need. See the [Triangle](src/cs/samples/Triangle/Triangle.csproj) for an example of how to do this.
 ```xml
-<ItemGroup>
-    <ProjectReference Include="path/to/sokol-cs/src/cs/production/sokol-cs/sokol-cs.csproj" />
-</ItemGroup>
+<!-- flecs: bindings + native library -->
+<Import Project="$([System.IO.Path]::GetFullPath('path/to/sokol.props'))" />
 ```
 
-Additionally, if at any time you wish to re-generate the bindings, simple run `bash ./bindgen.sh`.
+#### Bindgen
 
-## Run: "Hello, world!" of computer graphics
+If you wish to re-generate the bindings, run [`c2cs`](https://github.com/lithiumtoast/c2cs) from this directory.
+
+## Developers: Documentation
+
+### Run: "Hello, world!" of computer graphics
 
 The most basic example of rendering a triangle in clip space using your GPU.
 
@@ -32,28 +35,11 @@ Run `Sokol.Samples.Triangle`.
 
 #### Windows
 
-Build + run: `dotnet run --project .\src\cs\samples\Sokol.Samples.Triangle\Sokol.Samples.Triangle.csproj`
+Build + run: `dotnet run --project ./src/cs/samples/Triangle/Triangle.csproj`
 
 #### macOS/Linux
 
-Build + run: `dotnet run --project ./src/cs/samples/Sokol.Samples.Triangle/Sokol.Samples/Triangle.csproj`
-
-## Run: Native Ahead of Time Compilation with C#
-
-Example of the previous triangle in clip space with native ahead of time compilation (nAOT). Produces a single file executable that is ~1 megabyte. For more information on nAOT see: https://github.com/dotnet/runtimelab/tree/feature/NativeAOT. The property `AheadOfTimeCompilation` is a custom property from my custom MSBuild properties/targets project called [`my-msbuild`](https://github.com/lithiumtoast/my-msbuild) to make native ahead of time compilation just work with minimal effort.
-
-### Windows
-
-1. Build: `dotnet publish .\src\cs\samples\Sokol.Samples.Triangle\Sokol.Samples.Triangle.csproj -r win-x64 -c Release -o .\publish\triangle /p:AheadOfTimeCompilation=true`
-2. Run: `.\publish\triangle\Sokol.Samples.Triangle.exe`
-
-### macOS
-
-//TODO
-
-### Ubuntu
-
-//TODO
+Build + run: `dotnet run --project ./src/cs/samples/Triangle/Triangle.csproj`
 
 ## Developers: Documentation
 
@@ -63,13 +49,9 @@ To learn how to use `sokol`, check out the [official C samples](https://github.c
 
 ## Supported Platforms & 3D Graphics APIs
 
-Since `sokol_gfx`, `sokol_app`, etc, are C libraries technically any platform is possible. For a list of supported platforms for .NET 5 see the [RID Catalog](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog).
+Since `sokol_gfx`, `sokol_app`, etc, are C libraries technically any platform is possible. For a list of supported platforms for .NET 6 see the [RID Catalog](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog).
 
 [`sokol_gfx`](https://github.com/floooh/sokol#sokol_gfxh) converges old and modern graphics APIs to one simple and easy to use API. To learn more about the convergence of modern 3D graphics APIs (such as Metal, DirectX11/12, and WebGPU) and how they compare to legacy APIs (such as OpenGL), see *[A Comparison of Modern Graphics APIs](https://alain.xyz/blog/comparison-of-modern-graphics-apis)* blog written by Alain Galvan, a graphics software engineer.
-
-## NuGet Packages
-
-NuGet packages are not supported and will not be supported. Recommended to fork or use Git submodules instead.
 
 ## License
 
