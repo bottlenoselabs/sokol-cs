@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cube", "src\cs\samples\Cube
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Triangle", "src\cs\samples\Triangle\Triangle.csproj", "{AFE56917-6C84-4820-ABC2-3C9BEDFAC6D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol", "src\cs\production\Sokol\Sokol.csproj", "{5E8B8F4C-FE8A-4B07-93D9-40FCE269C549}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sokol", "src\cs\production\sokol\sokol.csproj", "{5E8B8F4C-FE8A-4B07-93D9-40FCE269C549}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
