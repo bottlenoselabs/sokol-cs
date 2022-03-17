@@ -25,751 +25,751 @@ namespace bottlenoselabs
         private const string LibraryName = "sokol";
 
         // Function @ sokol_app.h:1431:18
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sapp_desc sokol_main(int argc, CString* argv);
 
         // Function @ sokol_app.h:1434:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sapp_isvalid();
 
         // Function @ sokol_app.h:1436:24
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sapp_width();
 
         // Function @ sokol_app.h:1438:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern float sapp_widthf();
 
         // Function @ sokol_app.h:1440:24
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sapp_height();
 
         // Function @ sokol_app.h:1442:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern float sapp_heightf();
 
         // Function @ sokol_app.h:1444:24
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sapp_color_format();
 
         // Function @ sokol_app.h:1446:24
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sapp_depth_format();
 
         // Function @ sokol_app.h:1448:24
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sapp_sample_count();
 
         // Function @ sokol_app.h:1450:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sapp_high_dpi();
 
         // Function @ sokol_app.h:1452:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern float sapp_dpi_scale();
 
         // Function @ sokol_app.h:1454:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_show_keyboard(CBool show);
 
         // Function @ sokol_app.h:1456:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sapp_keyboard_shown();
 
         // Function @ sokol_app.h:1458:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sapp_is_fullscreen();
 
         // Function @ sokol_app.h:1460:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_toggle_fullscreen();
 
         // Function @ sokol_app.h:1462:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_show_mouse(CBool show);
 
         // Function @ sokol_app.h:1464:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sapp_mouse_shown();
 
         // Function @ sokol_app.h:1466:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_lock_mouse(CBool @lock);
 
         // Function @ sokol_app.h:1468:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sapp_mouse_locked();
 
         // Function @ sokol_app.h:1470:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_userdata();
 
         // Function @ sokol_app.h:1472:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sapp_desc sapp_query_desc();
 
         // Function @ sokol_app.h:1474:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_request_quit();
 
         // Function @ sokol_app.h:1476:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_cancel_quit();
 
         // Function @ sokol_app.h:1478:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_quit();
 
         // Function @ sokol_app.h:1480:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_consume_event();
 
         // Function @ sokol_app.h:1482:29
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong sapp_frame_count();
 
         // Function @ sokol_app.h:1484:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern double sapp_frame_duration();
 
         // Function @ sokol_app.h:1486:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_set_clipboard_string(CString str);
 
         // Function @ sokol_app.h:1488:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CString sapp_get_clipboard_string();
 
         // Function @ sokol_app.h:1490:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_set_window_title(CString str);
 
         // Function @ sokol_app.h:1492:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_set_icon(sapp_icon_desc* icon_desc);
 
         // Function @ sokol_app.h:1494:24
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sapp_get_num_dropped_files();
 
         // Function @ sokol_app.h:1496:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CString sapp_get_dropped_file_path(int index);
 
         // Function @ sokol_app.h:1499:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_run(sapp_desc* desc);
 
         // Function @ sokol_app.h:1502:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sapp_gles2();
 
         // Function @ sokol_app.h:1505:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_html5_ask_leave_site(CBool ask);
 
         // Function @ sokol_app.h:1507:29
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint sapp_html5_get_dropped_file_size(int index);
 
         // Function @ sokol_app.h:1509:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sapp_html5_fetch_dropped_file(sapp_html5_fetch_request* request);
 
         // Function @ sokol_app.h:1512:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_metal_get_device();
 
         // Function @ sokol_app.h:1514:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_metal_get_renderpass_descriptor();
 
         // Function @ sokol_app.h:1516:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_metal_get_drawable();
 
         // Function @ sokol_app.h:1518:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_macos_get_window();
 
         // Function @ sokol_app.h:1520:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_ios_get_window();
 
         // Function @ sokol_app.h:1523:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_d3d11_get_device();
 
         // Function @ sokol_app.h:1525:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_d3d11_get_device_context();
 
         // Function @ sokol_app.h:1527:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_d3d11_get_swap_chain();
 
         // Function @ sokol_app.h:1529:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_d3d11_get_render_target_view();
 
         // Function @ sokol_app.h:1531:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_d3d11_get_depth_stencil_view();
 
         // Function @ sokol_app.h:1533:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_win32_get_hwnd();
 
         // Function @ sokol_app.h:1536:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_wgpu_get_device();
 
         // Function @ sokol_app.h:1538:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_wgpu_get_render_view();
 
         // Function @ sokol_app.h:1540:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_wgpu_get_resolve_view();
 
         // Function @ sokol_app.h:1542:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_wgpu_get_depth_stencil_view();
 
         // Function @ sokol_app.h:1545:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sapp_android_get_native_activity();
 
         // Function @ sokol_gfx.h:2419:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_setup(sg_desc* desc);
 
         // Function @ sokol_gfx.h:2420:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_shutdown();
 
         // Function @ sokol_gfx.h:2421:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sg_isvalid();
 
         // Function @ sokol_gfx.h:2422:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_reset_state_cache();
 
         // Function @ sokol_gfx.h:2423:35
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks);
 
         // Function @ sokol_gfx.h:2424:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_push_debug_group(CString name);
 
         // Function @ sokol_gfx.h:2425:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_pop_debug_group();
 
         // Function @ sokol_gfx.h:2428:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_buffer sg_make_buffer(sg_buffer_desc* desc);
 
         // Function @ sokol_gfx.h:2429:29
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_image sg_make_image(sg_image_desc* desc);
 
         // Function @ sokol_gfx.h:2430:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_shader sg_make_shader(sg_shader_desc* desc);
 
         // Function @ sokol_gfx.h:2431:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_pipeline sg_make_pipeline(sg_pipeline_desc* desc);
 
         // Function @ sokol_gfx.h:2432:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_pass sg_make_pass(sg_pass_desc* desc);
 
         // Function @ sokol_gfx.h:2433:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_destroy_buffer(sg_buffer buf);
 
         // Function @ sokol_gfx.h:2434:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_destroy_image(sg_image img);
 
         // Function @ sokol_gfx.h:2435:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_destroy_shader(sg_shader shd);
 
         // Function @ sokol_gfx.h:2436:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_destroy_pipeline(sg_pipeline pip);
 
         // Function @ sokol_gfx.h:2437:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_destroy_pass(sg_pass pass);
 
         // Function @ sokol_gfx.h:2438:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_update_buffer(sg_buffer buf, sg_range* data);
 
         // Function @ sokol_gfx.h:2439:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_update_image(sg_image img, sg_image_data* data);
 
         // Function @ sokol_gfx.h:2440:24
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sg_append_buffer(sg_buffer buf, sg_range* data);
 
         // Function @ sokol_gfx.h:2441:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sg_query_buffer_overflow(sg_buffer buf);
 
         // Function @ sokol_gfx.h:2444:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_begin_default_pass(sg_pass_action* pass_action, int width, int height);
 
         // Function @ sokol_gfx.h:2445:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_begin_default_passf(sg_pass_action* pass_action, float width, float height);
 
         // Function @ sokol_gfx.h:2446:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_begin_pass(sg_pass pass, sg_pass_action* pass_action);
 
         // Function @ sokol_gfx.h:2447:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_apply_viewport(int x, int y, int width, int height, CBool origin_top_left);
 
         // Function @ sokol_gfx.h:2448:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_apply_viewportf(float x, float y, float width, float height, CBool origin_top_left);
 
         // Function @ sokol_gfx.h:2449:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, CBool origin_top_left);
 
         // Function @ sokol_gfx.h:2450:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_apply_scissor_rectf(float x, float y, float width, float height, CBool origin_top_left);
 
         // Function @ sokol_gfx.h:2451:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_apply_pipeline(sg_pipeline pip);
 
         // Function @ sokol_gfx.h:2452:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_apply_bindings(sg_bindings* bindings);
 
         // Function @ sokol_gfx.h:2453:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, sg_range* data);
 
         // Function @ sokol_gfx.h:2454:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_draw(int base_element, int num_elements, int num_instances);
 
         // Function @ sokol_gfx.h:2455:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_end_pass();
 
         // Function @ sokol_gfx.h:2456:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_commit();
 
         // Function @ sokol_gfx.h:2459:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_desc sg_query_desc();
 
         // Function @ sokol_gfx.h:2460:31
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_backend sg_query_backend();
 
         // Function @ sokol_gfx.h:2461:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_features sg_query_features();
 
         // Function @ sokol_gfx.h:2462:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_limits sg_query_limits();
 
         // Function @ sokol_gfx.h:2463:40
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
 
         // Function @ sokol_gfx.h:2465:38
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_resource_state sg_query_buffer_state(sg_buffer buf);
 
         // Function @ sokol_gfx.h:2466:38
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_resource_state sg_query_image_state(sg_image img);
 
         // Function @ sokol_gfx.h:2467:38
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_resource_state sg_query_shader_state(sg_shader shd);
 
         // Function @ sokol_gfx.h:2468:38
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
 
         // Function @ sokol_gfx.h:2469:38
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_resource_state sg_query_pass_state(sg_pass pass);
 
         // Function @ sokol_gfx.h:2471:35
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_buffer_info sg_query_buffer_info(sg_buffer buf);
 
         // Function @ sokol_gfx.h:2472:34
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_image_info sg_query_image_info(sg_image img);
 
         // Function @ sokol_gfx.h:2473:35
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_shader_info sg_query_shader_info(sg_shader shd);
 
         // Function @ sokol_gfx.h:2474:37
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
 
         // Function @ sokol_gfx.h:2475:33
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
 
         // Function @ sokol_gfx.h:2477:35
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_buffer_desc sg_query_buffer_defaults(sg_buffer_desc* desc);
 
         // Function @ sokol_gfx.h:2478:34
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_image_desc sg_query_image_defaults(sg_image_desc* desc);
 
         // Function @ sokol_gfx.h:2479:35
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_shader_desc sg_query_shader_defaults(sg_shader_desc* desc);
 
         // Function @ sokol_gfx.h:2480:37
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_pipeline_desc sg_query_pipeline_defaults(sg_pipeline_desc* desc);
 
         // Function @ sokol_gfx.h:2481:33
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_pass_desc sg_query_pass_defaults(sg_pass_desc* desc);
 
         // Function @ sokol_gfx.h:2484:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_buffer sg_alloc_buffer();
 
         // Function @ sokol_gfx.h:2485:29
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_image sg_alloc_image();
 
         // Function @ sokol_gfx.h:2486:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_shader sg_alloc_shader();
 
         // Function @ sokol_gfx.h:2487:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_pipeline sg_alloc_pipeline();
 
         // Function @ sokol_gfx.h:2488:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_pass sg_alloc_pass();
 
         // Function @ sokol_gfx.h:2489:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_dealloc_buffer(sg_buffer buf_id);
 
         // Function @ sokol_gfx.h:2490:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_dealloc_image(sg_image img_id);
 
         // Function @ sokol_gfx.h:2491:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_dealloc_shader(sg_shader shd_id);
 
         // Function @ sokol_gfx.h:2492:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_dealloc_pipeline(sg_pipeline pip_id);
 
         // Function @ sokol_gfx.h:2493:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_dealloc_pass(sg_pass pass_id);
 
         // Function @ sokol_gfx.h:2494:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_init_buffer(sg_buffer buf_id, sg_buffer_desc* desc);
 
         // Function @ sokol_gfx.h:2495:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_init_image(sg_image img_id, sg_image_desc* desc);
 
         // Function @ sokol_gfx.h:2496:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_init_shader(sg_shader shd_id, sg_shader_desc* desc);
 
         // Function @ sokol_gfx.h:2497:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_init_pipeline(sg_pipeline pip_id, sg_pipeline_desc* desc);
 
         // Function @ sokol_gfx.h:2498:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc);
 
         // Function @ sokol_gfx.h:2499:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sg_uninit_buffer(sg_buffer buf_id);
 
         // Function @ sokol_gfx.h:2500:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sg_uninit_image(sg_image img_id);
 
         // Function @ sokol_gfx.h:2501:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sg_uninit_shader(sg_shader shd_id);
 
         // Function @ sokol_gfx.h:2502:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sg_uninit_pipeline(sg_pipeline pip_id);
 
         // Function @ sokol_gfx.h:2503:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sg_uninit_pass(sg_pass pass_id);
 
         // Function @ sokol_gfx.h:2504:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_fail_buffer(sg_buffer buf_id);
 
         // Function @ sokol_gfx.h:2505:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_fail_image(sg_image img_id);
 
         // Function @ sokol_gfx.h:2506:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_fail_shader(sg_shader shd_id);
 
         // Function @ sokol_gfx.h:2507:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_fail_pipeline(sg_pipeline pip_id);
 
         // Function @ sokol_gfx.h:2508:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_fail_pass(sg_pass pass_id);
 
         // Function @ sokol_gfx.h:2511:31
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_context sg_setup_context();
 
         // Function @ sokol_gfx.h:2512:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_activate_context(sg_context ctx_id);
 
         // Function @ sokol_gfx.h:2513:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sg_discard_context(sg_context ctx_id);
 
         // Function @ sokol_gfx.h:2522:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sg_d3d11_device();
 
         // Function @ sokol_gfx.h:2525:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sg_mtl_device();
 
         // Function @ sokol_gfx.h:2528:32
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sg_mtl_render_command_encoder();
 
         // Function @ sokol_glue.h:97:37
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sg_context_desc sapp_sgcontext();
 
         // Function @ sokol_audio.h:427:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void saudio_setup(saudio_desc* desc);
 
         // Function @ sokol_audio.h:429:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void saudio_shutdown();
 
         // Function @ sokol_audio.h:431:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool saudio_isvalid();
 
         // Function @ sokol_audio.h:433:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* saudio_userdata();
 
         // Function @ sokol_audio.h:435:34
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern saudio_desc saudio_query_desc();
 
         // Function @ sokol_audio.h:437:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int saudio_sample_rate();
 
         // Function @ sokol_audio.h:439:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int saudio_buffer_frames();
 
         // Function @ sokol_audio.h:441:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int saudio_channels();
 
         // Function @ sokol_audio.h:443:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool saudio_suspended();
 
         // Function @ sokol_audio.h:445:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int saudio_expect();
 
         // Function @ sokol_audio.h:447:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int saudio_push(float* frames, int num_frames);
 
         // Function @ sokol_fetch.h:921:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sfetch_setup(sfetch_desc_t* desc);
 
         // Function @ sokol_fetch.h:923:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sfetch_shutdown();
 
         // Function @ sokol_fetch.h:925:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sfetch_valid();
 
         // Function @ sokol_fetch.h:927:36
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sfetch_desc_t sfetch_desc();
 
         // Function @ sokol_fetch.h:929:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sfetch_max_userdata_bytes();
 
         // Function @ sokol_fetch.h:931:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sfetch_max_path();
 
         // Function @ sokol_fetch.h:934:38
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern sfetch_handle_t sfetch_send(sfetch_request_t* request);
 
         // Function @ sokol_fetch.h:936:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sfetch_handle_valid(sfetch_handle_t h);
 
         // Function @ sokol_fetch.h:938:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sfetch_dowork();
 
         // Function @ sokol_fetch.h:941:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sfetch_bind_buffer(sfetch_handle_t h, void* buffer_ptr, uint buffer_size);
 
         // Function @ sokol_fetch.h:943:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void* sfetch_unbind_buffer(sfetch_handle_t h);
 
         // Function @ sokol_fetch.h:945:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sfetch_cancel(sfetch_handle_t h);
 
         // Function @ sokol_fetch.h:947:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sfetch_pause(sfetch_handle_t h);
 
         // Function @ sokol_fetch.h:949:27
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sfetch_continue(sfetch_handle_t h);
 
         // Function @ sokol_time.h:128:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void stm_setup();
 
         // Function @ sokol_time.h:129:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong stm_now();
 
         // Function @ sokol_time.h:130:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong stm_diff(ulong new_ticks, ulong old_ticks);
 
         // Function @ sokol_time.h:131:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong stm_since(ulong start_ticks);
 
         // Function @ sokol_time.h:132:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong stm_laptime(ulong* last_time);
 
         // Function @ sokol_time.h:133:30
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong stm_round_to_common_refresh_rate(ulong frame_ticks);
 
         // Function @ sokol_time.h:134:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern double stm_sec(ulong ticks);
 
         // Function @ sokol_time.h:135:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern double stm_ms(ulong ticks);
 
         // Function @ sokol_time.h:136:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern double stm_us(ulong ticks);
 
         // Function @ sokol_time.h:137:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern double stm_ns(ulong ticks);
 
         // Function @ sokol_args.h:280:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sargs_setup(sargs_desc* desc);
 
         // Function @ sokol_args.h:282:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sargs_shutdown();
 
         // Function @ sokol_args.h:284:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sargs_isvalid();
 
         // Function @ sokol_args.h:286:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sargs_exists(CString key);
 
         // Function @ sokol_args.h:288:33
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CString sargs_value(CString key);
 
         // Function @ sokol_args.h:290:33
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CString sargs_value_def(CString key, CString def);
 
         // Function @ sokol_args.h:292:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sargs_equals(CString key, CString val);
 
         // Function @ sokol_args.h:294:26
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CBool sargs_boolean(CString key);
 
         // Function @ sokol_args.h:296:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sargs_find(CString key);
 
         // Function @ sokol_args.h:298:25
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int sargs_num_args();
 
         // Function @ sokol_args.h:300:33
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CString sargs_key_at(int index);
 
         // Function @ sokol_args.h:302:33
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CString sargs_value_at(int index);
 
         // FunctionPointer @ sokol_app.h:1361:12
