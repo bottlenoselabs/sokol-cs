@@ -42,6 +42,7 @@ jobs:
         run: ./library.sh
 
       - name: "Upload native libraries"
+        if: steps.cache-libs.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v2
         with:
           path: "./lib"
