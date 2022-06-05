@@ -15,10 +15,6 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 <Import Project="$([System.IO.Path]::GetFullPath('path/to/sokol.props'))" />
 ```
 
-#### Bindgen
-
-If you wish to re-generate the bindings, run [`c2cs`](https://github.com/lithiumtoast/c2cs) from this directory.
-
 ## Developers: Documentation
 
 ### Run: "Hello, world!" of computer graphics
@@ -26,18 +22,6 @@ If you wish to re-generate the bindings, run [`c2cs`](https://github.com/lithium
 The most basic example of rendering a triangle in clip space using your GPU.
 
 ![Triangle](docs/images/1-triangle.png)
-
-### IDE (Visual Studio / Rider)
-
-Run `Sokol.Samples.Triangle`.
-
-### CLI
-
-#### Windows
-
-Build + run: `dotnet run --project ./src/cs/samples/Triangle/Triangle.csproj`
-
-#### macOS/Linux
 
 Build + run: `dotnet run --project ./src/cs/samples/Triangle/Triangle.csproj`
 
@@ -47,9 +31,7 @@ For more information on how C# bindings work, see [`C2CS`](https://github.com/li
 
 To learn how to use `sokol`, check out the [official C samples](https://github.com/floooh/sokol-samples). You can also find the same examples that run in [your browser](https://floooh.github.io/sokol-html5/index.html). The comments in the [`sokol_gfx.h`](https://github.com/floooh/sokol/blob/master/sokol_gfx.h), [`sokol_app.h`](https://github.com/floooh/sokol/blob/master/sokol_app.h), etc, are also a good reference for documentation.
 
-## Supported Platforms & 3D Graphics APIs
-
-Since `sokol_gfx`, `sokol_app`, etc, are C libraries technically any platform is possible. For a list of supported platforms for .NET 6 see the [RID Catalog](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog).
+## 3D Graphics APIs
 
 [`sokol_gfx`](https://github.com/floooh/sokol#sokol_gfxh) converges old and modern graphics APIs to one simple and easy to use API. To learn more about the convergence of modern 3D graphics APIs (such as Metal, DirectX11/12, and WebGPU) and how they compare to legacy APIs (such as OpenGL), see *[A Comparison of Modern Graphics APIs](https://alain.xyz/blog/comparison-of-modern-graphics-apis)* blog written by Alain Galvan, a graphics software engineer.
 
