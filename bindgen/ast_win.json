@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
   "directory": "./ast",
   "c": {
-      "input_file": "./src/c/sokol/sokol.h",
+      "input_file": "../src/c/sokol/sokol.h",
       "user_include_directories": [
-          "./ext/sokol"
+          "../ext/sokol"
       ],
       "platforms": {
           "aarch64-pc-windows-msvc": {},
