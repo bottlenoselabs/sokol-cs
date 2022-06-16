@@ -24,8 +24,4 @@
 /cmake-build-release
 
 # C2CS
-/C2CS
-/C2CS.exe
-/libclang.dll
-/libclang.dylib
-/libclang.so
+/bindgen/ast/
