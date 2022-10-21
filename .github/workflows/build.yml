@@ -36,6 +36,13 @@ jobs:
           path: "./lib"
           key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/sokol/**/*') }}"
 
+      - name: "Build native libraries: Linux dependencies"
+        if: steps.cache-libs.outputs.cache-hit != 'true' && runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install \
+            libxi-dev
+
       - name: "Build native libraries"
         if: steps.cache-libs.outputs.cache-hit != 'true'
         shell: bash
