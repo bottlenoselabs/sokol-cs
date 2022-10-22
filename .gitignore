@@ -25,3 +25,4 @@
 
 # C2CS
 /bindgen/ast/
+/bindgen/plugins/

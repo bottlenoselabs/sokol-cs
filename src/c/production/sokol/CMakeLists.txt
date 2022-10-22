@@ -4,8 +4,8 @@ project(sokol)
 
 set(CMAKE_C_STANDARD 99)
 
-get_filename_component(SOKOL_DIRECTORY_PATH "../../../ext/sokol" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
-get_filename_component(CIMGUI_DIRECTORY_PATH "../../../ext/cimgui" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+get_filename_component(SOKOL_DIRECTORY_PATH "../../../../ext/sokol" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+get_filename_component(CIMGUI_DIRECTORY_PATH "../../../../ext/cimgui" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories(${SOKOL_DIRECTORY_PATH} ${CIMGUI_DIRECTORY_PATH})
 
 set (CMAKE_SYSTEM_VERSION 10.0 (latest installed version))

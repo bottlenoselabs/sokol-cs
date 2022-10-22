@@ -2,7 +2,7 @@
 DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 $DIRECTORY/ext/scripts/c/library/main.sh \
-    $DIRECTORY/src/c/sokol \
+    $DIRECTORY/src/c/production/sokol \
     $DIRECTORY/build \
     $DIRECTORY/lib \
     "sokol" \
