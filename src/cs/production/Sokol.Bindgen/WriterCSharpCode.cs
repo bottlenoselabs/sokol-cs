@@ -21,7 +21,7 @@ public class WriterCSharpCode : IWriterCSharpCode
         
         options.OutputCSharpCodeFilePath = "../src/cs/production/Sokol/Sokol.cs";
         options.NamespaceName = "bottlenoselabs";
-        // options.IsEnabledVerifyCSharpCodeCompiles = false;
+        options.IsEnabledVerifyCSharpCodeCompiles = false;
         
         options.IgnoredNames = new [] { "Rgba32F" }.ToImmutableArray()!;
         options.MappedNames = new[]
