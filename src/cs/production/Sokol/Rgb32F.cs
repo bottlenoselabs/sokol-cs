@@ -164,7 +164,7 @@ public partial struct Rgb32F : IEquatable<Rgb32F>
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="uint" />.</param>
-    /// <returns></returns>
+    /// <returns> The <see cref="Rgb32F" /> struct resulting from converting <paramref name="value" />.</returns>
     public static implicit operator Rgb32F(uint value)
     {
         return new Rgb32F(value);
@@ -175,7 +175,7 @@ public partial struct Rgb32F : IEquatable<Rgb32F>
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="string" />.</param>
-    /// <returns></returns>
+    /// <returns> The <see cref="Rgb32F" /> struct resulting from converting <paramref name="value" />.</returns>
     public static implicit operator Rgb32F(string value)
     {
         return new Rgb32F(value);
@@ -186,7 +186,7 @@ public partial struct Rgb32F : IEquatable<Rgb32F>
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="string" />.</param>
-    /// <returns></returns>
+    /// <returns> The <see cref="Rgb32F" /> struct resulting from converting <paramref name="value" />.</returns>
     public static implicit operator Rgb32F(Vector3 value)
     {
         return new Rgb32F(value);

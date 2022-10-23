@@ -152,7 +152,7 @@ public partial struct Rgb8U : IEquatable<Rgb8U>
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="uint" />.</param>
-    /// <returns></returns>
+    /// <returns>The converted <see cref="Rgba8U"/>.</returns>
     public static implicit operator Rgb8U(uint value)
     {
         return new Rgb8U(value);
@@ -163,21 +163,21 @@ public partial struct Rgb8U : IEquatable<Rgb8U>
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="string" />.</param>
-    /// <returns></returns>
+    /// <returns>The converted <see cref="Rgba8U"/>.</returns>
     public static implicit operator Rgb8U(string value)
     {
         return new Rgb8U(value);
     }
 
     /// <inheritdoc />
-    public override readonly string ToString()
+    public readonly override string ToString()
     {
         return $"R:{R}, G:{G}, B:{B}";
     }
 
     /// <inheritdoc />
     [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode", Justification = "Mutable value type.")]
-    public override readonly int GetHashCode()
+    public readonly override int GetHashCode()
     {
         return HashCode.Combine(R, G, B);
     }

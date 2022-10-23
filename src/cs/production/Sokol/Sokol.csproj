@@ -1,10 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+    <!-- Sokol -->
+    <PropertyGroup>
+        <_IsEnabledSourceCode>false</_IsEnabledSourceCode>
+        <AssemblyName>Sokol-cs</AssemblyName>
+    </PropertyGroup>
+    <Import Project="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../../../sokol.props'))" />
+
+    <!-- MSBuild settings -->
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <RootNamespace>bottlenoselabs</RootNamespace>
+        <ImplicitUsings>false</ImplicitUsings>
+        <Nullable>enable</Nullable>
         <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     </PropertyGroup>
+
+    <!-- bottlenose.MSBuild.Tools project settings -->
+    <PropertyGroup>
+        <EnableAnalyzers>true</EnableAnalyzers>
+        <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
+        <StyleCopSettingsFilePath>$(MSBuildThisFileDirectory)/Properties/StyleCop.json</StyleCopSettingsFilePath>
+    </PropertyGroup>
+
+    <!-- NuGet package references -->
+    <ItemGroup>
+      <PackageReference Include="bottlenoselabs.MSBuild.Tools" Version="1.1.3">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
 
 </Project>

@@ -6,14 +6,11 @@
     <_LibraryDirectoryPath>$(_GitDirectoryPath)/lib</_LibraryDirectoryPath>
     <_SourceCodeDirectoryPath>$(_GitDirectoryPath)/src/cs/production/$(_LibraryName)/</_SourceCodeDirectoryPath>
     <_LinkDirectoryPath>bottlenoselabs/$(_LibraryName)/</_LinkDirectoryPath>
+    <_IsEnabledSourceCode Condition=" '$(_IsEnabledSourceCode)' == '' ">true</_IsEnabledSourceCode>
   </PropertyGroup>
 
   <!-- C# source code-->
-  <ItemGroup>
-    <Compile Include="$(_GitDirectoryPath)/sokol.cs" >
-      <Pack>false</Pack>
-      <Link>$(_LinkDirectoryPath)/%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Compile>
+  <ItemGroup Condition=" '$(_IsEnabledSourceCode)' == 'true' ">
     <Compile Include="$(_SourceCodeDirectoryPath)/**/*.cs" >
       <Pack>false</Pack>
       <Link>$(_LinkDirectoryPath)/%(RecursiveDir)%(Filename)%(Extension)</Link>

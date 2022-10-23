@@ -4,8 +4,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 #nullable enable
 
@@ -164,7 +162,7 @@ public partial struct Rgba8U : IEquatable<Rgba8U>
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="uint" />.</param>
-    /// <returns></returns>
+    /// <returns> The <see cref="Rgba8U" /> struct resulting from converting <paramref name="value" />.</returns>
     public static implicit operator Rgba8U(uint value)
     {
         return new Rgba8U(value);
@@ -175,21 +173,21 @@ public partial struct Rgba8U : IEquatable<Rgba8U>
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="string" />.</param>
-    /// <returns></returns>
+    /// <returns> The <see cref="Rgba8U" /> struct resulting from converting <paramref name="value" />.</returns>
     public static implicit operator Rgba8U(string value)
     {
         return new Rgba8U(value);
     }
 
     /// <inheritdoc />
-    public override readonly string ToString()
+    public readonly override string ToString()
     {
         return $"R:{R}, G:{G}, B:{B}, A:{A}";
     }
 
     /// <inheritdoc />
     [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode", Justification = "Mutable value type.")]
-    public override readonly int GetHashCode()
+    public readonly override int GetHashCode()
     {
         return HashCode.Combine(R, G, B, A);
     }

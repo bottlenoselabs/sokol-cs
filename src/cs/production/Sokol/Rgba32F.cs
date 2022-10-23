@@ -161,8 +161,8 @@ public partial struct Rgba32F : IEquatable<Rgba32F>
     /// <param name="a">The first <see cref="Rgba32F" /> struct.</param>
     /// <param name="b">The second <see cref="Rgba32F" /> struct.</param>
     /// <returns>
-    ///     The <see cref="Rgba32F" /> struct resulting from vector addition of <paramref name="a" /> and <paramref name="b" />
-    ///     .
+    ///     The <see cref="Rgba32F" /> struct resulting from vector addition of <paramref name="a" /> and
+    ///     <paramref name="b" />.
     /// </returns>
     public static Rgba32F operator +(Rgba32F a, Rgba32F b)
     {
@@ -178,7 +178,7 @@ public partial struct Rgba32F : IEquatable<Rgba32F>
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="uint" />.</param>
-    /// <returns></returns>
+    /// <returns> The <see cref="Rgba32F" /> struct resulting from converting <paramref name="value" />.</returns>
     public static implicit operator Rgba32F(uint value)
     {
         return new Rgba32F(value);
@@ -189,7 +189,7 @@ public partial struct Rgba32F : IEquatable<Rgba32F>
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="string" />.</param>
-    /// <returns></returns>
+    /// <returns> The <see cref="Rgba32F" /> struct resulting from converting <paramref name="value" />.</returns>
     public static implicit operator Rgba32F(string value)
     {
         return new Rgba32F(value);
@@ -200,21 +200,21 @@ public partial struct Rgba32F : IEquatable<Rgba32F>
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="string" />.</param>
-    /// <returns></returns>
+    /// <returns> The <see cref="Rgba32F" /> struct resulting from converting <paramref name="value" />.</returns>
     public static implicit operator Rgba32F(Vector4 value)
     {
         return new Rgba32F(value);
     }
 
     /// <inheritdoc />
-    public override readonly string ToString()
+    public readonly override string ToString()
     {
         return $"R:{R}, G:{G}, B:{B}, A:{A}";
     }
 
     /// <inheritdoc />
     [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode", Justification = "Mutable value type.")]
-    public override readonly int GetHashCode()
+    public readonly override int GetHashCode()
     {
         return HashCode.Combine(R, G, B, A);
     }

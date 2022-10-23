@@ -3,7 +3,7 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static bottlenoselabs.sokol;
+using static bottlenoselabs.Sokol;
 
 namespace Triangle
 {
@@ -32,7 +32,7 @@ namespace Triangle
             desc.width = 400;
             desc.height = 300;
             desc.gl_force_gles2 = true;
-            desc.window_title = "Triangle";
+            desc.window_title = (Runtime.CString)"Triangle";
             desc.icon.sokol_default = true;
    
             sapp_run(&desc);
@@ -111,20 +111,20 @@ namespace Triangle
             switch (sg_query_backend())
             {
                 case sg_backend.SG_BACKEND_GLCORE33:
-                    desc.vs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainVert.glsl"));
-                    desc.fs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainFrag.glsl"));
+                    desc.vs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainVert.glsl"));
+                    desc.fs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainFrag.glsl"));
                     break;
                 case sg_backend.SG_BACKEND_METAL_IOS:
                 case sg_backend.SG_BACKEND_METAL_MACOS:
                 case sg_backend.SG_BACKEND_METAL_SIMULATOR:
-                    desc.vs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainVert.metal"));
-                    desc.fs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainFrag.metal"));
+                    desc.vs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainVert.metal"));
+                    desc.fs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainFrag.metal"));
                     break;
                 case sg_backend.SG_BACKEND_D3D11:
-                    desc.vs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainVert.hlsl"));
-                    desc.fs.source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainFrag.hlsl"));
-                    attribute0.sem_name = "POS";
-                    attribute1.sem_name = "COLOR";
+                    desc.vs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainVert.hlsl"));
+                    desc.fs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainFrag.hlsl"));
+                    attribute0.sem_name = (Runtime.CString)"POS";
+                    attribute1.sem_name = (Runtime.CString)"COLOR";
                     break;
                 case sg_backend.SG_BACKEND_GLES2:
                 case sg_backend.SG_BACKEND_GLES3:
