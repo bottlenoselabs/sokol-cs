@@ -6,7 +6,7 @@ To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.
 
 ## How to use
 
-1. Download and install [.NET 6](https://dotnet.microsoft.com/download).
+1. Download and install [.NET 7](https://dotnet.microsoft.com/download).
 2. Fork the repository using GitHub or clone the repository manually with submodules: `git clone --recurse-submodules https://github.com/bottlenoselabs/sokol-cs`.
 3. Build the native library by running `library.sh`. To execute `.sh` scripts on Windows, use Git Bash which can be installed with Git itself: https://git-scm.com/download/win. The `library.sh` script requires that CMake is installed and in your path.
 4. To setup everything you need: Either (1), add the `src/cs/production/Sokol/Sokol.csproj` C# project to your solution as an existing project and reference it within your own solution, or (2) import the MSBuild `sokol.props` file which is located in the root of this directory to your `.csproj` file. See the [Sokol.csproj](src/cs/production/Sokol/Sokol.csproj) file for how to import the `flecs.props` directly.
