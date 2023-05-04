@@ -1,0 +1,14 @@
+{
+  "inputFilePath": "./x-ast/ast-cross-platform.json",
+  "outputFilePath": "./../src/cs/production/Sokol/sokol.gen.cs",
+  "namespaceName": "bottlenoselabs",
+  "className": "sokol",
+  "libraryName": "sokol",
+  "mappedNames": [
+    { "source": "sg_color", "target": "Rgba32F" }
+  ],
+  "ignoredNames": [
+    "Rgba32F"
+  ],
+  "isEnabledVerifyCSharpCodeCompiles": false
+}

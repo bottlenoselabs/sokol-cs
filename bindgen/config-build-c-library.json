@@ -1,0 +1,6 @@
+{
+  "cMakeDirectoryPath": "../src/c/production/sokol",
+  "outputDirectoryPath": "../lib",
+  "deleteBuildFiles": true,
+  "cMakeArguments": []
+}

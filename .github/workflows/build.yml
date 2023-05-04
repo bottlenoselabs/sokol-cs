@@ -1,4 +1,4 @@
-name: "Build .NET solution"
+name: "Build"
 
 on:
   workflow_call:
@@ -34,14 +34,28 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "./lib"
-          key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/sokol/**/*') }}"
+          key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/SDL/**/*') }}-${{ hashFiles('src/c/**/*') }}"
 
-      - name: "Build native libraries: Linux dependencies"
-        if: steps.cache-libs.outputs.cache-hit != 'true' && runner.os == 'Linux'
+      - name: "Install Windows dependencies"
+        if: runner.os == 'Windows'
+        run: |
+          choco install ninja
+
+      - name: "Install macOS dependencies"
+        if: runner.os == 'macOS'
+        run: |
+          brew install ninja
+
+      - name: Setup Linux dependencies
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install \
-            libxi-dev libxcursor-dev libgl-dev libasound2-dev
+            ninja-build
+
+      - name: "Install C2CS"
+        shell: bash
+        run: dotnet tool install --global bottlenoselabs.C2CS.Tool
 
       - name: "Build native libraries"
         if: steps.cache-libs.outputs.cache-hit != 'true'
@@ -86,8 +100,8 @@ jobs:
         continue-on-error: true
         with:
           name: "bindgen-cs"
-          path: "./"
+          path: "./src/cs/production/Sokol"
 
       - name: ".NET Build"
-        run: dotnet build
+        run: dotnet build "./src/cs"
           

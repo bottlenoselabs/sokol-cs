@@ -31,10 +31,5 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
     </ItemGroup>
-    <ItemGroup>
-      <Compile Include="..\..\..\..\Sokol.cs">
-        <Link>Sokol.cs</Link>
-      </Compile>
-    </ItemGroup>
 
 </Project>

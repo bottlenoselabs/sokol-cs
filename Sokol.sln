@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Triangle", "src\cs\samples\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol", "src\cs\production\Sokol\Sokol.csproj", "{763AE42C-D8D7-4BF0-B9BD-E9E7F161B895}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.Bindgen", "src\cs\production\Sokol.Bindgen\Sokol.Bindgen.csproj", "{DDF845DD-EEE2-4CBA-B7B8-11B1F0380F8D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,15 +28,10 @@ Global
 		{763AE42C-D8D7-4BF0-B9BD-E9E7F161B895}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{763AE42C-D8D7-4BF0-B9BD-E9E7F161B895}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{763AE42C-D8D7-4BF0-B9BD-E9E7F161B895}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDF845DD-EEE2-4CBA-B7B8-11B1F0380F8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDF845DD-EEE2-4CBA-B7B8-11B1F0380F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDF845DD-EEE2-4CBA-B7B8-11B1F0380F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDF845DD-EEE2-4CBA-B7B8-11B1F0380F8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C391265A-F0E2-4100-98F0-FEF5AF3C7C05} = {D96A33BC-F5E8-4080-AA0A-8588A1C41312}
 		{AFE56917-6C84-4820-ABC2-3C9BEDFAC6D0} = {D96A33BC-F5E8-4080-AA0A-8588A1C41312}
 		{763AE42C-D8D7-4BF0-B9BD-E9E7F161B895} = {081F91DD-336C-4BB1-B619-ED0DD3ED32D0}
-		{DDF845DD-EEE2-4CBA-B7B8-11B1F0380F8D} = {081F91DD-336C-4BB1-B619-ED0DD3ED32D0}
 	EndGlobalSection
 EndGlobal

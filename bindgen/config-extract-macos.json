@@ -1,0 +1,10 @@
+{
+  "inputFilePath": "./../src/c/production/sokol/sokol.h",
+  "userIncludeDirectories": [
+    "./../ext/sokol"
+  ],
+  "platforms": {
+    "aarch64-apple-darwin": {},
+    "x86_64-apple-darwin": {}
+  }
+}

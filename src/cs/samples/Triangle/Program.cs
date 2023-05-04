@@ -3,7 +3,7 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static bottlenoselabs.Sokol;
+using static bottlenoselabs.sokol;
 
 namespace Triangle
 {

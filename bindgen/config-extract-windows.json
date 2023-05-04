@@ -1,0 +1,10 @@
+{
+  "inputFilePath": "./../src/c/production/sokol/sokol.h",
+  "userIncludeDirectories": [
+    "./../ext/sokol"
+  ],
+  "platforms": {
+    "x86_64-pc-windows-msvc": {},
+    "aarch64-pc-windows-msvc": {}
+  }
+}
