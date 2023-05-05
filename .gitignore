@@ -1,28 +1,19 @@
 # JetBrains
-/.idea/
-
-# VisualStudio
-/.vs/
-
-# User-specific files
-*.user
+.idea/
 
 # C# build artifacts
 /bin/
 /obj/
 
-# C# publish artifacts
-/publish/
-
-# macOS
-.DS_Store
+# C# packages
+/nupkg/
 
 # Native libraries
 /lib/
 
-# C build artifacts
-/cmake-build-release
-
-# C2CS
+# Bindgen
 /bindgen/ast/
-/bindgen/plugins/
+/bindgen/x-ast/
+
+# macOS
+.DS_store
