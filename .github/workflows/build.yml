@@ -34,7 +34,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "./lib"
-          key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/SDL/**/*') }}-${{ hashFiles('src/c/**/*') }}"
+          key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/sokol/**/*') }}-${{ hashFiles('src/c/**/*') }}"
 
       - name: "Install Windows dependencies"
         if: runner.os == 'Windows'
