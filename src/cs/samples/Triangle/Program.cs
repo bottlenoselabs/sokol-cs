@@ -31,7 +31,6 @@ namespace Triangle
             desc.frame_cb.Pointer = &Frame;
             desc.width = 400;
             desc.height = 300;
-            desc.gl_force_gles2 = true;
             desc.window_title = (Runtime.CString)"Triangle";
             desc.icon.sokol_default = true;
    
@@ -126,7 +125,6 @@ namespace Triangle
                     attribute0.sem_name = (Runtime.CString)"POS";
                     attribute1.sem_name = (Runtime.CString)"COLOR";
                     break;
-                case sg_backend.SG_BACKEND_GLES2:
                 case sg_backend.SG_BACKEND_GLES3:
                 case sg_backend.SG_BACKEND_WGPU:
                 case sg_backend.SG_BACKEND_DUMMY:

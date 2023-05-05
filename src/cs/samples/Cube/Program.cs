@@ -43,7 +43,6 @@ namespace Cube
             desc.width = 800;
             desc.height = 600;
             desc.sample_count = 4;
-            desc.gl_force_gles2 = true;
             desc.window_title = (Runtime.CString)"Cube";
             desc.icon.sokol_default = true;
         
@@ -297,7 +296,6 @@ namespace Cube
                     attribute1.sem_name = (Runtime.CString)"COLOR";
                     attribute1.sem_index = 1;
                     break;
-                case sg_backend.SG_BACKEND_GLES2:
                 case sg_backend.SG_BACKEND_GLES3:
                 case sg_backend.SG_BACKEND_WGPU:
                 case sg_backend.SG_BACKEND_DUMMY:
