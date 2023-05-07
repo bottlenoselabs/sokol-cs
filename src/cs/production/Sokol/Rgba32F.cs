@@ -1,13 +1,16 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+#nullable enable
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using JetBrains.Annotations;
 
-#nullable enable
+namespace bottlenoselabs.Sokol;
 
 /// <inheritdoc />
 /// <summary>
@@ -21,11 +24,7 @@ using System.Runtime.InteropServices;
 ///         <see cref="Rgba32F" /> is blittable.
 ///     </para>
 /// </remarks>
-[SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Mutable value type.")]
-[SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
-[SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
-[SuppressMessage("ReSharper", "CheckNamespace", Justification = "Wants to be a builtin type.")]
-[SuppressMessage("ReSharper", "CA1050", Justification = "Wants to be a builtin type.")]
+[PublicAPI]
 [StructLayout(LayoutKind.Sequential)]
 public partial struct Rgba32F : IEquatable<Rgba32F>
 {
@@ -94,7 +93,7 @@ public partial struct Rgba32F : IEquatable<Rgba32F>
             throw new ArgumentException($"Failed to parse the hex rgba '{value}' as an unsigned 32-bit integer.");
         }
 
-        u = uint.Parse(span, NumberStyles.HexNumber);
+        u = uint.Parse(span, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 
         R = ((u >> 24) & 0xFF) / 255f;
         G = ((u >> 16) & 0xFF) / 255f;
@@ -156,6 +155,24 @@ public partial struct Rgba32F : IEquatable<Rgba32F>
     }
 
     /// <summary>
+    ///     Vector subtraction of two <see cref="Rgba32F" /> structs.
+    /// </summary>
+    /// <param name="b">The first <see cref="Rgba32F" /> struct.</param>
+    /// <param name="a">The second <see cref="Rgba32F" /> struct.</param>
+    /// <returns>
+    ///     The <see cref="Rgba32F" /> struct resulting from vector subtraction of <paramref name="b" /> from
+    ///     <paramref name="a" />.
+    /// </returns>
+    public static Rgba32F Subtract(Rgba32F b, Rgba32F a)
+    {
+        var red = Math.Max(b.R - a.R, 0);
+        var green = Math.Max(b.G - a.G, 0);
+        var blue = Math.Max(b.B - a.B, 0);
+        var alpha = Math.Max(b.A - a.A, 0);
+        return new Rgba32F(red, green, blue, alpha);
+    }
+
+    /// <summary>
     ///     Vector addition of two <see cref="Rgba32F" /> structs.
     /// </summary>
     /// <param name="a">The first <see cref="Rgba32F" /> struct.</param>
@@ -165,6 +182,24 @@ public partial struct Rgba32F : IEquatable<Rgba32F>
     ///     <paramref name="b" />.
     /// </returns>
     public static Rgba32F operator +(Rgba32F a, Rgba32F b)
+    {
+        var red = a.R + b.R;
+        var green = a.G + b.G;
+        var blue = a.B + b.B;
+        var alpha = a.A + b.A;
+        return new Rgba32F(red, green, blue, alpha);
+    }
+
+    /// <summary>
+    ///     Vector addition of two <see cref="Rgba32F" /> structs.
+    /// </summary>
+    /// <param name="a">The first <see cref="Rgba32F" /> struct.</param>
+    /// <param name="b">The second <see cref="Rgba32F" /> struct.</param>
+    /// <returns>
+    ///     The <see cref="Rgba32F" /> struct resulting from vector addition of <paramref name="a" /> and
+    ///     <paramref name="b" />.
+    /// </returns>
+    public static Rgba32F Add(Rgba32F a, Rgba32F b)
     {
         var red = a.R + b.R;
         var green = a.G + b.G;
@@ -185,7 +220,18 @@ public partial struct Rgba32F : IEquatable<Rgba32F>
     }
 
     /// <summary>
-    ///     Implicit conversion from <see cref="string" /> to <see cref="Rgba32F" /> using the <see cref="Rgba32F(string)" />
+    ///     Implicit conversion from <see cref="uint" /> to <see cref="Rgba32F" /> using the <see cref="Rgba32F(uint)" />
+    ///     constructor.
+    /// </summary>
+    /// <param name="value">The <see cref="uint" />.</param>
+    /// <returns> The <see cref="Rgba32F" /> struct resulting from converting <paramref name="value" />.</returns>
+    public static Rgba32F ToRgba32F(uint value)
+    {
+        return new Rgba32F(value);
+    }
+
+    /// <summary>
+    ///     Conversion from <see cref="string" /> to <see cref="Rgba32F" /> using the <see cref="Rgba32F(string)" />
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="string" />.</param>

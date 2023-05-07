@@ -1,10 +1,8 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System.Diagnostics.CodeAnalysis;
+namespace bottlenoselabs.Sokol;
 
-[SuppressMessage("ReSharper", "CommentTypo", Justification = "False positives with hex colors.")]
-[SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API.")]
 public partial struct Rgb8U
 {
     // https://en.wikipedia.org/wiki/X11_color_names

@@ -3,7 +3,7 @@
     <!-- Sokol -->
     <PropertyGroup>
         <_IsEnabledSourceCode>false</_IsEnabledSourceCode>
-        <AssemblyName>Sokol-cs</AssemblyName>
+        <AssemblyName>Sokol-cs</AssemblyName> <!-- Used to avoid clash with 'sokol.dll' on Windows -->
     </PropertyGroup>
     <Import Project="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../../../sokol.props'))" />
 
@@ -11,25 +11,17 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <RootNamespace>bottlenoselabs</RootNamespace>
+        <RootNamespace>bottlenoselabs.Sokol</RootNamespace>
         <ImplicitUsings>false</ImplicitUsings>
         <Nullable>enable</Nullable>
         <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <NoWarn>CA1051;CA1707;CA1815;CS9080</NoWarn>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
-
-    <!-- bottlenose.MSBuild.Tools project settings -->
-    <PropertyGroup>
-        <EnableAnalyzers>true</EnableAnalyzers>
-        <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
-        <StyleCopSettingsFilePath>$(MSBuildThisFileDirectory)/Properties/StyleCop.json</StyleCopSettingsFilePath>
-    </PropertyGroup>
-
+    
     <!-- NuGet package references -->
     <ItemGroup>
-      <PackageReference Include="bottlenoselabs.MSBuild.Tools" Version="1.1.3">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
+      <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
     </ItemGroup>
 
 </Project>

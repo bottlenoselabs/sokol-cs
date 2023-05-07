@@ -1,11 +1,14 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+#nullable enable
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using JetBrains.Annotations;
 
-#nullable enable
+namespace bottlenoselabs.Sokol;
 
 /// <inheritdoc />
 /// <summary>
@@ -20,11 +23,7 @@ using System.Globalization;
 ///         <see cref="Rgba8U" /> is blittable.
 ///     </para>
 /// </remarks>
-[SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Mutable value type.")]
-[SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
-[SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
-[SuppressMessage("ReSharper", "CheckNamespace", Justification = "Wants to be a builtin type.")]
-[SuppressMessage("ReSharper", "CA1050", Justification = "Wants to be a builtin type.")]
+[PublicAPI]
 public partial struct Rgba8U : IEquatable<Rgba8U>
 {
     /// <summary>
@@ -92,7 +91,7 @@ public partial struct Rgba8U : IEquatable<Rgba8U>
             throw new ArgumentException($"Failed to parse the hex rgba '{value}' as an unsigned 32-bit integer.");
         }
 
-        u = uint.Parse(span, NumberStyles.HexNumber);
+        u = uint.Parse(span, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 
         R = (byte)((u >> 24) & 0xFF);
         G = (byte)((u >> 16) & 0xFF);
@@ -141,6 +140,24 @@ public partial struct Rgba8U : IEquatable<Rgba8U>
     }
 
     /// <summary>
+    ///     Vector subtraction of two <see cref="Rgba8U" /> structs.
+    /// </summary>
+    /// <param name="b">The first <see cref="Rgba8U" /> struct.</param>
+    /// <param name="a">The second <see cref="Rgba8U" /> struct.</param>
+    /// <returns>
+    ///     The <see cref="Rgba8U" /> struct resulting from vector subtraction of <paramref name="b" /> from
+    ///     <paramref name="a" />.
+    /// </returns>
+    public static Rgba8U Subtract(Rgba8U b, Rgba8U a)
+    {
+        var red = (byte)Math.Max(b.R - a.R, 0);
+        var green = (byte)Math.Max(b.G - a.G, 0);
+        var blue = (byte)Math.Max(b.B - a.B, 0);
+        var alpha = (byte)Math.Max(b.A - a.A, 0);
+        return new Rgba8U(red, green, blue, alpha);
+    }
+
+    /// <summary>
     ///     Vector addition of two <see cref="Rgba8U" /> structs.
     /// </summary>
     /// <param name="a">The first <see cref="Rgba8U" /> struct.</param>
@@ -158,12 +175,40 @@ public partial struct Rgba8U : IEquatable<Rgba8U>
     }
 
     /// <summary>
+    ///     Vector addition of two <see cref="Rgba8U" /> structs.
+    /// </summary>
+    /// <param name="a">The first <see cref="Rgba8U" /> struct.</param>
+    /// <param name="b">The second <see cref="Rgba8U" /> struct.</param>
+    /// <returns>
+    ///     The <see cref="Rgba8U" /> struct resulting from vector addition of <paramref name="a" /> and <paramref name="b" />.
+    /// </returns>
+    public static Rgba8U Add(Rgba8U a, Rgba8U b)
+    {
+        var red = (byte)(a.R + b.R);
+        var green = (byte)(a.G + b.G);
+        var blue = (byte)(a.B + b.B);
+        var alpha = (byte)(a.A + b.A);
+        return new Rgba8U(red, green, blue, alpha);
+    }
+
+    /// <summary>
     ///     Implicit conversion from <see cref="uint" /> to <see cref="Rgba8U" /> using the <see cref="Rgba8U(uint)" />
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="uint" />.</param>
     /// <returns> The <see cref="Rgba8U" /> struct resulting from converting <paramref name="value" />.</returns>
     public static implicit operator Rgba8U(uint value)
+    {
+        return new Rgba8U(value);
+    }
+
+    /// <summary>
+    ///     Conversion from <see cref="uint" /> to <see cref="Rgba8U" /> using the <see cref="Rgba8U(uint)" />
+    ///     constructor.
+    /// </summary>
+    /// <param name="value">The <see cref="uint" />.</param>
+    /// <returns> The <see cref="Rgba8U" /> struct resulting from converting <paramref name="value" />.</returns>
+    public static Rgba8U ToRgba8U(uint value)
     {
         return new Rgba8U(value);
     }

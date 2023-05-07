@@ -3,8 +3,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[SuppressMessage("ReSharper", "CommentTypo", Justification = "False positives with hex colors.")]
-[SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Public API.")]
+namespace bottlenoselabs.Sokol;
+
 public partial struct Rgb32F
 {
     // https://en.wikipedia.org/wiki/X11_color_names

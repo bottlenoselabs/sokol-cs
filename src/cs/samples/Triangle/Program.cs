@@ -1,9 +1,14 @@
-﻿using System;
+﻿// Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
+using System;
 using System.IO;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static bottlenoselabs.sokol;
+using bottlenoselabs.Sokol;
+using static bottlenoselabs.Sokol.SokolPInvoke;
+
+#pragma warning disable CS9080
 
 namespace Triangle
 {
@@ -17,9 +22,9 @@ namespace Triangle
 
         private struct ProgramState
         {
-            public sg_shader Shader;
-            public sg_pipeline Pipeline;
-            public sg_bindings Bindings;
+            public GraphicsShader Shader;
+            // public GraphicsPipeline Pipeline;
+            public GraphicsResourceBindings Bindings;
         }
 
         private static ProgramState _state;
@@ -33,25 +38,25 @@ namespace Triangle
             desc.height = 300;
             desc.window_title = (Runtime.CString)"Triangle";
             desc.icon.sokol_default = true;
-   
-            sapp_run(&desc);
+
+            sapp_run(ref desc);
         }
 
         [UnmanagedCallersOnly]
         private static void Initialize()
         {
-            var desc = default(sg_desc);
-            desc.context = sapp_sgcontext();
-            sg_setup(&desc);
-            
+            var desc = default(GraphicsDescriptor);
+            desc.Context = sapp_sgcontext();
+            sg_setup(ref desc);
+
             CreateResources();
         }
 
         private static void CreateResources()
         {
-            _state.Bindings.vertex_buffers[0] = CreateVertexBuffer();
+            _state.Bindings.VertexBuffers[0] = CreateVertexBuffer();
             _state.Shader = CreateShader();
-            _state.Pipeline = CreatePipeline(_state.Shader);
+            // _state.Pipeline = CreatePipeline(_state.Shader);
         }
 
         [UnmanagedCallersOnly]
@@ -59,16 +64,15 @@ namespace Triangle
         {
             var width = sapp_width();
             var height = sapp_height();
-            var action = default(sg_pass_action);
+            var action = default(GraphicsPassAction);
 
-            ref var colorAttachment = ref action.colors[0];
-            colorAttachment.action = sg_action.SG_ACTION_CLEAR;
-            colorAttachment.value = Rgba32F.Black;
-            sg_begin_default_pass(&action, width, height);
+            ref var colorAttachment = ref action.Colors[0];
+            colorAttachment.Action = GraphicsPassAttachmentAction.Clear;
+            colorAttachment.Value = Rgba32F.Black;
+            Graphics.BeginDefaultPass(width, height, ref action);
 
-            sg_apply_pipeline(_state.Pipeline);
-
-            sg_apply_bindings((sg_bindings*) Unsafe.AsPointer(ref _state.Bindings));
+            // sg_apply_pipeline(_state.Pipeline);
+            sg_apply_bindings(ref _state.Bindings);
 
             sg_draw(0, 3, 1);
 
@@ -76,7 +80,7 @@ namespace Triangle
             sg_commit();
         }
 
-        private static sg_buffer CreateVertexBuffer()
+        private static GraphicsBuffer CreateVertexBuffer()
         {
             var vertices = (Span<Vertex>)stackalloc Vertex[3];
 
@@ -87,66 +91,64 @@ namespace Triangle
             vertices[2].Position = new Vector3(-0.5f, -0.5f, 0.5f);
             vertices[2].Color = Rgba32F.Blue;
 
-            var desc = new sg_buffer_desc
+            var desc = new GraphicsBufferDescriptor
             {
-                usage = sg_usage.SG_USAGE_IMMUTABLE,
-                type = sg_buffer_type.SG_BUFFERTYPE_VERTEXBUFFER
-            };
-            
-            ref var reference = ref MemoryMarshal.GetReference(vertices);
-            desc.data.ptr = Unsafe.AsPointer(ref reference);
-            desc.data.size = (uint)(Marshal.SizeOf<Vertex>() * vertices.Length);
-
-            return sg_make_buffer(&desc);
-        }
-
-        private static sg_shader CreateShader()
-        {
-            var desc = default(sg_shader_desc);
-
-            ref var attribute0 = ref desc.attrs[0];
-            ref var attribute1 = ref desc.attrs[1];
-
-            switch (sg_query_backend())
-            {
-                case sg_backend.SG_BACKEND_GLCORE33:
-                    desc.vs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainVert.glsl"));
-                    desc.fs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainFrag.glsl"));
-                    break;
-                case sg_backend.SG_BACKEND_METAL_IOS:
-                case sg_backend.SG_BACKEND_METAL_MACOS:
-                case sg_backend.SG_BACKEND_METAL_SIMULATOR:
-                    desc.vs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainVert.metal"));
-                    desc.fs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainFrag.metal"));
-                    break;
-                case sg_backend.SG_BACKEND_D3D11:
-                    desc.vs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainVert.hlsl"));
-                    desc.fs.source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainFrag.hlsl"));
-                    attribute0.sem_name = (Runtime.CString)"POS";
-                    attribute1.sem_name = (Runtime.CString)"COLOR";
-                    break;
-                case sg_backend.SG_BACKEND_GLES3:
-                case sg_backend.SG_BACKEND_WGPU:
-                case sg_backend.SG_BACKEND_DUMMY:
-                    throw new NotImplementedException();
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return sg_make_shader(&desc);
-        }
-
-        private static sg_pipeline CreatePipeline(sg_shader shader)
-        {
-            var desc = new sg_pipeline_desc
-            {
-                shader = shader
+                Usage = GraphicsResourceUsage.Immutable,
+                Type = GraphicsBufferType.VertexBuffer
             };
 
-            desc.layout.attrs[0].format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT3;
-            desc.layout.attrs[1].format = sg_vertex_format.SG_VERTEXFORMAT_FLOAT4;
-            
-            return sg_make_pipeline(&desc);
+            desc.SetData(vertices);
+
+            return Graphics.MakeBuffer(ref desc);
+        }
+
+        private static GraphicsShader CreateShader()
+        {
+            var desc = default(GraphicsShaderDescriptor);
+
+            ref var attribute0 = ref desc.Attributes[0];
+            ref var attribute1 = ref desc.Attributes[1];
+
+            // switch (sg_query_backend())
+            // {
+            //     case sg_backend.SG_BACKEND_GLCORE33:
+            //         desc.VertexStage.SourceCode = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainVert.glsl"));
+            //         desc.FragmentStage.SourceCode = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainFrag.glsl"));
+            //         break;
+            //     case sg_backend.SG_BACKEND_METAL_IOS:
+            //     case sg_backend.SG_BACKEND_METAL_MACOS:
+            //     case sg_backend.SG_BACKEND_METAL_SIMULATOR:
+            //         desc.VertexStage.SourceCode = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainVert.metal"));
+            //         desc.FragmentStage.SourceCode = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainFrag.metal"));
+            //         break;
+            //     case sg_backend.SG_BACKEND_D3D11:
+            //         desc.VertexStage.SourceCode = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainVert.hlsl"));
+            //         desc.FragmentStage.SourceCode = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainFrag.hlsl"));
+            //         attribute0.SemanticName = (Runtime.CString)"POS";
+            //         attribute1.SemanticName = (Runtime.CString)"COLOR";
+            //         break;
+            //     case sg_backend.SG_BACKEND_GLES3:
+            //     case sg_backend.SG_BACKEND_WGPU:
+            //     case sg_backend.SG_BACKEND_DUMMY:
+            //         throw new NotImplementedException();
+            //     default:
+            //         throw new ArgumentOutOfRangeException();
+            // }
+
+            return Graphics.MakeShader(ref desc);
+        }
+
+        private static GraphicsPipeline CreatePipeline(GraphicsShader shader)
+        {
+            var desc = new GraphicsPipelineDescriptor
+            {
+                Shader = shader
+            };
+
+            desc.Layout.Attributes[0].Format = GraphicsPipelineVertexAttributeFormat.Float3;
+            desc.Layout.Attributes[1].Format = GraphicsPipelineVertexAttributeFormat.Float4;
+
+            return Graphics.MakePipeline(ref desc);
         }
     }
 }

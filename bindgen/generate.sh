@@ -6,4 +6,5 @@ if ! [[ -x "$(command -v c2cs)" ]]; then
   exit 1
 fi
 
-c2cs generate --config "$DIRECTORY/config-generate-cs.json"
+c2cs generate --config "$DIRECTORY/config-generate-cs-raw.json"
+c2cs generate --config "$DIRECTORY/config-generate-cs-mapped.json"

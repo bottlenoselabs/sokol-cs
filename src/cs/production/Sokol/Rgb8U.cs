@@ -1,12 +1,15 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+#nullable enable
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using JetBrains.Annotations;
 
-#nullable enable
+namespace bottlenoselabs.Sokol;
 
 /// <inheritdoc />
 /// <summary>
@@ -20,11 +23,7 @@ using System.Runtime.InteropServices;
 ///         <see cref="Rgb8U" /> is blittable.
 ///     </para>
 /// </remarks>
-[SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Mutable value type.")]
-[SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
-[SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
-[SuppressMessage("ReSharper", "CheckNamespace", Justification = "Wants to be a builtin type.")]
-[SuppressMessage("ReSharper", "CA1050", Justification = "Wants to be a builtin type.")]
+[PublicAPI]
 [StructLayout(LayoutKind.Sequential)]
 public partial struct Rgb8U : IEquatable<Rgb8U>
 {
@@ -85,7 +84,7 @@ public partial struct Rgb8U : IEquatable<Rgb8U>
             throw new ArgumentException($"Failed to parse the hex rgb '{value}' as an unsigned 32-bit integer.");
         }
 
-        u = uint.Parse(span, NumberStyles.HexNumber);
+        u = uint.Parse(span, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 
         R = (byte)((u >> 16) & 0xFF);
         G = (byte)((u >> 8) & 0xFF);
@@ -132,6 +131,23 @@ public partial struct Rgb8U : IEquatable<Rgb8U>
     }
 
     /// <summary>
+    ///     Vector subtraction of two <see cref="Rgb8U" /> structs.
+    /// </summary>
+    /// <param name="b">The first <see cref="Rgb8U" /> struct.</param>
+    /// <param name="a">The second <see cref="Rgb8U" /> struct.</param>
+    /// <returns>
+    ///     The <see cref="Rgb8U" /> struct resulting from vector subtraction of <paramref name="b" /> from
+    ///     <paramref name="a" />.
+    /// </returns>
+    public static Rgb8U Subtract(Rgb8U b, Rgb8U a)
+    {
+        var red = (byte)Math.Max(b.R - a.R, 0);
+        var green = (byte)Math.Max(b.G - a.G, 0);
+        var blue = (byte)Math.Max(b.B - a.B, 0);
+        return new Rgb8U(red, green, blue);
+    }
+
+    /// <summary>
     ///     Vector addition of two <see cref="Rgb8U" /> structs.
     /// </summary>
     /// <param name="a">The first <see cref="Rgb8U" /> struct.</param>
@@ -148,12 +164,39 @@ public partial struct Rgb8U : IEquatable<Rgb8U>
     }
 
     /// <summary>
+    ///     Vector addition of two <see cref="Rgb8U" /> structs.
+    /// </summary>
+    /// <param name="a">The first <see cref="Rgb8U" /> struct.</param>
+    /// <param name="b">The second <see cref="Rgb8U" /> struct.</param>
+    /// <returns>
+    ///     The <see cref="Rgb8U" /> struct resulting from vector addition of <paramref name="a" /> and <paramref name="b" />.
+    /// </returns>
+    public static Rgb8U Add(Rgb8U a, Rgb8U b)
+    {
+        var red = (byte)(a.R + b.R);
+        var green = (byte)(a.G + b.G);
+        var blue = (byte)(a.B + b.B);
+        return new Rgb8U(red, green, blue);
+    }
+
+    /// <summary>
     ///     Implicit conversion from <see cref="uint" /> to <see cref="Rgb8U" /> using the <see cref="Rgb8U(uint)" />
     ///     constructor.
     /// </summary>
     /// <param name="value">The <see cref="uint" />.</param>
     /// <returns>The converted <see cref="Rgba8U"/>.</returns>
     public static implicit operator Rgb8U(uint value)
+    {
+        return new Rgb8U(value);
+    }
+
+    /// <summary>
+    ///     Conversion from <see cref="uint" /> to <see cref="Rgb8U" /> using the <see cref="Rgb8U(uint)" />
+    ///     constructor.
+    /// </summary>
+    /// <param name="value">The <see cref="uint" />.</param>
+    /// <returns>The converted <see cref="Rgba8U"/>.</returns>
+    public static Rgb8U ToRgb8U(uint value)
     {
         return new Rgb8U(value);
     }
