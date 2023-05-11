@@ -1,0 +1,32 @@
+{
+  "inputFilePath": "./x-ast/ast-cross-platform.json",
+  "outputFilePath": "./../src/cs/production/Sokol/PInvoke.gen.cs",
+  "namespaceName": "bottlenoselabs.Sokol",
+  "className": "PInvoke",
+  "libraryName": "sokol",
+  "mappedNames": [
+    { "source": "sg_color", "target": "Rgba32F" }
+  ],
+  "ignoredNames": [
+    "Rgba32F",
+    "sokol_main",
+    "SOKOL_APP_INCLUDED",
+    "SOKOL_ARGS_INCLUDED",
+    "SOKOL_AUDIO_INCLUDED",
+    "SOKOL_FETCH_INCLUDED",
+    "SOKOL_GFX_INCLUDED",
+    "SOKOL_TIME_INCLUDED"
+  ],
+  "isEnabledVerifyCSharpCodeCompiles": false,
+  "mappedCNamespaces": [
+    { "source": "sg_", "target": "Graphics" },
+    { "source": "sapp_", "target": "App" },
+    { "source": "sargs_", "target": "Args" },
+    { "source": "saudio_", "target": "Audio" },
+    { "source": "sfetch_", "target": "Fetch" },
+    { "source": "stm_", "target": "Time" }
+  ],
+  "isEnabledAssemblyAttributes": true,
+  "isEnabledLibraryImport": true,
+  "isEnabledIdiomaticCSharp": true
+}

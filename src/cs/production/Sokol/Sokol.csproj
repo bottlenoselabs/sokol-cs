@@ -15,7 +15,7 @@
         <ImplicitUsings>false</ImplicitUsings>
         <Nullable>enable</Nullable>
         <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-        <NoWarn>CA1051;CA1707;CA1815;CS9080</NoWarn>
+        <NoWarn>CA1051;CA1707;CA1815;CS9080;CS8981</NoWarn>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     

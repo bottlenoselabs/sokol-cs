@@ -8,6 +8,11 @@
         <RootNamespace>Triangle</RootNamespace>
     </PropertyGroup>
 
+    <!-- NuGet package references -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" />
+    </ItemGroup>
+
     <!-- Project references -->
     <ItemGroup>
         <ProjectReference Include="..\..\production\Sokol\Sokol.csproj" />
