@@ -8,7 +8,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using bottlenoselabs.Sokol;
 using static bottlenoselabs.Sokol.PInvoke;
-using static bottlenoselabs.Sokol.PInvoke.Runtime;
 
 namespace Cube;
 
@@ -48,7 +47,7 @@ internal static unsafe class Program
         desc.Width = 800;
         desc.Height = 600;
         desc.SampleCount = 4;
-        desc.WindowTitle = (CString)"Cube";
+        desc.WindowTitle = "Cube";
         desc.Icon.SokolDefault = true;
 
         App.Run(&desc);
@@ -274,41 +273,41 @@ internal static unsafe class Program
         ref var uniformBlock = ref desc.Vs.UniformBlocks[0];
         uniformBlock.Size = (ulong)Marshal.SizeOf<VertexShaderParams>();
         ref var mvpUniform = ref uniformBlock.Uniforms[0];
-        mvpUniform.Name = (CString)"mvp";
+        mvpUniform.Name = "mvp";
         mvpUniform.Type = Graphics.UniformType.Mat4;
 
         switch (Graphics.QueryBackend())
         {
             case Graphics.Backend.Glcore33:
-                desc.Vs.Source = (CString)File.ReadAllText(Path.Combine(
+                desc.Vs.Source = File.ReadAllText(Path.Combine(
                     AppContext.BaseDirectory,
                     "assets/shaders/opengl/mainVert.glsl"));
-                desc.Fs.Source = (CString)File.ReadAllText(Path.Combine(
+                desc.Fs.Source = File.ReadAllText(Path.Combine(
                     AppContext.BaseDirectory,
                     "assets/shaders/opengl/mainFrag.glsl"));
                 break;
             case Graphics.Backend.MetalIos:
             case Graphics.Backend.MetalMacos:
             case Graphics.Backend.MetalSimulator:
-                desc.Vs.Source = (CString)File.ReadAllText(Path.Combine(
+                desc.Vs.Source = File.ReadAllText(Path.Combine(
                     AppContext.BaseDirectory,
                     "assets/shaders/metal/mainVert.metal"));
-                desc.Fs.Source = (CString)File.ReadAllText(Path.Combine(
+                desc.Fs.Source = File.ReadAllText(Path.Combine(
                     AppContext.BaseDirectory,
                     "assets/shaders/metal/mainFrag.metal"));
                 break;
             case Graphics.Backend.D3d11:
-                desc.Vs.Source = (CString)File.ReadAllText(Path.Combine(
+                desc.Vs.Source = File.ReadAllText(Path.Combine(
                     AppContext.BaseDirectory,
                     "assets/shaders/d3d11/mainVert.hlsl"));
-                desc.Fs.Source = (CString)File.ReadAllText(Path.Combine(
+                desc.Fs.Source = File.ReadAllText(Path.Combine(
                     AppContext.BaseDirectory,
                     "assets/shaders/d3d11/mainFrag.hlsl"));
                 ref var attribute0 = ref desc.Attrs[0];
-                attribute0.SemName = (CString)"POSITION";
+                attribute0.SemName = "POSITION";
                 attribute0.SemIndex = 0;
                 ref var attribute1 = ref desc.Attrs[1];
-                attribute1.SemName = (CString)"COLOR";
+                attribute1.SemName = "COLOR";
                 attribute1.SemIndex = 1;
                 break;
             case Graphics.Backend.Gles3:

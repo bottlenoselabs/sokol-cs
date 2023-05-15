@@ -35,7 +35,7 @@ namespace Triangle
             desc.FrameCb.Pointer = &Frame;
             desc.Width = 400;
             desc.Height = 300;
-            desc.WindowTitle = (Runtime.CString)"Triangle";
+            desc.WindowTitle = "Triangle";
             desc.Icon.SokolDefault = true;
 
             App.Run(&desc);
@@ -112,20 +112,20 @@ namespace Triangle
             switch (Graphics.QueryBackend())
             {
                 case Graphics.Backend.Glcore33:
-                    desc.Vs.Source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainVert.glsl"));
-                    desc.Fs.Source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainFrag.glsl"));
+                    desc.Vs.Source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainVert.glsl"));
+                    desc.Fs.Source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/opengl/mainFrag.glsl"));
                     break;
                 case Graphics.Backend.MetalIos:
                 case Graphics.Backend.MetalMacos:
                 case Graphics.Backend.MetalSimulator:
-                    desc.Vs.Source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainVert.metal"));
-                    desc.Fs.Source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainFrag.metal"));
+                    desc.Vs.Source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainVert.metal"));
+                    desc.Fs.Source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/metal/mainFrag.metal"));
                     break;
                 case Graphics.Backend.D3d11:
-                    desc.Vs.Source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainVert.hlsl"));
-                    desc.Fs.Source = (Runtime.CString)File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainFrag.hlsl"));
-                    attribute0.SemName = (Runtime.CString)"POS";
-                    attribute1.SemName = (Runtime.CString)"COLOR";
+                    desc.Vs.Source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainVert.hlsl"));
+                    desc.Fs.Source = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "assets/shaders/d3d11/mainFrag.hlsl"));
+                    attribute0.SemName = "POS";
+                    attribute1.SemName = "COLOR";
                     break;
                 case Graphics.Backend.Dummy:
                 case Graphics.Backend.Gles3:
