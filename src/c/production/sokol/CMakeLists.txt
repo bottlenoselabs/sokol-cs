@@ -11,7 +11,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL Linux)
 endif()
 
 get_filename_component(SOKOL_DIRECTORY_PATH "../../../../ext/sokol" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
-get_filename_component(CIMGUI_DIRECTORY_PATH "../../../../ext/cimgui" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+get_filename_component(CIMGUI_DIRECTORY_PATH "../../../../ext/imgui-cs/cimgui" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories(${SOKOL_DIRECTORY_PATH} ${CIMGUI_DIRECTORY_PATH})
 
 if (WIN32)
@@ -23,6 +23,7 @@ else()
     add_definitions(-DSOKOL_GLCORE33)
 endif()
 
+add_definitions(-DSOKOL_IMGUI_IMPL)
 add_library(cimgui SHARED
     ${CIMGUI_DIRECTORY_PATH}/cimgui.h
     ${CIMGUI_DIRECTORY_PATH}/cimgui.cpp 

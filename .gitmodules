@@ -4,3 +4,6 @@
 [submodule "ext/cimgui"]
 	path = ext/cimgui
 	url = https://github.com/cimgui/cimgui
+[submodule "ext/imgui-cs"]
+	path = ext/imgui-cs
+	url = https://github.com/bottlenoselabs/imgui-cs

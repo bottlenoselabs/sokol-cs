@@ -15,7 +15,9 @@
     "SOKOL_AUDIO_INCLUDED",
     "SOKOL_FETCH_INCLUDED",
     "SOKOL_GFX_INCLUDED",
-    "SOKOL_TIME_INCLUDED"
+    "SOKOL_TIME_INCLUDED",
+    "SOKOL_IMGUI_INCLUDED",
+    "SOKOL_IMGUI_IMPL_INCLUDED"
   ],
   "isEnabledVerifyCSharpCodeCompiles": false,
   "mappedCNamespaces": [
@@ -24,7 +26,8 @@
     { "source": "sargs_", "target": "Args" },
     { "source": "saudio_", "target": "Audio" },
     { "source": "sfetch_", "target": "Fetch" },
-    { "source": "stm_", "target": "Time" }
+    { "source": "stm_", "target": "Time" },
+    { "source": "simgui_", "target": "ImGui" }
   ],
   "isEnabledAssemblyAttributes": true,
   "isEnabledLibraryImport": true,

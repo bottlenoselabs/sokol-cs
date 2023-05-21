@@ -60,6 +60,9 @@ internal static unsafe class Program
         desc.Context = App.Sgcontext();
         Graphics.Setup(&desc);
 
+        var imGuiDesc = default(ImGui.DescT);
+        ImGui.Setup(&imGuiDesc);
+
         CreateResources();
     }
 
@@ -102,6 +105,14 @@ internal static unsafe class Program
     {
         var width = App.Width();
         var height = App.Height();
+
+        var imGuiFrameDesc = default(ImGui.FrameDescT);
+        imGuiFrameDesc.Width = width;
+        imGuiFrameDesc.Height = height;
+        imGuiFrameDesc.DeltaTime = App.FrameDuration();
+        imGuiFrameDesc.DpiScale = App.DpiScale();
+        ImGui.NewFrame(&imGuiFrameDesc);
+
         var action = default(Graphics.PassAction);
 
         ref var colorAttachment = ref action.Colors[0];
@@ -121,6 +132,7 @@ internal static unsafe class Program
         // try drawing only parts of the cube by specifying 6, 12, 18, 24 or 30 for the number of indices!
         Graphics.Draw(0, 36, 1);
 
+        ImGui.Render();
         Graphics.EndPass();
     }
 
