@@ -1,9 +1,6 @@
 [submodule "ext/sokol"]
 	path = ext/sokol
 	url = https://github.com/floooh/sokol
-[submodule "ext/cimgui"]
-	path = ext/cimgui
-	url = https://github.com/cimgui/cimgui
 [submodule "ext/imgui-cs"]
 	path = ext/imgui-cs
 	url = https://github.com/bottlenoselabs/imgui-cs
