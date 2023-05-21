@@ -1,27 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <!-- Sokol -->
-    <PropertyGroup>
-        <_IsEnabledSourceCode>false</_IsEnabledSourceCode>
-        <AssemblyName>Sokol-cs</AssemblyName> <!-- Used to avoid clash with 'sokol.dll' on Windows -->
-    </PropertyGroup>
-    <Import Project="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../../../sokol.props'))" />
+	<!-- Sokol -->
+	<PropertyGroup>
+		<AssemblyName>Sokol-cs</AssemblyName> <!-- Used to avoid clash with 'sokol.dll' on Windows -->
+	</PropertyGroup>
 
-    <!-- MSBuild settings -->
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <RootNamespace>bottlenoselabs.Sokol</RootNamespace>
-        <ImplicitUsings>false</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-        <NoWarn>CA1051;CA1707;CA1815;CS9080;CS8981</NoWarn>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    </PropertyGroup>
-    
-    <!-- NuGet package references -->
-    <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
-    </ItemGroup>
+	<!-- MSBuild settings -->
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<RootNamespace>bottlenoselabs.Sokol</RootNamespace>
+		<ImplicitUsings>false</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<NoWarn>CA1051;CA1707;CA1815;CS9080;CS8981</NoWarn>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<!-- NuGet package references -->
+	<ItemGroup>
+		<PackageReference Include="JetBrains.Annotations" Version="2022.3.1"/>
+	</ItemGroup>
 
 </Project>
