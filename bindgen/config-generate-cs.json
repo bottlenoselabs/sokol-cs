@@ -27,7 +27,7 @@
     { "source": "saudio_", "target": "Audio" },
     { "source": "sfetch_", "target": "Fetch" },
     { "source": "stm_", "target": "Time" },
-    { "source": "simgui_", "target": "ImGui" }
+    { "source": "simgui_", "target": "SImGui" }
   ],
   "isEnabledAssemblyAttributes": true,
   "isEnabledLibraryImport": true,

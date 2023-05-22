@@ -5,11 +5,12 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net7.0</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<RootNamespace>ImGui</RootNamespace>
+		<RootNamespace>Samples</RootNamespace>
 	</PropertyGroup>
 
 	<!-- Project references -->
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\ext\imgui-cs\src\cs\production\ImGui\ImGui.csproj" />
 		<ProjectReference Include="..\..\production\Sokol\Sokol.csproj" />
 	</ItemGroup>
 
