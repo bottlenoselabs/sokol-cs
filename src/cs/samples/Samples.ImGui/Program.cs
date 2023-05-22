@@ -77,8 +77,8 @@ internal static unsafe class Program
 
         var action = default(Graphics.PassAction);
         ref var colorAttachment = ref action.Colors[0];
-        colorAttachment.Action = Graphics.Action.Clear;
-        colorAttachment.Value = Rgba32F.Black;
+        colorAttachment.LoadAction = Graphics.LoadAction.Clear;
+        colorAttachment.ClearValue = Rgba32F.Black;
         Graphics.BeginDefaultPass(&action, width, height);
 
         // 1. Show a simple window

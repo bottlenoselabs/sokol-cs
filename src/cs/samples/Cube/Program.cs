@@ -106,8 +106,8 @@ internal static unsafe class Program
         var action = default(Graphics.PassAction);
 
         ref var colorAttachment = ref action.Colors[0];
-        colorAttachment.Action = Graphics.Action.Clear;
-        colorAttachment.Value = Rgba32F.Gray;
+        colorAttachment.LoadAction = Graphics.LoadAction.Clear;
+        colorAttachment.ClearValue = Rgba32F.Gray;
         Graphics.BeginDefaultPass(&action, width, height);
 
         Graphics.ApplyPipeline(_state.Pipeline);

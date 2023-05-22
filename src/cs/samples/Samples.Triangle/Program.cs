@@ -66,8 +66,8 @@ namespace Samples
             var action = default(Graphics.PassAction);
 
             ref var colorAttachment = ref action.Colors[0];
-            colorAttachment.Action = Graphics.Action.Clear;
-            colorAttachment.Value = Rgba32F.Black;
+            colorAttachment.LoadAction = Graphics.LoadAction.Clear;
+            colorAttachment.ClearValue = Rgba32F.Black;
             Graphics.BeginDefaultPass(&action, width, height);
 
             Graphics.ApplyPipeline(_state.Pipeline);
