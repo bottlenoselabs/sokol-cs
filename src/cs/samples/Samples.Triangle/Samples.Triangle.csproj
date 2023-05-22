@@ -5,12 +5,13 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <RootNamespace>Triangle</RootNamespace>
+        <RootNamespace>Samples</RootNamespace>
     </PropertyGroup>
 
     <!-- NuGet package references -->
     <ItemGroup>
         <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" />
+        <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     </ItemGroup>
 
     <!-- Project references -->

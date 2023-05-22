@@ -77,6 +77,8 @@ jobs:
 
       - name: "Clone Git repository"
         uses: actions/checkout@master
+        with:
+          submodules: 'true'
 
       - name: "Download native libraries (win-x64)"
         uses: actions/download-artifact@v1

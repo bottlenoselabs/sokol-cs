@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using bottlenoselabs.Sokol;
 using static bottlenoselabs.Sokol.PInvoke;
 
-namespace Triangle
+namespace Samples
 {
     internal static unsafe class Program
     {

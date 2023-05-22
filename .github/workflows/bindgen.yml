@@ -14,7 +14,7 @@ jobs:
         platform:
           - { name: Windows, os: windows-latest, rid: win }
           - { name: macOS, os: macos-latest, rid: osx }
-          - { name: Linux, os: ubuntu-latest, rid: linux }
+          - { name: Linux, os: ubuntu-20.04, rid: linux }
 
     steps:
       - name: "Clone Git repository"

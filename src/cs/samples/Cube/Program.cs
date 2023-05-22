@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using bottlenoselabs.Sokol;
 using static bottlenoselabs.Sokol.PInvoke;
 
-namespace Cube;
+namespace Samples;
 
 internal static unsafe class Program
 {
@@ -102,6 +102,7 @@ internal static unsafe class Program
     {
         var width = App.Width();
         var height = App.Height();
+
         var action = default(Graphics.PassAction);
 
         ref var colorAttachment = ref action.Colors[0];

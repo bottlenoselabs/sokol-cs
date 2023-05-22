@@ -2,7 +2,7 @@
 
     <!-- Variables -->
     <PropertyGroup>
-        <GitRepositoryPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .gitignore))</GitRepositoryPath>
+        <GitRepositoryPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .gitignore))/</GitRepositoryPath>
         <IsWindows Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true' ">true</IsWindows>
         <IsMacOS Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true' ">true</IsMacOS>
         <IsLinux Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true' ">true</IsLinux>
@@ -11,10 +11,10 @@
 	<!-- Change obj/ and bin/ folders -->
     <PropertyGroup>
         <!-- `BaseIntermediateOutputPath`, `MSBuildProjectExtensionsPath`, and `RestoreOutputPath` must all be the same -->
-        <BaseIntermediateOutputPath>$(GitRepositoryPath)/obj/$(MSBuildProjectName)/$(Configuration)</BaseIntermediateOutputPath>
+        <BaseIntermediateOutputPath>$(GitRepositoryPath)obj/$(MSBuildProjectName)/$(Configuration)</BaseIntermediateOutputPath>
         <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
         <RestoreOutputPath>$(BaseIntermediateOutputPath)</RestoreOutputPath>
-        <OutputPath>$(GitRepositoryPath)/bin/$(MSBuildProjectName)/$(Configuration)</OutputPath>
+        <OutputPath>$(GitRepositoryPath)bin/$(MSBuildProjectName)/$(Configuration)</OutputPath>
     </PropertyGroup>
 
     <!-- NuGet -->
@@ -40,8 +40,8 @@
 		    <PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-        <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)/StyleCop.globalconfig" />
-        <AdditionalFiles Include="$(MSBuildThisFileDirectory)/StyleCop.json" Link="StyleCop.json" Visible="false" />
+        <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)StyleCop.globalconfig" />
+        <AdditionalFiles Include="$(MSBuildThisFileDirectory)StyleCop.json" Link="StyleCop.json" Visible="false" />
     </ItemGroup>
 
 </Project>

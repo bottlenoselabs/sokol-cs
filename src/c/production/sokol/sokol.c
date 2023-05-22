@@ -2,6 +2,7 @@
 #define SOKOL_DLL
 #define SOKOL_NO_ENTRY
 #define SOKOL_NO_DEPRECATED
+#define SOKOL_TRACE_HOOKS
 
 #if _WIN32
     #pragma warning(disable : 5105)
@@ -16,15 +17,6 @@
     #define APIENTRY WINAPI
     #define SOKOL_LOG(s) OutputDebugStringA(s)
     #include <windows.h>
-#elif __APPLE__
-    #error "To compile for Apple platforms please use the .m file instead."
-#elif __linux__
-#elif __unix__
-    #error "Unknown unix platform"
-#elif defined(_POSIX_VERSION)
-    #error "Unknown posix platform"
-#else   
-    #error "Unknown platform"
 #endif
 
 #include "sokol.h"

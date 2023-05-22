@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- MSBuild settings -->
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<RootNamespace>Samples</RootNamespace>
+	</PropertyGroup>
+
+	<!-- Project references -->
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\ext\imgui-cs\src\cs\production\ImGui\ImGui.csproj" />
+		<ProjectReference Include="..\..\production\Sokol\Sokol.csproj" />
+	</ItemGroup>
+
+	<!-- Simple way to have assets files beside the application. -->
+	<ItemGroup>
+		<None Update="assets/**/*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>
