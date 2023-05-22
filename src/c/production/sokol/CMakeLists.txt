@@ -33,17 +33,11 @@ add_library(cimgui SHARED
     ${CIMGUI_DIRECTORY_PATH}/imgui/imgui_draw.cpp 
     ${CIMGUI_DIRECTORY_PATH}/imgui/imgui_tables.cpp
     ${CIMGUI_DIRECTORY_PATH}/imgui/imgui_demo.cpp)
-target_include_directories(cimgui INTERFACE cimgui)
 
 add_library(sokol SHARED "sokol.c")
 target_link_libraries(sokol cimgui)
 
-if (WIN32)
-    target_link_libraries(sokol -lkernel32)
-    target_link_libraries(sokol -luser32)
-    target_link_libraries(sokol -lole32)
-    target_link_libraries(sokol -ld3d11)
-elseif (APPLE)
+if (APPLE)
     target_compile_options(sokol PRIVATE -x objective-c)
     target_link_libraries(sokol "-framework Cocoa")
     target_link_libraries(sokol "-framework QuartzCore")
@@ -52,6 +46,6 @@ elseif (APPLE)
     target_link_libraries(sokol "-framework AudioToolbox")
     set_target_properties(sokol PROPERTIES LINK_FLAGS "-Wl,-F/Library/Frameworks")
 elseif (LINUX)
-    target_link_libraries(sokol INTERFACE X11 Xi Xcursor GL dl m)
-    target_link_libraries(sokol PUBLIC Threads::Threads)
+    target_link_libraries(sokol X11 Xi Xcursor GL dl m)
+    target_link_libraries(sokol Threads::Threads)
 endif()
