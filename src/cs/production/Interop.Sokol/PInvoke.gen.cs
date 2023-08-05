@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 #endregion
 
-namespace bottlenoselabs.Sokol;
+namespace bottlenoselabs.Interop.Sokol;
 
 public static unsafe partial class PInvoke
 {

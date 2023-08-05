@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using JetBrains.Annotations;
 
-namespace bottlenoselabs.Sokol;
+namespace bottlenoselabs.Interop.Sokol;
 
 /// <inheritdoc />
 /// <summary>

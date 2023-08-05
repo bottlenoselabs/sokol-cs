@@ -3,7 +3,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace bottlenoselabs.Sokol;
+namespace bottlenoselabs.Interop.Sokol;
 
 public partial struct Rgb32F
 {

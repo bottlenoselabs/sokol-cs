@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Numerics;
 using JetBrains.Annotations;
 
-namespace bottlenoselabs.Sokol;
+namespace bottlenoselabs.Interop.Sokol;
 
 /// <inheritdoc />
 /// <summary>

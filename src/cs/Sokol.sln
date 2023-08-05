@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Cube", "samples\Cub
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Triangle", "samples\Samples.Triangle\Samples.Triangle.csproj", "{19B4C212-E580-4122-82FE-940AC439C4A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol", "production\Sokol\Sokol.csproj", "{C2D26EF1-5704-4B7E-920D-2537D26B0CC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interop.Sokol", "production\Interop.Sokol\Interop.Sokol.csproj", "{C2D26EF1-5704-4B7E-920D-2537D26B0CC3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.ImGui", "samples\Samples.ImGui\Samples.ImGui.csproj", "{AF9E4E1D-52EA-4D2C-99C9-FD1208FD2D72}"
 EndProject
@@ -16,11 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{46
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGui", "..\..\ext\imgui-cs\src\cs\production\ImGui\ImGui.csproj", "{EAD2C176-17C5-459A-B7D5-8354951CD7F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.runtime.osx", "production\Sokol.runtime.osx\Sokol.runtime.osx.csproj", "{51CE53D3-699B-456C-A195-D80187212A6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interop.Sokol.runtime.osx", "production\Interop.Sokol.runtime.osx\Interop.Sokol.runtime.osx.csproj", "{51CE53D3-699B-456C-A195-D80187212A6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.runtime.linux-x64", "production\Sokol.runtime.linux-x64\Sokol.runtime.linux-x64.csproj", "{7F1C2DF9-F28D-4591-A507-70989D1FE4AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interop.Sokol.runtime.linux-x64", "production\Interop.Sokol.runtime.linux-x64\Interop.Sokol.runtime.linux-x64.csproj", "{7F1C2DF9-F28D-4591-A507-70989D1FE4AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokol.runtime.win-x64", "production\Sokol.runtime.win-x64\Sokol.runtime.win-x64.csproj", "{D19CFB61-47C8-4255-A690-581C50B9D17A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interop.Sokol.runtime.win-x64", "production\Interop.Sokol.runtime.win-x64\Interop.Sokol.runtime.win-x64.csproj", "{D19CFB61-47C8-4255-A690-581C50B9D17A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

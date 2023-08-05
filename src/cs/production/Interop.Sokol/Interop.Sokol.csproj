@@ -5,7 +5,7 @@
 		<AssemblyName>Sokol-cs</AssemblyName> <!-- Used to avoid clash with 'sokol.dll' on Windows -->
 		<TargetFramework>net7.0</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<RootNamespace>bottlenoselabs.Sokol</RootNamespace>
+		<RootNamespace>bottlenoselabs.Interop.Sokol</RootNamespace>
 		<ImplicitUsings>false</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
@@ -16,8 +16,8 @@
 	<!-- NuGet settings -->
 	<PropertyGroup>
 		<IsPackable>true</IsPackable>
-		<PackageId>bottlenoselabs.Sokol</PackageId>
-		<PackageDescription>Automatically updated C# bindings for https://github.com/floooh/sokol.</PackageDescription>
+		<PackageId>bottlenoselabs.Interop.Sokol</PackageId>
+		<PackageDescription>C# interop bindings for https://github.com/floooh/sokol.</PackageDescription>
 		<RepositoryUrl>https://github.com/bottlenoselabs/sokol-cs</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReadmeFile>_README_PACKAGE.md</PackageReadmeFile>
