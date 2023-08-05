@@ -29,7 +29,7 @@ jobs:
 
       - name: "Read C code: Linux dependencies"
         if: runner.os == 'Linux'
-        run: sudo apt-get install gcc-aarch64-linux-gnu
+        run: sudo apt-get update && sudo apt-get install gcc-aarch64-linux-gnu
 
       - name: "Read C code: extract ${{ matrix.platform.rid }}"
         shell: bash
