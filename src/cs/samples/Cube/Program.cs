@@ -6,8 +6,8 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using bottlenoselabs.Sokol;
-using static bottlenoselabs.Sokol.PInvoke;
+using bottlenoselabs.Interop.Sokol;
+using static bottlenoselabs.Interop.Sokol.PInvoke;
 
 namespace Samples;
 

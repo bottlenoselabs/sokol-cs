@@ -5,9 +5,9 @@ using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using bottlenoselabs.Sokol;
+using bottlenoselabs.Interop.Sokol;
 using static bottlenoselabs.ImGui.PInvoke;
-using static bottlenoselabs.Sokol.PInvoke;
+using static bottlenoselabs.Interop.Sokol.PInvoke;
 using ImGui = bottlenoselabs.ImGui.PInvoke.ImGui;
 
 namespace Samples;

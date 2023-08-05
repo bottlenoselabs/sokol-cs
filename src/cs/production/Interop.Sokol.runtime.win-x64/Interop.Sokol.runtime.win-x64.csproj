@@ -21,6 +21,13 @@
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <IncludeSymbols>false</IncludeSymbols>
     </PropertyGroup>
+    <ItemGroup>
+        <None Update="_README_PACKAGE.md">
+            <Pack>true</Pack>
+            <PackagePath>/</PackagePath>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
     <!-- Dynamic link libraries -->
     <ItemGroup>

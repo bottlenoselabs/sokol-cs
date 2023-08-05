@@ -1,4 +1,4 @@
 
-# bottlenoselabs.Sokol.runtime.osx
+# bottlenoselabs.Interop.Sokol.runtime.osx
 
 Automatically updated C# bindings for https://github.com/floooh/sokol.
