@@ -38,7 +38,12 @@ jobs:
           path: "./lib"
 
       - name: ".NET pack"
-        run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion="$(date +'%Y.%m.%d')"
+        run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion="$(date +'%Y.%m.%d')" -p:RepositoryBranch="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" -p:RepositoryCommit="${{ github.sha }}"
 
-      - name: "Upload packages"
+      - name: "Upload packages to MyGet"
+        if: github.event_name == 'workflow_dispatch'
+        run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key $MYGET_ACCESS_TOKEN
+
+      - name: "Upload packages to NuGet"
+        if: github.event_name == 'schedule'
         run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $NUGET_ACCESS_TOKEN

@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+    <!-- MSBuild settings -->
     <PropertyGroup>
         <TargetFramework>netstandard1.0</TargetFramework>
         <ImplicitUsings>false</ImplicitUsings>
@@ -7,9 +8,14 @@
         <NoPackageAnalysis>true</NoPackageAnalysis>
     </PropertyGroup>
 
-    <!-- NuGet -->
+    <!-- NuGet settings -->
     <PropertyGroup>
         <IsPackable>true</IsPackable>
+        <PackageId>bottlenoselabs.Sokol.runtime.win-x64</PackageId>
+        <PackageDescription>Automatically updated C# bindings for https://github.com/floooh/sokol.</PackageDescription>
+        <RepositoryUrl>https://github.com/bottlenoselabs/sokol-cs</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>_README_PACKAGE.md</PackageReadmeFile>
         <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
         <DevelopmentDependency>true</DevelopmentDependency>
         <IncludeBuildOutput>false</IncludeBuildOutput>

@@ -1,12 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<!-- Sokol -->
-	<PropertyGroup>
-		<AssemblyName>Sokol-cs</AssemblyName> <!-- Used to avoid clash with 'sokol.dll' on Windows -->
-	</PropertyGroup>
-
 	<!-- MSBuild settings -->
 	<PropertyGroup>
+		<AssemblyName>Sokol-cs</AssemblyName> <!-- Used to avoid clash with 'sokol.dll' on Windows -->
 		<TargetFramework>net7.0</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RootNamespace>bottlenoselabs.Sokol</RootNamespace>
@@ -15,6 +11,16 @@
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<NoWarn>CA1051;CA1707;CA1815;CS9080;CS8981</NoWarn>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<!-- NuGet settings -->
+	<PropertyGroup>
+		<IsPackable>true</IsPackable>
+		<PackageId>bottlenoselabs.Sokol</PackageId>
+		<PackageDescription>Automatically updated C# bindings for https://github.com/floooh/sokol.</PackageDescription>
+		<RepositoryUrl>https://github.com/bottlenoselabs/sokol-cs</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>_README_PACKAGE.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<!-- NuGet package references -->
