@@ -40,7 +40,7 @@ jobs:
           path: "./lib"
 
       - name: ".NET pack"
-        run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="$(date +'%Y.%m.%d')" -p:RepositoryBranch="${{ github.ref }}" -p:RepositoryCommit="${{ github.sha }}"
+        run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="$(date +'%Y.%m.%d')" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
 
       - name: "Upload packages to MyGet"
         if: github.event_name == 'workflow_dispatch'
