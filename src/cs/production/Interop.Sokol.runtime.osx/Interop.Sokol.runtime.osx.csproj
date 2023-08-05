@@ -12,7 +12,9 @@
     <PropertyGroup>
         <IsPackable>true</IsPackable>
         <PackageId>bottlenoselabs.Interop.Sokol.runtime.osx</PackageId>
-        <PackageDescription>macOS x64/arm64 native libraries for the `bottlenoselabs.Interop.Sokol` package.</PackageDescription>
+        <PackageDescription>
+            macOS x64/arm64 native libraries for the `bottlenoselabs.Interop.Sokol` package. Includes `cimgui` native library.
+        </PackageDescription>
         <RepositoryUrl>https://github.com/bottlenoselabs/sokol-cs</RepositoryUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>_README_PACKAGE.md</PackageReadmeFile>
@@ -31,7 +33,7 @@
 
     <!-- Dynamic link libraries -->
     <ItemGroup>
-        <Content Include="$(GitRepositoryPath)/lib/libsokol.dylib">
+        <Content Include="$(GitRepositoryPath)/lib/*.dylib">
             <Link>%(Filename)%(Extension)</Link>
             <PackagePath>runtimes/osx/native/%(Filename)%(Extension)</PackagePath>
             <Pack>true</Pack>
