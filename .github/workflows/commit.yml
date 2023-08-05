@@ -1,4 +1,4 @@
-name: "Commit Generated Code"
+name: "Commit generated code"
 
 on:
   workflow_call:
