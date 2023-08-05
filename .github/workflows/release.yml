@@ -1,0 +1,44 @@
+name: "Release"
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 1 * *" # First day of every month
+
+jobs:
+
+  build-job:
+    name: "Build"
+    uses: "./.github/workflows/build.yml"
+
+  release-job:
+    name: "Release .NET solution"
+    needs: [build-job]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: "Clone Git repository"
+        uses: actions/checkout@master
+
+      - name: "Download native libraries (win-x64)"
+        uses: actions/download-artifact@v1
+        with:
+          name: "native-libraries-win-x64"
+          path: "./lib"
+
+      - name: "Download native libraries (osx)"
+        uses: actions/download-artifact@v1
+        with:
+          name: "native-libraries-osx"
+          path: "./lib"
+
+      - name: "Download native libraries (linux-x64)"
+        uses: actions/download-artifact@v1
+        with:
+          name: "native-libraries-linux-x64"
+          path: "./lib"
+
+      - name: ".NET pack"
+        run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion="$(date +'%Y.%m.%d')"
+
+      - name: "Upload packages"
+        run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $NUGET_ACCESS_TOKEN

@@ -1,12 +1,16 @@
 # JetBrains
 .idea/
 
-# C# build artifacts
-/bin/
-/obj/
+# Build artifacts
+bin/
+obj/
+/artifacts/
 
 # C# packages
 /nupkg/
+
+# C build artifacts
+cmake-build-release/
 
 # Native libraries
 /lib/

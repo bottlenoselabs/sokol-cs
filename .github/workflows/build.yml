@@ -1,6 +1,7 @@
 name: "Build"
 
 on:
+  workflow_dispatch:
   workflow_call:
   push:
     tags:
@@ -106,5 +107,5 @@ jobs:
           path: "./src/cs/production/Sokol"
 
       - name: ".NET Build"
-        run: dotnet build "./src/cs"
+        run: dotnet build "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="$(date +'%Y.%m.%d')"
           
