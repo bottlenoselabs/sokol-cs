@@ -12,7 +12,7 @@
     <PropertyGroup>
         <IsPackable>true</IsPackable>
         <PackageId>bottlenoselabs.Interop.Sokol.runtime.win-x64</PackageId>
-        <PackageDescription>Windows x64 native libraries for the `bottlenoselabs.Sokol` package.</PackageDescription>
+        <PackageDescription>Windows x64 native libraries for the `bottlenoselabs.Interop.Sokol` package.</PackageDescription>
         <RepositoryUrl>https://github.com/bottlenoselabs/sokol-cs</RepositoryUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>_README_PACKAGE.md</PackageReadmeFile>

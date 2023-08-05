@@ -2,7 +2,7 @@
 
 	<!-- MSBuild settings -->
 	<PropertyGroup>
-		<AssemblyName>Sokol-cs</AssemblyName> <!-- Used to avoid clash with 'sokol.dll' on Windows -->
+		<AssemblyName>Interop.Sokol</AssemblyName>
 		<TargetFramework>net7.0</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RootNamespace>bottlenoselabs.Interop.Sokol</RootNamespace>
