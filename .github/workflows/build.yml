@@ -38,17 +38,17 @@ jobs:
           key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/sokol/**/*') }}-${{ hashFiles('src/c/**/*') }}--${{ hashFiles('bindgen/**/*') }}"
 
       - name: "Install Windows dependencies"
-        if: runner.os == 'Windows'
+        if: runner.os == 'Windows' && steps.cache-libs.outputs.cache-hit != 'true'
         run: |
           choco install ninja
 
       - name: "Install macOS dependencies"
-        if: runner.os == 'macOS'
+        if: runner.os == 'macOS' && steps.cache-libs.outputs.cache-hit != 'true'
         run: |
           brew install ninja
 
       - name: Setup Linux dependencies
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && steps.cache-libs.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install \
@@ -56,6 +56,7 @@ jobs:
             libxi-dev libxcursor-dev libgl-dev libasound2-dev
 
       - name: "Install C2CS"
+        if: steps.cache-libs.outputs.cache-hit != 'true'
         shell: bash
         run: dotnet tool install --global bottlenoselabs.C2CS.Tool
 
