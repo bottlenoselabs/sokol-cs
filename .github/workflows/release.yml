@@ -38,7 +38,7 @@ jobs:
           else
             VERSION="$(date +'%Y.%m.%d')"
           fi
-          echo "$VERSION" >> "$GITHUB_OUTPUT" 
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT" 
 
       - name: "Download native libraries (win-x64)"
         uses: actions/download-artifact@v1
@@ -79,4 +79,4 @@ jobs:
           generateReleaseNotes: true
           makeLatest: true
           prerelease: false
-          tag: "v${{ steps.set-version.outputs.VERSION }}" # NOTE: Creates tag
+          tag: "v${{ steps.set-version.outputs.VERSION }}"
