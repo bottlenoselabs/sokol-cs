@@ -36,7 +36,7 @@ jobs:
 
       - name: "Get C2CS version"
         shell: bash
-        run: echo "C2CS_VERSION=${c2cs --version}" >> $GITHUB_ENV
+        run: echo "C2CS_VERSION=$(c2cs --version)" >> $GITHUB_ENV
 
       - name: "Cache native libraries"
         id: cache-libs
