@@ -31,5 +31,6 @@
   ],
   "isEnabledAssemblyAttributes": true,
   "isEnabledLibraryImport": true,
-  "isEnabledIdiomaticCSharp": true
+  "isEnabledIdiomaticCSharp": true,
+  "isEnabledGeneratingRuntimeCode": false
 }
