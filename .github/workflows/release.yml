@@ -21,37 +21,33 @@ jobs:
         with:
           submodules: "recursive"
 
-      - name: "Cache files for release"
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: "./gitignore" # We don't actually care about what gets in this cache, just the key
-          key: "cache-${{ hashFiles('src/**/*') }}-${{ hashFiles('ext/**/*') }}-${{ hashFiles('.github/**/*') }}"
-
       - name: "Download native libraries (win-x64)"
-        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v1
         with:
           name: "native-libraries-win-x64"
           path: "./lib"
 
       - name: "Download native libraries (osx)"
-        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v1
         with:
           name: "native-libraries-osx"
           path: "./lib"
 
       - name: "Download native libraries (linux-x64)"
-        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v1
         with:
           name: "native-libraries-linux-x64"
           path: "./lib"
 
       - name: ".NET pack"
-        if: steps.cache.outputs.cache-hit != 'true'
         run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="$(date +'%Y.%m.%d')" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
+
+      - name: "Cache packed NuGet packages"
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: "./nupkg"
+          key: "cache-${{ hashFiles('nupkg/**/*') }}"
 
       - name: "Upload packages to MyGet"
         if: github.event_name == 'workflow_dispatch' && steps.cache.outputs.cache-hit != 'true'
