@@ -32,7 +32,7 @@ jobs:
     needs: [cache-job]
     env:
       CACHE_HIT: ${{needs.cache-job.outputs.cache-hit}}
-    if: ${{ env.CACHE_HIT != 'true' }}
+    if: $CACHE_HIT != 'true'
     uses: "./.github/workflows/build.yml"
 
   release-job:
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CACHE_HIT: ${{needs.cache-job.outputs.cache-hit}}
-    if: ${{ env.CACHE_HIT != 'true' }}
+    if: $CACHE_HIT != 'true'
     steps:
 
       - name: "Clone Git repository"
