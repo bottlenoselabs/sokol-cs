@@ -62,7 +62,7 @@ jobs:
           sudo apt-get install \
             ninja-build \
             libxi-dev libxcursor-dev libgl-dev libasound2-dev
-x
+
       - name: "Build native libraries"
         if: steps.cache-libs.outputs.cache-hit != 'true'
         shell: bash
