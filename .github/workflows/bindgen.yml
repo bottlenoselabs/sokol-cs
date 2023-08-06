@@ -113,4 +113,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: "bindgen-cs"
-          path: "./src/cs/production/Sokol/PInvoke.gen.cs"
+          path: "./src/cs/production/Interop.Sokol/PInvoke.gen.cs"
