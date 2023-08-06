@@ -43,7 +43,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "./lib"
-          key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/sokol/**/*') }}-${{ hashFiles('src/c/**/*') }}-${{ hashFiles('bindgen/**/*') }}-$C2CS_VERSION"
+          key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/sokol/**/*') }}-${{ hashFiles('src/c/**/*') }}-${{ hashFiles('bindgen/**/*') }}-${{ env.C2CS_VERSION }}"
 
       - name: "Install Windows dependencies"
         if: runner.os == 'Windows' && steps.cache-libs.outputs.cache-hit != 'true'
