@@ -6,14 +6,20 @@ on:
 
 jobs:
 
-  cache-job:
-    name: "Cache source code"
+  build-job:
+    name: "Build"
+    uses: "./.github/workflows/build.yml"
+
+  release-job:
+    name: "Release .NET solution"
+    needs: [build-job]
     runs-on: ubuntu-latest
-    outputs:
-      cache-hit: ${{ steps.cache.outputs.cache-hit }}
     steps:
+
       - name: "Clone Git repository"
         uses: actions/checkout@master
+        with:
+          submodules: "recursive"
 
       - name: "Cache files for release"
         id: cache
@@ -23,58 +29,39 @@ jobs:
           key: "cache-${{ hashFiles('src/**/*') }}-${{ hashFiles('ext/**/*') }}-${{ hashFiles('.github/**/*') }}"
           lookup-only: true
 
-      - name: "Set cache environment variable"
-        shell: bash
-        run: echo "CACHE_HIT=${{ steps.cache.outputs.cache-hit }}" >> $GITHUB_ENV
-
-  build-job:
-    name: "Build"
-    needs: [cache-job]
-    uses: "./.github/workflows/build.yml"
-
-  release-job:
-    name: "Release .NET solution"
-    needs: [cache-job, build-job]
-    runs-on: ubuntu-latest
-    env:
-      CACHE_HIT: ${{needs.cache-job.outputs.cache-hit}}
-    if: ${{ env.CACHE_HIT != 'true' }}
-    steps:
-
-      - name: "Clone Git repository"
-        uses: actions/checkout@master
-        with:
-          submodules: "recursive"
-
       - name: "Download native libraries (win-x64)"
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v1
         with:
           name: "native-libraries-win-x64"
           path: "./lib"
 
       - name: "Download native libraries (osx)"
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v1
         with:
           name: "native-libraries-osx"
           path: "./lib"
 
       - name: "Download native libraries (linux-x64)"
+        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v1
         with:
           name: "native-libraries-linux-x64"
           path: "./lib"
 
       - name: ".NET pack"
+        if: steps.cache.outputs.cache-hit != 'true'
         run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="$(date +'%Y.%m.%d')" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
 
       - name: "Upload packages to MyGet"
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && steps.cache.outputs.cache-hit != 'true'
         env:
           MYGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
         run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key $MYGET_ACCESS_TOKEN
 
       - name: "Upload packages to NuGet"
-        if: github.event_name == 'schedule'
+        if: github.event_name == 'schedule' && steps.cache.outputs.cache-hit != 'true'
         env:
           NUGET_ACCESS_TOKEN: ${{ secrets.NUGET_ACCESS_TOKEN }}
         run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
