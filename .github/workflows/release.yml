@@ -30,9 +30,6 @@ jobs:
   build-job:
     name: "Build"
     needs: [cache-job]
-    env:
-      CACHE_HIT: ${{needs.cache-job.outputs.cache-hit}}
-    if: $CACHE_HIT != 'true'
     uses: "./.github/workflows/build.yml"
 
   release-job:
