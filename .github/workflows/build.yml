@@ -30,12 +30,16 @@ jobs:
         with:
           submodules: "recursive"
 
+      - name: "Install C2CS"
+        shell: bash
+        run: dotnet tool install --global bottlenoselabs.C2CS.Tool
+
       - name: "Cache native libraries"
         id: cache-libs
         uses: actions/cache@v3
         with:
           path: "./lib"
-          key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/sokol/**/*') }}-${{ hashFiles('src/c/**/*') }}--${{ hashFiles('bindgen/**/*') }}"
+          key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/sokol/**/*') }}-${{ hashFiles('src/c/**/*') }}-${{ hashFiles('bindgen/**/*') }}-$(c2cs --version)"
 
       - name: "Install Windows dependencies"
         if: runner.os == 'Windows' && steps.cache-libs.outputs.cache-hit != 'true'
@@ -54,11 +58,6 @@ jobs:
           sudo apt-get install \
             ninja-build \
             libxi-dev libxcursor-dev libgl-dev libasound2-dev
-
-      - name: "Install C2CS"
-        if: steps.cache-libs.outputs.cache-hit != 'true'
-        shell: bash
-        run: dotnet tool install --global bottlenoselabs.C2CS.Tool
 
       - name: "Build native libraries"
         if: steps.cache-libs.outputs.cache-hit != 'true'
