@@ -28,14 +28,14 @@ jobs:
   build-job:
     name: "Build"
     needs: [cache-job]
-    if: {{ env.CACHE_HIT }} != 'true'
+    if: env.CACHE_HIT == 'true'
     uses: "./.github/workflows/build.yml"
 
   release-job:
     name: "Release .NET solution"
     needs: [build-job]
     runs-on: ubuntu-latest
-    if: {{ env.CACHE_HIT }} != 'true'
+    if: env.CACHE_HIT != 'true'
     steps:
 
       - name: "Clone Git repository"
