@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CACHE_HIT: ${{needs.cache-job.outputs.cache-hit}}
-    if: $CACHE_HIT != 'true'
+    if: ${{ env.CACHE_HIT != 'true' }}
     steps:
 
       - name: "Clone Git repository"
