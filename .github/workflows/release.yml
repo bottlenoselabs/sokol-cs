@@ -27,7 +27,6 @@ jobs:
         with:
           path: "./gitignore" # We don't actually care about what gets in this cache, just the key
           key: "cache-${{ hashFiles('src/**/*') }}-${{ hashFiles('ext/**/*') }}-${{ hashFiles('.github/**/*') }}"
-          lookup-only: true
 
       - name: "Download native libraries (win-x64)"
         if: steps.cache.outputs.cache-hit != 'true'
