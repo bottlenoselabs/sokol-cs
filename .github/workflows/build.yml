@@ -34,12 +34,16 @@ jobs:
         shell: bash
         run: dotnet tool install --global bottlenoselabs.C2CS.Tool
 
+      - name: "Get C2CS version"
+        shell: bash
+        run: echo "C2CS_VERSION=${c2cs --version}" >> $GITHUB_ENV
+
       - name: "Cache native libraries"
         id: cache-libs
         uses: actions/cache@v3
         with:
           path: "./lib"
-          key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/sokol/**/*') }}-${{ hashFiles('src/c/**/*') }}-${{ hashFiles('bindgen/**/*') }}-$(c2cs --version)"
+          key: "libs-${{ matrix.platform.rid }}-${{ hashFiles('ext/sokol/**/*') }}-${{ hashFiles('src/c/**/*') }}-${{ hashFiles('bindgen/**/*') }}-$C2CS_VERSION"
 
       - name: "Install Windows dependencies"
         if: runner.os == 'Windows' && steps.cache-libs.outputs.cache-hit != 'true'
