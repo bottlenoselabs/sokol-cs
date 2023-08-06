@@ -21,47 +21,47 @@ jobs:
         with:
           submodules: "recursive"
 
-      - name: "Cache repo"
-        id: cache-repo
+      - name: "Cache source code"
+        id: cache-source-code
         uses: actions/cache@v3
         with:
-          path: "./"
+          path: "./src"
           key: "repo-${{ hashFiles('./**/*') }}"
           lookup-only: true
 
       - name: "Download native libraries (win-x64)"
-        if: steps.cache-repo.outputs.cache-hit != 'true'
+        if: steps.cache-source-code.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v1
         with:
           name: "native-libraries-win-x64"
           path: "./lib"
 
       - name: "Download native libraries (osx)"
-        if: steps.cache-repo.outputs.cache-hit != 'true'
+        if: steps.cache-source-code.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v1
         with:
           name: "native-libraries-osx"
           path: "./lib"
 
       - name: "Download native libraries (linux-x64)"
-        if: steps.cache-repo.outputs.cache-hit != 'true'
+        if: steps.cache-source-code.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v1
         with:
           name: "native-libraries-linux-x64"
           path: "./lib"
 
       - name: ".NET pack"
-        if: steps.cache-repo.outputs.cache-hit != 'true'
+        if: steps.cache-source-code.outputs.cache-hit != 'true'
         run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="$(date +'%Y.%m.%d')" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
 
       - name: "Upload packages to MyGet"
-        if: github.event_name == 'workflow_dispatch' && steps.cache-repo.outputs.cache-hit != 'true'
+        if: github.event_name == 'workflow_dispatch' && steps.cache-source-code.outputs.cache-hit != 'true'
         env:
           MYGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
         run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key $MYGET_ACCESS_TOKEN
 
       - name: "Upload packages to NuGet"
-        if: github.event_name == 'schedule' && steps.cache-repo.outputs.cache-hit != 'true'
+        if: github.event_name == 'schedule' && steps.cache-source-code.outputs.cache-hit != 'true'
         env:
           NUGET_ACCESS_TOKEN: ${{ secrets.NUGET_ACCESS_TOKEN }}
         run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
