@@ -9,6 +9,8 @@ jobs:
   cache-job:
     name: "Cache source code"
     runs-on: ubuntu-latest
+    outputs:
+      cache-hit: ${{ steps.cache.outputs.cache-hit }}
     steps:
       - name: "Clone Git repository"
         uses: actions/checkout@master
@@ -28,13 +30,17 @@ jobs:
   build-job:
     name: "Build"
     needs: [cache-job]
+    env:
+      CACHE_HIT: ${{needs.cache-job.outputs.cache-hit}}
     if: ${{ env.CACHE_HIT != 'true' }}
     uses: "./.github/workflows/build.yml"
 
   release-job:
     name: "Release .NET solution"
-    needs: [build-job]
+    needs: [cache-job, build-job]
     runs-on: ubuntu-latest
+    env:
+      CACHE_HIT: ${{needs.cache-job.outputs.cache-hit}}
     if: ${{ env.CACHE_HIT != 'true' }}
     steps:
 
