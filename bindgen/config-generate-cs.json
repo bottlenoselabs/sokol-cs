@@ -1,6 +1,6 @@
 {
   "inputFilePath": "./x-ast/ast-cross-platform.json",
-  "outputFileDirectory": "./../src/cs/production/Interop.Sokol",
+  "outputFileDirectory": "./../src/cs/production/Interop.Sokol/Generated",
   "namespaceName": "bottlenoselabs.Interop.Sokol",
   "className": "PInvoke",
   "libraryName": "sokol",
