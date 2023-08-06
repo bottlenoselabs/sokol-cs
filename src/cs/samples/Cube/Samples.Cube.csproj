@@ -23,4 +23,12 @@
       <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     </ItemGroup>
 
+    <!-- Dynamic link libraries -->
+    <ItemGroup>
+        <Content Include="$(GitRepositoryPath)/lib/**/*">
+            <Link>%(Filename)%(Extension)</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
 </Project>
