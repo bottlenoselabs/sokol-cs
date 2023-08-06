@@ -5,10 +5,11 @@ using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using bottlenoselabs.C2CS.Runtime;
 using bottlenoselabs.Interop.Sokol;
-using static bottlenoselabs.ImGui.PInvoke;
+using static bottlenoselabs.Interop.ImGui.PInvoke;
 using static bottlenoselabs.Interop.Sokol.PInvoke;
-using ImGui = bottlenoselabs.ImGui.PInvoke.ImGui;
+using ImGui = bottlenoselabs.Interop.ImGui.PInvoke.ImGui;
 
 namespace Samples;
 
@@ -84,11 +85,11 @@ internal static unsafe class Program
         // 1. Show a simple window
         // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets appears in a window automatically called "Debug"
         var f = 0.0f;
-        ImGui.Text((bottlenoselabs.ImGui.PInvoke.Runtime.CString)"Hello, world!");
-        ImGui.SliderFloat((bottlenoselabs.ImGui.PInvoke.Runtime.CString)"float", &f, 0.0f, 1.0f, (bottlenoselabs.ImGui.PInvoke.Runtime.CString)"%.3f", ImGuiSliderFlags.None);
+        ImGui.Text((CString)"Hello, world!");
+        ImGui.SliderFloat((CString)"float", &f, 0.0f, 1.0f, (CString)"%.3f", ImGuiSliderFlags.None);
 
-        ImGui.ColorEdit3((bottlenoselabs.ImGui.PInvoke.Runtime.CString)"clear color", (float*)Unsafe.AsPointer(ref _state.ClearColor.R), 0);
-        if (ImGui.Button((bottlenoselabs.ImGui.PInvoke.Runtime.CString)"Test Window", Vector2.Zero))
+        ImGui.ColorEdit3((CString)"clear color", (float*)Unsafe.AsPointer(ref _state.ClearColor.R), 0);
+        if (ImGui.Button((CString)"Test Window", Vector2.Zero))
         {
             _state.ShowTestWindow = !_state.ShowTestWindow;
         }
@@ -98,7 +99,7 @@ internal static unsafe class Program
             "Application average {0} ms/frame {1} FPS)",
             1000.0f / ImGui.GetIO()->Framerate,
             ImGui.GetIO()->Framerate);
-        ImGui.Text((bottlenoselabs.ImGui.PInvoke.Runtime.CString)format);
+        ImGui.Text((CString)format);
 
         var format2 = string.Format(
             CultureInfo.InvariantCulture,
@@ -106,9 +107,9 @@ internal static unsafe class Program
             App.Width(),
             App.Height(),
             App.DpiScale());
-        ImGui.Text((bottlenoselabs.ImGui.PInvoke.Runtime.CString)format2);
+        ImGui.Text((CString)format2);
 
-        var format3 = App.IsFullscreen() ? (bottlenoselabs.ImGui.PInvoke.Runtime.CString)"Switch to windowed" : (bottlenoselabs.ImGui.PInvoke.Runtime.CString)"Switch to fullscreen";
+        var format3 = App.IsFullscreen() ? (CString)"Switch to windowed" : (CString)"Switch to fullscreen";
         if (ImGui.Button(format3, Vector2.Zero))
         {
             App.ToggleFullscreen();
@@ -117,8 +118,8 @@ internal static unsafe class Program
         if (_state.ShowTestWindow)
         {
             ImGui.SetNextWindowSize(new Vector2(200, 100), ImGuiCond.FirstUseEver);
-            ImGui.Begin((bottlenoselabs.ImGui.PInvoke.Runtime.CString)"Another Window", (bottlenoselabs.ImGui.PInvoke.Runtime.CBool*)Unsafe.AsPointer(ref _state.ShowAnotherWindow), 0);
-            ImGui.Text((bottlenoselabs.ImGui.PInvoke.Runtime.CString)"Hello");
+            ImGui.Begin((CString)"Another Window", (CBool*)Unsafe.AsPointer(ref _state.ShowAnotherWindow), 0);
+            ImGui.Text((CString)"Hello");
             ImGui.End();
         }
 

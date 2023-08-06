@@ -10,7 +10,7 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\..\ext\imgui-cs\src\cs\production\ImGui\ImGui.csproj" />
+		<ProjectReference Include="..\..\..\..\ext\imgui-cs\src\cs\production\Interop.ImGui\Interop.ImGui.csproj" />
 		<ProjectReference Include="..\..\production\Interop.Sokol\Interop.Sokol.csproj" />
 	</ItemGroup>
 
