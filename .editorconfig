@@ -1,0 +1,63 @@
+# Is this file the top-most EditorConfig file?
+root = true
+
+# Any and all files
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C# files
+[*.cs]
+indent_style = space
+
+# Visual Studio Solution files
+[*.sln]
+indent_style = tab
+
+# Visual Studio XML project files
+[*.{csproj,vbproj,vcxproj.filters,proj,projitems,shproj}]
+indent_style = tab
+indent_size = 2
+
+# XML configuration files
+[*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct}]
+indent_style = tab
+indent_size = 2
+
+# JSON files
+[*.{json,json5,webmanifest}]
+indent_style = space
+indent_size = 2
+
+# YAML files
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Markdown files
+[*.md]
+indent_style = space
+trim_trailing_whitespace = false
+indent_size = 4
+
+# Web files
+[*.{htm,html,js,jsm,ts,tsx,css,sass,scss,less,svg,vue}]
+indent_style = space
+indent_size = 2
+
+# Batch files
+[*.{cmd,bat}]
+indent_style = tab
+end_of_line = crlf
+
+# Bash files
+[*.sh]
+indent_style = tab
+end_of_line = lf
+
+# Makefiles
+[Makefile]
+indent_style = tab
