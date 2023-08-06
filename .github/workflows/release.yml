@@ -1,6 +1,11 @@
 name: "Release"
 on:
   workflow_dispatch:
+    inputs:
+      upload-nuget-packages:
+        description: 'Is this a release-candidate? (Candidates get uploaded to MyGet.org instead of NuGet.org)'     
+        required: true
+        default: 'true'
   schedule:
     - cron: "0 0 1 * *" # First day of every month
 
@@ -39,17 +44,21 @@ jobs:
           name: "native-libraries-linux-x64"
           path: "./lib"
 
+      - name: "Set package version"
+        id: set-package-version
+        run: echo "PACKAGE_VERSION=$(date +'%Y.%m.%d')" >> "$GITHUB_OUTPUT"
+
       - name: ".NET pack"
-        run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="$(date +'%Y.%m.%d')" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
+        run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="${{ steps.set-package-version.outputs.PACKAGE_VERSION }}" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
 
       - name: "Upload packages to MyGet"
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.pre-release == 'true'
         env:
           MYGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
         run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key $MYGET_ACCESS_TOKEN
 
       - name: "Upload packages to NuGet"
-        if: github.event_name == 'schedule'
+        if: github.event_name == 'schedule' || github.event.inputs.pre-release != 'false'
         env:
           NUGET_ACCESS_TOKEN: ${{ secrets.NUGET_ACCESS_TOKEN }}
         run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
