@@ -34,10 +34,11 @@ jobs:
         run: |
           IS_PRERELEASE="${{ github.event.inputs.pre-release }}"
           if [[ "$IS_PRERELEASE" = "true" ]]; then
-            echo "VERSION=$(date +'%Y.%m.%d')-rc" >> "$GITHUB_OUTPUT" 
+            VERSION="$(date +'%Y.%m.%d')-rc"
           else
-            echo "VERSION=$(date +'%Y.%m.%d')" >> "$GITHUB_OUTPUT" 
+            VERSION="$(date +'%Y.%m.%d')"
           fi
+          echo "$VERSION" >> "$GITHUB_OUTPUT" 
 
       - name: "Download native libraries (win-x64)"
         uses: actions/download-artifact@v1
@@ -73,8 +74,9 @@ jobs:
         run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
 
       - uses: ncipollo/release-action@v1
+        if: github.event_name == 'schedule' || github.event.inputs.pre-release == 'false'
         with:
           generateReleaseNotes: true
           makeLatest: true
-          prerelease: "{{ github.event.inputs.pre-release == 'true' }}"
-          tag: "v${{ steps.set-version.outputs.VERSION }}"
+          prerelease: false
+          tag: "v${{ steps.set-version.outputs.VERSION }}" # NOTE: Creates tag
