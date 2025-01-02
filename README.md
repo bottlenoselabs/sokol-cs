@@ -1,5 +1,7 @@
 # sokol-cs
 
+**Discontinued. If you wish to create your own bindings, message me.**
+
 Automatically updated C# bindings for sokol https://github.com/floooh/sokol with native dynamic link libraries.
 
 To learn more about `sokol` and it's philosophy, see the [*A Tour of `sokol_gfx.h`*](https://floooh.github.io/2017/07/29/sokol-gfx-tour.html) blog post, written Andre Weissflog, the owner of `sokol`. 
